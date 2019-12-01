@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     /*Called when the user taps the Search button*/
     fun searchActivity(view: View) {
         // Look up database based on activity_search field
-        val activity_search = findViewById<EditText>(R.id.activity_search)
-        val message = activity_search.text.toString()
+        val activitySearch = findViewById<EditText>(R.id.activity_search)
+        val message = activitySearch.text.toString()
         val intent = Intent(this, DisplayActivityActivity::class.java ).apply {
             putExtra(EXTRA_MESSAGE, message)
         }
