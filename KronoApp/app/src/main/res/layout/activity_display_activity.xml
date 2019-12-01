@@ -8,12 +8,10 @@
 
     <TextView
             android:id="@+id/DatabaseView"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="176dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="178dp"
-            android:text="TextView"
+            android:text="place holder text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
