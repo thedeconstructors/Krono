@@ -1,0 +1,13 @@
+{
+    "projectName": "KronoApp",
+    "version": "2.0",
+    "frontend": "android",
+    "android": {
+        "config": {
+            "ResDir": "app"
+        }
+    },
+    "providers": [
+        "awscloudformation"
+    ]
+}

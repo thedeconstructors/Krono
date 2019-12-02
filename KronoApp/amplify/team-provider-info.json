@@ -1,0 +1,15 @@
+{
+    "env": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-kronoapp-env-222002-authRole",
+            "UnauthRoleArn": "arn:aws:iam::109120249611:role/amplify-kronoapp-env-222002-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::109120249611:role/amplify-kronoapp-env-222002-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-kronoapp-env-222002-deployment",
+            "UnauthRoleName": "amplify-kronoapp-env-222002-unauthRole",
+            "StackName": "amplify-kronoapp-env-222002",
+            "StackId": "arn:aws:cloudformation:us-west-2:109120249611:stack/amplify-kronoapp-env-222002/c7ecc140-14cb-11ea-abed-0696a78c5fe8",
+            "AmplifyAppId": "d30lvrht1e4tuo"
+        }
+    }
+}
