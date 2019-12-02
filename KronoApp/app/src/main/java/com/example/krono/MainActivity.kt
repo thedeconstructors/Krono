@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.amazonaws.mobile.config.AWSConfiguration
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
+import com.amazonaws.regions.Regions
 
 
 const val EXTRA_MESSAGE = "com.example.krono.MESSAGE"
@@ -18,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //var mAWSAppSyncClient = AWSAppSyncClient.builder().context(applicationContext).awsConfiguration(
-        //   AWSConfiguration(applicationContext)).build()
+        var mAWSAppSyncClient = AWSAppSyncClient.builder().context(applicationContext).region(
+            Regions.DEFAULT_REGION).awsConfiguration(AWSConfiguration(applicationContext)).build()
     }
 
     /*Called when the user taps the Search button*/
