@@ -15,7 +15,6 @@
         android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-
         <TextView
             android:id="@+id/textGrid"
             android:layout_width="wrap_content"
@@ -24,7 +23,6 @@
             android:text="@string/MenuTitle"
             android:textColor="@android:color/white"
             android:textSize="34sp" />
-
     </RelativeLayout>
 
     <!-- Grid Layout of Card Items -->
@@ -40,251 +38,45 @@
         android:padding="14dp">
 
         <!-- Row 1 Column 1 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/activity"
-                    android:contentDescription="@string/MenuItem0"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem0"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem0"
+                android:text="@string/MenuItem0" />
         </androidx.cardview.widget.CardView>
 
         <!-- Row 1 Column 2 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/plan"
-                    android:contentDescription="@string/MenuItem1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem1"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem1"
+                android:text="@string/MenuItem1" />
         </androidx.cardview.widget.CardView>
 
         <!-- Row 2 Column 1 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/schedule"
-                    android:contentDescription="@string/MenuItem2"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem2"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem2"
+                android:text="@string/MenuItem2" />
         </androidx.cardview.widget.CardView>
 
         <!-- Row 2 Column 2 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/chats"
-                    android:contentDescription="@string/MenuItem3"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem3"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem3"
+                android:text="@string/MenuItem3" />
         </androidx.cardview.widget.CardView>
 
         <!-- Row 3 Column 1 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/team"
-                    android:contentDescription="@string/MenuItem4"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem4"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem4"
+                android:text="@string/MenuItem4" />
         </androidx.cardview.widget.CardView>
 
         <!-- Row 3 Column 2 -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:cardElevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/setting"
-                    android:contentDescription="@string/MenuItem5"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
-                    android:text="@string/MenuItem5"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
+        <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
+            <TextView style="@style/MainMenu_TextView_Style"
+                android:drawableTop="@drawable/menuitem5"
+                android:text="@string/MenuItem5" />
         </androidx.cardview.widget.CardView>
-
     </GridLayout>
-
 </LinearLayout>

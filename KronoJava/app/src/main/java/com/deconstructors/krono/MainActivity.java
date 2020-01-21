@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     GridLayout mainGrid;
 
     @Override
@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, Menu0_Activities.class);
                         startActivity(intent);
                     }
-                    if (finalindex == 1)
+                    else if (finalindex == 1)
                     {
                         Intent intent = new Intent(MainActivity.this, Menu1_Plans.class);
                         startActivity(intent);
                     }
-                    if (finalindex == 4)
+                    else if (finalindex == 4)
                     {
                         Intent intent = new Intent(MainActivity.this, Menu4_Users.class);
                         startActivity(intent);
