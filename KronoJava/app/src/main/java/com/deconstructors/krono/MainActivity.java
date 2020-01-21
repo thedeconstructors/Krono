@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity
 {
-    GridLayout mainGrid;
+    GridLayout m_MainGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainGrid = (GridLayout)findViewById(R.id.mainGrid);
-        setSingleEvent(mainGrid);
+        m_MainGrid = (GridLayout)findViewById(R.id.mainGrid);
+        setSingleEvent(m_MainGrid);
     }
 
     /************************************************************************
