@@ -1,5 +1,9 @@
 package com.deconstructors.krono;
 
+/************************************************************************
+ * Class:           Plans
+ * Purpose:         To Add the Values from Plan Table to Recycler View
+ ************************************************************************/
 public class Plans
 {
     String m_title;

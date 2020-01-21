@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/************************************************************************
+ * Class:           PlansListAdapter
+ * Purpose:         To customize list view layout
+ ************************************************************************/
 public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.ViewHolder>
 {
     public List<Plans> m_PlansList;
@@ -28,6 +32,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler View
+     *                  Using the List Item XML File
      ************************************************************************/
     @NonNull
     @Override
