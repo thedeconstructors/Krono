@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity
                         Intent intent = new Intent(MainActivity.this, Menu1_Plans.class);
                         startActivity(intent);
                     }
+                    else if (finalindex == 3)
+                    {
+                        Intent intent = new Intent(MainActivity.this, Menu3_Friends.class);
+                        startActivity(intent);
+                    }
                     else if (finalindex == 4)
                     {
                         Intent intent = new Intent(MainActivity.this, Menu4_Users.class);
