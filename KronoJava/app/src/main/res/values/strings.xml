@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Krono</string>
+
+    <!-- Eng Menu Items -->
+    <string name="MenuTitle">Welcome to Krono!</string>
+    <string name="MenuItem0">Activities</string>
+    <string name="MenuItem1">Plans</string>
+    <string name="MenuItem2">Calendar</string>
+    <string name="MenuItem3">Friends</string>
+    <string name="MenuItem4">User</string>
+    <string name="MenuItem5">Settings</string>
+
 </resources>
