@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Set Event
+     * Purpose:         Set Event Handler
      * Precondition:    Menu items are w/o button events
      * Postcondition:   Menu items are set with onClick indexing events
      *                  This is mainly to separate the xml files

@@ -27,25 +27,24 @@ import io.opencensus.tags.Tag;
 
 public class Menu0_Activities extends AppCompatActivity
 {
-    private static final String m_Tag = "FireLog";
-    private RecyclerView m_MainList;
+    // Error Handler Log Search
+    private static final String m_Tag = "Krono_Firebase_Log";
+
+    // Database
     private FirebaseFirestore m_Firestore;
 
+    // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
+    private RecyclerView m_MainList;
     private PlansListAdapter m_PlansListAdapter;
     private List<Plans> m_PlansList;
 
-    /************************************************************************
-     * Purpose:         Set Event
-     * Precondition:    Menu items are w/o button events
-     * Postcondition:   Menu items are set with onClick indexing events
-     *                  This is mainly to separate the xml files
-     ************************************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu0__activities);
 
+        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
         m_PlansList = new ArrayList<>();
         m_PlansListAdapter = new PlansListAdapter(m_PlansList);
 
@@ -54,10 +53,17 @@ public class Menu0_Activities extends AppCompatActivity
         m_MainList.setLayoutManager(new LinearLayoutManager(this));
         m_MainList.setAdapter(m_PlansListAdapter);
 
+        // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
-
         m_Firestore.collection("plans").addSnapshotListener(new EventListener<QuerySnapshot>()
         {
+            /************************************************************************
+             * Purpose:         On Event
+             * Precondition:    An Item has been added
+             * Postcondition:   Change the plan list accordingly and
+             *                  Notify the adapter
+             *                  This way, we don't have to scan DB every time
+             ************************************************************************/
             @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e)
             {
@@ -65,17 +71,21 @@ public class Menu0_Activities extends AppCompatActivity
                 {
                     Log.d(m_Tag, "Error : " + e.getMessage());
                 }
-
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges())
+                else
                 {
-                    if (doc.getType() == DocumentChange.Type.ADDED)
+                    // Document contains data read from a document in your Firestore database
+                    for (DocumentChange doc : documentSnapshots.getDocumentChanges())
                     {
-                        // Arrange the data according to the model class
-                        // All by itself
-                        Plans plans = doc.getDocument().toObject(Plans.class);
-                        m_PlansList.add(plans);
+                        if (doc.getType() == DocumentChange.Type.ADDED)
+                        {
+                            // Arrange the data according to the model class
+                            // All by itself
+                            Plans plans = doc.getDocument().toObject(Plans.class);
+                            m_PlansList.add(plans);
 
-                        m_PlansListAdapter.notifyDataSetChanged();
+                            // Notify the Adapter something is changed
+                            m_PlansListAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }

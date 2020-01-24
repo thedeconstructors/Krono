@@ -31,8 +31,8 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     /************************************************************************
      * Purpose:         View Holder
      * Precondition:    .
-     * Postcondition:   Inflate the layout to Recycler View
-     *                  Using the List Item XML File
+     * Postcondition:   Inflate the layout to Recycler List View
+     *                  Using the menu0_listitem.XML File
      ************************************************************************/
     @NonNull
     @Override
