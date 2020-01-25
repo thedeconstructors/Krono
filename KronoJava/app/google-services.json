@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "883544464569-hpmd2m9r133i25nvoen88oq9f4d5pu20.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deconstructors.krono",
+            "certificate_hash": "e1d477001241ca1cd958f98420b21f05b30860fa"
+          }
+        },
+        {
           "client_id": "883544464569-slv9gidj47cioprik34g1un6gli58gsv.apps.googleusercontent.com",
           "client_type": 3
         }
