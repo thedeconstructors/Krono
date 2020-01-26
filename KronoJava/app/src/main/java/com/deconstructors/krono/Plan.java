@@ -14,7 +14,7 @@ public class Plan {
         _name = "Plan";
         _date = new Date();
         _isPublic = false;
-        _activities = new Activity [20];
+        _activities = new Activity[20];
         _currentIndex = 0;
 
     }
@@ -26,7 +26,7 @@ public class Plan {
         _date = new Date(date.getYear(), date.getMonth(), date.getDay());
 
         _isPublic = isPublic;
-        _activities = new Activity [20];
+        _activities = new Activity[20];
         _currentIndex = 0;
     }
 
@@ -37,13 +37,11 @@ public class Plan {
     }
 
     public void RemoveActivity(String name) {
-        Activity[] newActivities = new Activity [20];
+        Activity[] newActivities = new Activity[20];
 
-        for (int i  = 0; i < _currentIndex; i++)
-        {
+        for (int i = 0; i < _currentIndex; i++) {
             int j = 0;
-            if (name != _activities[i].GetName())
-            {
+            if (name != _activities[i].GetName()) {
                 newActivities[j] = _activities[i];
                 j++;
             }
@@ -82,3 +80,4 @@ public class Plan {
     public Activity[] GetActivities() {
         return _activities;
     }
+}

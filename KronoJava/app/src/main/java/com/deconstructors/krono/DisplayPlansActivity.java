@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Map;
@@ -59,7 +60,8 @@ public class DisplayPlansActivity extends AppCompatActivity{
         };
 
         //get all the documents from the 'users' collection
-        CollectionReference users = Menu4_Users.db.collection("users");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference users = db.collection("users");
 
         //when users.get() finishes (and once the success is confirmed),
         //we will go through the documents
