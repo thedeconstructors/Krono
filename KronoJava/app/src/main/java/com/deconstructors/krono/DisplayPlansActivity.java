@@ -27,7 +27,7 @@ public class DisplayPlansActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displayplans);
         final TextView txtName = (TextView)findViewById(R.id.lblPersonName);
-        final String user_name = getIntent().getStringExtra(MainActivity.USER_NAME);
+        final String user_name = getIntent().getStringExtra(Menu4_Users.USER_NAME);
         txtName.setText(user_name);
 
         //define what happens when we get the data
@@ -57,8 +57,9 @@ public class DisplayPlansActivity extends AppCompatActivity{
                 }
             }
         };
+
         //get all the documents from the 'users' collection
-        CollectionReference users = MainActivity.db.collection("users");
+        CollectionReference users = Menu4_Users.db.collection("users");
 
         //when users.get() finishes (and once the success is confirmed),
         //we will go through the documents

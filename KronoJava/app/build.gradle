@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.deconstructors.krono"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -36,6 +36,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.3.0'
     //multidex issue
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Menu cardview
+    implementation 'androidx.cardview:cardview:1.0.0'
+    // Item Lists Using RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    // Firebase Cloud Storage
+    // Be aware, we are using "Cloud Firestore", not "Realtime Database"
+    // "Realtime Database" is Firebase's previous version of "Cloud Firestore"
 }
 
 //google services
