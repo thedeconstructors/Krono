@@ -16,13 +16,15 @@ public class MainActivity extends AppCompatActivity
 {
     GridLayout m_MainGrid;
 
+    public static final String TAG = "Krono";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        m_MainGrid = (GridLayout)findViewById(R.id.mainGrid);
+        m_MainGrid = findViewById(R.id.mainGrid);
         setSingleEvent(m_MainGrid);
     }
 

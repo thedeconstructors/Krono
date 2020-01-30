@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.deconstructors.krono">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -22,13 +23,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
+
+        <!-- The following sets the login screen as the default boot screen and includes
+            the other login screens for use in the app -->
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginEmailPass"></activity>
+        <activity android:name=".LoginEmailPassRegister"></activity>
     </application>
 
 </manifest>
