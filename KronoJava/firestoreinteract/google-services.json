@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "883544464569",
+    "firebase_url": "https://krono-cee48.firebaseio.com",
+    "project_id": "krono-cee48",
+    "storage_bucket": "krono-cee48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883544464569:android:fc4eba6a5dabddc4ea8f68",
+        "android_client_info": {
+          "package_name": "com.deconstructors.firestoreinteract"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883544464569-slv9gidj47cioprik34g1un6gli58gsv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZVxYxmmyNXfK6M-xvd8kfSY260OewK04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883544464569-slv9gidj47cioprik34g1un6gli58gsv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
