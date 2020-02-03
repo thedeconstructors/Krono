@@ -13,5 +13,6 @@
     <string name="profile_back">Back</string>
     <string name="profile_firstname">First Name</string>
     <string name="profile_lastname">Last Name</string>
+    <string name="menu_activities_new">New Activity</string>
 
 </resources>
