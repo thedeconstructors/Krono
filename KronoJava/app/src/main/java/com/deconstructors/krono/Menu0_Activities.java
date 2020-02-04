@@ -33,10 +33,10 @@ public class Menu0_Activities extends AppCompatActivity
     // Database
     private FirebaseFirestore m_Firestore;
 
-    // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
+    // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
     private RecyclerView _RecyclerView;
     private ActivityListAdapter _ActivityListAdapter;
-    private List<Plans> _ActivityList;
+    private List<Activity> _ActivityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +44,7 @@ public class Menu0_Activities extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu0__activities);
 
-        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
+        // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         _ActivityList = new ArrayList<>();
         _ActivityListAdapter = new ActivityListAdapter(_ActivityList);
 
@@ -55,12 +55,12 @@ public class Menu0_Activities extends AppCompatActivity
 
         // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
-        m_Firestore.collection("plans").addSnapshotListener(new EventListener<QuerySnapshot>()
+        m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             /************************************************************************
              * Purpose:         On Event
              * Precondition:    An Item has been added
-             * Postcondition:   Change the plan list accordingly and
+             * Postcondition:   Change the Activity list accordingly and
              *                  Notify the adapter
              *                  This way, we don't have to scan DB every time
              ************************************************************************/
@@ -80,8 +80,8 @@ public class Menu0_Activities extends AppCompatActivity
                         {
                             // Arrange the data according to the model class
                             // All by itself
-                            Plans plans = doc.getDocument().toObject(Plans.class);
-                            _ActivityList.add(plans);
+                            Activity activity = doc.getDocument().toObject(Activity.class);
+                            _ActivityList.add(activity);
 
                             // Notify the Adapter something is changed
                             _ActivityListAdapter.notifyDataSetChanged();

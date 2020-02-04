@@ -16,14 +16,14 @@ import java.util.List;
  ************************************************************************/
 public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder>
 {
-    public List<Plans> _ActivityList;
+    public List<Activity> _ActivityList;
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public ActivityListAdapter(List<Plans> ActivityList)
+    public ActivityListAdapter(List<Activity> ActivityList)
     {
         this._ActivityList = ActivityList;
     }

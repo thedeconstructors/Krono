@@ -12,7 +12,7 @@
     <string name="MenuItem4">User</string>
     <string name="MenuItem5">Settings</string>
     <!-- Main Menu 0 Activity List Items -->
-    <string name="MainMenu0_ActivityListNameString">Name</string>
+    <string name="MainMenu0_ActivityListNameString">Title</string>
     <string name="MainMenu0_ActivityListDescString">Description</string>
     <!-- Main Menu 1 Plan List Items -->
     <string name="MainMenu1_PlanListTitleString">Title</string>
