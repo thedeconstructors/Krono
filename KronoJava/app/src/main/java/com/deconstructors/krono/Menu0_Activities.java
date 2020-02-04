@@ -34,9 +34,9 @@ public class Menu0_Activities extends AppCompatActivity
     private FirebaseFirestore m_Firestore;
 
     // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-    private RecyclerView m_MainList;
-    private PlansListAdapter m_PlansListAdapter;
-    private List<Plans> m_PlansList;
+    private RecyclerView _RecyclerView;
+    private ActivityListAdapter _ActivityListAdapter;
+    private List<Plans> _ActivityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,13 +45,13 @@ public class Menu0_Activities extends AppCompatActivity
         setContentView(R.layout.activity_menu0__activities);
 
         // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-        m_PlansList = new ArrayList<>();
-        m_PlansListAdapter = new PlansListAdapter(m_PlansList);
+        _ActivityList = new ArrayList<>();
+        _ActivityListAdapter = new ActivityListAdapter(_ActivityList);
 
-        m_MainList = (RecyclerView)findViewById(R.id.mainList);
-        m_MainList.setHasFixedSize(true);
-        m_MainList.setLayoutManager(new LinearLayoutManager(this));
-        m_MainList.setAdapter(m_PlansListAdapter);
+        _RecyclerView = (RecyclerView)findViewById(R.id.MainMenu_ActivityListID);
+        _RecyclerView.setHasFixedSize(true);
+        _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _RecyclerView.setAdapter(_ActivityListAdapter);
 
         // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
@@ -81,10 +81,10 @@ public class Menu0_Activities extends AppCompatActivity
                             // Arrange the data according to the model class
                             // All by itself
                             Plans plans = doc.getDocument().toObject(Plans.class);
-                            m_PlansList.add(plans);
+                            _ActivityList.add(plans);
 
                             // Notify the Adapter something is changed
-                            m_PlansListAdapter.notifyDataSetChanged();
+                            _ActivityListAdapter.notifyDataSetChanged();
                         }
                     }
                 }

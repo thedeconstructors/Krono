@@ -11,34 +11,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 /************************************************************************
- * Class:           PlansListAdapter
+ * Class:           ActivityListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.ViewHolder>
+public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder>
 {
-    public List<Plans> m_PlansList;
+    public List<Plans> _ActivityList;
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public PlansListAdapter(List<Plans> PlanList)
+    public ActivityListAdapter(List<Plans> ActivityList)
     {
-        this.m_PlansList = PlanList;
+        this._ActivityList = ActivityList;
     }
 
     /************************************************************************
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler List View
-     *                  Using the menu1_planlist_item.XML File
+     *                  Using the menu0_activitylist_item.XML File
      ************************************************************************/
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu1_planlist_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu0_activitylist_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -50,8 +50,8 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.titleText.setText(m_PlansList.get(position).getTitle());
-        holder.descriptionText.setText(m_PlansList.get(position).getDescription());
+        holder._nameText.setText(_ActivityList.get(position).getTitle());
+        holder._descriptionText.setText(_ActivityList.get(position).getDescription());
     }
 
     /************************************************************************
@@ -62,7 +62,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public int getItemCount()
     {
-        return m_PlansList.size();
+        return _ActivityList.size();
     }
 
     /************************************************************************
@@ -73,16 +73,16 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         View m_view;
-        public TextView titleText;
-        public TextView descriptionText;
+        public TextView _nameText;
+        public TextView _descriptionText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             m_view = itemView;
 
-            titleText = (TextView) m_view.findViewById(R.id.planlist_title_text);
-            descriptionText = (TextView) m_view.findViewById(R.id.planlist_description_text);
+            _nameText = (TextView) m_view.findViewById(R.id.activitylist_name_text);
+            _descriptionText = (TextView) m_view.findViewById(R.id.activitylist_description_text);
         }
     }
 }

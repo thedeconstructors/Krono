@@ -12,7 +12,7 @@
     tools:context=".Menu0_Activities">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainList"
+        android:id="@+id/MainMenu_ActivityListID"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </androidx.recyclerview.widget.RecyclerView>
