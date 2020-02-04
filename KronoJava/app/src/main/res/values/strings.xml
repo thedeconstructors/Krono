@@ -14,5 +14,13 @@
     <string name="profile_firstname">First Name</string>
     <string name="profile_lastname">Last Name</string>
     <string name="menu_activities_new">New Activity</string>
+    <string name="newactivity">New Activity</string>
+    <string name="newactivity_title">Title</string>
+    <string name="newactivity_description">Description</string>
+    <string name="newactivity_duration">Duration</string>
+    <string name="newactivity_public">Public</string>
+    <string name="newactivity_cancel">Cancel</string>
+    <string name="newactivity_save">Save</string>
+
 
 </resources>
