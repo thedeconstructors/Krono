@@ -57,8 +57,8 @@ public class CreateKronoActivity extends AppCompatActivity
                                               public void onSuccess(DocumentReference documentReference) {
                                                   successMessage.show();
 
-                                                  //Not exactly sure what this does. Copied from line 84 of Kacey's LoginEmailPassRegister code.
-                                                  //documentReference.update("id", documentReference.getId());
+                                                  //Not exactly if this is correct. Copied from line 84 of Kacey's LoginEmailPassRegister code.
+                                                  documentReference.update("id", documentReference.getId());
                                               }
                                           })
                     .addOnFailureListener(new OnFailureListener() {
