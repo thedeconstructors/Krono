@@ -64,7 +64,7 @@ public class CreateKronoActivity extends AppCompatActivity
                     .addOnFailureListener(new OnFailureListener() {
                                               @Override
                                               public void onFailure(@NonNull Exception e) {
-                                                  failureMessage.show()
+                                                  failureMessage.show();
                                               }
                                           });
         }
