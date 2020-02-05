@@ -117,17 +117,8 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnBack"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:onClick="btnDisplayPersonClick"
-                android:text="@string/profile_back" />
-
-            <Button
                 android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"

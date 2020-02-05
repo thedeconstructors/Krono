@@ -22,6 +22,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginBottom="50dp"
         android:layout_weight="5"
+        android:onClick="btnNewActivity"
         android:text="@string/menu_activities_new"
         android:textSize="24sp" />
 </LinearLayout>

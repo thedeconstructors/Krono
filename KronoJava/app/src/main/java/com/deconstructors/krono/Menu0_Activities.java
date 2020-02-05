@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ public class Menu0_Activities extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu0__activities);
+        setContentView(R.layout.activity_menu0_activities);
 
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         _ActivityList = new ArrayList<>();
@@ -90,5 +92,11 @@ public class Menu0_Activities extends AppCompatActivity
                 }
             }
         });
+    }
+
+    public void btnNewActivity(View view)
+    {
+        Intent intent = new Intent(this, NewActivity.class);
+        startActivity(intent);
     }
 }

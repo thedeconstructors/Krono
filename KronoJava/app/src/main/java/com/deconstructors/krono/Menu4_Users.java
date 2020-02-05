@@ -24,8 +24,8 @@ public class Menu4_Users extends AppCompatActivity
 
     public void btnDisplayPersonClick(View view)
     {
-        Intent intent = new Intent(this, DisplayPlansActivity.class);
+        /*Intent intent = new Intent(this, DisplayPlansActivity.class);
         intent.putExtra(USER_NAME, ((EditText)findViewById(R.id.txtPersonName)).getText().toString());
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }
