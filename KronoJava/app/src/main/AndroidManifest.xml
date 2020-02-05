@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".NewPlan"
+            android:parentActivityName=".Menu1_Plans" />
         <activity android:name=".Menu3_Friends" />
         <activity android:name=".Menu4_Users" />
         <activity android:name=".Menu1_Plans" />
