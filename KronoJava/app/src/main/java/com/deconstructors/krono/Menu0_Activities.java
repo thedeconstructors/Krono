@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ListView;
@@ -33,34 +35,34 @@ public class Menu0_Activities extends AppCompatActivity
     // Database
     private FirebaseFirestore m_Firestore;
 
-    // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-    private RecyclerView m_MainList;
-    private PlansListAdapter m_PlansListAdapter;
-    private List<Plans> m_PlansList;
+    // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
+    private RecyclerView _RecyclerView;
+    private ActivityListAdapter _ActivityListAdapter;
+    private List<Activity> _ActivityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu0__activities);
+        setContentView(R.layout.activity_menu0_activities);
 
-        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-        m_PlansList = new ArrayList<>();
-        m_PlansListAdapter = new PlansListAdapter(m_PlansList);
+        // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
+        _ActivityList = new ArrayList<>();
+        _ActivityListAdapter = new ActivityListAdapter(_ActivityList);
 
-        m_MainList = (RecyclerView)findViewById(R.id.mainList);
-        m_MainList.setHasFixedSize(true);
-        m_MainList.setLayoutManager(new LinearLayoutManager(this));
-        m_MainList.setAdapter(m_PlansListAdapter);
+        _RecyclerView = (RecyclerView)findViewById(R.id.MainMenu_ActivityListID);
+        _RecyclerView.setHasFixedSize(true);
+        _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _RecyclerView.setAdapter(_ActivityListAdapter);
 
         // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
-        m_Firestore.collection("plans").addSnapshotListener(new EventListener<QuerySnapshot>()
+        m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             /************************************************************************
              * Purpose:         On Event
              * Precondition:    An Item has been added
-             * Postcondition:   Change the plan list accordingly and
+             * Postcondition:   Change the Activity list accordingly and
              *                  Notify the adapter
              *                  This way, we don't have to scan DB every time
              ************************************************************************/
@@ -80,15 +82,21 @@ public class Menu0_Activities extends AppCompatActivity
                         {
                             // Arrange the data according to the model class
                             // All by itself
-                            Plans plans = doc.getDocument().toObject(Plans.class);
-                            m_PlansList.add(plans);
+                            Activity activity = doc.getDocument().toObject(Activity.class);
+                            _ActivityList.add(activity);
 
                             // Notify the Adapter something is changed
-                            m_PlansListAdapter.notifyDataSetChanged();
+                            _ActivityListAdapter.notifyDataSetChanged();
                         }
                     }
                 }
             }
         });
+    }
+
+    public void btnNewActivity(View view)
+    {
+        Intent intent = new Intent(this, NewActivity.class);
+        startActivity(intent);
     }
 }

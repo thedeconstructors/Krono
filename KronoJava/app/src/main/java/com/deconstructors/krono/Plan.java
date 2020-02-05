@@ -41,7 +41,7 @@ public class Plan {
 
         for (int i = 0; i < _currentIndex; i++) {
             int j = 0;
-            if (name != _activities[i].GetName()) {
+            if (name != _activities[i].getTitle()) {
                 newActivities[j] = _activities[i];
                 j++;
             }
