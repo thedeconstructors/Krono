@@ -62,7 +62,7 @@ public class LoginEmailPassRegister extends AppCompatActivity {
     public void registerEmailOnClick(View view) {
 
         // When the user provides a first and last name...
-        if (firstName != null && lastName != null) {
+        if (firstName.getText().toString() != "" && lastName.getText().toString() != "") {
 
             // Store the first and last name and email in the user map
             user.put("first_name", firstName.getText().toString());
@@ -80,8 +80,11 @@ public class LoginEmailPassRegister extends AppCompatActivity {
                             Toast.makeText(LoginEmailPassRegister.this, "User Added Successfully.", Toast.LENGTH_SHORT).show();
                             //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
 
-                            // Update the user to put the generated ID in, as a field.
-                            documentReference.update("id", documentReference.getId());
+                            // Update the session id with newly created record id
+                            SessionData.GetInstance().SetUserID(documentReference.getId());
+                            //change page
+                            Intent intent = new Intent(LoginEmailPassRegister.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -93,8 +96,6 @@ public class LoginEmailPassRegister extends AppCompatActivity {
                             //Log.w(TAG, "Error adding document", e);
                         }
                     });
-            Intent intent = new Intent(LoginEmailPassRegister.this, MainActivity.class);
-            startActivity(intent);
         }
     }
 }

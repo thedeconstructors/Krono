@@ -52,9 +52,17 @@ public class LoginEmailPass extends AppCompatActivity {
         //Map<String, Object> user = new HashMap<>();
         TextView textView = findViewById(R.id.user_email);
         String email = textView.getText().toString();
-        Intent intent = new Intent(LoginEmailPass.this, LoginEmailPassRegister.class);
-        intent.putExtra("email", email);
-        startActivity(intent);
+        if (email != "")
+        {
+            Intent intent = new Intent(LoginEmailPass.this, LoginEmailPassRegister.class);
+            intent.putExtra("email", email);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(LoginEmailPass.this, "Please enter an email to sign up with",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void emailSignInOnClick(View view) {
@@ -76,6 +84,9 @@ public class LoginEmailPass extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginEmailPass.this, "Welcome ",
                                     Toast.LENGTH_SHORT).show();
+                            //Set user's id for session
+                            SessionData.GetInstance().SetUserID(task.getResult().getDocuments().get(0).getId());
+                            //change page
                             Intent intent = new Intent(LoginEmailPass.this, MainActivity.class);
                             startActivity(intent);
                         }

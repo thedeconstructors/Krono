@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //value for guest's user id
+    private final String GUEST_USER_ID = "42";
     // Declare an instance of the Firebase Authenticator.
     private FirebaseAuth m_auth;
 
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void guestModeOnClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
+        SessionData.GetInstance().SetUserID(GUEST_USER_ID);
         startActivity(intent);
     }
 
