@@ -31,6 +31,10 @@ public class NewActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu0_activities_newactivity);
+
+        title = findViewById(R.id.txtTitle);
+        description = findViewById(R.id.txtDescription);
+        duration = findViewById(R.id.txtDuration);
     }
 
     public void createActivityOnClick(View view)
