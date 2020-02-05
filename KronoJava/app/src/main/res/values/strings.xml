@@ -1,7 +1,9 @@
+<!-- Eng Lang -->
 <resources>
+
     <string name="app_name">Krono</string>
 
-    <!-- Eng Menu Items -->
+    <!-- Main Menu Items -->
     <string name="MenuTitle">Krono!</string>
     <string name="MenuItem0">Activities</string>
     <string name="MenuItem1">Plans</string>
@@ -21,6 +23,10 @@
     <string name="newactivity_public">Public</string>
     <string name="newactivity_cancel">Cancel</string>
     <string name="newactivity_save">Save</string>
-
-
+    <!-- Main Menu 0 Activity List Items -->
+    <string name="MainMenu0_ActivityListNameString">Title</string>
+    <string name="MainMenu0_ActivityListDescString">Description</string>
+    <!-- Main Menu 1 Plan List Items -->
+    <string name="MainMenu1_PlanListTitleString">Title</string>
+    <string name="MainMenu1_PlanListDescString">Description</string>
 </resources>
