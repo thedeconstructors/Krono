@@ -37,11 +37,13 @@ public class NewActivity extends AppCompatActivity
     {
         Toast emptyTextFailureMessage = Toast.makeText(NewActivity.this, "Must Enter All Text Fields", Toast.LENGTH_SHORT);
 
+        // We need to get values from the user first
         title = (TextView) findViewById(R.id.txtTitle);
         description = (TextView) findViewById(R.id.txtDescription);
         duration = (TextView) findViewById(R.id.txtDuration);
 
-        if (title != null && description != null && duration != null)
+        // Use 'stringX.getText().toString().matches("")' instead of 'stringX == null'
+        if (!title.getText().toString().matches("") && !description.getText().toString().matches("") && !duration.getText().toString().matches(""))
         {
             userActivity.put("title", title.getText().toString());
             userActivity.put("description", description.getText().toString());
@@ -68,15 +70,19 @@ public class NewActivity extends AppCompatActivity
                             failureMessage.show();
                         }
                     });
+
+            finish();
         }
         else
         {
             emptyTextFailureMessage.show();
         }
+
     }
 
     public void cancleNewActivityOnClick(View view)
     {
-        onBackPressed();
+
+        finish();
     }
 }
