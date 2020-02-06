@@ -74,9 +74,7 @@ public class NewPlan extends AppCompatActivity
     public void UpdateUsersToPlans()
     {
         Map<String, Object> userToPlan = new HashMap<>();
-
-        //Currently using GetUserID() as the value for planID until I understand what we're supposed to be using as the planID
-        userToPlan.put("planid", SessionData.GetInstance().GetUserID());
+        
         userToPlan.put("userid", SessionData.GetInstance().GetUserID());
 
         FirebaseFirestore db2 = FirebaseFirestore.getInstance();
