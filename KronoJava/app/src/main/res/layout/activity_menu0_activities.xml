@@ -13,29 +13,15 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
 
-    <!--
-    <Button
-        android:id="@+id/btnNewActivity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
-        android:layout_weight="7"
-        android:onClick="btnNewActivity"
-        android:text="@string/menu_activities_new"
-        android:textSize="24sp" />
-    -->
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNewActivity"
         android:onClick="btnNewActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="#ff1da1f2"
+        app:backgroundTint="#1034A6"
         android:clickable="true"
-        app:srcCompat="@drawable/list_addbutton_24dp_white" />
+        android:focusable="true"
+        app:srcCompat="@drawable/list_addbutton_24dp_white"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

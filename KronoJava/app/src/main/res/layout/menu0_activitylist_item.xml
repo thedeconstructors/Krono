@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="15dp">
 
     <TextView
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:text="@string/MainMenu0_ActivityListDescString"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="#6a6a6a"
             android:textSize="18sp" />
 
         <TextView
@@ -36,9 +38,9 @@
             android:layout_alignParentEnd="true"
             android:fontFamily="sans-serif"
             android:text="@string/MainMenu0_ActivityListDurationString"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="#6a6a6a"
             android:textSize="18sp"
-            android:paddingLeft="16dp"/>
+            android:paddingStart="16dp"/>
 
     </RelativeLayout>
 </LinearLayout>
