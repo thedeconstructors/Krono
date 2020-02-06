@@ -52,6 +52,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     {
         holder._nameText.setText(_ActivityList.get(position).getTitle());
         holder._descriptionText.setText(_ActivityList.get(position).getDescription());
+        holder._durationText.setText(_ActivityList.get(position).getDuration());
     }
 
     /************************************************************************
@@ -75,6 +76,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         View m_view;
         public TextView _nameText;
         public TextView _descriptionText;
+        public TextView _durationText;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -83,6 +85,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
             _nameText = (TextView) m_view.findViewById(R.id.activitylist_name_text);
             _descriptionText = (TextView) m_view.findViewById(R.id.activitylist_description_text);
+            _durationText = (TextView) m_view.findViewById(R.id.activitylist_duration_text);
         }
     }
 }

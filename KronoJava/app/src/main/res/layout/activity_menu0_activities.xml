@@ -9,9 +9,7 @@
         android:id="@+id/MainMenu_ActivityListID"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_weight="2"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnNewActivity"
@@ -21,7 +19,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="50dp"
-        android:layout_weight="5"
+        android:layout_weight="7"
         android:onClick="btnNewActivity"
         android:text="@string/menu_activities_new"
         android:textSize="24sp" />

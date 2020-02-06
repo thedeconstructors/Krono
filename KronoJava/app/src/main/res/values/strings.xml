@@ -26,6 +26,7 @@
     <!-- Main Menu 0 Activity List Items -->
     <string name="MainMenu0_ActivityListNameString">Title</string>
     <string name="MainMenu0_ActivityListDescString">Description</string>
+    <string name="MainMenu0_ActivityListDurationString">Duration</string>
     <!-- Main Menu 1 Plan List Items -->
     <string name="MainMenu1_PlanListTitleString">Title</string>
     <string name="MainMenu1_PlanListDescString">Description</string>
