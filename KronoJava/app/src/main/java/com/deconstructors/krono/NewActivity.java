@@ -37,6 +37,10 @@ public class NewActivity extends AppCompatActivity
     {
         Toast emptyTextFailureMessage = Toast.makeText(NewActivity.this, "Must Enter All Text Fields", Toast.LENGTH_SHORT);
 
+        title = (TextView) findViewById(R.id.txtTitle);
+        description = (TextView) findViewById(R.id.txtDescription);
+        duration = (TextView) findViewById(R.id.txtDuration);
+
         if (title != null && description != null && duration != null)
         {
             userActivity.put("title", title.getText().toString());
