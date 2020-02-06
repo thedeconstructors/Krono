@@ -10,6 +10,7 @@ public class Activity
     private String _description;
     private boolean _isPublic;
     private String _duration;
+    private boolean _isSelected;
     //Integer user_id;
 
     //boolean collaborative;
@@ -48,35 +49,25 @@ public class Activity
      *                  I have no idea why this happened, but probably due
      *                  to the plan table using the activity array.
      ************************************************************************/
-    public String getTitle()
-    {
-        return _title;
-    }
-    public void setTitle(String title)
-    {
-        this._title = title;
-    }
-    public String getDescription()
-    {
-        return _description;
-    }
-    public void setDescription(String description)
-    {
-        this._description = description;
-    }
-    public boolean GetIsPublic() {
-        return _isPublic;
-    }
+    public String getTitle() { return _title; }
+    public void setTitle(String title) { this._title = title; }
 
-    public void SetIsPublic(boolean isPublic) {
-        _isPublic = isPublic;
-    }
+    public String getDescription(){ return _description; }
+    public void setDescription(String description) { this._description = description; }
 
-    public String getDuration() {
-        return _duration + "m";
-    }
+    boolean GetIsPublic() { return _isPublic; }
+    public void SetIsPublic(boolean isPublic) { _isPublic = isPublic; }
 
-    public void setDuration(String duration) {
-        _duration = duration;
-    }
+    public String getDuration() { return _duration + "m"; }
+    public void setDuration(String duration) { _duration = duration; }
+
+    /************************************************************************
+     * Purpose:         Is this Activity Selected
+     * Precondition:    .
+     * Postcondition:   Maybe we should find a more resource saving method
+     *                  like, Item Touch Helper if supported.
+     *                  But it is what it is for the tomorrow's presentation
+     ************************************************************************/
+    public boolean isSelected() { return _isSelected; }
+    public void setSelected(boolean isSelected) { _isSelected = isSelected; }
 }

@@ -52,7 +52,7 @@ public class LoginEmailPass extends AppCompatActivity {
         //Map<String, Object> user = new HashMap<>();
         TextView textView = findViewById(R.id.user_email);
         String email = textView.getText().toString();
-        if (email != "")
+        if (email.compareTo("") != 0)
         {
             Intent intent = new Intent(LoginEmailPass.this, LoginEmailPassRegister.class);
             intent.putExtra("email", email);

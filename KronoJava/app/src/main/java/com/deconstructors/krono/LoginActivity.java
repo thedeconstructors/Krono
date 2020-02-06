@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.deconstructors.firestoreinteract.FirestoreDB;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize the Firebase Authenticator.
         m_auth = FirebaseAuth.getInstance();
         signInButton = findViewById(R.id.login_button_email);
+
+        //Initialize library database reference
+        FirestoreDB.SetDB(FirebaseFirestore.getInstance());
     }
 
     public void emailOnClick(View view) {
