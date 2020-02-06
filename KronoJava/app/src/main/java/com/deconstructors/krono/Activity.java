@@ -6,10 +6,10 @@ package com.deconstructors.krono;
  ************************************************************************/
 public class Activity
 {
-    private String m_title;
-    private String m_description;
+    private String _title;
+    private String _description;
     private boolean _isPublic;
-    private int _duration;
+    private String _duration;
     //Integer user_id;
 
     //boolean collaborative;
@@ -32,10 +32,11 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String title, String description)
+    public Activity(String title, String description, String duration)
     {
-        this.m_title = title;
-        this.m_description = description;
+        this._title = title;
+        this._description = description;
+        this._duration = duration;
     }
 
     /************************************************************************
@@ -49,19 +50,19 @@ public class Activity
      ************************************************************************/
     public String getTitle()
     {
-        return m_title;
+        return _title;
     }
     public void setTitle(String title)
     {
-        this.m_title = title;
+        this._title = title;
     }
     public String getDescription()
     {
-        return m_description;
+        return _description;
     }
     public void setDescription(String description)
     {
-        this.m_description = description;
+        this._description = description;
     }
     public boolean GetIsPublic() {
         return _isPublic;
@@ -71,11 +72,11 @@ public class Activity
         _isPublic = isPublic;
     }
 
-    public int GetDuration() {
-        return _duration;
+    public String getDuration() {
+        return _duration + "m";
     }
 
-    public void SetDuration(int duration) {
+    public void setDuration(String duration) {
         _duration = duration;
     }
 }
