@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
 import android.widget.ListView;
 
+import com.deconstructors.firestoreinteract.FirestoreDB;
+import com.deconstructors.firestoreinteract.ListHandler;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -24,9 +26,9 @@ import com.google.gson.internal.bind.ArrayTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.opencensus.tags.Tag;
-
 
 public class Menu0_Activities extends AppCompatActivity
 {

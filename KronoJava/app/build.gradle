@@ -47,6 +47,8 @@ dependencies {
     // Firebase Cloud Storage
     // Be aware, we are using "Cloud Firestore", not "Realtime Database"
     // "Realtime Database" is Firebase's previous version of "Cloud Firestore"
+    //firestore interaction module
+    implementation project(":dbinteract")
 }
 
 //google services
