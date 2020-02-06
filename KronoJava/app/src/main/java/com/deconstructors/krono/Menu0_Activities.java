@@ -57,10 +57,10 @@ public class Menu0_Activities extends AppCompatActivity
         _RecyclerView.setAdapter(_ActivityListAdapter);
 
         // Database Listener
-        /*
+
         m_Firestore = FirebaseFirestore.getInstance();
         m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
-        {*/
+        {
             /************************************************************************
              * Purpose:         On Event
              * Precondition:    An Item has been added
@@ -68,7 +68,7 @@ public class Menu0_Activities extends AppCompatActivity
              *                  Notify the adapter
              *                  This way, we don't have to scan DB every time
              ************************************************************************/
-            /*@Override
+            @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e)
             {
                 if (e != null)
@@ -93,8 +93,7 @@ public class Menu0_Activities extends AppCompatActivity
                     }
                 }
             }
-        });*/
-        FirestoreDB
+        });
     }
 
     public void btnNewActivity(View view)
