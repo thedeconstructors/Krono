@@ -6,10 +6,11 @@ package com.deconstructors.krono;
  ************************************************************************/
 public class Activity
 {
-    private String m_title;
-    private String m_description;
+    private String _title;
+    private String _description;
     private boolean _isPublic;
-    private int _duration;
+    private String _duration;
+    private boolean _isSelected;
     //Integer user_id;
 
     //boolean collaborative;
@@ -32,10 +33,11 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String title, String description)
+    public Activity(String title, String description, String duration)
     {
-        this.m_title = title;
-        this.m_description = description;
+        this._title = title;
+        this._description = description;
+        this._duration = duration;
     }
 
     /************************************************************************
@@ -47,35 +49,25 @@ public class Activity
      *                  I have no idea why this happened, but probably due
      *                  to the plan table using the activity array.
      ************************************************************************/
-    public String getTitle()
-    {
-        return m_title;
-    }
-    public void setTitle(String title)
-    {
-        this.m_title = title;
-    }
-    public String getDescription()
-    {
-        return m_description;
-    }
-    public void setDescription(String description)
-    {
-        this.m_description = description;
-    }
-    public boolean GetIsPublic() {
-        return _isPublic;
-    }
+    public String getTitle() { return _title; }
+    public void setTitle(String title) { this._title = title; }
 
-    public void SetIsPublic(boolean isPublic) {
-        _isPublic = isPublic;
-    }
+    public String getDescription(){ return _description; }
+    public void setDescription(String description) { this._description = description; }
 
-    public int GetDuration() {
-        return _duration;
-    }
+    boolean GetIsPublic() { return _isPublic; }
+    public void SetIsPublic(boolean isPublic) { _isPublic = isPublic; }
 
-    public void SetDuration(int duration) {
-        _duration = duration;
-    }
+    public String getDuration() { return _duration + "m"; }
+    public void setDuration(String duration) { _duration = duration; }
+
+    /************************************************************************
+     * Purpose:         Is this Activity Selected
+     * Precondition:    .
+     * Postcondition:   Maybe we should find a more resource saving method
+     *                  like, Item Touch Helper if supported.
+     *                  But it is what it is for the tomorrow's presentation
+     ************************************************************************/
+    public boolean isSelected() { return _isSelected; }
+    public void setSelected(boolean isSelected) { _isSelected = isSelected; }
 }

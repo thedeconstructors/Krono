@@ -1,5 +1,6 @@
 package com.deconstructors.krono;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +47,27 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      * Purpose:         Bind View Holder
      * Precondition:    .
      * Postcondition:   Assign Values from ViewHolder class to the Fields
+     *                  Assign Click Listener to ViewHolder List Items
      ************************************************************************/
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
     {
+        final Activity temp_activity =  _ActivityList.get(position);
+
         holder._nameText.setText(_ActivityList.get(position).getTitle());
         holder._descriptionText.setText(_ActivityList.get(position).getDescription());
+        holder._durationText.setText(_ActivityList.get(position).getDuration());
+
+        holder._view.setBackgroundColor(temp_activity.isSelected() ? Color.rgb(208,208,208) : Color.WHITE);
+        holder._view.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                temp_activity.setSelected(!temp_activity.isSelected());
+                holder._view.setBackgroundColor(temp_activity.isSelected() ? Color.rgb(208,208,208) : Color.WHITE);
+            }
+        });
     }
 
     /************************************************************************
@@ -62,7 +78,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     @Override
     public int getItemCount()
     {
-        return _ActivityList.size();
+        return _ActivityList == null ? 0 : _ActivityList.size();
     }
 
     /************************************************************************
@@ -72,17 +88,21 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      ************************************************************************/
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        View m_view;
+        View _view;
         public TextView _nameText;
         public TextView _descriptionText;
+        public TextView _durationText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            m_view = itemView;
+            _view = itemView;
 
-            _nameText = (TextView) m_view.findViewById(R.id.activitylist_name_text);
-            _descriptionText = (TextView) m_view.findViewById(R.id.activitylist_description_text);
+            _nameText = (TextView) _view.findViewById(R.id.activitylist_name_text);
+            _descriptionText = (TextView) _view.findViewById(R.id.activitylist_description_text);
+            _durationText = (TextView) _view.findViewById(R.id.activitylist_duration_text);
         }
     }
+
+
 }

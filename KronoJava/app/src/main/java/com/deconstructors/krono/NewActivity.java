@@ -2,6 +2,7 @@ package com.deconstructors.krono;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +19,10 @@ import java.util.Map;
 
 public class NewActivity extends AppCompatActivity
 {
-    public static final String USER_NAME = "com.deconstructors.krono.USER_NAME";
-
     private TextView title;
     private TextView description;
     private TextView duration;
+    private Switch isPublic;
 
     Map<String, Object> userActivity = new HashMap<>();
 
@@ -31,17 +31,26 @@ public class NewActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu0_activities_newactivity);
+
+        title = findViewById(R.id.txtTitle);
+        description = findViewById(R.id.txtDescription);
+        duration = findViewById(R.id.txtDuration);
+        isPublic = findViewById(R.id.swPublic);
     }
 
     public void createActivityOnClick(View view)
     {
         Toast emptyTextFailureMessage = Toast.makeText(NewActivity.this, "Must Enter All Text Fields", Toast.LENGTH_SHORT);
 
-        if (title != null && description != null && duration != null)
+        // Use 'stringX.getText().toString().matches("")' instead of 'stringX == null'
+        if (!title.getText().toString().matches("") &&
+                !description.getText().toString().matches("") &&
+                !duration.getText().toString().matches(""))
         {
             userActivity.put("title", title.getText().toString());
             userActivity.put("description", description.getText().toString());
             userActivity.put("duration", duration.getText().toString());
+            userActivity.put("isPublic", isPublic.isChecked());
 
             final Toast successMessage = Toast.makeText(NewActivity.this, "Activity Added Successfully.", Toast.LENGTH_SHORT);
             final Toast failureMessage = Toast.makeText(NewActivity.this, "Error: Could Not Add Activity.", Toast.LENGTH_SHORT);
@@ -53,9 +62,7 @@ public class NewActivity extends AppCompatActivity
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             successMessage.show();
-
-                            //Not exactly if this is correct. Copied from line 84 of Kacey's LoginEmailPassRegister code.
-                            documentReference.update("id", documentReference.getId());
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -64,15 +71,24 @@ public class NewActivity extends AppCompatActivity
                             failureMessage.show();
                         }
                     });
+
+            finish();
         }
         else
         {
             emptyTextFailureMessage.show();
         }
+
     }
 
     public void cancleNewActivityOnClick(View view)
     {
-        onBackPressed();
+
+        finish();
+    }
+
+    public void cancelOnClick(View view)
+    {
+        finish();
     }
 }
