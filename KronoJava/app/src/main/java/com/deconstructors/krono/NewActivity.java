@@ -70,4 +70,9 @@ public class NewActivity extends AppCompatActivity
             emptyTextFailureMessage.show();
         }
     }
+
+    public void cancleNewActivityOnClick(View view)
+    {
+        onBackPressed();
+    }
 }
