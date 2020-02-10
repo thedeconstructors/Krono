@@ -7,9 +7,10 @@ Krono is an android app to manage and organize localized activities with friends
 
 - [Features](#features)
 - [Installation](#installation)
+- [Download](#download)
 - [Libraries](#libraries)
 - [Requirements](#requirements)
-- [Release Notes](#releases)
+- [Permissions](#permissions)
 - [Team](#team)
 - [Support](#support)
 - [License](#license)
@@ -32,6 +33,11 @@ Clone this repository and import into **Android Studio**
 git clone git@github.com:[owner]/[repo-name].git
 ```
 
+## Download
+Download the demo app from:
+- <a href="https://github.com/thedeconstructors/Krono/releases" target="_blank">Releases</a>
+- <a href="https://play.google.com/store/apps/details?id=com.krono.android" target="_blank">~~Google Play~~</a>
+
 ## Libraries
 
 The libraries and tools used include:
@@ -51,6 +57,11 @@ The libraries and tools used include:
 - Android SDK Build tools 29.0.2
 - Android SDK Tools
 - Android Support Repository
+
+## Permissions
+
+- Internet for Cloud Service
+- Bind Quick Setting Tiles
 
 ## Team
 
