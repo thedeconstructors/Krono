@@ -22,7 +22,7 @@ git clone git@github.com:[owner]/[repo-name].git
 ## Features
 | **Main Menu** | **Bank of Activities** |
 | :---: | :---: |
-| [![Main menu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png)] | [![Mike](https://github.com/thedeconstructors/Krono/blob/Development/Images/device-activitymenu.png)] |
+| ![Main menu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/Development/Images/device-activitymenu.png) |
 
 - Geo-local activities
 - Plans saved to the cloud
