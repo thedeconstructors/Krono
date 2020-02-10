@@ -21,10 +21,10 @@ git clone git@github.com:[owner]/[repo-name].git
 
 ## Features
 - Main menu
+
 ![MainMenu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png)
 
 - Bank of activities to choose from
-![ActivityMenu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device-activitymenu.png)
 
 - Geo-local activities
 - Plans saved to the cloud
