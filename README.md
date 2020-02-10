@@ -18,7 +18,7 @@ Krono is an android app to manage and organize localized activities with friends
 
 ## Team
 
-| <a href="https://github.com/CodeyWinslow" target="_blank">**Cody Winslow**</a> | <a href="http://fvcproductions.com" target="_blank">**Michael Remley**</a> | <a href="https://github.com/JaredGlasser" target="_blank">**Jared Glasser**</a> | <a href="https://github.com/Balabin-Kacey" target="_blank">**Balabin Kacey**</a> | <a href="https://github.com/jihyukchung" target="_blank">**Jihyuk Chung**</a> | 
+| <a href="https://github.com/CodeyWinslow" target="_blank">**Cody Winslow**</a> | <a href="https://github.com/Mikesteam1234" target="_blank">**Michael Remley**</a> | <a href="https://github.com/JaredGlasser" target="_blank">**Jared Glasser**</a> | <a href="https://github.com/Balabin-Kacey" target="_blank">**Balabin Kacey**</a> | <a href="https://github.com/jihyukchung" target="_blank">**Jihyuk Chung**</a> | 
 | :---: |:---:| :---:| :---:| :---:|
 
 
