@@ -1,5 +1,7 @@
 package com.deconstructors.krono;
 
+import android.content.Context;
+
 /************************************************************************
  * Class:           Activity
  * Purpose:         To Add the Values from Activity Table to Recycler View
@@ -29,7 +31,7 @@ public class Activity
     public Activity() { }
 
     /************************************************************************
-     * Purpose:         2 Arg Constructor
+     * Purpose:         3 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/

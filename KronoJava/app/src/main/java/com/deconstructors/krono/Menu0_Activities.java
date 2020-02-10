@@ -3,6 +3,7 @@ package com.deconstructors.krono;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,10 @@ public class Menu0_Activities extends AppCompatActivity
     private ActivityListAdapter _ActivityListAdapter;
     private List<Activity> _ActivityList;
 
+    //Swipe Controller
+    SwipeController swipeController = new SwipeController();
+    ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +62,7 @@ public class Menu0_Activities extends AppCompatActivity
         _RecyclerView.setHasFixedSize(true);
         _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         _RecyclerView.setAdapter(_ActivityListAdapter);
+        itemTouchhelper.attachToRecyclerView(_RecyclerView);
 
         // Database Listener
 
