@@ -1,4 +1,9 @@
-# Krono
+![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/TeamLogo.png)
+
+## Krono
+Krono is an android app to manage and organize localized activities with friends or colleagues.
+
+[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 ## Table of Contents (Optional)
 
@@ -19,7 +24,7 @@
 
 ## Support
 
-Reach out to me at one of the following places!
+Reach out to us at one of the following places!
 
 - Email at <a href="suptdeconstructors@gmail.com" target="_blank">`suptdeconstructors@gmail.com`</a>
 - Github at <a href="https://github.com/thedeconstructors" target="_blank">`thedeconstructors`</a>
