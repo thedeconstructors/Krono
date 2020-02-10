@@ -7,6 +7,7 @@ Krono is an android app to manage and organize localized activities with friends
 
 - [Installation](#installation)
 - [Features](#features)
+- [Libraries](#libraries)
 - [Team](#team)
 - [Support](#support)
 - [License](#license)
@@ -28,6 +29,24 @@ git clone git@github.com:[owner]/[repo-name].git
 - Messaging between friends
 -	See friends on live map and what their plans are
 -	Login for users
+
+## Libraries
+
+The libraries and tools used include:
+- The Support library
+- <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview" target="_blank">RecyclerView</a> and <a href="https://developer.android.com/guide/topics/ui/layout/cardview" target="_blank">CardView</a>
+- <a href="https://github.com/material-components/material-components-android/releases" target="_blank">Material Components</a>
+- <a href="https://developer.android.com/things/get-started/google-services" target="_blank">Google Services</a>
+- <a href="https://firebase.google.com/docs/firestore" target="_blank">Firebase Firestore</a>
+- <a href="https://firebase.google.com/docs/auth" target="_blank">Firebase Authentication</a>
+- <a href="https://firebase.google.com/docs/analytics" target="_blank">Firebase Analytics</a>
+
+## Requirements
+
+- Android SDK
+- Android 10.0 (API 29: Android 10.0 (Q))
+- Android SDK Tools
+- Android Support Repository
 
 ## Team
 
