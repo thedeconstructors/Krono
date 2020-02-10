@@ -5,19 +5,14 @@ Krono is an android app to manage and organize localized activities with friends
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Features](#features)
+- [Installation](#installation)
 - [Libraries](#libraries)
 - [Requirements](#requirements)
+- [Release Notes](#releases)
 - [Team](#team)
 - [Support](#support)
 - [License](#license)
-
-## Installation
-Clone this repository and import into **Android Studio**
-```bash
-git clone git@github.com:[owner]/[repo-name].git
-```
 
 ## Features
 | **Main Menu** | **Bank of Activities** |
@@ -30,6 +25,12 @@ git clone git@github.com:[owner]/[repo-name].git
 - Messaging between friends
 -	See friends on live map and what their plans are
 -	Login for users
+
+## Installation
+Clone this repository and import into **Android Studio**
+```bash
+git clone git@github.com:[owner]/[repo-name].git
+```
 
 ## Libraries
 
