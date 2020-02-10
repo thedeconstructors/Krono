@@ -109,4 +109,9 @@ public class Menu0_Activities extends AppCompatActivity
         Intent intent = new Intent(this, NewActivity.class);
         startActivity(intent);
     }
+
+    public void ToolbarBackButton_OnClick(View view)
+    {
+        finish();
+    }
 }

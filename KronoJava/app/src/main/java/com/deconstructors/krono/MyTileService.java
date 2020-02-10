@@ -1,5 +1,6 @@
 package com.deconstructors.krono;
 
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.service.quicksettings.Tile;
@@ -39,5 +40,7 @@ public class MyTileService extends TileService
         _tile.updateTile();
 
         // Call Add Activity
+        //Intent intent = new Intent(this, NewActivity.class);
+        //startActivity(intent);
     }
 }

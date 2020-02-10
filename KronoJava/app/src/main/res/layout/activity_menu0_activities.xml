@@ -11,14 +11,59 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/MainMenu_ActivityAppbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:elevation="0dp"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/MainMenu_ActivityToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetStart="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="8"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="end"
+                    android:padding="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/toolbar_backbutton"
+                    android:contentDescription="Back Button"
+                    android:onClick="ToolbarBackButton_OnClick"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="end"
+                    android:padding="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/toolbar_searchbutton"
+                    android:contentDescription="Search Button"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="end"
+                    android:padding="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/toolbar_menubutton"
+                    android:contentDescription="Menu Button"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Activity List RecyclerView -->
