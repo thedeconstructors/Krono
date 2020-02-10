@@ -5,7 +5,7 @@ Krono is an android app to manage and organize localized activities with friends
 
 [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-## Table of Contents (Optional)
+## Table of Contents
 
 - [Installation](#installation)
 - [Features](#features)
