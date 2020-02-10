@@ -53,7 +53,7 @@ The libraries and tools used include:
 
 ## Team
 
-![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/TeamLogo.png)
+![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/team_logo.png)
 
 Krono is developed by <a href="https://github.com/thedeconstructors" target="_blank">**The Deconstructors**</a>, a small junior project team from <a href="https://www.oit.edu/" target="_blank">**Oregon Institute of Technology**</a>.
 
