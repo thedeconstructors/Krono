@@ -41,6 +41,7 @@ The libraries and tools used include:
 - <a href="https://firebase.google.com/docs/firestore" target="_blank">Firebase Firestore</a>
 - <a href="https://firebase.google.com/docs/auth" target="_blank">Firebase Authentication</a>
 - <a href="https://firebase.google.com/docs/analytics" target="_blank">Firebase Analytics</a>
+- <a href="https://junit.org/junit4/" target="_blank">JUnit 4</a>
 
 ## Requirements
 
