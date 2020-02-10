@@ -34,7 +34,7 @@ Reach out to us at one of the following places!
 
 - Email at <a href="suptdeconstructors@gmail.com" target="_blank">`suptdeconstructors@gmail.com`</a>
 - Github at <a href="https://github.com/thedeconstructors" target="_blank">`thedeconstructors`</a>
-- Contact with team(#team) members
+- Contact with [team](#team) members
 
 ## License
 
