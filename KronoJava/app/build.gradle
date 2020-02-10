@@ -44,6 +44,9 @@ dependencies {
     // Item Lists Using RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation 'com.google.android.material:material:1.1.0'
+    //
+    implementation 'com.google.android.material:material:1.1.0'
+
     // Firebase Cloud Storage
     // Be aware, we are using "Cloud Firestore", not "Realtime Database"
     // "Realtime Database" is Firebase's previous version of "Cloud Firestore"

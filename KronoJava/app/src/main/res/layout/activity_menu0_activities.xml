@@ -7,12 +7,30 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <!-- Dynamic ToolBar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/MainMenu_ActivityAppbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/MainMenu_ActivityToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Activity List RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/MainMenu_ActivityListID"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
+    <!-- Add New Activity Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNewActivity"
         android:onClick="btnNewActivity"
@@ -20,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="#1034A6"
+        app:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@drawable/list_addbutton_24dp_white"/>
