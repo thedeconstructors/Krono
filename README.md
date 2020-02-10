@@ -60,7 +60,7 @@ The libraries and tools used include:
 
 ## Permissions
 
-- Internet for Cloud Service
+- Internet
 - Bind Quick Setting Tiles
 
 ## Team
