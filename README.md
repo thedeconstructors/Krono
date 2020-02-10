@@ -1,4 +1,4 @@
-![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/TeamLogo.png)
+![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/TeamLogo.png)
 
 # Krono
 Krono is an android app to manage and organize localized activities with friends or colleagues.
@@ -20,7 +20,12 @@ git clone git@github.com:[owner]/[repo-name].git
 ```
 
 ## Features
+- Main menu
+
+![MainMenu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png)
+
 - Bank of activities to choose from
+
 - Geo-local activities
 - Plans saved to the cloud
 - Share plans & Collaborative planning with friends
