@@ -40,5 +40,5 @@ Reach out to us at one of the following places!
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
--This project is licensed under the **[MIT license](http://opensource.org/licenses/mit-license.php)** - see the LICENSE.md file for details
+- This project is licensed under the **[MIT license](http://opensource.org/licenses/mit-license.php)** - see the LICENSE.md file for details
 - Copyright 2020 © <a href="https://github.com/thedeconstructors" target="_blank">thedeconstructors</a>.
