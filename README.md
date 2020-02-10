@@ -1,9 +1,7 @@
-![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/TeamLogo.png)
+[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/badgerbadgerbadger) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
 
 # Krono
-Krono is an android app to manage and organize localized activities with friends or colleagues.
-
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/badgerbadgerbadger) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
+Krono is an android app to manage and organize localized activities with friends or colleagues. It also is ad-free and open source under MIT license.
 
 ## Table of Contents
 
@@ -32,6 +30,9 @@ git clone git@github.com:[owner]/[repo-name].git
 -	Login for users
 
 ## Team
+
+![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/TeamLogo.png)
+Krono is developed by <a href="https://github.com/thedeconstructors" target="_blank">**The Deconstructors**</a>, a small junior project team from <a href="https://www.oit.edu/" target="_blank">**Oregon Institute of Technology**</a>
 
 | <a href="https://github.com/CodeyWinslow" target="_blank">**Cody Winslow**</a> | <a href="https://github.com/Mikesteam1234" target="_blank">**Michael Remley**</a> | <a href="https://github.com/JaredGlasser" target="_blank">**Jared Glasser**</a> | <a href="https://github.com/Balabin-Kacey" target="_blank">**Balabin Kacey**</a> | <a href="https://github.com/jihyukchung" target="_blank">**Jihyuk Chung**</a> | 
 | :---: | :---: | :---: | :---: | :---: |
