@@ -8,6 +8,7 @@ Krono is an android app to manage and organize localized activities with friends
 - [Installation](#installation)
 - [Features](#features)
 - [Libraries](#libraries)
+- [Requirements](#requirements)
 - [Team](#team)
 - [Support](#support)
 - [License](#license)
@@ -43,8 +44,9 @@ The libraries and tools used include:
 
 ## Requirements
 
-- Android SDK
-- Android 10.0 (API 29: Android 10.0 (Q))
+- <a href="https://developer.android.com/studio" target="_blank">Android SDK</a>
+- <a href="https://developer.android.com/studio/releases/platforms#10.0" target="_blank">Android 10.0 (API 29: Android 10.0 (Q))</a>
+- Android SDK Build tools 29.0.2
 - Android SDK Tools
 - Android Support Repository
 
