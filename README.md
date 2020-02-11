@@ -41,7 +41,7 @@ Download the demo app from:
 ## Libraries
 
 The libraries and tools used include:
-- The Support library
+- <a href="https://developer.android.com/topic/libraries/support-library" target="_blank">Support library</a>
 - <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview" target="_blank">RecyclerView</a> and <a href="https://developer.android.com/guide/topics/ui/layout/cardview" target="_blank">CardView</a>
 - <a href="https://github.com/material-components/material-components-android/releases" target="_blank">Material Components</a>
 - <a href="https://developer.android.com/things/get-started/google-services" target="_blank">Google Services</a>
@@ -65,9 +65,9 @@ The libraries and tools used include:
 
 ## Team
 
-| ![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/team_logo.png) |
-| :---: |
 Krono is developed by <a href="https://github.com/thedeconstructors" target="_blank">**The Deconstructors**</a>, a small junior project team from <a href="https://www.oit.edu/" target="_blank">**Oregon Institute of Technology**</a>.
+| :---: |
+| ![TeamLogo](https://github.com/thedeconstructors/Krono/blob/Development/Images/team_logo.png) |
 
 | <a href="https://github.com/CodeyWinslow" target="_blank">**Cody Winslow**</a> | <a href="https://github.com/Mikesteam1234" target="_blank">**Michael Remley**</a> | <a href="https://github.com/JaredGlasser" target="_blank">**Jared Glasser**</a> | <a href="https://github.com/Balabin-Kacey" target="_blank">**Balabin Kacey**</a> | <a href="https://github.com/jihyukchung" target="_blank">**Jihyuk Chung**</a> | 
 | :---: | :---: | :---: | :---: | :---: |
