@@ -21,6 +21,22 @@ android {
             multiDexKeepFile file('multidex-config.txt')
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/activities',
+                            'src/main/res/layouts/friends',
+                            'src/main/res/layouts/login',
+                            'src/main/res/layouts/plans',
+                            'src/main/res/layouts/profile',
+                            'src/main/res/layouts/resource_layouts',
+                            'src/main/res/layouts/settings',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
+    }
 }
 
 dependencies {
