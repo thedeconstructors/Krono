@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Title"
+            android:textColor="#000000"
             android:textSize="18sp" />
 
         <EditText
@@ -64,18 +65,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="My Activities"
+        android:textColor="#000000"
         android:textSize="18sp" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMyActivities"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/containerMyActivities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
+        android:layout_height="200dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,16 +94,10 @@
             android:text="Add" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPlan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/containerPlan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
+        android:layout_height="200dp" />
 
     <Button
         android:id="@+id/btnSave"

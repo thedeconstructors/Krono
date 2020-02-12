@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -82,5 +84,11 @@ public class Menu1_Plans extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void btnNewPlan(View view)
+    {
+        Intent intent = new Intent(this, NewPlan.class);
+        startActivity(intent);
     }
 }
