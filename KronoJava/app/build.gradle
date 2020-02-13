@@ -68,6 +68,7 @@ dependencies {
     // "Realtime Database" is Firebase's previous version of "Cloud Firestore"
     //firestore interaction module
     implementation project(":dbinteract")
+    implementation project(":structures")
 }
 
 //google services

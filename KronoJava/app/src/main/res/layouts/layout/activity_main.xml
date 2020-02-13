@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/bg"
     android:weightSum="10"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <!-- Background -->
     <RelativeLayout

@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.helpers;
 
 import android.content.Intent;
 import android.graphics.drawable.Icon;
@@ -8,6 +8,8 @@ import android.service.quicksettings.TileService;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+
+import com.deconstructors.krono.R;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MyTileService extends TileService

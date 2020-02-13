@@ -1,5 +1,6 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.helpers;
 
+import com.deconstructors.structures.Plans;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.deconstructors.krono.R;
 
 import java.util.List;
 

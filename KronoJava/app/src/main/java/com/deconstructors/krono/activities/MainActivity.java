@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -6,11 +6,14 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.activities.Menu0_Activities;
+import com.deconstructors.krono.activities.friends.Menu3_Friends;
+import com.deconstructors.krono.activities.plans.Menu1_Plans;
+import com.deconstructors.krono.activities.profile.Menu4_Users;
 
 public class MainActivity extends AppCompatActivity
 {

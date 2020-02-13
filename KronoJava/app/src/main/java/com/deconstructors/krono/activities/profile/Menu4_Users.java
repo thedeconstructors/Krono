@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.deconstructors.krono.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Menu4_Users extends AppCompatActivity

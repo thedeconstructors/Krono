@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities.plans;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.deconstructors.structures.Plans;
+import com.deconstructors.krono.helpers.PlansListAdapter;
+import com.deconstructors.krono.R;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;

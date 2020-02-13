@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.helpers;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;

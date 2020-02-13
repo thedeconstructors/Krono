@@ -1,29 +1,29 @@
-package com.deconstructors.krono;
+package com.deconstructors.structures;
 
-import java.util.Date;
 
 public class Plan {
 
     private String _name;
-    private Date _date;
+    //private Date _date;
     private boolean _isPublic;
     private Activity[] _activities;
     private int _currentIndex;
 
     public Plan() {
         _name = "Plan";
-        _date = new Date();
+        //_date = new Date();
         _isPublic = false;
         _activities = new Activity[20];
         _currentIndex = 0;
 
     }
 
-    public Plan(String name, Date date, boolean isPublic) {
+    public Plan(String name, boolean isPublic) {
         _name = name;
 
         //A lot of the methods in the Date class here are deprecated. Might update _date to a DateTime variable later.
-        _date = new Date(date.getYear(), date.getMonth(), date.getDay());
+        //currently commenting out date so as not to use Date type
+        //_date = new Date(date.getYear(), date.getMonth(), date.getDay());
 
         _isPublic = isPublic;
         _activities = new Activity[20];
@@ -57,9 +57,10 @@ public class Plan {
         _name = name;
     }
 
+    /*
     public void SetDate(Date date) {
         _date = date;
-    }
+    }*/
 
     public void SetIsPublic(boolean isPublic) {
         _isPublic = isPublic;
@@ -69,9 +70,10 @@ public class Plan {
         return _name;
     }
 
+    /*
     public Date GetDate() {
         return _date;
-    }
+    }*/
 
     public boolean GetIsPublic() {
         return _isPublic;

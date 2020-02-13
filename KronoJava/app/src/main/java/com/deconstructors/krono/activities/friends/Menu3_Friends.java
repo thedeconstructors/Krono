@@ -1,10 +1,12 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities.friends;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import com.deconstructors.krono.R;
 
 public class Menu3_Friends extends AppCompatActivity
 {

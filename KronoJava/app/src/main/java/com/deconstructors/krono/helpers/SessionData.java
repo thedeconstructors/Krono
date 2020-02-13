@@ -1,8 +1,4 @@
-package com.deconstructors.krono;
-
-import android.se.omapi.Session;
-
-import com.google.protobuf.NullValue;
+package com.deconstructors.krono.helpers;
 
 public class SessionData {
 

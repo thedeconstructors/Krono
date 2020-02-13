@@ -1,6 +1,5 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities.activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -11,25 +10,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
-import android.widget.ListView;
 
-import com.deconstructors.firestoreinteract.FirestoreDB;
-import com.deconstructors.firestoreinteract.ListHandler;
+import com.deconstructors.structures.Activity;
+import com.deconstructors.krono.helpers.ActivityListAdapter;
+import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.SwipeController;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.internal.bind.ArrayTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import io.opencensus.tags.Tag;
 
 public class Menu0_Activities extends AppCompatActivity
 {

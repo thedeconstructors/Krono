@@ -12,34 +12,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewPlan"
-            android:parentActivityName=".Menu1_Plans" />
-        <activity android:name=".Menu3_Friends" />
-        <activity android:name=".Menu4_Users" />
-        <activity android:name=".Menu1_Plans" />
-        <activity android:name=".Menu0_Activities" />
+            android:name=".activities.plans.NewPlan"
+            android:parentActivityName=".activities.plans.Menu1_Plans" />
+        <activity android:name=".activities.friends.Menu3_Friends" />
+        <activity android:name=".activities.profile.Menu4_Users" />
+        <activity android:name=".activities.plans.Menu1_Plans" />
+        <activity android:name=".activities.activities.Menu0_Activities" />
         <activity
-            android:name=".NewActivity"
-            android:parentActivityName=".Menu0_Activities" />
-        <activity android:name=".MainActivity" />
+            android:name=".activities.activities.NewActivity"
+            android:parentActivityName=".activities.activities.Menu0_Activities" />
+        <activity android:name=".activities.MainActivity" />
         <!--
  The following sets the login screen as the default boot screen and includes
             the other login screens for use in the app
         -->
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.login.LoginActivity"
+            android:parentActivityName=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginEmailPass" />
-        <activity android:name=".LoginEmailPassRegister" />
+        <activity android:name=".activities.login.LoginEmailPass" />
+        <activity android:name=".activities.login.LoginEmailPassRegister" />
 
         <service
-            android:name=".MyTileService"
+            android:name=".helpers.MyTileService"
             android:icon="@drawable/tileservice_inactive"
             android:label="@string/MenuTitle"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">

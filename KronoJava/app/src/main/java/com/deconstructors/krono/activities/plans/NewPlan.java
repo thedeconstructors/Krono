@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.krono.activities.plans;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;

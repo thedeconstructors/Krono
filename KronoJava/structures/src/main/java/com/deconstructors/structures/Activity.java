@@ -1,4 +1,4 @@
-package com.deconstructors.krono;
+package com.deconstructors.structures;
 
 import android.content.Context;
 
