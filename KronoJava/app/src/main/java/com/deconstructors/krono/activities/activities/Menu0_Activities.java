@@ -1,20 +1,26 @@
 package com.deconstructors.krono.activities.activities;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import com.deconstructors.structures.Activity;
-import com.deconstructors.krono.helpers.ActivityListAdapter;
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.ActivityListAdapter;
 import com.deconstructors.krono.helpers.SwipeController;
+import com.deconstructors.structures.Activity;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -58,7 +64,6 @@ public class Menu0_Activities extends AppCompatActivity
         itemTouchhelper.attachToRecyclerView(_RecyclerView);
 
         // Database Listener
-
         m_Firestore = FirebaseFirestore.getInstance();
         m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
         {
@@ -95,16 +100,61 @@ public class Menu0_Activities extends AppCompatActivity
                 }
             }
         });
+
+        // Toolbar Integration
+        Toolbar toolbar = findViewById(R.id.menu0_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Activities Menu");
+
+        // Doesn't need a button click even because
+        // AndroidMenifest.xml -> Set Parent Activity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /************************************************************************
+     * Purpose:         Toolbar Menu Inflater
+     * Precondition:
+     * Postcondition:   See more from res/menu/activity_boolbar_menu
+     *                  and layout/menu0_toolbar
+     ************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_toolbar_menu, menu);
+        return true;
+    }
+
+    /************************************************************************
+     * Purpose:         Options Item Selected
+     * Precondition:    *
+     * Postcondition:   See more from res/menu/activity_boolbar_menu
+    *                   and layout/menu0_toolbar
+     ************************************************************************/
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.activity_toolbar_searchbutton:
+                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.activity_toolbar_sortbybutton:
+                Toast.makeText(this, "Sort By button selected", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /************************************************************************
+     * Purpose:         Create New Activity - Hovering Smart Button
+     * Precondition:    *
+     * Postcondition:   *
+     ************************************************************************/
     public void btnNewActivity(View view)
     {
         Intent intent = new Intent(this, NewActivity.class);
         startActivity(intent);
-    }
-
-    public void ToolbarBackButton_OnClick(View view)
-    {
-        finish();
     }
 }

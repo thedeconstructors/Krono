@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/activity_toolbar_searchbutton"
+        android:icon="@drawable/toolbar_searchbutton_white"
+        android:title="Search Button"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/activity_toolbar_sortbybutton"
+        android:title="Sort By"
+        app:showAsAction="never"/>
+</menu>

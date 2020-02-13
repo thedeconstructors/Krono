@@ -17,7 +17,9 @@
         <activity android:name=".activities.friends.Menu3_Friends" />
         <activity android:name=".activities.profile.Menu4_Users" />
         <activity android:name=".activities.plans.Menu1_Plans" />
-        <activity android:name=".activities.activities.Menu0_Activities" />
+        <activity
+            android:name=".activities.activities.Menu0_Activities"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".activities.activities.NewActivity"
             android:parentActivityName=".activities.activities.Menu0_Activities" />

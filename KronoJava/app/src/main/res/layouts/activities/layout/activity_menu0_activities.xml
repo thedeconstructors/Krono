@@ -7,8 +7,14 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <!-- Menu ToolBar -->
+    <include
+        android:id="@+id/menu0_toolbar"
+        layout="@layout/menu0_toolbar">
+    </include>
+
     <!-- Dynamic ToolBar -->
-    <com.google.android.material.appbar.AppBarLayout
+    <!--<com.google.android.material.appbar.AppBarLayout
         android:id="@+id/MainMenu_ActivityAppbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +70,7 @@
                     android:contentDescription="Menu Button"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout> -->
 
     <!-- Activity List RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
@@ -73,7 +79,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="5dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="?android:attr/actionBarSize"/>
 
     <!-- Add New Activity Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
