@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.appcompat.widget.SearchView;
+
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.ActivityListAdapter;
 import com.deconstructors.krono.helpers.SwipeController;
 import com.deconstructors.structures.Activity;
 import com.google.firebase.firestore.DocumentChange;
@@ -108,13 +110,14 @@ public class Menu0_Activities extends AppCompatActivity
 
         // Doesn't need a button click even because
         // AndroidMenifest.xml -> Set Parent Activity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /************************************************************************
      * Purpose:         Toolbar Menu Inflater
-     * Precondition:
-     * Postcondition:   See more from res/menu/activity_boolbar_menu
+     * Precondition:    .
+     * Postcondition:   Activates the toolbar menu by inflating it
+     *                  See more from res/menu/activity_boolbar_menu
      *                  and layout/menu0_toolbar
      ************************************************************************/
     @Override
@@ -122,12 +125,33 @@ public class Menu0_Activities extends AppCompatActivity
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_toolbar_menu, menu);
+
+        // Search Button
+        MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                _ActivityListAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         return true;
     }
 
     /************************************************************************
      * Purpose:         Options Item Selected
-     * Precondition:    *
+     * Precondition:    .
      * Postcondition:   See more from res/menu/activity_boolbar_menu
     *                   and layout/menu0_toolbar
      ************************************************************************/
@@ -136,9 +160,6 @@ public class Menu0_Activities extends AppCompatActivity
     {
         switch (item.getItemId())
         {
-            case R.id.activity_toolbar_searchbutton:
-                Toast.makeText(this, "Search button selected", Toast.LENGTH_SHORT).show();
-                return true;
             case R.id.activity_toolbar_sortbybutton:
                 Toast.makeText(this, "Sort By button selected", Toast.LENGTH_SHORT).show();
                 return true;
@@ -148,9 +169,9 @@ public class Menu0_Activities extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Create New Activity - Hovering Smart Button
-     * Precondition:    *
-     * Postcondition:   *
+     * Purpose:         Create New Activity - The Hovering Smart Button
+     * Precondition:    .
+     * Postcondition:   .
      ************************************************************************/
     public void btnNewActivity(View view)
     {

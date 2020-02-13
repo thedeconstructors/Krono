@@ -6,7 +6,8 @@
     <item android:id="@+id/activity_toolbar_searchbutton"
         android:icon="@drawable/toolbar_searchbutton_white"
         android:title="Search Button"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item android:id="@+id/activity_toolbar_sortbybutton"
         android:title="Sort By"

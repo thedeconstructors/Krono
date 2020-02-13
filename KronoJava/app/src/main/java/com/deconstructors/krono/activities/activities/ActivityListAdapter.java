@@ -1,10 +1,12 @@
-package com.deconstructors.krono.helpers;
+package com.deconstructors.krono.activities.activities;
 
 import com.deconstructors.structures.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,15 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /************************************************************************
  * Class:           ActivityListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder>
+public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder> implements Filterable
 {
-    public List<Activity> _ActivityList;
+    private List<Activity> _ActivityList; // The original List
+    private List<Activity> _ActivityListFull; // For Search Filter
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
@@ -30,6 +34,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public ActivityListAdapter(List<Activity> ActivityList)
     {
         this._ActivityList = ActivityList;
+        // List = an interface
+        // ArrayList = a class and subtype of List interface
+        // In Java, supertype can store an object of subtype
+        this._ActivityListFull = new ArrayList<>(ActivityList);
     }
 
     /************************************************************************
@@ -107,5 +115,58 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     }
 
+    /************************************************************************
+     * Purpose:         Private Filter Class Override
+     * Precondition:    .
+     * Postcondition:   This filter class allows "performFiltering"
+     *                  automatically executed in the background thread.
+     *                  In this way, our app won't freeze even if the logic
+     *                  is complicated, and if results are huge.
+     *                  The result will automatically published to
+     *                  "publishResults"
+     ************************************************************************/
+    private Filter _ActivityListFilter = new Filter()
+    {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+            List<Activity> filteredList = new ArrayList<>();
 
+            if (constraint == null || constraint.length() == 0)
+            {
+                filteredList.addAll(_ActivityListFull);
+            }
+            else
+            {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Activity activity : _ActivityListFull)
+                {
+                    if (activity.getTitle().toLowerCase().contains(filterPattern))
+                    {
+                        filteredList.add(activity);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            _ActivityList.clear();
+            _ActivityList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public Filter getFilter()
+    {
+        return _ActivityListFilter;
+    }
 }
