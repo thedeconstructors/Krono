@@ -1,7 +1,7 @@
 [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/thedeconstructors) [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/thedeconstructors) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
 
 # Krono
-Krono is an android app to manage and organize localized activities with friends or colleagues. It is also ad-free and open source under MIT license.
+Krono is an android app to manage and organize localized activities with friends or colleagues.
 
 ## Table of Contents
 
@@ -81,7 +81,6 @@ Reach out to us at one of the following places!
 - Github at <a href="https://github.com/thedeconstructors" target="_blank">The Deconstructors</a>
 - Contact with [team](#team) members
 
-## License
+## Copyright
 
-- This project is licensed under the **[MIT license](http://opensource.org/licenses/mit-license.php)**. Please see the LICENSE.md file for details.
 - Copyright 2020 © <a href="https://github.com/thedeconstructors" target="_blank">thedeconstructors</a>.
