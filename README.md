@@ -13,7 +13,7 @@ Krono is an android app to manage and organize localized activities with friends
 - [Permissions](#permissions)
 - [Team](#team)
 - [Support](#support)
-- [License](#license)
+- [Copyright](#copyright)
 
 ## Features
 | **Main Menu** | **Bank of Activities** |
@@ -83,4 +83,4 @@ Reach out to us at one of the following places!
 
 ## Copyright
 
-- Copyright 2020 © <a href="https://github.com/thedeconstructors" target="_blank">thedeconstructors</a>.
+Copyright 2020 © <a href="https://github.com/thedeconstructors" target="_blank">thedeconstructors</a>.
