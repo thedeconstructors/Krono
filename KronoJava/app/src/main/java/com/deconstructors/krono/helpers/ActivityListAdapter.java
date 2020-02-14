@@ -1,4 +1,4 @@
-package com.deconstructors.krono.activities.activities;
+package com.deconstructors.krono.helpers;
 
 import com.deconstructors.structures.Activity;
 import android.graphics.Color;

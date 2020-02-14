@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.ActivityListAdapter;
 import com.deconstructors.krono.helpers.SwipeController;
 import com.deconstructors.structures.Activity;
 import com.google.firebase.firestore.DocumentChange;

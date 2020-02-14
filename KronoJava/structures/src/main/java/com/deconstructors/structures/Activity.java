@@ -13,6 +13,7 @@ public class Activity
     private boolean _isPublic;
     private String _duration;
     private boolean _isSelected;
+    private String _activityId;
     //Integer user_id;
 
     //boolean collaborative;
@@ -29,6 +30,19 @@ public class Activity
      * Postcondition:   .
      ************************************************************************/
     public Activity() { }
+
+    /************************************************************************
+     * Purpose:         Copy Constructor
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public Activity(Activity copy)
+    {
+        this._title = copy._title;
+        this._description = copy._description;
+        this._duration = copy._duration;
+        this._activityId = copy._activityId;
+    }
 
     /************************************************************************
      * Purpose:         3 Arg Constructor
@@ -62,6 +76,9 @@ public class Activity
 
     public String getDuration() { return _duration + "m"; }
     public void setDuration(String duration) { _duration = duration; }
+
+    public String getId() { return _activityId + "m"; }
+    public void setId(String id) { _activityId = id; }
 
     /************************************************************************
      * Purpose:         Is this Activity Selected
