@@ -8,5 +8,6 @@
     android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    <!-- Light Popup Theme is for the menu button style (white) -->
 
 </androidx.appcompat.widget.Toolbar>

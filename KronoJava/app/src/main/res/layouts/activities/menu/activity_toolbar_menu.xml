@@ -3,13 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Toolbar - Search Button -->
+    <!-- Menu0_Activities -> onCreateOptionsMenu -> SearchView -->
+    <!-- 1. -->
+    <!-- https://developer.android.com/training/appbar/action-views -->
+    <!-- https://stackoverflow.com/questions/57328057/does-searchview-with-appshowasaction-ifroomcollapseactionview-have-bug -->
+    <!-- There is a bug from using ifRoom in xml -->
+    <!-- 2. -->
+    <!-- Do not use android.widget.SearchView -->
     <item android:id="@+id/activity_toolbar_searchbutton"
         android:icon="@drawable/toolbar_searchbutton_white"
         android:title="Search Button"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <!-- Toolbar - Menu - Sort By -->
     <item android:id="@+id/activity_toolbar_sortbybutton"
         android:title="Sort By"
         app:showAsAction="never"/>
+
+    <!-- Add more menu items later -->
+
+
 </menu>
