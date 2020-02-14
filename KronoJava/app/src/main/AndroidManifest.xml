@@ -42,8 +42,8 @@
 
         <service
             android:name=".helpers.MyTileService"
-            android:icon="@drawable/tileservice_inactive"
-            android:label="@string/MenuTitle"
+            android:icon="@drawable/quicktile_addactivity"
+            android:label="@string/quick_tile_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

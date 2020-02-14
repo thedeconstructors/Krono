@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Krono</string>
+    <!-- Quick Settings Tile -->
+    <string name="quick_tile_title">Krono Activity</string>
 
     <!-- Main Menu Items -->
     <string name="MenuTitle">Krono!</string>
