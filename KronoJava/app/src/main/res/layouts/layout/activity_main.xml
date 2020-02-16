@@ -76,7 +76,8 @@
         <androidx.cardview.widget.CardView style="@style/MainMenu_CardView_Style">
             <TextView style="@style/MainMenu_TextView_Style"
                 android:drawableTop="@drawable/menuitem5"
-                android:text="@string/MenuItem5" />
+                android:text="Logout"
+                android:textColor="@color/red"/>
         </androidx.cardview.widget.CardView>
     </GridLayout>
 </LinearLayout>

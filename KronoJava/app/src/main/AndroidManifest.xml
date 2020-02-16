@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.deconstructors.krono">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,35 +12,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activities.plans.NewPlan"
-            android:parentActivityName=".activities.plans.Menu1_Plans" />
-        <activity android:name=".activities.friends.Menu3_Friends" />
-        <activity android:name=".activities.profile.Menu4_Users" />
-        <activity android:name=".activities.plans.Menu1_Plans" />
+
+        <!-- Login -->
+        <activity android:name=".activities.login.LoginPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Main Menu -->
+        <activity android:name=".activities.MainActivity" />
+        <!-- Menu 0 Activities -->
         <activity
             android:name=".activities.activities.Menu0_Activities"
             android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".activities.activities.NewActivity"
             android:parentActivityName=".activities.activities.Menu0_Activities" />
-        <activity android:name=".activities.MainActivity" />
-        <!--
- The following sets the login screen as the default boot screen and includes
-            the other login screens for use in the app
-        -->
+        <!-- Menu 1 Plan -->
         <activity
-            android:name=".activities.login.LoginActivity"
-            android:parentActivityName=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".activities.plans.Menu1_Plans"
+            android:parentActivityName=".activities.MainActivity"/>
+        <activity
+            android:name=".activities.plans.NewPlan"
+            android:parentActivityName=".activities.plans.Menu1_Plans" />
+        <!-- Menu 2 Calendar -->
+        <!-- Menu 3 Friends -->
+        <activity android:name=".activities.friends.Menu3_Friends" />
+        <!-- Menu 4 Users -->
+        <activity android:name=".activities.profile.Menu4_Users" />
+        <!-- Menu 5 Settings -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activities.login.LoginEmailPass" />
-        <activity android:name=".activities.login.LoginEmailPassRegister" />
-
+        <!-- Tile Service -->
         <service
             android:name=".helpers.MyTileService"
             android:icon="@drawable/quicktile_addactivity"

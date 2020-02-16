@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.ActivityListAdapter;
+import com.deconstructors.krono.activities.activities.ActivityRVAdapter;
 import com.deconstructors.krono.helpers.SessionData;
 import com.deconstructors.structures.Activity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,12 +45,12 @@ public class NewPlan extends AppCompatActivity
 
     //MyActivities box vars
     private RecyclerView myActivities_RecyclerView;
-    private ActivityListAdapter myActivities_ActivityListAdapter;
+    private ActivityRVAdapter myActivities_ActivityListAdapter;
     private List<Activity> myActivities_ActivityList;
 
     //Plan Activities box vars
     private RecyclerView planActivities_RecyclerView;
-    private ActivityListAdapter planActivities_ActivityListAdapter;
+    private ActivityRVAdapter planActivities_ActivityListAdapter;
     private List<Activity> planActivities_ActivityList;
 
     /****************************************
@@ -145,7 +145,7 @@ public class NewPlan extends AppCompatActivity
     {
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         myActivities_ActivityList = new ArrayList<>();
-        myActivities_ActivityListAdapter = new ActivityListAdapter(myActivities_ActivityList);
+        myActivities_ActivityListAdapter = new ActivityRVAdapter(myActivities_ActivityList);
 
         myActivities_RecyclerView = (RecyclerView)findViewById(R.id.recyclerMyActivities);
         myActivities_RecyclerView.setHasFixedSize(true);
@@ -196,7 +196,7 @@ public class NewPlan extends AppCompatActivity
     {
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         planActivities_ActivityList = new ArrayList<>();
-        planActivities_ActivityListAdapter = new ActivityListAdapter(planActivities_ActivityList);
+        planActivities_ActivityListAdapter = new ActivityRVAdapter(planActivities_ActivityList);
 
         planActivities_RecyclerView = (RecyclerView)findViewById(R.id.recyclerPlan);
         planActivities_RecyclerView.setHasFixedSize(true);

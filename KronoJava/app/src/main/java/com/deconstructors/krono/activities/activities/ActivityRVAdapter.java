@@ -1,4 +1,4 @@
-package com.deconstructors.krono.helpers;
+package com.deconstructors.krono.activities.activities;
 
 import com.deconstructors.structures.Activity;
 import android.graphics.Color;
@@ -18,10 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /************************************************************************
- * Class:           ActivityListAdapter
- * Purpose:         To customize list view layout
+ * Class:           ActivityRVAdapter
+ * Purpose:         Provide a binding from an app-specific data set to
+ *  *                  views that are displayed within the RecyclerView.
  ************************************************************************/
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.ViewHolder> implements Filterable
+public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.ViewHolder> implements Filterable
 {
     private List<Activity> _ActivityList; // The original List
     private List<Activity> _ActivityListFull; // For Search Filter
@@ -31,7 +32,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public ActivityListAdapter(List<Activity> ActivityList)
+    public ActivityRVAdapter(List<Activity> ActivityList)
     {
         this._ActivityList = ActivityList;
         // List = an interface
@@ -84,7 +85,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     /************************************************************************
      * Purpose:         List Item Size Getter
      * Precondition:    .
-     * Postcondition:   .
+     * Postcondition:   Return the number of items in the list
      ************************************************************************/
     @Override
     public int getItemCount()
@@ -123,7 +124,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      *                  In this way, our app won't freeze even if the logic
      *                  is complicated, and if results are huge.
      *                  The result will automatically published to
-     *                  "publishResults"
+     *                  "publishResults" in the end.
      ************************************************************************/
     private Filter _ActivityListFilter = new Filter()
     {
@@ -164,6 +165,11 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     };
 
+    /************************************************************************
+     * Purpose:         Get Filter Override
+     * Precondition:    .
+     * Postcondition:   Return Activity Toolbar Search Filter
+     ************************************************************************/
     @Override
     public Filter getFilter()
     {

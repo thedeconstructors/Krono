@@ -21,98 +21,148 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.ActivityListAdapter;
 import com.deconstructors.krono.helpers.SwipeController;
 import com.deconstructors.structures.Activity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu0_Activities extends AppCompatActivity
-{
+public class Menu0_Activities extends AppCompatActivity {
     // Error Handler Log Search
-    private static final String m_Tag = "Krono_Firebase_Log";
+    private static final String _Tag = "Krono_Menu0_Log";
+    private static final String _dbPath = "useractivities";
 
-    // Database
-    private FirebaseFirestore m_Firestore;
+    // Variables
+    private List<Activity> _ActivityList = new ArrayList<>();
+    private ActivityRVAdapter _ActivityRVAdapter;
+    private DocumentSnapshot _LastQueriedList;
 
-    // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
+    // XML Widgets
     private RecyclerView _RecyclerView;
-    private ActivityListAdapter _ActivityListAdapter;
-    private List<Activity> _ActivityList;
-
-    //Swipe Controller
-    SwipeController swipeController = new SwipeController();
-    ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+    private Toolbar _ActivityToolbar;
+    private SwipeController swipeController;
+    private ItemTouchHelper itemTouchhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu0_activities);
+        _RecyclerView = findViewById(R.id.MainMenu_ActivityListID);
+        _ActivityToolbar = findViewById(R.id.menu0_toolbar);
 
-        // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
-        _ActivityList = new ArrayList<>();
-        _ActivityListAdapter = new ActivityListAdapter(_ActivityList);
+        setUpRecyclerView();
+        setupToolbar();
+        getActivities();
+    }
 
-        _RecyclerView = (RecyclerView)findViewById(R.id.MainMenu_ActivityListID);
+    /***********************************************************************
+     * Purpose:         Setup the RecyclerView
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setUpRecyclerView()
+    {
+        if (_ActivityRVAdapter == null)
+        {
+            _ActivityRVAdapter = new ActivityRVAdapter(_ActivityList);
+        }
+
         _RecyclerView.setHasFixedSize(true);
         _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        _RecyclerView.setAdapter(_ActivityListAdapter);
-        itemTouchhelper.attachToRecyclerView(_RecyclerView);
+        _RecyclerView.setAdapter(_ActivityRVAdapter);
 
-        // Database Listener
-        m_Firestore = FirebaseFirestore.getInstance();
-        m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
+        // Touch Control
+        swipeController = new SwipeController();
+        itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(_RecyclerView);
+    }
+
+    /***********************************************************************
+     * Purpose:         Setup the Toolbar
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setupToolbar()
+    {
+        setSupportActionBar(_ActivityToolbar);
+        getSupportActionBar().setTitle("Activities Menu");
+        // Toolbar Back Button
+        // Toolbar doesn't need a button click event because of this
+        // AndroidMenifest.xml -> Set Parent Activity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    /***********************************************************************
+     * Purpose:         Get Activities
+     * Precondition:    .
+     * Postcondition:   Retrieve Activities from the database
+     *                  Checks for the uid to get items from a specific user
+     *
+     ************************************************************************/
+    private void getActivities()
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference activitiesCollectionRef = db.collection(_dbPath);
+
+        Query activitiesQuery = null;
+        if(_LastQueriedList != null)
         {
-            /************************************************************************
-             * Purpose:         On Event
-             * Precondition:    An Item has been added
-             * Postcondition:   Change the Activity list accordingly and
-             *                  Notify the adapter
-             *                  This way, we don't have to scan DB every time
-             ************************************************************************/
+            activitiesQuery = activitiesCollectionRef
+                    .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    //.orderBy("datetime", Query.Direction.ASCENDING)
+                    .startAfter(_LastQueriedList);
+        }
+        else
+        {
+            activitiesQuery = activitiesCollectionRef
+                    .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    //.orderBy("datetime", Query.Direction.ASCENDING);
+        }
+
+        activitiesQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
             @Override
-            public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e)
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
             {
-                if (e != null)
+                if (task.isSuccessful())
                 {
-                    Log.d(m_Tag, "Error : " + e.getMessage());
+                    for(QueryDocumentSnapshot document: task.getResult())
+                    {
+                        Activity note = document.toObject(Activity.class);
+                        _ActivityList.add(note);
+                    }
+
+                    // To not replicate items users already have
+                    if(task.getResult().size() != 0)
+                    {
+                        _LastQueriedList = task.getResult().getDocuments()
+                                .get(task.getResult().size() - 1);
+                    }
+
+                    _ActivityRVAdapter.notifyDataSetChanged();
                 }
                 else
                 {
-                    // Document contains data read from a document in your Firestore database
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                    {
-                        if (doc.getType() == DocumentChange.Type.ADDED)
-                        {
-                            // Arrange the data according to the model class
-                            // All by itself
-                            Activity activity = doc.getDocument().toObject(Activity.class);
-                            _ActivityList.add(activity);
-
-                            // Notify the Adapter something is changed
-                            _ActivityListAdapter.notifyDataSetChanged();
-                        }
-                    }
+                    //
                 }
             }
         });
-
-        // Toolbar Integration
-        Toolbar toolbar = findViewById(R.id.menu0_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Activities Menu");
-
-        // Doesn't need a button click even because
-        // AndroidMenifest.xml -> Set Parent Activity
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    /******************************* XML ***********************************/
 
     /************************************************************************
      * Purpose:         Toolbar Menu Inflater
@@ -142,7 +192,7 @@ public class Menu0_Activities extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                _ActivityListAdapter.getFilter().filter(newText);
+                _ActivityRVAdapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -151,10 +201,10 @@ public class Menu0_Activities extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Options Item Selected
+     * Purpose:         Toolbar Menu Options - Item Selected
      * Precondition:    .
      * Postcondition:   See more from res/menu/activity_boolbar_menu
-    *                   and layout/menu0_toolbar
+     *                   and layout/menu0_toolbar
      ************************************************************************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
@@ -164,16 +214,15 @@ public class Menu0_Activities extends AppCompatActivity
             case R.id.activity_toolbar_sortbybutton:
                 Toast.makeText(this, "Sort By button selected", Toast.LENGTH_SHORT).show();
                 return true;
+
+            case R.id.activity_toolbar_simpleview:
+                Toast.makeText(this, "Simple View button selected", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /************************************************************************
-     * Purpose:         Create New Activity - The Hovering Smart Button
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
     public void btnNewActivity(View view)
     {
         Intent intent = new Intent(this, NewActivity.class);

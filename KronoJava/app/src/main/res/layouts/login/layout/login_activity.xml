@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.login.LoginActivity">
+    tools:context=".activities.login.LoginPage">
 
     <TextView
         android:id="@+id/login_prompt"
