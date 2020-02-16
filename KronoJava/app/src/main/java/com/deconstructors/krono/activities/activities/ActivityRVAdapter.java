@@ -51,7 +51,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu0_activitylist_item, parent, false);
+        int temp_res = R.layout.menu0_activitylist_item;
+        View view = LayoutInflater.from(parent.getContext()).inflate(temp_res, parent, false);
         return new ViewHolder(view);
     }
 
@@ -69,17 +70,11 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         holder._nameText.setText(_ActivityList.get(position).getTitle());
         holder._descriptionText.setText(_ActivityList.get(position).getDescription());
         holder._durationText.setText(_ActivityList.get(position).getDuration());
+    }
 
-        holder._view.setBackgroundColor(temp_activity.isSelected() ? Color.rgb(208,208,208) : Color.WHITE);
-        holder._view.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                temp_activity.setSelected(!temp_activity.isSelected());
-                holder._view.setBackgroundColor(temp_activity.isSelected() ? Color.rgb(208,208,208) : Color.WHITE);
-            }
-        });
+    public int getSelectedBGColor(Activity activity)
+    {
+        return activity.isSelected() ? Color.rgb(208,208,208) : Color.WHITE;
     }
 
     /************************************************************************
@@ -92,27 +87,40 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     {
         return _ActivityList == null ? 0 : _ActivityList.size();
     }
+    public int getFullCount()
+    {
+        return _ActivityListFull == null ? 0 : _ActivityListFull.size();
+    }
 
     /************************************************************************
      * Purpose:         List Item Size Getter
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        View _view;
-        public TextView _nameText;
-        public TextView _descriptionText;
-        public TextView _durationText;
+        private View _view;
+        private TextView _nameText;
+        private TextView _descriptionText;
+        private TextView _durationText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             _view = itemView;
-
             _nameText = (TextView) _view.findViewById(R.id.activitylist_name_text);
             _descriptionText = (TextView) _view.findViewById(R.id.activitylist_description_text);
             _durationText = (TextView) _view.findViewById(R.id.activitylist_duration_text);
+
+            _view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            final Activity temp_activity = _ActivityList.get(getAdapterPosition());
+            temp_activity.setSelected(!temp_activity.isSelected());
+            view.setBackgroundColor(getSelectedBGColor(temp_activity));
         }
     }
 
@@ -132,15 +140,14 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         protected FilterResults performFiltering(CharSequence constraint)
         {
             List<Activity> filteredList = new ArrayList<>();
+            String filterPattern = constraint.toString().toLowerCase().trim();
 
             if (constraint == null || constraint.length() == 0)
             {
-                filteredList.addAll(_ActivityListFull);
+                filteredList = new ArrayList<>(_ActivityListFull);
             }
             else
             {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
                 for (Activity activity : _ActivityListFull)
                 {
                     if (activity.getTitle().toLowerCase().contains(filterPattern))
@@ -163,6 +170,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
             _ActivityList.addAll((List)results.values);
             notifyDataSetChanged();
         }
+
+
     };
 
     /************************************************************************
@@ -174,5 +183,10 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     public Filter getFilter()
     {
         return _ActivityListFilter;
+    }
+
+    public void CopyFullList()
+    {
+        _ActivityListFull = new ArrayList<>(_ActivityList);
     }
 }

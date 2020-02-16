@@ -36,12 +36,13 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(Activity copy)
+    public Activity(Activity activity)
     {
-        this._title = copy._title;
-        this._description = copy._description;
-        this._duration = copy._duration;
-        this._activityId = copy._activityId;
+        this._title = activity._title;
+        this._description = activity._description;
+        this._duration = activity._duration;
+        this._isSelected = activity._isSelected;
+        this._activityId = activity._activityId;
     }
 
     /************************************************************************
@@ -54,6 +55,7 @@ public class Activity
         this._title = title;
         this._description = description;
         this._duration = duration;
+        this._isSelected = false;
     }
 
     /************************************************************************
