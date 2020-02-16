@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.login.RegisterPage"
+            android:parentActivityName=".activities.login.LoginPage"/>
 
         <!-- Main Menu -->
         <activity android:name=".activities.MainActivity" />
@@ -39,9 +42,13 @@
             android:parentActivityName=".activities.plans.Menu1_Plans" />
         <!-- Menu 2 Calendar -->
         <!-- Menu 3 Friends -->
-        <activity android:name=".activities.friends.Menu3_Friends" />
+        <activity
+            android:name=".activities.friends.Menu3_Friends"
+            android:parentActivityName=".activities.MainActivity"/>
         <!-- Menu 4 Users -->
-        <activity android:name=".activities.profile.Menu4_Users" />
+        <activity
+            android:name=".activities.profile.Menu4_Users"
+            android:parentActivityName=".activities.MainActivity"/>
         <!-- Menu 5 Settings -->
 
         <!-- Tile Service -->

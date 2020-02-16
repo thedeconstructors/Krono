@@ -225,6 +225,12 @@ public class LoginPage extends AppCompatActivity
                 });
     }
 
+    public void onRegisterButtonClick(View view)
+    {
+        Intent intent = new Intent(this, RegisterPage.class);
+        startActivity(intent);
+    }
+
     /****************************** Online *********************************/
 
     /***********************************************************************
