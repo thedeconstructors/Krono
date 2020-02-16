@@ -25,7 +25,7 @@ import java.util.List;
 public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.ViewHolder> implements Filterable
 {
     private List<Activity> _ActivityList; // The original List
-    private List<Activity> _ActivityListFull; // For Search Filter
+    private List<Activity> _ActivityFilterList; // For Search Filter
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
@@ -35,10 +35,17 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     public ActivityRVAdapter(List<Activity> ActivityList)
     {
         this._ActivityList = ActivityList;
-        // List = an interface
-        // ArrayList = a class and subtype of List interface
-        // In Java, supertype can store an object of subtype
-        this._ActivityListFull = new ArrayList<>(ActivityList);
+        this._ActivityFilterList = ActivityList;
+    }
+
+    /************************************************************************
+     * Purpose:         resetFilterList
+     * Precondition:    onQueryTextChange
+     * Postcondition:   Reset _ActivityFilterList after search
+     ************************************************************************/
+    public void resetFilterList()
+    {
+        this._ActivityFilterList = new ArrayList<>(_ActivityList);
     }
 
     /************************************************************************
@@ -65,11 +72,11 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
     {
-        final Activity temp_activity =  _ActivityList.get(position);
+        final Activity temp_activity =  _ActivityFilterList.get(position);
 
-        holder._nameText.setText(_ActivityList.get(position).getTitle());
-        holder._descriptionText.setText(_ActivityList.get(position).getDescription());
-        holder._durationText.setText(_ActivityList.get(position).getDuration());
+        holder._nameText.setText(_ActivityFilterList.get(position).getTitle());
+        holder._descriptionText.setText(_ActivityFilterList.get(position).getDescription());
+        holder._durationText.setText(_ActivityFilterList.get(position).getDuration());
     }
 
     public int getSelectedBGColor(Activity activity)
@@ -85,11 +92,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public int getItemCount()
     {
-        return _ActivityList == null ? 0 : _ActivityList.size();
-    }
-    public int getFullCount()
-    {
-        return _ActivityListFull == null ? 0 : _ActivityListFull.size();
+        return _ActivityFilterList == null ? 0 : _ActivityFilterList.size();
     }
 
     /************************************************************************
@@ -118,7 +121,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         public void onClick(View view)
         {
-            final Activity temp_activity = _ActivityList.get(getAdapterPosition());
+            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
             temp_activity.setSelected(!temp_activity.isSelected());
             view.setBackgroundColor(getSelectedBGColor(temp_activity));
         }
@@ -144,11 +147,11 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
 
             if (constraint == null || constraint.length() == 0)
             {
-                filteredList = new ArrayList<>(_ActivityListFull);
+                filteredList = new ArrayList<>(_ActivityFilterList);
             }
             else
             {
-                for (Activity activity : _ActivityListFull)
+                for (Activity activity : _ActivityFilterList)
                 {
                     if (activity.getTitle().toLowerCase().contains(filterPattern))
                     {
@@ -166,8 +169,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results)
         {
-            _ActivityList.clear();
-            _ActivityList.addAll((List)results.values);
+            _ActivityFilterList.clear();
+            _ActivityFilterList.addAll((List)results.values);
             notifyDataSetChanged();
         }
 
@@ -183,10 +186,5 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     public Filter getFilter()
     {
         return _ActivityListFilter;
-    }
-
-    public void CopyFullList()
-    {
-        _ActivityListFull = new ArrayList<>(_ActivityList);
     }
 }

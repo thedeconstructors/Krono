@@ -188,8 +188,8 @@ public class Menu0_Activities extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                _ActivityRVAdapter.CopyFullList();
                 _ActivityRVAdapter.getFilter().filter(newText);
+                _ActivityRVAdapter.resetFilterList();
                 return false;
             }
         });
@@ -207,7 +207,6 @@ public class Menu0_Activities extends AppCompatActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
         int x = _ActivityRVAdapter.getItemCount();
-        int y = _ActivityRVAdapter.getFullCount();
 
         switch (item.getItemId())
         {
@@ -216,7 +215,7 @@ public class Menu0_Activities extends AppCompatActivity
                 return true;
 
             case R.id.activity_toolbar_simpleview:
-                Toast.makeText(this, "Item Count: " + x + " Full Count: " + y, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Item Count: " + x, Toast.LENGTH_SHORT).show();
                 return true;
         }
 
