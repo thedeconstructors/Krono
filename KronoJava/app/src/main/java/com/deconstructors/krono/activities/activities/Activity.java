@@ -1,6 +1,6 @@
 package com.deconstructors.krono.activities.activities;
 
-import com.google.firebase.firestore.ServerTimestamp;
+import com.google.firebase.Timestamp;
 
 /************************************************************************
  * Class:           Activity
@@ -11,7 +11,7 @@ public class Activity
     private String _activityId;
     private String _title;
     private String _description;
-    private @ServerTimestamp String _timestamp;
+    private Timestamp _timestamp;
     private boolean _isSelected;
 
     //String location_start;
@@ -43,12 +43,12 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String activityID, String title, String description, String timestamp)
+    public Activity(String title, String description, Timestamp timestamp)
     {
-        this._activityId = activityID;
+        //this._activityId = activityID;
         this._title = title;
         this._description = description;
-        this._timestamp = timestamp;
+        this._timestamp = timestamp; //timestamp.toString();
         this._isSelected = false;
     }
 
@@ -69,11 +69,8 @@ public class Activity
     public String getDescription(){ return _description; }
     public void setDescription(String description) { this._description = description; }
 
-    public String getTimestamp(){ return _timestamp; }
-    public void setTimestamp(String description) { this._description = description; }
-
-    public String getDuration() { return _timestamp + "m"; }
-    public void setDuration(String duration) { _timestamp = duration; }
+    public Timestamp getTimestamp(){ return _timestamp; }
+    public void setTimestamp(Timestamp timestamp) { this._timestamp = timestamp; }
 
     public String getId() { return _activityId + "m"; }
     public void setId(String id) { _activityId = id; }
