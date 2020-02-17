@@ -216,8 +216,7 @@ public class LoginPage extends AppCompatActivity
                         }
                         else
                         {
-                            //Log.d(_Tag, task.getResult().toString());
-                            Log.d(_Tag, task.getException().toString());
+                            //Log.d(_Tag, task.getException().toString());
                             startSnackbarMessage("Failed to sign in anonymously");
                             setProgressbar(false);
                         }
@@ -246,6 +245,11 @@ public class LoginPage extends AppCompatActivity
 
     /******************************* Others *********************************/
 
+    /***********************************************************************
+     * Purpose:         startSnackbarMessage
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void startSnackbarMessage(String string)
     {
         Snackbar.make(_relativeLayout, string, Snackbar.LENGTH_SHORT).show();
@@ -280,7 +284,7 @@ public class LoginPage extends AppCompatActivity
     /***********************************************************************
      * Purpose:         getText
      * Precondition:    .
-     * Postcondition:   Checks if EditText Field is Empty
+     * Postcondition:   Return String from EditText Field
      ************************************************************************/
     private String getText(EditText editText)
     {
@@ -290,7 +294,7 @@ public class LoginPage extends AppCompatActivity
     /***********************************************************************
      * Purpose:         setProgressbar
      * Precondition:    .
-     * Postcondition:   enable or disable Progressbar
+     * Postcondition:   Enable or Disable Progressbar
      ************************************************************************/
     private void setProgressbar(boolean bool)
     {

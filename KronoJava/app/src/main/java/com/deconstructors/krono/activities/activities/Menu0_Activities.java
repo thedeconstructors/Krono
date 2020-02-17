@@ -6,21 +6,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import androidx.appcompat.widget.SearchView;
-
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SwipeController;
-import com.deconstructors.structures.Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,11 +33,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu0_Activities extends AppCompatActivity
+public class Menu0_Activities
+        extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener
 {
     // Error Handler Log Search
     private static final String _Tag = "Krono_Menu0_Log";
     private static final String _dbPath = "useractivities";
+
 
     // Variables
     private List<Activity> _ActivityList = new ArrayList<>();
@@ -50,6 +52,7 @@ public class Menu0_Activities extends AppCompatActivity
     private Toolbar _ActivityToolbar;
     private SwipeController swipeController;
     private ItemTouchHelper itemTouchhelper;
+    private SwipeRefreshLayout _SwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +61,8 @@ public class Menu0_Activities extends AppCompatActivity
         setContentView(R.layout.activity_menu0_activities);
         _RecyclerView = findViewById(R.id.MainMenu_ActivityListID);
         _ActivityToolbar = findViewById(R.id.menu0_toolbar);
+        _SwipeRefreshLayout = findViewById(R.id.MainMenu_SwipeRefreshLayoutID);
+        _SwipeRefreshLayout.setOnRefreshListener(this);
 
         setUpRecyclerView();
         setupToolbar();
@@ -222,9 +227,26 @@ public class Menu0_Activities extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /************************************************************************
+     * Purpose:         New Activity Button Click Event
+     * Precondition:    The Floating Action Button Clicked
+     * Postcondition:   Start NewActivity Intent
+     ************************************************************************/
     public void btnNewActivity(View view)
     {
         Intent intent = new Intent(this, NewActivity.class);
         startActivity(intent);
+    }
+
+    /************************************************************************
+     * Purpose:         on Recycler View Refresh
+     * Precondition:    Swipe Up SwipeRefreshLayout Containing RecyclerView
+     * Postcondition:   get Activities Manually
+     ************************************************************************/
+    @Override
+    public void onRefresh()
+    {
+        this.getActivities();
+        _SwipeRefreshLayout.setRefreshing(false);
     }
 }

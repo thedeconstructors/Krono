@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.deconstructors.structures.Plans;
 import com.deconstructors.krono.helpers.PlansListAdapter;
 import com.deconstructors.krono.R;
 import com.google.firebase.firestore.DocumentChange;

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,10 +11,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 class IntegerCounter {
@@ -47,6 +44,7 @@ class IntegerCounter {
 
 public class FirestoreDB {
 
+    // note: static FirebaseFirestore can leak contexts
     private static FirebaseFirestore db;
 
     //sets database in focus
@@ -76,7 +74,7 @@ public class FirestoreDB {
     public static void GetUserActivities(String userid, final ListHandler handler)
     {
         //get all the documents from the 'users' collection with userid
-        Query user = db.collection("userstoactivities").whereArrayContains("userid",userid);
+        Query user = db.collection("userstoactivities").whereArrayContains("userid", userid);
         OnCompleteListener<QuerySnapshot> getDataListener = new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

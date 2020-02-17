@@ -1,4 +1,4 @@
-package com.deconstructors.structures;
+package com.deconstructors.krono.activities.plans;
 
 /************************************************************************
  * Class:           Plans

@@ -1,6 +1,6 @@
 package com.deconstructors.krono.helpers;
 
-import com.deconstructors.structures.Plans;
+import com.deconstructors.krono.activities.plans.Plans;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

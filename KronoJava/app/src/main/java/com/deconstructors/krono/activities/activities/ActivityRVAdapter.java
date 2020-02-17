@@ -1,6 +1,5 @@
 package com.deconstructors.krono.activities.activities;
 
-import com.deconstructors.structures.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
 {
     private List<Activity> _ActivityList; // The original List
     private List<Activity> _ActivityFilterList; // For Search Filter
+    private List<Activity> _ActivitySelectList; // For Multi-Select
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
@@ -100,8 +100,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private View _view;
         private TextView _nameText;
         private TextView _descriptionText;
@@ -115,6 +114,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
             _descriptionText = (TextView) _view.findViewById(R.id.activitylist_description_text);
             _durationText = (TextView) _view.findViewById(R.id.activitylist_duration_text);
 
+            _view.setOnLongClickListener(this);
             _view.setOnClickListener(this);
         }
 
@@ -124,6 +124,13 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
             final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
             temp_activity.setSelected(!temp_activity.isSelected());
             view.setBackgroundColor(getSelectedBGColor(temp_activity));
+        }
+
+        @Override
+        public boolean onLongClick(View v)
+        {
+
+            return false;
         }
     }
 

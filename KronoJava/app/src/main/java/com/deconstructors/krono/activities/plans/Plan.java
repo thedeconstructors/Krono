@@ -1,5 +1,7 @@
-package com.deconstructors.structures;
+package com.deconstructors.krono.activities.plans;
 
+
+import com.deconstructors.krono.activities.activities.Activity;
 
 public class Plan {
 

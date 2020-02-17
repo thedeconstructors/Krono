@@ -1,6 +1,6 @@
-package com.deconstructors.structures;
+package com.deconstructors.krono.activities.activities;
 
-import android.content.Context;
+import com.google.firebase.firestore.ServerTimestamp;
 
 /************************************************************************
  * Class:           Activity
@@ -8,21 +8,14 @@ import android.content.Context;
  ************************************************************************/
 public class Activity
 {
+    private String _activityId;
     private String _title;
     private String _description;
-    private boolean _isPublic;
-    private String _duration;
+    private @ServerTimestamp String _timestamp;
     private boolean _isSelected;
-    private String _activityId;
-    //Integer user_id;
-
-    //boolean collaborative;
-    //boolean publicity;
 
     //String location_start;
     //String location_end;
-    //String time_start;
-    //String time_end;
 
     /************************************************************************
      * Purpose:         Default Constructor
@@ -38,11 +31,11 @@ public class Activity
      ************************************************************************/
     public Activity(Activity activity)
     {
+        this._activityId = activity._activityId;
         this._title = activity._title;
         this._description = activity._description;
-        this._duration = activity._duration;
+        this._timestamp = activity._timestamp;
         this._isSelected = activity._isSelected;
-        this._activityId = activity._activityId;
     }
 
     /************************************************************************
@@ -50,11 +43,12 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String title, String description, String duration)
+    public Activity(String activityID, String title, String description, String timestamp)
     {
+        this._activityId = activityID;
         this._title = title;
         this._description = description;
-        this._duration = duration;
+        this._timestamp = timestamp;
         this._isSelected = false;
     }
 
@@ -67,17 +61,19 @@ public class Activity
      *                  I have no idea why this happened, but probably due
      *                  to the plan table using the activity array.
      ************************************************************************/
+    public String getActivityID() { return _activityId; }
+
     public String getTitle() { return _title; }
     public void setTitle(String title) { this._title = title; }
 
     public String getDescription(){ return _description; }
     public void setDescription(String description) { this._description = description; }
 
-    boolean GetIsPublic() { return _isPublic; }
-    public void SetIsPublic(boolean isPublic) { _isPublic = isPublic; }
+    public String getTimestamp(){ return _timestamp; }
+    public void setTimestamp(String description) { this._description = description; }
 
-    public String getDuration() { return _duration + "m"; }
-    public void setDuration(String duration) { _duration = duration; }
+    public String getDuration() { return _timestamp + "m"; }
+    public void setDuration(String duration) { _timestamp = duration; }
 
     public String getId() { return _activityId + "m"; }
     public void setId(String id) { _activityId = id; }
