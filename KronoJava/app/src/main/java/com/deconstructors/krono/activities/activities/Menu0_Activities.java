@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.SessionData;
 import com.deconstructors.krono.helpers.SwipeController;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -122,14 +123,14 @@ public class Menu0_Activities
         if(_LastQueriedList != null)
         {
             activitiesQuery = activitiesCollectionRef
-                    .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID())
                     //.orderBy("datetime", Query.Direction.ASCENDING)
                     .startAfter(_LastQueriedList);
         }
         else
         {
             activitiesQuery = activitiesCollectionRef
-                    .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID());
                     //.orderBy("datetime", Query.Direction.ASCENDING);
         }
 

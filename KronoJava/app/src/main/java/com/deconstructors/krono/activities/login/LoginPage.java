@@ -256,14 +256,53 @@ public class LoginPage extends AppCompatActivity
         String dev_email = "suptdeconstructors@gmail.com";
         String dev_password = "Destruct3d!";
 
+        _email.setText(dev_email);
+        _password.setText(dev_password);
+
+        onEmailLoginButtonClick(view);
+
+        /*
         FirebaseAuth.getInstance().signInWithEmailAndPassword(dev_email, dev_password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>()
                 {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
-                        startSnackbarMessage("Signed in");
-                        setProgressbar(false);
+                        final String loginid = task.getResult().getUser().getUid();
+                        //get user in db and set session id to its id
+                        FirebaseFirestore.getInstance().collection("users")
+                                .whereEqualTo("loginId",loginid)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
+                                        if (users.size() > 0)
+                                        {
+                                            SessionData.GetInstance().SetUserID(
+                                                    users.get(0).getId());
+                                            startSnackbarMessage("Signed in");
+                                            setProgressbar(false);
+                                            Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        else
+                                        {
+                                            startSnackbarMessage("No user found with login " + loginid);
+                                            setProgressbar(false);
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        startSnackbarMessage("Failed to retreive user:\n" +
+                                                e.toString());
+                                        setProgressbar(false);
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -274,7 +313,7 @@ public class LoginPage extends AppCompatActivity
                         startSnackbarMessage("Invalid email or password");
                         setProgressbar(false);
                     }
-                });
+                });*/
     }
 
     public void onGuestLoginButtonClick(View view)

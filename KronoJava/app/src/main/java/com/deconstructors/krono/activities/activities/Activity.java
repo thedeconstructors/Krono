@@ -12,6 +12,9 @@ public class Activity
     private String _title;
     private String _description;
     private Timestamp _timestamp;
+    private boolean _isPublic;
+    private String _ownerId;
+
     private boolean _isSelected;
 
     //String location_start;
@@ -35,6 +38,9 @@ public class Activity
         this._title = activity._title;
         this._description = activity._description;
         this._timestamp = activity._timestamp;
+        this._isPublic = activity._isPublic;
+        this._ownerId = activity._ownerId;
+
         this._isSelected = activity._isSelected;
     }
 
@@ -43,12 +49,15 @@ public class Activity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String title, String description, Timestamp timestamp)
+    public Activity(String title, String description, Timestamp timestamp, boolean isPublic, String ownerId)
     {
         //this._activityId = activityID;
         this._title = title;
         this._description = description;
         this._timestamp = timestamp; //timestamp.toString();
+        this._isPublic = isPublic;
+        this._ownerId = ownerId;
+
         this._isSelected = false;
     }
 
@@ -72,8 +81,14 @@ public class Activity
     public Timestamp getTimestamp(){ return _timestamp; }
     public void setTimestamp(Timestamp timestamp) { this._timestamp = timestamp; }
 
-    public String getId() { return _activityId + "m"; }
+    public String getId() { return _activityId; }
     public void setId(String id) { _activityId = id; }
+
+    public String getOwnerId() { return _ownerId; }
+    public void setOwnerId(String id) { _ownerId = id; }
+
+    public boolean IsPublic() { return _isPublic; }
+    public void setIsPublic(boolean set) { _isPublic = set; }
 
     /************************************************************************
      * Purpose:         Is this Activity Selected

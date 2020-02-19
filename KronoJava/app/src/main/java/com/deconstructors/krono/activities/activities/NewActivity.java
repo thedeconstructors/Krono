@@ -10,11 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +53,9 @@ public class NewActivity extends AppCompatActivity
         {
             userActivity.put("title", title.getText().toString());
             userActivity.put("description", description.getText().toString());
-            userActivity.put("duration", duration.getText().toString());
+            userActivity.put("timestamp", new Timestamp(new Date(0,0,0,0,45)));
             userActivity.put("isPublic", isPublic.isChecked());
+            userActivity.put("ownerId", SessionData.GetInstance().GetUserID());
 
             final Toast successMessage = Toast.makeText(NewActivity.this, "Activity Added Successfully.", Toast.LENGTH_SHORT);
             final Toast failureMessage = Toast.makeText(NewActivity.this, "Error: Could Not Add Activity.", Toast.LENGTH_SHORT);
