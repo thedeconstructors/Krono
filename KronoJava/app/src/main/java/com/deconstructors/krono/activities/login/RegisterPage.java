@@ -12,8 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.MainActivity;
 import com.deconstructors.krono.helpers.SessionData;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,6 +41,7 @@ public class RegisterPage extends AppCompatActivity
 
     // Used to get the email string from the previous activity
     String email;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class RegisterPage extends AppCompatActivity
         // Get email string from the previous intent
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
+        password = intent.getStringExtra("password");
     }
 
     public void registerEmailOnClick(View view) {
@@ -58,35 +65,29 @@ public class RegisterPage extends AppCompatActivity
         if (firstName.getText().toString() != "" && lastName.getText().toString() != "") {
 
             // Store the first and last name and email in the user map
+            /*
             user.put("first_name", firstName.getText().toString());
             user.put("last_name", lastName.getText().toString());
-            user.put("email", email);
+            user.put("email", email);*/
 
-            // Add a new document with a generated ID
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users")
-                    .add(user)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            //add user to FirebaseAuth
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            // Display success message.
-                            Toast.makeText(RegisterPage.this, "User Added Successfully.", Toast.LENGTH_SHORT).show();
-                            //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-
-                            // Update the session id with newly created record id
-                            SessionData.GetInstance().SetUserID(documentReference.getId());
-                            //change page
-                            Intent intent = new Intent(RegisterPage.this, MainActivity.class);
-                            startActivity(intent);
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(RegisterPage.this,
+                                    authResult.getUser().getEmail().toString() +
+                                            " Added Successfully.",
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            // Display error message
-                            Toast.makeText(RegisterPage.this, "Error: Could Not Add User.",
+                            Toast.makeText(RegisterPage.this, "Error: Could Not Add User: " +
+                                    e.getMessage().toString(),
                                     Toast.LENGTH_SHORT).show();
-                            //Log.w(TAG, "Error adding document", e);
                         }
                     });
         }

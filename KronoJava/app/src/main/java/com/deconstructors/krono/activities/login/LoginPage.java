@@ -115,7 +115,7 @@ public class LoginPage extends AppCompatActivity
      * Precondition:    Comes right after onPause and before onDestroy
      * Postcondition:   Remove Firebase Authentication Listener On Stop
      ************************************************************************/
-    @Override
+    /*@Override
     public void onStop()
     {
         super.onStop();
@@ -123,7 +123,7 @@ public class LoginPage extends AppCompatActivity
         {
             FirebaseAuth.getInstance().removeAuthStateListener(_AuthStateListener);
         }
-    }
+    }*/
 
     /****************************** Login **********************************/
 
@@ -226,8 +226,17 @@ public class LoginPage extends AppCompatActivity
 
     public void onRegisterButtonClick(View view)
     {
-        Intent intent = new Intent(this, RegisterPage.class);
-        startActivity(intent);
+        if (!isEmpty(_email) && !isEmpty(_password))
+        {
+            Intent intent = new Intent(this, RegisterPage.class);
+            intent.putExtra("email", getText(_email));
+            intent.putExtra("password", getText(_password));
+            startActivity(intent);
+        }
+        else
+        {
+            startSnackbarMessage("Please enter all the fields");
+        }
     }
 
     /****************************** Online *********************************/
