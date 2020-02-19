@@ -64,6 +64,11 @@ public class Menu3_Friends extends AppCompatActivity
         _friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
         _friendsRecycler.setAdapter(_adapter);
 
+        GetFriends();
+    }
+
+    private void GetFriends()
+    {
         //get all ids of friends
         Query friendCouples = FirebaseFirestore.getInstance().collection("userfriends")
                 .whereEqualTo("user1",
@@ -72,20 +77,20 @@ public class Menu3_Friends extends AppCompatActivity
         final List<String> friendIds = new ArrayList<>();
 
         friendCouples.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                    {
-                        friendIds.add(doc.get("user2").toString());
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                {
+                    friendIds.add(doc.get("user2").toString());
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toasty("Something Went Wrong");
                     }
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Menu3_Friends.this,"Something Went Wrong", Toast.LENGTH_SHORT);
-                }
-            });
+                });
 
         //get all friends
         final IntegerCounter friendCounter = new IntegerCounter(friendIds.size());
@@ -106,8 +111,7 @@ public class Menu3_Friends extends AppCompatActivity
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Something Went Wrong", Toast.LENGTH_SHORT);
+                            Toasty("Something Went Wrong");
                             friendCounter.SetError(true);
                         }
                     });
@@ -118,11 +122,6 @@ public class Menu3_Friends extends AppCompatActivity
 
         //notify list adapter of change
         _adapter.notifyDataSetChanged();
-
-        /*m_webView = findViewById(R.id.web_view);
-        WebSettings webSettings = m_webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        m_webView.loadUrl("file:///android_asset/definitely_not_a_turtle_dancing_in_the_shower.gif");*/
     }
 
     public void OnAddFriendClick(View view)
@@ -158,8 +157,7 @@ public class Menu3_Friends extends AppCompatActivity
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(Menu3_Friends.this,
-                                                        "Couldn't add friend", Toast.LENGTH_SHORT);
+                                                Toasty("Couldn't add friend");
                                             }
                                         });
                                 FirebaseFirestore.getInstance()
@@ -168,30 +166,36 @@ public class Menu3_Friends extends AppCompatActivity
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(Menu3_Friends.this,
-                                                        "Couldn't add friend", Toast.LENGTH_SHORT);
+                                                Toasty("Couldn't add friend");
                                             }
                                         });
                             }
                             else
                             {
-                                Toast.makeText(Menu3_Friends.this,
-                                        "No user with that email", Toast.LENGTH_SHORT);
+                                Toasty("No user with that email");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "No user with that email", Toast.LENGTH_SHORT);
+                            Toasty("No user with that email");
                         }
                     });
         }
         else
         {
-            Toast.makeText(Menu3_Friends.this,
-                    "Please enter an email", Toast.LENGTH_SHORT);
+            Toasty("Please enter an email");
         }
+    }
+
+    /*****************************************
+     * Helper Functions
+     */
+
+    //Spit out a message
+    void Toasty(String message)
+    {
+        Toast.makeText(Menu3_Friends.this, message, Toast.LENGTH_SHORT);
     }
 }
