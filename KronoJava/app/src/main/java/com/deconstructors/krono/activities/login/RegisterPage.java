@@ -103,6 +103,7 @@ public class RegisterPage extends AppCompatActivity
         user.put("firstname",firstName.getText().toString());
         user.put("lastname",lastName.getText().toString());
         user.put("loginId",loginId);
+        user.put("loginEmail",email);
 
         FirebaseFirestore.getInstance().collection("users")
                 .add(user)

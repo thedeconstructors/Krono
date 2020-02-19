@@ -15,33 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
-class IntegerCounter {
-    int _count = 0;
-
-    public IntegerCounter(int count)
-    {
-        if (count < 0)
-        {
-            throw new IndexOutOfBoundsException();
-        }
-        _count = count;
-    }
-
-    public boolean Done()
-    {
-        return (_count == 0);
-    }
-
-    public void Decrement()
-    {
-        if (Done())
-        {
-            throw new IndexOutOfBoundsException();
-        }
-        --_count;
-    }
-}
-
 public class FirestoreDB {
 
     // note: static FirebaseFirestore can leak contexts
