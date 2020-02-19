@@ -17,6 +17,7 @@ import com.deconstructors.krono.activities.friends.Menu3_Friends;
 import com.deconstructors.krono.activities.login.LoginPage;
 import com.deconstructors.krono.activities.plans.Menu1_Plans;
 import com.deconstructors.krono.activities.profile.Menu4_Users;
+import com.deconstructors.krono.helpers.SessionData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity
 
         setupFirebaseAuth();
         enablePersistence();
+
+        Toast.makeText(MainActivity.this, "Current user's id: " + SessionData.GetInstance().GetUserID(), Toast.LENGTH_SHORT).show();
     }
 
     /**************************** Database *********************************/

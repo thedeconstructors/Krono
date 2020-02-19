@@ -43,6 +43,9 @@ public class RegisterPage extends AppCompatActivity
     String email;
     String password;
 
+    //Used to add login id to user doc
+    String loginId = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,33 +66,64 @@ public class RegisterPage extends AppCompatActivity
 
         // When the user provides a first and last name...
         if (firstName.getText().toString() != "" && lastName.getText().toString() != "") {
-
-            // Store the first and last name and email in the user map
-            /*
-            user.put("first_name", firstName.getText().toString());
-            user.put("last_name", lastName.getText().toString());
-            user.put("email", email);*/
-
-            //add user to FirebaseAuth
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(RegisterPage.this,
-                                    authResult.getUser().getEmail().toString() +
-                                            " Added Successfully.",
-                                    Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(RegisterPage.this, "Error: Could Not Add User: " +
-                                    e.getMessage().toString(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            //add user to FirebaseAuth and Firestore
+            CreateUserLogin();
         }
+    }
+
+    /**********************************
+     * Begins process of adding user
+     *  - Adds email and password to FirebaseAuth
+     *  - Calls method to add user info to DB
+     */
+    private void CreateUserLogin()
+    {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    // if successful, add user to db
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        loginId = authResult.getUser().getUid();
+                        AddUserToDatabase();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    //if unsuccessful, display error
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterPage.this, "Error: Could Not Add User:\n" +
+                                        e.getMessage().toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void AddUserToDatabase()
+    {
+        user.put("firstname",firstName.getText().toString());
+        user.put("lastname",lastName.getText().toString());
+        user.put("loginId",loginId);
+
+        FirebaseFirestore.getInstance().collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        //Set user id in SessionData
+                        SessionData.GetInstance().SetUserID(documentReference.getId());
+                        Intent intent = new Intent(RegisterPage.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterPage.this, "Error: Could Not Add User:\n" +
+                                        e.getMessage().toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

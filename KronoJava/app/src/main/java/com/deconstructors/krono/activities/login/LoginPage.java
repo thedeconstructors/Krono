@@ -22,12 +22,17 @@ import com.deconstructors.krono.activities.MainActivity;
 import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class LoginPage extends AppCompatActivity
 {
@@ -59,7 +64,7 @@ public class LoginPage extends AppCompatActivity
         _progressBar = findViewById(R.id.login_progressBar);
         _relativeLayout = findViewById(R.id.login_relativeLayout);
 
-        setupFirebaseAuth();
+        //setupFirebaseAuth();
     }
 
     /**************************** Database *********************************/
@@ -69,7 +74,7 @@ public class LoginPage extends AppCompatActivity
      * Precondition:    Authentication State Changed
      * Postcondition:   Change Intent when signed in
      ************************************************************************/
-    private void setupFirebaseAuth()
+    /*private void setupFirebaseAuth()
     {
         Log.d(_Tag, "setUpFirebaseAuth started");
 
@@ -96,7 +101,7 @@ public class LoginPage extends AppCompatActivity
                 }
             }
         };
-    }
+    }*/
 
     /***********************************************************************
      * Purpose:         onStart
@@ -107,7 +112,47 @@ public class LoginPage extends AppCompatActivity
     public void onStart()
     {
         super.onStart();
-        FirebaseAuth.getInstance().addAuthStateListener(_AuthStateListener);
+        //Sign user in if they are already signed in
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+        {
+            //get user id from db and log them in
+            final String loginid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            //get user in db and set session id to its id
+            FirebaseFirestore.getInstance().collection("users")
+                    .whereEqualTo("loginId",loginid)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
+                            if (users.size() > 0)
+                            {
+                                SessionData.GetInstance().SetUserID(
+                                        users.get(0).getId());
+                                startSnackbarMessage("Signed in");
+                                setProgressbar(false);
+                                Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                            {
+                                startSnackbarMessage("No user found with login " + loginid);
+                                setProgressbar(false);
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            startSnackbarMessage("Failed to retreive user:\n" +
+                                    e.toString());
+                            setProgressbar(false);
+                        }
+                    });
+        }
+        //FirebaseAuth.getInstance().addAuthStateListener(_AuthStateListener);
     }
 
     /***********************************************************************
@@ -115,15 +160,15 @@ public class LoginPage extends AppCompatActivity
      * Precondition:    Comes right after onPause and before onDestroy
      * Postcondition:   Remove Firebase Authentication Listener On Stop
      ************************************************************************/
-    /*@Override
+    @Override
     public void onStop()
     {
-        super.onStop();
+        super.onStop();/*
         if (_AuthStateListener != null)
         {
             FirebaseAuth.getInstance().removeAuthStateListener(_AuthStateListener);
-        }
-    }*/
+        }*/
+    }
 
     /****************************** Login **********************************/
 
@@ -142,14 +187,48 @@ public class LoginPage extends AppCompatActivity
                 Log.d(_Tag, "onEmailLoginButtonClick - Valid email and password.");
                 setProgressbar(true);
 
+                //sign in
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(getText(_email), getText(_password))
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>()
                         {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task)
                             {
-                                startSnackbarMessage("Signed in");
-                                setProgressbar(false);
+                                final String loginid = task.getResult().getUser().getUid();
+                                //get user in db and set session id to its id
+                                FirebaseFirestore.getInstance().collection("users")
+                                        .whereEqualTo("loginId",loginid)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
+                                                if (users.size() > 0)
+                                                {
+                                                    SessionData.GetInstance().SetUserID(
+                                                            users.get(0).getId());
+                                                    startSnackbarMessage("Signed in");
+                                                    setProgressbar(false);
+                                                    Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                                else
+                                                {
+                                                    startSnackbarMessage("No user found with login " + loginid);
+                                                    setProgressbar(false);
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                startSnackbarMessage("Failed to retreive user:\n" +
+                                                        e.toString());
+                                                setProgressbar(false);
+                                            }
+                                        });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener()
