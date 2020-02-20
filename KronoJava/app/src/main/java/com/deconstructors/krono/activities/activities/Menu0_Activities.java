@@ -42,7 +42,6 @@ public class Menu0_Activities
     private static final String _Tag = "Krono_Menu0_Log";
     private static final String _dbPath = "useractivities";
 
-
     // Variables
     private List<Activity> _ActivityList = new ArrayList<>();
     private ActivityRVAdapter _ActivityRVAdapter;
@@ -143,8 +142,8 @@ public class Menu0_Activities
                 {
                     for(QueryDocumentSnapshot document: task.getResult())
                     {
-                        Activity note = document.toObject(Activity.class);
-                        _ActivityList.add(note);
+                        Activity activity = document.toObject(Activity.class);
+                        _ActivityList.add(activity);
                     }
 
                     // To not replicate items users already have

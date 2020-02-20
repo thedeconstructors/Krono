@@ -1,15 +1,26 @@
 package com.deconstructors.krono.activities.friends;
 
-public class Friend {
-    String _firstname = "";
-    String _lastname = "";
+public class Friend
+{
+    private String _firstname;
+    private String _lastname;
 
-    public Friend(String fname, String lname)
+    public Friend(){}
+
+    public Friend(Friend friend)
     {
-        _firstname = fname;
-        _lastname = lname;
+        this._firstname = friend._firstname;
+        this._lastname = friend._lastname;
+    }
+
+    public Friend(String firstname, String lastname)
+    {
+        _firstname = firstname;
+        _lastname = lastname;
     }
 
     public String GetFirstName() { return _firstname; }
+    public void SetFirstName(String firstname) { _firstname = firstname; }
     public String GetLastName() { return _lastname; }
+    public void SetLastName(String lastname) { _lastname = lastname; }
 }

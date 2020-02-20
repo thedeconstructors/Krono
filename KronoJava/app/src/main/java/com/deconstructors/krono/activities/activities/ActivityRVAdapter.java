@@ -104,7 +104,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
+    public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener
     {
         private View _view;
         private TextView _nameText;

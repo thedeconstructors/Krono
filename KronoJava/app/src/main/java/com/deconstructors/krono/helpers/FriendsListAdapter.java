@@ -48,12 +48,13 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     class ViewHolder extends RecyclerView.ViewHolder
     {
         View layout;
-
         TextView firstName;
         TextView lastName;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView)
+        {
             super(itemView);
+            layout = itemView;
             firstName = (TextView) layout.findViewById(R.id.friendlist_item_firstname);
             lastName = (TextView) layout.findViewById(R.id.friendlist_item_lastname);
         }

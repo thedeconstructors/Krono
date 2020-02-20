@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,14 +16,21 @@ import android.widget.Toast;
 
 import com.deconstructors.firestoreinteract.IntegerCounter;
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.activities.Activity;
 import com.deconstructors.krono.helpers.FriendsListAdapter;
 import com.deconstructors.krono.helpers.SessionData;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -37,37 +45,115 @@ import java.util.Set;
 public class Menu3_Friends extends AppCompatActivity
 {
     //private WebView m_webView;
-
-
     private TextView _emailField;
+    private DocumentSnapshot _LastQueriedList;
 
     //friends list management
     private RecyclerView _friendsRecycler;
     private List<Friend> _friendsList;
     private FriendsListAdapter _adapter;
+    private List<String> _tempIDList;
+
+    // DB Paths
+    private static final String _userfriendsPath = "userfriends";
+    private static final String _userPath = "users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu3__friends);
-
         //get all views
         _friendsRecycler = (RecyclerView) findViewById(R.id.MainMenu_Friends_RecyclerView);
         _emailField = (TextView) findViewById(R.id.MainMenu_Friends_Email);
 
+        setupRecycleView();
+        //getFriends();
+        getFriends_HOTFIX(); // Remove later
+    }
+
+    private void setupRecycleView()
+    {
         //set up recycler behavior
+        _tempIDList = new ArrayList<>();
         _friendsList = new ArrayList<>();
         _adapter = new FriendsListAdapter(_friendsList);
 
         _friendsRecycler.setHasFixedSize(true);
         _friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
         _friendsRecycler.setAdapter(_adapter);
+    }
 
-        //get all ids of friends
+    private void getFriends_HOTFIX()
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference friendsCollectionRef = db.collection("userfriends");
+
+        Query friendsQuery = friendsCollectionRef
+                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
+
+        Task getID = friendsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot document: task.getResult())
+                    {
+                        _tempIDList.add(document.getString("user2"));
+                    }
+                }
+            }
+        });
+
+        Tasks.whenAllSuccess(getID).addOnCompleteListener(new OnCompleteListener<List<Object>>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<List<Object>> task)
+            {
+                for (String id : _tempIDList)
+                {
+                    Query userInfoQuery = db.collection("users")
+                            .whereEqualTo(FieldPath.documentId(), id);
+
+                    userInfoQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if (task.isSuccessful())
+                            {
+                                for(QueryDocumentSnapshot document : task.getResult())
+                                {
+                                    String fn = document.get("firstname").toString();
+                                    String ln = document.get("lastname").toString();
+                                    _friendsList.add(new Friend(fn, ln));
+                                }
+
+                                // To not replicate items users already have
+                                if(task.getResult().size() != 0)
+                                {
+                                    _LastQueriedList = task.getResult().getDocuments()
+                                            .get(task.getResult().size() - 1);
+                                }
+
+                                _adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    private void getFriends()
+    {
+        // Check UserID with user1 field
+        // Bug: addOnSuccessListener Failed
         Query friendCouples = FirebaseFirestore.getInstance().collection("userfriends")
-                .whereEqualTo("user1",
-                        SessionData.GetInstance().GetUserID());
+                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
 
         final List<String> friendIds = new ArrayList<>();
 
