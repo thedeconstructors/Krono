@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -42,17 +43,20 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Menu3_Friends extends AppCompatActivity
+public class Menu3_Friends
+        extends AppCompatActivity
+        implements SwipeRefreshLayout.OnRefreshListener
 {
     //private WebView m_webView;
     private TextView _emailField;
-    private DocumentSnapshot _LastQueriedList;
+    private SwipeRefreshLayout _SwipeRefreshLayout;
 
     //friends list management
     private RecyclerView _friendsRecycler;
     private List<Friend> _friendsList;
     private FriendsListAdapter _adapter;
     private List<String> _tempIDList;
+    private DocumentSnapshot _LastQueriedList;
 
     // DB Paths
     private static final String _userfriendsPath = "userfriends";
@@ -66,6 +70,8 @@ public class Menu3_Friends extends AppCompatActivity
         //get all views
         _friendsRecycler = (RecyclerView) findViewById(R.id.MainMenu_Friends_RecyclerView);
         _emailField = (TextView) findViewById(R.id.MainMenu_Friends_Email);
+        _SwipeRefreshLayout = findViewById(R.id.MainMenu_Friends_RefreshLayout);
+        _SwipeRefreshLayout.setOnRefreshListener(this);
 
         setupRecycleView();
         //getFriends();
@@ -112,10 +118,21 @@ public class Menu3_Friends extends AppCompatActivity
             @Override
             public void onComplete(@NonNull Task<List<Object>> task)
             {
+                Query userInfoQuery = null;
+
                 for (String id : _tempIDList)
                 {
-                    Query userInfoQuery = db.collection("users")
-                            .whereEqualTo(FieldPath.documentId(), id);
+                    if(_LastQueriedList != null)
+                    {
+                        userInfoQuery = db.collection("users")
+                                .whereEqualTo(FieldPath.documentId(), id)
+                                .startAfter(_LastQueriedList);
+                    }
+                    else
+                    {
+                         userInfoQuery = db.collection("users")
+                                .whereEqualTo(FieldPath.documentId(), id);
+                    }
 
                     userInfoQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                     {
@@ -126,6 +143,9 @@ public class Menu3_Friends extends AppCompatActivity
                             {
                                 for(QueryDocumentSnapshot document : task.getResult())
                                 {
+                                    // Not sure why I can't convert this document
+                                    // directly to a Friend Object
+                                    // Change this code later.
                                     String fn = document.get("firstname").toString();
                                     String ln = document.get("lastname").toString();
                                     _friendsList.add(new Friend(fn, ln));
@@ -279,5 +299,12 @@ public class Menu3_Friends extends AppCompatActivity
             Toast.makeText(Menu3_Friends.this,
                     "Please enter an email", Toast.LENGTH_SHORT);
         }
+    }
+
+    @Override
+    public void onRefresh()
+    {
+        this.getFriends();
+        _SwipeRefreshLayout.setRefreshing(false);
     }
 }
