@@ -126,15 +126,37 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         public void onClick(View view)
         {
-            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
-            temp_activity.setSelected(!temp_activity.isSelected());
-            view.setBackgroundColor(getSelectedBGColor(temp_activity));
+            ToggleSelect();
         }
 
         @Override
         public boolean onLongClick(View v)
         {
             return false;
+        }
+
+        public void ToggleSelect()
+        {
+            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            temp_activity.setSelected(!temp_activity.isSelected());
+            if (temp_activity.isSelected())
+                _view.setBackgroundColor(Color.rgb(208,208,208));
+            else
+                _view.setBackgroundColor(Color.WHITE);
+        }
+
+        public void Select()
+        {
+            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            temp_activity.setSelected(true);
+            _view.setBackgroundColor(Color.rgb(208,208,208));
+        }
+
+        public void Deselect()
+        {
+            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            temp_activity.setSelected(false);
+            _view.setBackgroundColor(Color.WHITE);
         }
     }
 

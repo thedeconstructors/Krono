@@ -21,13 +21,19 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.activities.ActivityRVAdapter;
 import com.deconstructors.krono.helpers.SessionData;
 import com.deconstructors.krono.activities.activities.Activity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class NewPlan extends AppCompatActivity
@@ -62,16 +68,19 @@ public class NewPlan extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1_plans_newplan);
 
-        //Show user activities in 'My Activities' recycler view
-        PopulateMyActivitiesRecycler();
+        title = (TextView) findViewById(R.id.txtTitle);
+        startTime = (TextView) findViewById(R.id.txtStartTime);
+        myActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerMyActivities);
+        planActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerPlan);
 
         //Initialize plan activities recycler view
         InitPlanActivitiesRecycler();
 
-        title = (TextView) findViewById(R.id.txtTitle);
-        startTime = (TextView) findViewById(R.id.txtStartTime);
-        myActivities = (RecyclerView) findViewById(R.id.recyclerMyActivities);
-        planActivities = (RecyclerView) findViewById(R.id.recyclerPlan);
+        //Initializes user activities recycler view
+        InitMyActivitiesRecycler();
+
+        //Show user activities in 'My Activities' recycler view
+        PopulateMyActivitiesRecycler();
     }
 
     public void createPlanOnClick(View view)
@@ -108,7 +117,6 @@ public class NewPlan extends AppCompatActivity
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            UpdateUsersToPlans(documentReference.getId());
                             successMessage.show();
                             finish();
                         }
@@ -129,34 +137,15 @@ public class NewPlan extends AppCompatActivity
     /***********************************************
      * Helper functions
      */
-    public void UpdateUsersToPlans(String activityId)
-    {
-        Map<String, Object> userToPlan = new HashMap<>();
-        
-        userToPlan.put("userid", SessionData.GetInstance().GetUserID());
-        userToPlan.put("activityid", activityId);
-
-        FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-        db2.collection("userstoplans")
-                .add(userToPlan);
-    }
 
     //Sets up 'My Activities' recycler view
     private void PopulateMyActivitiesRecycler()
     {
-        // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
-        myActivities_ActivityList = new ArrayList<>();
-        myActivities_ActivityListAdapter = new ActivityRVAdapter(myActivities_ActivityList);
-
-        myActivities_RecyclerView = (RecyclerView)findViewById(R.id.recyclerMyActivities);
-        myActivities_RecyclerView.setHasFixedSize(true);
-        myActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myActivities_RecyclerView.setAdapter(myActivities_ActivityListAdapter);
 
         // Database Listener
-        m_Firestore = FirebaseFirestore.getInstance();
+        /*m_Firestore = FirebaseFirestore.getInstance();
         m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
-        {
+        {*/
             /************************************************************************
              * Purpose:         On Event
              * Precondition:    An Item has been added
@@ -164,7 +153,7 @@ public class NewPlan extends AppCompatActivity
              *                  Notify the adapter
              *                  This way, we don't have to scan DB every time
              ************************************************************************/
-            @Override
+            /*@Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e)
             {
                 if (e != null)
@@ -176,7 +165,8 @@ public class NewPlan extends AppCompatActivity
                     // Document contains data read from a document in your Firestore database
                     for (DocumentChange doc : documentSnapshots.getDocumentChanges())
                     {
-                        if (doc.getType() == DocumentChange.Type.ADDED)
+                        if (doc.getType() == DocumentChange.Type.ADDED
+                                && doc.getDocument().get("ownerId") == SessionData.GetInstance().GetUserID())
                         {
                             // Arrange the data according to the model class
                             // All by itself
@@ -190,7 +180,30 @@ public class NewPlan extends AppCompatActivity
                     }
                 }
             }
-        });
+        });*/
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("useractivities")
+                .whereEqualTo("ownerId",SessionData.GetInstance().GetUserID())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot doc : queryDocumentSnapshots)
+                        {
+                            Activity act = doc.toObject(Activity.class);
+                            myActivities_ActivityList.add(act);
+                        }
+                        myActivities_ActivityListAdapter.notifyDataSetChanged();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(NewPlan.this,"Could not retrieve user activities",
+                                Toast.LENGTH_SHORT);
+                    }
+                });
     }
 
     private void InitPlanActivitiesRecycler()
@@ -199,10 +212,20 @@ public class NewPlan extends AppCompatActivity
         planActivities_ActivityList = new ArrayList<>();
         planActivities_ActivityListAdapter = new ActivityRVAdapter(planActivities_ActivityList);
 
-        planActivities_RecyclerView = (RecyclerView)findViewById(R.id.recyclerPlan);
         planActivities_RecyclerView.setHasFixedSize(true);
         planActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         planActivities_RecyclerView.setAdapter(planActivities_ActivityListAdapter);
+    }
+
+    private void InitMyActivitiesRecycler()
+    {
+        // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
+        myActivities_ActivityList = new ArrayList<>();
+        myActivities_ActivityListAdapter = new ActivityRVAdapter(myActivities_ActivityList);
+
+        myActivities_RecyclerView.setHasFixedSize(true);
+        myActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myActivities_RecyclerView.setAdapter(myActivities_ActivityListAdapter);
     }
 
     public void AddActivityOnClick(View view)
