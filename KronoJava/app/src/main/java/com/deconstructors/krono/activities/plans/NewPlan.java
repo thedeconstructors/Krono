@@ -83,6 +83,7 @@ public class NewPlan extends AppCompatActivity
         //check if title and start time are not empty
         if (title.getText().toString().trim().compareTo("") != 0 && startTime.getText().toString().trim().compareTo("") != 0)
         {
+            userPlan.put("ownerId", SessionData.GetInstance().GetUserID());
             userPlan.put("title", title.getText().toString());
             userPlan.put("startTime", startTime.getText().toString());
 
