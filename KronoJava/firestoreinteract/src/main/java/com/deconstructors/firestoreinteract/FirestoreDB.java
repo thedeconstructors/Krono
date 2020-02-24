@@ -1,8 +1,12 @@
 package com.deconstructors.firestoreinteract;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,10 +24,48 @@ public class FirestoreDB {
     // note: static FirebaseFirestore can leak contexts
     private static FirebaseFirestore db;
 
+    //For logging
+    private static final String _Tag = "DB_Firestore_Log";
+
     //sets database in focus
-    public static void SetDB(FirebaseFirestore d)
-    {
+    public static void SetDB(FirebaseFirestore d) {
         FirestoreDB.db = d;
+    }
+
+    // Deletion of Activities
+    public static void DeleteUserActivity(String activity, final MapHandler) {
+        db.collection("useractivities").document(activity)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(_Tag, "Document deleted successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(_Tag, "Error deleting document", e);
+                    }
+                });
+    }
+
+    // Deletion of Plans
+    public static void DeleteUserPlan(String plan, final MapHandler) {
+        db.collection("userplans").document(plan)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(_Tag, "Document deleted successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(_Tag, "Error deleting document", e);
+                    }
+                });
     }
 
     //interaction methods for database
