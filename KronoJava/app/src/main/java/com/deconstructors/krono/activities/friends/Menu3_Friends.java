@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,10 +51,11 @@ public class Menu3_Friends
     //private WebView m_webView;
     private TextView _emailField;
     private SwipeRefreshLayout _SwipeRefreshLayout;
+    private Button _removeFriendButton;
 
     //friends list management
     private RecyclerView _friendsRecycler;
-    private List<Friend> _friendsList;
+    private List<FriendHolder> _friendsList;
     private FriendsListAdapter _adapter;
     private List<String> _tempIDList;
     private DocumentSnapshot _LastQueriedList;
@@ -72,6 +74,7 @@ public class Menu3_Friends
         _emailField = (TextView) findViewById(R.id.MainMenu_Friends_Email);
         _SwipeRefreshLayout = findViewById(R.id.MainMenu_Friends_RefreshLayout);
         _SwipeRefreshLayout.setOnRefreshListener(this);
+        _removeFriendButton = (Button) findViewById(R.id.MainMenu_Friends_RemoveFriend);
 
         setupRecycleView();
         //getFriends();
@@ -148,7 +151,7 @@ public class Menu3_Friends
                                     // Change this code later.
                                     String fn = document.get("firstname").toString();
                                     String ln = document.get("lastname").toString();
-                                    _friendsList.add(new Friend(fn, ln));
+                                    _friendsList.add(new FriendHolder(new Friend(fn, ln)));
                                 }
 
                                 // To not replicate items users already have
@@ -204,8 +207,13 @@ public class Menu3_Friends
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            _friendsList.add(new Friend(documentSnapshot.get("firstname").toString(),
-                                    documentSnapshot.get("lastname").toString()));
+                            _friendsList.add(new FriendHolder(
+                                                new Friend(
+                                                    documentSnapshot.get("firstname").toString(),
+                                                    documentSnapshot.get("lastname").toString()
+                                                )
+                                            )
+                            );
                             friendCounter.Decrement();
                         }
                     })

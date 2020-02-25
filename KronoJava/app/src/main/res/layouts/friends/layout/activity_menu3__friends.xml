@@ -40,25 +40,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="10dp">
 
-        <EditText
-            android:id="@+id/MainMenu_Friends_Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="Enter Email"
-            android:inputType="textPersonName" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/MainMenu_Friends_Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter Email"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/MainMenu_Friends_AddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="OnAddFriendClick"
+                android:text="Add" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/MainMenu_Friends_AddButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/MainMenu_Friends_RemoveFriend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="75dp"
             android:layout_weight="1"
-            android:onClick="OnAddFriendClick"
-            android:text="Add" />
+            android:backgroundTint="#FF6F6F"
+            android:text="REMOVE FRIEND"
+            android:visibility="invisible" />
+
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
