@@ -33,7 +33,7 @@ public class FirestoreDB {
     }
 
     // Deletion of Activities
-    public static void DeleteUserActivity(String activity, final MapHandler) {
+    public static void DeleteUserActivity(String activity, final MapHandler handler) {
         db.collection("useractivities").document(activity)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -51,7 +51,7 @@ public class FirestoreDB {
     }
 
     // Deletion of Plans
-    public static void DeleteUserPlan(String plan, final MapHandler) {
+    public static void DeleteUserPlan(String plan, final MapHandler handler) {
         db.collection("userplans").document(plan)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
