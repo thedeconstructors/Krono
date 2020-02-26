@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 
 import com.deconstructors.firestoreinteract.IntegerCounter;
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.activities.Activity;
 import com.deconstructors.krono.helpers.FriendsListAdapter;
 import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.Continuation;
@@ -28,12 +28,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +46,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 public class Menu3_Friends
         extends AppCompatActivity
@@ -80,6 +85,7 @@ public class Menu3_Friends
         _removeFriendButton = (Button) findViewById(R.id.MainMenu_Friends_RemoveFriend);
 
         setupRecycleView();
+        _SwipeRefreshLayout.setRefreshing(true);
         //getFriends();
         getFriends_HOTFIX(); // Remove later
     }
@@ -87,8 +93,7 @@ public class Menu3_Friends
     @Override
     public void onRefresh()
     {
-        this.getFriends();
-        _SwipeRefreshLayout.setRefreshing(false);
+        this.getFriends_HOTFIX();
     }
 
     /*******************************************
@@ -167,138 +172,93 @@ public class Menu3_Friends
 
     public void RemoveFriendOnClick(View view)
     {
-        /* Commented out because it doesn't work ):
-        if (_adapter.GetSelectedIndex() == -1)
+        int selectedIndex = _adapter.GetSelectedIndex();
+
+        if (selectedIndex == -1)
         {
-            Toast.makeText(Menu3_Friends.this, "No friend selected", Toast.LENGTH_SHORT);
+            NotifyMessage("No friend is selected");
         }
         else
         {
-            final String friendID = _friendsList.get(_adapter.GetSelectedIndex()).GetFriend().GetID();
+            String friendId = _friendsList.get(selectedIndex).GetFriend().GetID();
 
-            //delete friend entry (userid,friendid)
-            FirebaseFirestore.getInstance()
-                    .collection("userfriends")
-                    .whereArrayContains("user1",
-                            SessionData.GetInstance().GetUserID())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            //query to retrieve doc (user,friend)
+            final Query friendDocLocalQuery = db.collection("userfriends")
+                    .whereEqualTo("user1",SessionData.GetInstance().GetUserID())
+                    .whereEqualTo("user2",friendId);
+            //query to retrieve doc (friend,user)
+            Query friendDocRemoteQuery = db.collection("userfriends")
+                    .whereEqualTo("user1", friendId)
+                    .whereEqualTo("user2",SessionData.GetInstance().GetUserID());
+
+            List<Task<QuerySnapshot>> removeFriends = new ArrayList<>();
+
+            removeFriends.add(friendDocLocalQuery.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Got first set of entries",
-                                    Toast.LENGTH_LONG);
-                            if (queryDocumentSnapshots.isEmpty())
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty())
                             {
-                                Toast.makeText(Menu3_Friends.this,
-                                        "Unable to find friends",
-                                        Toast.LENGTH_LONG);
-                            }
-                            else
-                            {
-                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot doc : docs)
-                                {
-                                    if (doc.get("user2") == friendID)
-                                    {
-                                        FirebaseFirestore.getInstance()
-                                                .document(doc.getId())
-                                                .delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Toast.makeText(Menu3_Friends.this,
-                                                                "Successfully removed friend (1)",
-                                                                Toast.LENGTH_SHORT);
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(Menu3_Friends.this,
-                                                                "Unable to remove friend (1)",
-                                                                Toast.LENGTH_LONG);
-                                                    }
-                                                });
-                                    }
-                                }
+                                Tasks.whenAllComplete(
+                                    task.getResult()
+                                            .getDocuments()
+                                            .get(0)
+                                            .getReference()
+                                            .delete()
+                                );
                             }
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Unable to find friends",
-                                    Toast.LENGTH_LONG);
-                        }
-                    });
+            );
 
-            //delete friend entry (friendId, userId)
-            FirebaseFirestore.getInstance()
-                    .collection("userfriends")
-                    .whereArrayContains("user2",
-                            SessionData.GetInstance().GetUserID())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            removeFriends.add(friendDocRemoteQuery.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Got second set of entries",
-                                    Toast.LENGTH_LONG);
-                            if (queryDocumentSnapshots.isEmpty())
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && !task.getResult().isEmpty())
                             {
-                                Toast.makeText(Menu3_Friends.this,
-                                        "Unable to find friends",
-                                        Toast.LENGTH_LONG);
-                            }
-                            else
-                            {
-                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot doc : docs)
-                                {
-                                    if (doc.get("user1") == friendID)
-                                    {
-                                        FirebaseFirestore.getInstance()
-                                                .document(doc.getId())
+                                Tasks.whenAllComplete(
+                                        task.getResult()
+                                                .getDocuments()
+                                                .get(0)
+                                                .getReference()
                                                 .delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Toast.makeText(Menu3_Friends.this,
-                                                                "Successfully removed friend (2)",
-                                                                Toast.LENGTH_SHORT);
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(Menu3_Friends.this,
-                                                                "Unable to remove friend (2)",
-                                                                Toast.LENGTH_LONG);
-                                                    }
-                                                });
-                                    }
-                                }
+                                );
                             }
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Unable to find friends",
-                                    Toast.LENGTH_LONG);
+            );
+
+            Tasks.whenAllSuccess(removeFriends)
+                .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<Object>> task) {
+                        if (task.isSuccessful())
+                        {
+                            NotifyMessage("Successfully removed friend.\nPull down to refresh");
                         }
-                    });
-            //refresh list
-            RefreshFriends();
-        }*/
+                        else
+                        {
+                            NotifyMessage("Failed to remove friend");
+                        }
+                    }
+                }
+            );
+        }
     }
 
     /*******************************************
      * HELPER FUNCTIONS
      */
+
+    private void NotifyMessage(String message)
+    {
+        Toast.makeText(Menu3_Friends.this,
+                message,
+                Toast.LENGTH_SHORT)
+            .show();
+    }
 
     private void setupRecycleView()
     {
@@ -386,6 +346,7 @@ public class Menu3_Friends
                         }
                     });
                 }
+                _SwipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -458,13 +419,6 @@ public class Menu3_Friends
         WebSettings webSettings = m_webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         m_webView.loadUrl("file:///android_asset/definitely_not_a_turtle_dancing_in_the_shower.gif");*/
-    }
-
-    void RefreshFriends()
-    {
-        _friendsList.clear();
-        _adapter.ClearSelectedIndex();
-        getFriends_HOTFIX();
     }
 
 
