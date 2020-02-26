@@ -87,15 +87,14 @@ public class Menu3_Friends
 
         setupRecycleView();
         _SwipeRefreshLayout.setRefreshing(true);
-        //getFriends();
-        getFriends_HOTFIX2(); // Remove later
+        getFriends();
     }
 
     @Override
     public void onRefresh()
     {
         _friendsList.clear();
-        this.getFriends_HOTFIX2();
+        this.getFriends();
     }
 
     /*******************************************
@@ -238,7 +237,10 @@ public class Menu3_Friends
                     public void onComplete(@NonNull Task<List<Object>> task) {
                         if (task.isSuccessful())
                         {
-                            NotifyMessage("Successfully removed friend.\nPull down to refresh");
+                            NotifyMessage("Successfully removed friend");
+                            //Refresh page
+                            _SwipeRefreshLayout.setRefreshing(true);
+                            onRefresh();
                         }
                         else
                         {
@@ -354,7 +356,7 @@ public class Menu3_Friends
 
     }
 
-    private void getFriends_HOTFIX2()
+    private void getFriends()
     {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -431,75 +433,4 @@ public class Menu3_Friends
                     }
                 });
     }
-
-    private void getFriends()
-    {
-        // Check UserID with user1 field
-        // Bug: addOnSuccessListener Failed
-        Query friendCouples = FirebaseFirestore.getInstance().collection("userfriends")
-                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
-
-        final List<String> friendIds = new ArrayList<>();
-
-        friendCouples.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                    {
-                        friendIds.add(doc.get("user2").toString());
-                    }
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Menu3_Friends.this,"Something Went Wrong", Toast.LENGTH_SHORT);
-                }
-            });
-
-        //get all friends
-        final IntegerCounter friendCounter = new IntegerCounter(friendIds.size());
-
-        CollectionReference users = FirebaseFirestore.getInstance().collection("users");
-
-        for (String id : friendIds)
-        {
-            users.document(id).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            _friendsList.add(new FriendHolder(
-                                                new Friend(
-                                                    documentSnapshot.get("firstname").toString(),
-                                                    documentSnapshot.get("lastname").toString(),
-                                                    documentSnapshot.getId()
-                                                )
-                                            )
-                            );
-                            friendCounter.Decrement();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Something Went Wrong", Toast.LENGTH_SHORT);
-                            friendCounter.SetError(true);
-                        }
-                    });
-        }
-
-        //wait for friends to be found
-        while (!friendCounter.HasError() && !friendCounter.Done()) {}
-
-        //notify list adapter of change
-        _adapter.notifyDataSetChanged();
-
-        /*m_webView = findViewById(R.id.web_view);
-        WebSettings webSettings = m_webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        m_webView.loadUrl("file:///android_asset/definitely_not_a_turtle_dancing_in_the_shower.gif");*/
-    }
-
-
 }
