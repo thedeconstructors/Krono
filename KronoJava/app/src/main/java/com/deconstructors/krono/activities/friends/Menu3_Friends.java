@@ -37,6 +37,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.local.QueryResult;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,13 +88,14 @@ public class Menu3_Friends
         setupRecycleView();
         _SwipeRefreshLayout.setRefreshing(true);
         //getFriends();
-        getFriends_HOTFIX(); // Remove later
+        getFriends_HOTFIX2(); // Remove later
     }
 
     @Override
     public void onRefresh()
     {
-        this.getFriends_HOTFIX();
+        _friendsList.clear();
+        this.getFriends_HOTFIX2();
     }
 
     /*******************************************
@@ -350,6 +352,84 @@ public class Menu3_Friends
             }
         });
 
+    }
+
+    private void getFriends_HOTFIX2()
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Query getFriends = db.collection("userfriends")
+                .whereEqualTo("user1",
+                        SessionData.GetInstance().GetUserID());
+        //get all friendIds
+        final List<String> friendIds = new ArrayList<>();
+
+        //define task to retrieve all friend ids
+        Task<QuerySnapshot> gettingFriendIds = getFriends.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments())
+                            {
+                                friendIds.add(doc.get("user2").toString());
+                            }
+                        }
+                        else
+                        {
+                            NotifyMessage("Unable to retrieve friends");
+                        }
+                    }
+                });
+
+        //when that is finished, define new tasks to get each friend
+        Tasks.whenAllSuccess(gettingFriendIds)
+                .continueWithTask(new Continuation<List<Object>, Task<List<DocumentSnapshot>>>() {
+                    @Override
+                    public Task<List<DocumentSnapshot>> then(@NonNull Task<List<Object>> task) throws Exception {
+                        List<Task<DocumentSnapshot>> getEachFriend = new ArrayList<>();
+
+                        for (String id : friendIds)
+                        {
+                            getEachFriend.add(db.collection("users")
+                                    .document(id)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful())
+                                            {
+                                                String fname = task.getResult().get("firstname").toString();
+                                                String lname = task.getResult().get("lastname").toString();
+                                                String fid = task.getResult().getId();
+                                                Friend newfriend = new Friend(fname,lname,fid);
+                                                FriendHolder holder = new FriendHolder(newfriend);
+                                                _friendsList.add(holder);
+                                            }
+                                        }
+                                    }));
+                        }
+
+                        return Tasks.whenAllSuccess(getEachFriend);
+                    }
+                })
+                //once all tasks are finished to retrieve friends, notify user
+                .addOnCompleteListener(new OnCompleteListener<List<DocumentSnapshot>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<DocumentSnapshot>> task) {
+                        if (task.isSuccessful())
+                        {
+                            NotifyMessage("Retrieved all friends successfully");
+                        }
+                        else
+                        {
+                            NotifyMessage("Unable to retrieve friends");
+                        }
+                        _adapter.notifyDataSetChanged();
+                        _SwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
     }
 
     private void getFriends()
