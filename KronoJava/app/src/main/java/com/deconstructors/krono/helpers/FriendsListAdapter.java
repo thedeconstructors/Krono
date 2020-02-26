@@ -57,6 +57,10 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
         _friendsList = friends;
     }
 
+    public int GetSelectedIndex() { return _currentSelectedIndex; }
+
+    public void ClearSelectedIndex() { _currentSelectedIndex = -1; }
+
     /********************************
      * Dictates what happens when a viewholder
      * is created, typically via a dataset

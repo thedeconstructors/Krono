@@ -76,8 +76,8 @@
             android:layout_marginRight="75dp"
             android:layout_weight="1"
             android:backgroundTint="#FF6F6F"
-            android:text="REMOVE FRIEND"
-            android:visibility="invisible" />
+            android:onClick="RemoveFriendOnClick"
+            android:text="REMOVE FRIEND" />
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

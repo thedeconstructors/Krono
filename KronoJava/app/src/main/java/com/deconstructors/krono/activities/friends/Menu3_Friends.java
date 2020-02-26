@@ -64,6 +64,9 @@ public class Menu3_Friends
     private static final String _userfriendsPath = "userfriends";
     private static final String _userPath = "users";
 
+    /******************************************
+     * OVERRIDE FUNCTIONS
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -81,163 +84,16 @@ public class Menu3_Friends
         getFriends_HOTFIX(); // Remove later
     }
 
-    private void setupRecycleView()
+    @Override
+    public void onRefresh()
     {
-        //set up recycler behavior
-        _tempIDList = new ArrayList<>();
-        _friendsList = new ArrayList<>();
-        _adapter = new FriendsListAdapter(_friendsList);
-
-        _friendsRecycler.setHasFixedSize(true);
-        _friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        _friendsRecycler.setAdapter(_adapter);
+        this.getFriends();
+        _SwipeRefreshLayout.setRefreshing(false);
     }
 
-    private void getFriends_HOTFIX()
-    {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference friendsCollectionRef = db.collection("userfriends");
-
-        Query friendsQuery = friendsCollectionRef
-                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
-
-        Task getID = friendsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
-                if (task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot document: task.getResult())
-                    {
-                        _tempIDList.add(document.getString("user2"));
-                    }
-                }
-            }
-        });
-
-        Tasks.whenAllSuccess(getID).addOnCompleteListener(new OnCompleteListener<List<Object>>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<List<Object>> task)
-            {
-                Query userInfoQuery = null;
-
-                for (String id : _tempIDList)
-                {
-                    if(_LastQueriedList != null)
-                    {
-                        userInfoQuery = db.collection("users")
-                                .whereEqualTo(FieldPath.documentId(), id)
-                                .startAfter(_LastQueriedList);
-                    }
-                    else
-                    {
-                         userInfoQuery = db.collection("users")
-                                .whereEqualTo(FieldPath.documentId(), id);
-                    }
-
-                    userInfoQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task)
-                        {
-                            if (task.isSuccessful())
-                            {
-                                for(QueryDocumentSnapshot document : task.getResult())
-                                {
-                                    // Not sure why I can't convert this document
-                                    // directly to a Friend Object
-                                    // Change this code later.
-                                    String fn = document.get("firstname").toString();
-                                    String ln = document.get("lastname").toString();
-                                    _friendsList.add(new FriendHolder(new Friend(fn, ln)));
-                                }
-
-                                // To not replicate items users already have
-                                if(task.getResult().size() != 0)
-                                {
-                                    _LastQueriedList = task.getResult().getDocuments()
-                                            .get(task.getResult().size() - 1);
-                                }
-
-                                _adapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
-    }
-
-    private void getFriends()
-    {
-        // Check UserID with user1 field
-        // Bug: addOnSuccessListener Failed
-        Query friendCouples = FirebaseFirestore.getInstance().collection("userfriends")
-                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
-
-        final List<String> friendIds = new ArrayList<>();
-
-        friendCouples.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                    {
-                        friendIds.add(doc.get("user2").toString());
-                    }
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Menu3_Friends.this,"Something Went Wrong", Toast.LENGTH_SHORT);
-                }
-            });
-
-        //get all friends
-        final IntegerCounter friendCounter = new IntegerCounter(friendIds.size());
-
-        CollectionReference users = FirebaseFirestore.getInstance().collection("users");
-
-        for (String id : friendIds)
-        {
-            users.document(id).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            _friendsList.add(new FriendHolder(
-                                                new Friend(
-                                                    documentSnapshot.get("firstname").toString(),
-                                                    documentSnapshot.get("lastname").toString()
-                                                )
-                                            )
-                            );
-                            friendCounter.Decrement();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Menu3_Friends.this,
-                                    "Something Went Wrong", Toast.LENGTH_SHORT);
-                            friendCounter.SetError(true);
-                        }
-                    });
-        }
-
-        //wait for friends to be found
-        while (!friendCounter.HasError() && !friendCounter.Done()) {}
-
-        //notify list adapter of change
-        _adapter.notifyDataSetChanged();
-
-        /*m_webView = findViewById(R.id.web_view);
-        WebSettings webSettings = m_webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        m_webView.loadUrl("file:///android_asset/definitely_not_a_turtle_dancing_in_the_shower.gif");*/
-    }
+    /*******************************************
+     * BUTTON HANDLERS
+     */
 
     public void OnAddFriendClick(View view)
     {
@@ -309,10 +165,307 @@ public class Menu3_Friends
         }
     }
 
-    @Override
-    public void onRefresh()
+    public void RemoveFriendOnClick(View view)
     {
-        this.getFriends();
-        _SwipeRefreshLayout.setRefreshing(false);
+        /* Commented out because it doesn't work ):
+        if (_adapter.GetSelectedIndex() == -1)
+        {
+            Toast.makeText(Menu3_Friends.this, "No friend selected", Toast.LENGTH_SHORT);
+        }
+        else
+        {
+            final String friendID = _friendsList.get(_adapter.GetSelectedIndex()).GetFriend().GetID();
+
+            //delete friend entry (userid,friendid)
+            FirebaseFirestore.getInstance()
+                    .collection("userfriends")
+                    .whereArrayContains("user1",
+                            SessionData.GetInstance().GetUserID())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Toast.makeText(Menu3_Friends.this,
+                                    "Got first set of entries",
+                                    Toast.LENGTH_LONG);
+                            if (queryDocumentSnapshots.isEmpty())
+                            {
+                                Toast.makeText(Menu3_Friends.this,
+                                        "Unable to find friends",
+                                        Toast.LENGTH_LONG);
+                            }
+                            else
+                            {
+                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot doc : docs)
+                                {
+                                    if (doc.get("user2") == friendID)
+                                    {
+                                        FirebaseFirestore.getInstance()
+                                                .document(doc.getId())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(Menu3_Friends.this,
+                                                                "Successfully removed friend (1)",
+                                                                Toast.LENGTH_SHORT);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(Menu3_Friends.this,
+                                                                "Unable to remove friend (1)",
+                                                                Toast.LENGTH_LONG);
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Menu3_Friends.this,
+                                    "Unable to find friends",
+                                    Toast.LENGTH_LONG);
+                        }
+                    });
+
+            //delete friend entry (friendId, userId)
+            FirebaseFirestore.getInstance()
+                    .collection("userfriends")
+                    .whereArrayContains("user2",
+                            SessionData.GetInstance().GetUserID())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            Toast.makeText(Menu3_Friends.this,
+                                    "Got second set of entries",
+                                    Toast.LENGTH_LONG);
+                            if (queryDocumentSnapshots.isEmpty())
+                            {
+                                Toast.makeText(Menu3_Friends.this,
+                                        "Unable to find friends",
+                                        Toast.LENGTH_LONG);
+                            }
+                            else
+                            {
+                                List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot doc : docs)
+                                {
+                                    if (doc.get("user1") == friendID)
+                                    {
+                                        FirebaseFirestore.getInstance()
+                                                .document(doc.getId())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(Menu3_Friends.this,
+                                                                "Successfully removed friend (2)",
+                                                                Toast.LENGTH_SHORT);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(Menu3_Friends.this,
+                                                                "Unable to remove friend (2)",
+                                                                Toast.LENGTH_LONG);
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Menu3_Friends.this,
+                                    "Unable to find friends",
+                                    Toast.LENGTH_LONG);
+                        }
+                    });
+            //refresh list
+            RefreshFriends();
+        }*/
     }
+
+    /*******************************************
+     * HELPER FUNCTIONS
+     */
+
+    private void setupRecycleView()
+    {
+        //set up recycler behavior
+        _tempIDList = new ArrayList<>();
+        _friendsList = new ArrayList<>();
+        _adapter = new FriendsListAdapter(_friendsList);
+
+        _friendsRecycler.setHasFixedSize(true);
+        _friendsRecycler.setLayoutManager(new LinearLayoutManager(this));
+        _friendsRecycler.setAdapter(_adapter);
+    }
+
+    private void getFriends_HOTFIX()
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference friendsCollectionRef = db.collection("userfriends");
+
+        Query friendsQuery = friendsCollectionRef
+                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
+
+        Task getID = friendsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    for(QueryDocumentSnapshot document: task.getResult())
+                    {
+                        _tempIDList.add(document.getString("user2"));
+                    }
+                }
+            }
+        });
+
+        Tasks.whenAllSuccess(getID).addOnCompleteListener(new OnCompleteListener<List<Object>>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<List<Object>> task)
+            {
+                Query userInfoQuery = null;
+
+                for (String id : _tempIDList)
+                {
+                    if(_LastQueriedList != null)
+                    {
+                        userInfoQuery = db.collection("users")
+                                .whereEqualTo(FieldPath.documentId(), id)
+                                .startAfter(_LastQueriedList);
+                    }
+                    else
+                    {
+                         userInfoQuery = db.collection("users")
+                                .whereEqualTo(FieldPath.documentId(), id);
+                    }
+
+                    userInfoQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if (task.isSuccessful())
+                            {
+                                for(QueryDocumentSnapshot document : task.getResult())
+                                {
+                                    // Not sure why I can't convert this document
+                                    // directly to a Friend Object
+                                    // Change this code later.
+                                    String fn = document.get("firstname").toString();
+                                    String ln = document.get("lastname").toString();
+                                    String id = document.getId();
+                                    _friendsList.add(new FriendHolder(new Friend(fn, ln, id)));
+                                }
+
+                                // To not replicate items users already have
+                                if(task.getResult().size() != 0)
+                                {
+                                    _LastQueriedList = task.getResult().getDocuments()
+                                            .get(task.getResult().size() - 1);
+                                }
+
+                                _adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+    private void getFriends()
+    {
+        // Check UserID with user1 field
+        // Bug: addOnSuccessListener Failed
+        Query friendCouples = FirebaseFirestore.getInstance().collection("userfriends")
+                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
+
+        final List<String> friendIds = new ArrayList<>();
+
+        friendCouples.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                    {
+                        friendIds.add(doc.get("user2").toString());
+                    }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(Menu3_Friends.this,"Something Went Wrong", Toast.LENGTH_SHORT);
+                }
+            });
+
+        //get all friends
+        final IntegerCounter friendCounter = new IntegerCounter(friendIds.size());
+
+        CollectionReference users = FirebaseFirestore.getInstance().collection("users");
+
+        for (String id : friendIds)
+        {
+            users.document(id).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            _friendsList.add(new FriendHolder(
+                                                new Friend(
+                                                    documentSnapshot.get("firstname").toString(),
+                                                    documentSnapshot.get("lastname").toString(),
+                                                    documentSnapshot.getId()
+                                                )
+                                            )
+                            );
+                            friendCounter.Decrement();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Menu3_Friends.this,
+                                    "Something Went Wrong", Toast.LENGTH_SHORT);
+                            friendCounter.SetError(true);
+                        }
+                    });
+        }
+
+        //wait for friends to be found
+        while (!friendCounter.HasError() && !friendCounter.Done()) {}
+
+        //notify list adapter of change
+        _adapter.notifyDataSetChanged();
+
+        /*m_webView = findViewById(R.id.web_view);
+        WebSettings webSettings = m_webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        m_webView.loadUrl("file:///android_asset/definitely_not_a_turtle_dancing_in_the_shower.gif");*/
+    }
+
+    void RefreshFriends()
+    {
+        _friendsList.clear();
+        _adapter.ClearSelectedIndex();
+        getFriends_HOTFIX();
+    }
+
+
 }
