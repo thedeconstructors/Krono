@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.deconstructors.firestoreinteract.FirestoreDB;
 import com.deconstructors.firestoreinteract.IntegerCounter;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.FriendsListAdapter;
@@ -87,14 +88,14 @@ public class Menu3_Friends
 
         setupRecycleView();
         _SwipeRefreshLayout.setRefreshing(true);
-        getFriends();
+        getFriends_NEWDB();
     }
 
     @Override
     public void onRefresh()
     {
         _friendsList.clear();
-        this.getFriends();
+        getFriends_NEWDB();
     }
 
     /*******************************************
@@ -169,6 +170,99 @@ public class Menu3_Friends
             Toast.makeText(Menu3_Friends.this,
                     "Please enter an email", Toast.LENGTH_SHORT);
         }
+    }
+
+    public void OnAddFriendClick_NEWDB(View view)
+    {
+        //get email user entered
+        final String friendEmail = _emailField.getText().toString().trim();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //check if email wasn't empty
+        if (friendEmail.compareTo("") != 0)
+        {
+            //find the user with that email and save their id
+            Task<QuerySnapshot> getFriendId =
+                db.collection("users")
+                    .whereEqualTo("loginEmail", friendEmail)
+                    .get()
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("Krono_Friends","FAILED: " + e.getMessage());
+                        }
+                    });
+
+            //get friend document from db
+            Task<DocumentSnapshot> getFriendDocument =
+                Tasks.whenAllSuccess(getFriendId)
+                    .continueWithTask(new Continuation<List<Object>, Task<DocumentSnapshot>>() {
+                        @Override
+                        public Task<DocumentSnapshot> then(@NonNull Task<List<Object>> task) throws Exception
+                        {
+                            String friendId = "";
+                            if (!task.getResult().isEmpty())
+                            {
+                                friendId = ((QuerySnapshot)task.getResult().get(0)).getDocuments().get(0).getId();
+                            }
+
+                            return db.collection("users").document(friendId).get();
+                        }
+                    });
+
+            //copy document to user's friends
+            Tasks.whenAllSuccess(getFriendDocument)
+                    .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
+                        @Override
+                        public void onComplete(@NonNull Task<List<Object>> task) {
+                            if (task.isSuccessful())
+                            {
+                                //get document snapshot from task result
+                                DocumentSnapshot friendDoc =
+                                        (DocumentSnapshot) (task.getResult().get(0));
+
+                                //create new friend's document
+                                HashMap<String,Object> friendInfo = new HashMap<>();
+                                friendInfo.put("userid",friendDoc.getId());
+                                friendInfo.put("firstname",friendDoc.get("firstname"));
+                                friendInfo.put("lastname",friendDoc.get("lastname"));
+
+                                //add document to user's friend collection
+                                db.collection("users")
+                                        .document(SessionData.GetInstance().GetUserID())
+                                        .collection("friends")
+                                        .add(friendInfo)
+                                            //what to do when it completes
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful())
+                                                    {
+                                                        //tell user it was a success
+                                                        //refresh list
+                                                        NotifyMessage("Successfully added friend!");
+                                                        _SwipeRefreshLayout.setRefreshing(true);
+                                                        onRefresh();
+                                                    }
+                                                    else
+                                                    {
+                                                        NotifyMessage("Unable to add friend");
+                                                    }
+                                                }
+                                            });
+                            }
+                            else
+                            {
+                                NotifyMessage("Failed to retrieve friend's info");
+                            }
+                        }
+                    });
+        }
+        else
+        {
+            NotifyMessage("Please enter an email");
+        }
+
     }
 
     public void RemoveFriendOnClick(View view)
@@ -429,6 +523,45 @@ public class Menu3_Friends
                             NotifyMessage("Unable to retrieve friends");
                         }
                         _adapter.notifyDataSetChanged();
+                        _SwipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+    }
+
+    private void getFriends_NEWDB()
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //task to get entire collection of user friends
+        Task<QuerySnapshot> getUserFriends =
+            db.collection("users")
+                .document(SessionData.GetInstance().GetUserID())
+                .collection("friends")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            for (DocumentSnapshot friend : task.getResult())
+                            {
+                                Friend newfriend = new Friend(
+                                        friend.get("firstname").toString(),
+                                        friend.get("lastname").toString(),
+                                        friend.getId()
+                                );
+
+                                FriendHolder holder = new FriendHolder(newfriend);
+
+                                _friendsList.add(holder);
+                            }
+                            NotifyMessage("Retrieved all friends");
+                            _adapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            NotifyMessage("Unable to retrieve friends");
+                        }
                         _SwipeRefreshLayout.setRefreshing(false);
                     }
                 });
