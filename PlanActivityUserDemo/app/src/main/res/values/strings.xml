@@ -1,0 +1,43 @@
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">PlanActivityUserDemo</string>
+
+    <!-- 2. Cloud Firestore Collection Names -->
+    <string name="collection_users">Users</string>
+    <string name="collection_plans">Plans</string><!-- hierarchy lv2 -->
+    <string name="collection_friends">Friends</string> <!-- hierarchy lv2 -->
+    <string name="collection_activities">Activities</string> <!-- hierarchy lv3 -->
+    <string name="collection_planUser">PlanUserList</string> <!-- hierarchy lv3 -->
+
+    <!-- 3. Authentication -->
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
+    <!-- Twitter consumer key and secret -->
+    <string name="twitter_consumer_key" translatable="false">YOUR_CONSUMER_KEY</string>
+    <string name="twitter_consumer_secret" translatable="false">YOUR_CONSUMER_SECRET</string>
+    <!-- Sign In -->
+    <string name="signIn_logoText">Logo</string>
+    <string name="signIn_emailText">Email</string>
+    <string name="signIn_passwordText">Password</string>
+    <string name="signIn_orText">OR</string>
+    <string name="signIn_emailButtonText">Sign In with Email</string>
+    <string name="signIn_googleButtonText">Sign In with Google</string>
+    <string name="signIn_anonymousButtonText">Sign In Anonymously</string>
+    <string name="signIn_registerButtonText">Don\'t Have an Account?</string>
+
+    <!-- 4. User Interface -->
+    <string name="ui_title">Title</string>
+    <string name="ui_description">Description</string>
+    <!-- Intent extras -->
+    <string name="intent_plans">intent_plans</string>
+    <string name="intent_userList">intent_userlist</string>
+    <!-- Toolbar -->
+    <string name="toolbar_searchButtonText">Search</string>
+    <string name="toolbar_shareText">Share</string>
+    <string name="toolbar_menuText">Menu</string>
+    <string name="toolbar_renamePlanText">Rename plan</string>
+    <string name="toolbar_sortByText">Sort by</string>
+    <string name="toolbar_deletePlanText">Delete Plan</string>
+
+</resources>

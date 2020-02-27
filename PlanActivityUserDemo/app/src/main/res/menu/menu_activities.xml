@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/ic_toolbar_menu"
+        android:orderInCategory="100"
+        android:title="@string/toolbar_menuText"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/activitiesMenu_rename"
+                android:icon="@drawable/ic_toolbar_rename"
+                android:title="@string/toolbar_renamePlanText"/>
+            <item
+                android:id="@+id/activitiesMenu_sortby"
+                android:icon="@drawable/ic_toolbar_sortby"
+                android:title="@string/toolbar_sortByText"/>
+            <item
+                android:id="@+id/activitiesMenu_delete"
+                android:icon="@drawable/ic_toolbar_delete"
+                android:title="@string/toolbar_deletePlanText"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/plans_toolbar_shareButton"
+        android:icon="@drawable/ic_toolbar_share"
+        android:title="@string/toolbar_shareText"
+        app:showAsAction="ifRoom"/>
+</menu>

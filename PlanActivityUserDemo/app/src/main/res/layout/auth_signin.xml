@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".authentication.SignInActivity"
+    android:id="@+id/signin_layout">
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/signin_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:visibility="invisible"/>
+
+    <ScrollView
+        android:id="@+id/signin_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/signin_linearlayout_emailpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:padding="20dp">
+
+            <!-- Email Log In Methods -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_logo_600_48dp"
+                android:contentDescription="@string/signIn_logoText"/>
+            <EditText
+                android:id="@+id/signin_emailEditText"
+                style="@style/SignInEditTextStyle"
+                android:hint="@string/signIn_emailText"
+                android:autofillHints="username"
+                android:inputType="textEmailAddress"/>
+            <EditText
+                android:id="@+id/signin_passwordEditText"
+                style="@style/SignInEditTextStyle"
+                android:hint="@string/signIn_passwordText"
+                android:autofillHints="password"
+                android:inputType="textPassword"/>
+            <Button
+                android:id="@+id/signin_email_button"
+                style="@style/SignInButtonStyle"
+                android:text="@string/signIn_emailButtonText"
+                android:background="@drawable/ic_button_grayborder"
+                android:layout_marginTop="30dp"/>
+
+            <!-- OR -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/signIn_orText"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <!-- Alternative Log In Methods -->
+            <Button
+                android:id="@+id/signin_google_button"
+                style="@style/SignInButtonStyle"
+                android:text="@string/signIn_googleButtonText"
+                android:background="@drawable/ic_button_grayborder"/>
+            <Button
+                android:id="@+id/signin_anonymous_button"
+                style="@style/SignInButtonStyle"
+                android:text="@string/signIn_anonymousButtonText"
+                android:background="@drawable/ic_button_grayborder"/>
+            <Button
+                android:id="@+id/signin_register_button"
+                style="@style/SignInButtonStyle"
+                android:text="@string/signIn_registerButtonText"
+                android:background="@drawable/ic_button_grayborder"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
