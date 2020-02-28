@@ -4,15 +4,15 @@
     package="com.demo.planactivityuserdemo">
 
     <application
+        android:name=".UserClient"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".UserClient"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".userinterface.MainActivity"></activity>
         <!-- 1. Authentication -->
         <activity android:name=".authentication.SignInActivity">
             <intent-filter>
@@ -20,12 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication.RegisterActivity" />
-
-        <!-- 2. User Interface -->
-        <activity android:name=".userinterface.PlansActivity"/>
-        <activity android:name=".userinterface.ActivitiesActivity"
-            android:parentActivityName=".userinterface.PlansActivity"/>
+        <activity android:name=".authentication.RegisterActivity" /> <!-- 2. User Interface -->
+        <activity android:name=".userinterface.PlansActivity" />
+        <activity
+            android:name=".userinterface.ActivitiesActivity"
+            android:parentActivityName=".userinterface.PlansActivity" />
     </application>
 
 </manifest>

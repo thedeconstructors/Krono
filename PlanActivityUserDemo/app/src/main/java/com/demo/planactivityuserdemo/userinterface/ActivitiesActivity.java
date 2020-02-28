@@ -15,6 +15,7 @@ import com.demo.planactivityuserdemo.R;
 import com.demo.planactivityuserdemo.adapter.ActivitiesRecyclerAdapter;
 import com.demo.planactivityuserdemo.model.Activity;
 import com.demo.planactivityuserdemo.model.Plan;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -42,6 +43,7 @@ public class ActivitiesActivity extends AppCompatActivity
     private ProgressBar ProgressBar;
     private RecyclerView RecyclerView;
     private SwipeRefreshLayout SwipeRefreshLayout;
+    private FloatingActionButton FAB;
 
     // Vars
     private Plan Plan;
@@ -74,7 +76,9 @@ public class ActivitiesActivity extends AppCompatActivity
         this.RecyclerView = findViewById(R.id.activities_recyclerview);
         this.SwipeRefreshLayout = findViewById(R.id.activities_refreshlayout);
         this.SwipeRefreshLayout.setOnRefreshListener(this);
-        this.findViewById(R.id.activities_fab).setOnClickListener(this);
+        this.FAB = findViewById(R.id.activities_fab);
+        this.FAB.setOnClickListener(this);
+
         this.FirestoreDB = FirebaseFirestore.getInstance();
     }
 
@@ -185,8 +189,8 @@ public class ActivitiesActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activities, menu);
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.menu_activities, menu);
         return true;
     }
 

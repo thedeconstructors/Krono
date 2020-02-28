@@ -1,61 +1,55 @@
 package com.demo.planactivityuserdemo.userinterface;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.widget.SearchView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ProgressBar;
+
 import com.demo.planactivityuserdemo.R;
-import com.demo.planactivityuserdemo.UserClient;
 import com.demo.planactivityuserdemo.adapter.PlansRecyclerAdapter;
 import com.demo.planactivityuserdemo.model.Plan;
-import com.demo.planactivityuserdemo.model.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
-public class PlansActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements View.OnClickListener,
-                   PlansRecyclerAdapter.PlansRecyclerClickListener,
-                   SwipeRefreshLayout.OnRefreshListener
+                   PlansRecyclerAdapter.PlansRecyclerClickListener
 {
     // Logcat
     private static final String TAG = "PlansActivity";
 
-    // Views
-    private ProgressBar ProgressBar;
+    // XML Widgets
+    private Toolbar Toolbar;
     private RecyclerView RecyclerView;
-    private SwipeRefreshLayout SwipeRefreshLayout;
-    private SearchView SearchView;
+    private DrawerLayout DrawerLayout;
+    private ActionBarDrawerToggle DrawerToggle;
 
     // Vars
     private ArrayList<Plan> PlanList = new ArrayList<>();
     private Set<String> PlanListIDs = new HashSet<>();
-    private Set<String> FilterListIDs = new HashSet<>();
-    private ArrayList<User> UserList = new ArrayList<>();
     private PlansRecyclerAdapter RecyclerAdapter;
     private FirebaseFirestore FirestoreDB;
     private ListenerRegistration PlansEventListener;
@@ -64,25 +58,27 @@ public class PlansActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_plans);
+        setContentView(R.layout.ui_main);
 
         setContentViews();
         setRecyclerView();
-        setToolbar();
     }
 
-    /************************************************************************
-     * Purpose:         setters
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
     private void setContentViews()
     {
-        this.ProgressBar = findViewById(R.id.plans_progressBar);
-        this.RecyclerView = findViewById(R.id.plans_recyclerview);
-        this.SwipeRefreshLayout = findViewById(R.id.plans_refreshlayout);
-        this.SwipeRefreshLayout.setOnRefreshListener(this);
-        this.findViewById(R.id.plans_fab).setOnClickListener(this);
+        // Toolbar & Navigation Drawer
+        this.Toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(this.Toolbar);
+        this.DrawerLayout = findViewById(R.id.main_drawerLayout);
+        this.DrawerToggle = new ActionBarDrawerToggle(this,
+                                                      this.DrawerLayout,
+                                                      this.Toolbar,
+                                                      R.string.navigation_openText,
+                                                      R.string.navigation_closeText);
+        this.DrawerLayout.addDrawerListener(this.DrawerToggle);
+
+        // Recycler View & Database
+        this.RecyclerView = findViewById(R.id.main_planRecyclerview);
         this.FirestoreDB = FirebaseFirestore.getInstance();
     }
 
@@ -94,26 +90,16 @@ public class PlansActivity extends AppCompatActivity
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void setToolbar()
-    {
-        getSupportActionBar().setTitle(R.string.collection_plans);
-    }
-
     /************************************************************************
      * Purpose:         OnClickListener & Database
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
     @Override
-    public void onClick(View view)
+    protected void onPostCreate(@Nullable Bundle savedInstanceState)
     {
-        switch (view.getId())
-        {
-            case R.id.plans_fab:
-            {
-                //
-            }
-        }
+        super.onPostCreate(savedInstanceState);
+        this.DrawerToggle.syncState();
     }
 
     private void getPlans()
@@ -126,8 +112,8 @@ public class PlansActivity extends AppCompatActivity
         PlansEventListener = planRef.addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
-            public void onEvent(@Nullable QuerySnapshot documentSnapshots,
-                                @Nullable FirebaseFirestoreException e)
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot documentSnapshots,
+                                @javax.annotation.Nullable FirebaseFirestoreException e)
             {
                 if (e != null)
                 {
@@ -177,7 +163,7 @@ public class PlansActivity extends AppCompatActivity
 
     private void navPlanActivity(Plan plan)
     {
-        Intent intent = new Intent(PlansActivity.this, ActivitiesActivity.class);
+        Intent intent = new Intent(MainActivity.this, ActivitiesActivity.class);
         intent.putExtra(getString(R.string.intent_plans), plan);
         startActivity(intent);
     }
@@ -194,7 +180,7 @@ public class PlansActivity extends AppCompatActivity
         //inflater.inflate(R.menu.menu_plans, menu);
 
         // Search Button
-        MenuItem searchItem = menu.findItem(R.id.plansMenu_search);
+        /*MenuItem searchItem = menu.findItem(R.id.plansMenu_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
@@ -213,7 +199,7 @@ public class PlansActivity extends AppCompatActivity
                 //RecyclerAdapter.resetFilterList();
                 return false;
             }
-        });
+        });*/
 
         return true;
     }
@@ -241,9 +227,8 @@ public class PlansActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefresh()
+    public void onClick(View view)
     {
-        getPlans();
-        SwipeRefreshLayout.setRefreshing(false);
+
     }
 }

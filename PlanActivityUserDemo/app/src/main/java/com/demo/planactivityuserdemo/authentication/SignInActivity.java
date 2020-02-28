@@ -17,21 +17,15 @@ import android.widget.ProgressBar;
 import com.demo.planactivityuserdemo.R;
 import com.demo.planactivityuserdemo.UserClient;
 import com.demo.planactivityuserdemo.model.User;
+import com.demo.planactivityuserdemo.userinterface.MainActivity;
 import com.demo.planactivityuserdemo.userinterface.PlansActivity;
 import com.demo.planactivityuserdemo.utility.Helper;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +51,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     {
         // For Debug Purpose Only
         // Removes the Firebase Auth Session and Signs the User Out
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_signin);
@@ -73,7 +67,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
      ************************************************************************/
     private void setContentViews()
     {
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         Email = findViewById(R.id.signin_emailEditText);
         Password = findViewById(R.id.signin_passwordEditText);
@@ -239,7 +233,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
 
-                    Intent intent = new Intent(SignInActivity.this, PlansActivity.class);
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
