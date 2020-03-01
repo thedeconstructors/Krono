@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".authentication.RegisterActivity" /> <!-- 2. User Interface -->
-        <activity android:name=".userinterface.PlansActivity" />
         <activity
             android:name=".userinterface.ActivitiesActivity"
             android:parentActivityName=".userinterface.PlansActivity" />

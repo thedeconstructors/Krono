@@ -35,4 +35,5 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation 'com.google.android.gms:play-services:12.0.1'
     implementation 'androidx.navigation:navigation-ui:2.3.0-alpha02'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

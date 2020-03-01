@@ -39,11 +39,15 @@
     <string name="toolbar_renamePlanText">Rename plan</string>
     <string name="toolbar_sortByText">Sort by</string>
     <string name="toolbar_deletePlanText">Delete Plan</string>
-    <!-- Nav Drawer -->
+
+    <!-- 5. Nav Drawer -->
     <string name="navigation_openText">Navigation Open</string>
     <string name="navigation_closeText">Navigation Close</string>
     <string name="navigation_profileText">Profile</string>
     <string name="navigation_displayNameText">Display Name</string>
     <string name="navigation_emailFieldText">email@field.com</string>
+    <string name="navigation_allActivitiesText">All Activities</string>
+    <string name="navigation_friendsText">Friends</string>
+    <string name="navigation_managePlansText">Manage Plans</string>
 
 </resources>

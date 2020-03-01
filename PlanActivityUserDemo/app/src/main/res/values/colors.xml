@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#66a3ff</color>
 
+    <color name="drawer_bar">#DDDDDD</color>
+
     <color name="red1">#af0a0a</color>
     <color name="red2">#c40909</color>
     <color name="red3">#e50909</color>
