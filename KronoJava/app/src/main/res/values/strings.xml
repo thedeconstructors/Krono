@@ -6,7 +6,6 @@
     <string name="quick_tile_title">Krono Activity</string>
 
     <!-- Main Menu Items -->
-    <string name="MenuTitle">Krono!</string>
     <string name="MenuItem0">Activities</string>
     <string name="MenuItem1">Plans</string>
     <string name="MenuItem2">Calendar</string>

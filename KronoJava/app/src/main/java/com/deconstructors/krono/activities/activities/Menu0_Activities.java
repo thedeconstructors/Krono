@@ -102,10 +102,6 @@ public class Menu0_Activities
     {
         setSupportActionBar(_ActivityToolbar);
         getSupportActionBar().setTitle("Activities Menu");
-        // Toolbar Back Button
-        // Toolbar doesn't need a button click event because of this
-        // AndroidMenifest.xml -> Set Parent Activity
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /***********************************************************************
@@ -135,7 +131,7 @@ public class Menu0_Activities
                             _ActivityList.clear();
                         }
 
-                        /* Populate the list of activites using an iterator */
+                        /* Populate the list of activities using an iterator */
                         while (iterator.hasNext())
                         {
                             _ActivityList.add(iterator.next().toObject(Activity.class));
