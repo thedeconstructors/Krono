@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +56,9 @@ public class Menu3_Friends
         extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener
 {
+    //extra constant
+    final String FRIENDID_EXTRA = "FRIEND_ID";
+
     //private WebView m_webView;
     private TextView _emailField;
     private SwipeRefreshLayout _SwipeRefreshLayout;
@@ -263,6 +267,27 @@ public class Menu3_Friends
             NotifyMessage("Please enter an email");
         }
 
+    }
+
+    public void ViewProfileOnClick(View view)
+    {
+
+        int selectedIndex = _adapter.GetSelectedIndex();
+
+        if (selectedIndex == -1)
+        {
+            NotifyMessage("No friend is selected");
+        }
+        else
+        {
+            String friendId = _friendsList.get(selectedIndex).GetFriend().GetID();
+
+            Intent intent = new Intent(Menu3_Friends.this, Menu3_Friends_ViewFriend.class);
+
+            intent.putExtra(FRIENDID_EXTRA, friendId);
+
+            startActivity(intent);
+        }
     }
 
     public void RemoveFriendOnClick(View view)
@@ -548,7 +573,7 @@ public class Menu3_Friends
                                 Friend newfriend = new Friend(
                                         friend.get("firstname").toString(),
                                         friend.get("lastname").toString(),
-                                        friend.getId()
+                                        friend.get("userid").toString()
                                 );
 
                                 FriendHolder holder = new FriendHolder(newfriend);
