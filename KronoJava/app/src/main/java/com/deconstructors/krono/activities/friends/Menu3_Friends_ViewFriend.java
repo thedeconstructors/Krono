@@ -31,6 +31,9 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
 
     SwipeRefreshLayout _refreshLayout;
 
+    /**************************
+     * OVERRIDES
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +60,9 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
         _refreshLayout.setRefreshing(false);
     }
 
+    /*********************************
+     * HELPER METHODS
+     */
     private void NotifyMessage(String message)
     {
         Toast.makeText(Menu3_Friends_ViewFriend.this,

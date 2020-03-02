@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="OnAddFriendClick_NEWDB"
+                android:onClick="OnAddFriendClick"
                 android:text="Add" />
         </LinearLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#FF6F6F"
-                android:onClick="RemoveFriendOnClick"
+                android:onClick="RemoveFriendOnClick_NEWDB"
                 android:text="REMOVE FRIEND" />
 
             <Button
