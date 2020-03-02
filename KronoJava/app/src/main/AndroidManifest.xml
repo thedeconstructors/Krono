@@ -45,6 +45,9 @@
         <activity
             android:name=".activities.friends.Menu3_Friends"
             android:parentActivityName=".activities.MainActivity"/>
+        <activity
+            android:name=".activities.friends.Menu3_Friends_ViewFriend"
+            android:parentActivityName=".activities.friends.Menu3_Friends"/>
         <!-- Menu 4 Users -->
         <activity
             android:name=".activities.profile.Menu4_Users"

@@ -68,16 +68,29 @@
                 android:text="Add" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/MainMenu_Friends_RemoveFriend"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="75dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="#FF6F6F"
-            android:onClick="RemoveFriendOnClick"
-            android:text="REMOVE FRIEND" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/MainMenu_Friends_RemoveFriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FF6F6F"
+                android:onClick="RemoveFriendOnClick"
+                android:text="REMOVE FRIEND" />
+
+            <Button
+                android:id="@+id/MainMenu_Friends_ViewProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="ViewProfileOnClick"
+                android:text="VIEW PROFILE" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
