@@ -1,5 +1,6 @@
 package com.deconstructors.krono.activities.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +106,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
     public class ViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, View.OnLongClickListener
+        implements View.OnClickListener, View.OnLongClickListener
     {
         private View _view;
         private TextView _nameText;
@@ -127,13 +128,20 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         public void onClick(View view)
         {
-            ToggleSelect();
+            ViewActivityDetails();
         }
 
         @Override
         public boolean onLongClick(View v)
         {
             return false;
+        }
+
+        public void ViewActivityDetails() {
+
+            Intent intent = new Intent(_view.getContext(), ActivityDetails.class);
+            intent.putExtra("activity_name", _ActivityList.get(getAdapterPosition()).getActivityID());
+            _view.getContext().startActivity(intent);
         }
 
         public void ToggleSelect()

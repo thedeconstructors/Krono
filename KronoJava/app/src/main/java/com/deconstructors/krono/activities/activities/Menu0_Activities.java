@@ -20,15 +20,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SessionData;
-import com.deconstructors.krono.helpers.SwipeController;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -52,7 +46,6 @@ public class Menu0_Activities
     // XML Widgets
     private RecyclerView _RecyclerView;
     private Toolbar _ActivityToolbar;
-    private SwipeController swipeController;
     private ItemTouchHelper itemTouchhelper;
     private SwipeRefreshLayout _SwipeRefreshLayout;
 
@@ -86,11 +79,6 @@ public class Menu0_Activities
         _RecyclerView.setHasFixedSize(true);
         _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         _RecyclerView.setAdapter(_ActivityRVAdapter);
-
-        // Touch Control
-        swipeController = new SwipeController();
-        itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(_RecyclerView);
     }
 
     /***********************************************************************
@@ -134,7 +122,11 @@ public class Menu0_Activities
                         /* Populate the list of activities using an iterator */
                         while (iterator.hasNext())
                         {
-                            _ActivityList.add(iterator.next().toObject(Activity.class));
+                            QueryDocumentSnapshot snapshot = iterator.next();
+
+                            Activity activity = snapshot.toObject(Activity.class);
+                            activity.setId(snapshot.getId());
+                            _ActivityList.add(activity);
                         }
 
                         /* Notify the adapter that the data has changed */
