@@ -22,6 +22,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SessionData;
 import com.deconstructors.krono.helpers.SwipeController;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Menu0_Activities
@@ -40,7 +42,7 @@ public class Menu0_Activities
 {
     // Error Handler Log Search
     private static final String _Tag = "Krono_Menu0_Log";
-    private static final String _dbPath = "useractivities";
+    private static final String _dbPath = "users";
 
     // Variables
     private List<Activity> _ActivityList = new ArrayList<>();
@@ -103,68 +105,49 @@ public class Menu0_Activities
         // Toolbar Back Button
         // Toolbar doesn't need a button click event because of this
         // AndroidMenifest.xml -> Set Parent Activity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /***********************************************************************
      * Purpose:         Get Activities
      * Precondition:    .
      * Postcondition:   Retrieve Activities from the database
-     *                  Checks for the uid to get items from a specific user
+     *                  Grabs current user, and then their activities
      *
      ************************************************************************/
     private void getActivities()
     {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference activitiesCollectionRef = db.collection(_dbPath);
+        /* Query The Database */
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(SessionData.GetInstance().GetUserID())
+                .collection("activities")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        Query activitiesQuery = null;
-        if(_LastQueriedList != null)
-        {
-            activitiesQuery = activitiesCollectionRef
-                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID())
-                    //.orderBy("datetime", Query.Direction.ASCENDING)
-                    .startAfter(_LastQueriedList);
-        }
-        else
-        {
-            activitiesQuery = activitiesCollectionRef
-                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID());
-                    //.orderBy("datetime", Query.Direction.ASCENDING);
-        }
+                        /* Grab the iterator from the built in google library */
+                        Iterator<QueryDocumentSnapshot> iterator = queryDocumentSnapshots.iterator();
 
-        activitiesQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
-                if (task.isSuccessful())
-                {
-                    for(QueryDocumentSnapshot document: task.getResult())
-                    {
-                        Activity activity = document.toObject(Activity.class);
-                        _ActivityList.add(activity);
+                        /* Reset the activity list view */
+                        if (!_ActivityList.isEmpty()) {
+                            _ActivityList.clear();
+                        }
+
+                        /* Populate the list of activites using an iterator */
+                        while (iterator.hasNext())
+                        {
+                            _ActivityList.add(iterator.next().toObject(Activity.class));
+                        }
+
+                        /* Notify the adapter that the data has changed */
+                        _ActivityRVAdapter.notifyDataSetChanged();
                     }
-
-                    // To not replicate items users already have
-                    if(task.getResult().size() != 0)
-                    {
-                        _LastQueriedList = task.getResult().getDocuments()
-                                .get(task.getResult().size() - 1);
-                    }
-
-                    _ActivityRVAdapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    //
-                }
-            }
-        });
+                });
     }
 
     /******************************* XML ***********************************/
-
     /************************************************************************
      * Purpose:         Toolbar Menu Inflater
      * Precondition:    .

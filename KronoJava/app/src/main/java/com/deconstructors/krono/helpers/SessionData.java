@@ -5,7 +5,6 @@ public class SessionData {
     //private data members
     private String _userid = null;
 
-
     //Singleton pattern
     public static SessionData _instance = null;
     public static SessionData GetInstance()

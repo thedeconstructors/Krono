@@ -41,7 +41,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="Title"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:autofillHints="" />
 
         </TableRow>
 

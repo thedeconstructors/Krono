@@ -13,6 +13,7 @@
         layout="@layout/menu0_toolbar">
     </include>
 
+    <!-- Add New Activity Button -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/MainMenu_SwipeRefreshLayoutID"
         android:layout_width="match_parent"
@@ -25,10 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp"/>
+            android:padding="5dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- Add New Activity Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNewActivity"
         android:onClick="btnNewActivity"
