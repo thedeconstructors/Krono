@@ -33,6 +33,9 @@
         <activity
             android:name=".activities.activities.NewActivity"
             android:parentActivityName=".activities.activities.Menu0_Activities" />
+        <activity
+            android:name=".activities.activities.ActivityDetails"
+            android:parentActivityName=".activities.activities.Menu0_Activities" />
         <!-- Menu 1 Plan -->
         <activity
             android:name=".activities.plans.Menu1_Plans"
