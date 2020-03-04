@@ -10,10 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.plans.Plans;
+import com.deconstructors.krono.helpers.PlansListAdapter;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Menu3_Friends_ViewFriend extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
 {
@@ -31,6 +39,12 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
 
     SwipeRefreshLayout _refreshLayout;
 
+    //plan list members
+    List<Plans> _friend_publicPlans;
+    List<Plans> _friend_sharedPlans;
+    PlansListAdapter _friend_publicPlansAdapter;
+    PlansListAdapter _friend_sharedPlansAdapter;
+
     /**************************
      * OVERRIDES
      */
@@ -47,17 +61,24 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
         friend_publicPlans = (RecyclerView) findViewById(R.id.ViewFriend_PublicPlans);
         friend_sharedPlans = (RecyclerView) findViewById(R.id.ViewFriend_SharedPlans);
 
+        _friend_publicPlans = new ArrayList<>();
+        _friend_sharedPlans = new ArrayList<>();
+
+        _friend_publicPlansAdapter = new PlansListAdapter(_friend_publicPlans);
+        _friend_sharedPlansAdapter = new PlansListAdapter(_friend_sharedPlans);
+        friend_publicPlans.setAdapter(_friend_publicPlansAdapter);
+        friend_sharedPlans.setAdapter(_friend_sharedPlansAdapter);
+
         _refreshLayout = (SwipeRefreshLayout) findViewById(R.id.ViewFriend_RefreshLayout);
         _refreshLayout.setOnRefreshListener(this);
 
-        PopulateUserInfo();
+        PopulateFriendInfo();
     }
 
     @Override
     public void onRefresh()
     {
-        NotifyMessage("That's Refreshing :D");
-        _refreshLayout.setRefreshing(false);
+        PopulateFriendInfo();
     }
 
     /*********************************
@@ -71,13 +92,14 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                 .show();
     }
 
-    void PopulateUserInfo()
+    void PopulateFriendInfo()
     {
         _refreshLayout.setRefreshing(true);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users")
+        Task<DocumentSnapshot> getFriendInfo =
+            db.collection("users")
                 .document(friendId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -102,6 +124,51 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                         {
                             NotifyMessage("Failed to retrieve user info");
                             finish();
+                        }
+                    }
+                });
+
+        _friend_publicPlans = new ArrayList<>();
+
+        Task<QuerySnapshot> getPublicPlans =
+            db.collection("users")
+                .document(friendId)
+                .collection("plans")
+                .whereEqualTo("public",true)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<DocumentSnapshot> publicPlans = task.getResult().getDocuments();
+                            for (DocumentSnapshot doc : publicPlans)
+                            {
+                                Plans plan = doc.toObject(Plans.class);
+                                _friend_publicPlans.add(plan);
+                            }
+                            _friend_publicPlansAdapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            NotifyMessage("Unable to retrieve friend's public plans");
+                        }
+                    }
+                });
+
+        List<Task<?>> taskList = new ArrayList<>();
+
+        taskList.add(getFriendInfo);
+        taskList.add(getPublicPlans);
+
+        Tasks.whenAllSuccess(taskList)
+                .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<Object>> task) {
+                        if (task.isSuccessful())
+                        {
+                            NotifyMessage("Successfully retrieved friend info");
+                            _refreshLayout.setRefreshing(false);
                         }
                     }
                 });
