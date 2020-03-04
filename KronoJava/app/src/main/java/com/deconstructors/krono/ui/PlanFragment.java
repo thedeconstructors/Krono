@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -19,7 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.activities.Menu0_Activities;
 import com.deconstructors.krono.activities.plans.NewPlan;
-import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.adapter.PlanRVAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -224,5 +226,13 @@ public class PlanFragment extends Fragment
     {
         this.getPlan();
         SwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        //inflater.inflate(R.menu.activity_toolbar_menu, menu);
+        //super.onCreateOptionsMenu(menu, inflater);
+        //setHasOptionsMenu(true);
     }
 }

@@ -11,20 +11,30 @@
     <!-- There is a bug from using ifRoom in xml -->
     <!-- 2. -->
     <!-- Do not use android.widget.SearchView -->
-    <item android:id="@+id/menu_activity_search"
+    <item android:id="@+id/menu_plan_search"
         android:icon="@drawable/toolbar_searchbutton_white"
-        android:title="Search Button"
+        android:title="Search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <item android:id="@+id/menu_plan_share"
+        android:icon="@drawable/ic_toolbar_share"
+        android:title="Share"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
     <!-- Toolbar - Menu - Sort By -->
-    <item android:id="@+id/activity_toolbar_sortbybutton"
+    <item android:id="@+id/menu_plan_sortby"
         android:title="Sort By"
         app:showAsAction="never"/>
 
     <!-- Toolbar - Menu - Simple View -->
-    <item android:id="@+id/activity_toolbar_simpleview"
-        android:title="Simple View"
+    <item android:id="@+id/menu_plan_edit"
+        android:title="Edit"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/menu_plan_delete"
+        android:title="Delete"
         app:showAsAction="never"/>
 
     <!-- Add more menu items later -->

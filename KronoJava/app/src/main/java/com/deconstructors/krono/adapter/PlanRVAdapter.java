@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.module.Plan;
 
 import java.util.List;
 

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.ActivityRVAdapter;
 import com.deconstructors.krono.helpers.SessionData;
-import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.module.Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;

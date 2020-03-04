@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.activities.activities.ActivityDetails;
 
 import java.text.SimpleDateFormat;

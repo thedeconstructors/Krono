@@ -13,18 +13,22 @@
     <!-- Do not use android.widget.SearchView -->
     <item android:id="@+id/menu_activity_search"
         android:icon="@drawable/toolbar_searchbutton_white"
-        android:title="Search Button"
+        android:title="Search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <!-- Toolbar - Menu - Sort By -->
-    <item android:id="@+id/activity_toolbar_sortbybutton"
+    <item android:id="@+id/menu_activity_sortby"
         android:title="Sort By"
         app:showAsAction="never"/>
 
     <!-- Toolbar - Menu - Simple View -->
-    <item android:id="@+id/activity_toolbar_simpleview"
-        android:title="Simple View"
+    <item android:id="@+id/menu_activity_edit"
+        android:title="Edit"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/menu_activity_delete"
+        android:title="Delete"
         app:showAsAction="never"/>
 
     <!-- Add more menu items later -->

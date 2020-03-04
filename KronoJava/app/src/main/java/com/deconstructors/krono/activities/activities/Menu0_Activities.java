@@ -3,6 +3,7 @@ package com.deconstructors.krono.activities.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -15,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.adapter.ActivityRVAdapter;
+import com.deconstructors.krono.module.Activity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -168,6 +170,9 @@ public class Menu0_Activities
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_toolbar_menu, menu);
+
         /*MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_toolbar_menu, menu);
 

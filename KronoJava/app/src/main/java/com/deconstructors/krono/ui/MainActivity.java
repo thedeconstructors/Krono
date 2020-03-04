@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener
 {
     // Error Handler Log Search
     public static final String _Tag = "MainActivity";
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_plan, menu);
         return true;
     }
 
@@ -90,6 +92,24 @@ public class MainActivity extends AppCompatActivity
     {
         this.NavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(this.NavController, this.AppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.nav_friends:
+            {
+            }
+
+            case R.id.nav_plans:
+            {
+            }
+        }
+
+        return false;
     }
 
     private void setProfile()
@@ -111,7 +131,7 @@ public class MainActivity extends AppCompatActivity
                         View header = NavigationView.getHeaderView(0);
                         TextView displayname = header.findViewById(R.id.profile_name);
                         TextView email = header.findViewById(R.id.profile_email);
-                        
+
                         displayname.setText(fn + " " + ln);
                         email.setText(em);
                     }

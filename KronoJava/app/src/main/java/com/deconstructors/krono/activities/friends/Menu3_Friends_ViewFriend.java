@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.adapter.PlanRVAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -1,4 +1,4 @@
-package com.deconstructors.krono.activities.activities;
+package com.deconstructors.krono.module;
 
 import com.google.firebase.Timestamp;
 

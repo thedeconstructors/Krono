@@ -1,4 +1,4 @@
-package com.deconstructors.krono.activities.plans;
+package com.deconstructors.krono.module;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.activities.activities.NewActivity;
-import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.adapter.ActivityRVAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.EventListener;
