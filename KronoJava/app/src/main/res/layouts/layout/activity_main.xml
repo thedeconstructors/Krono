@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/bg"
     android:weightSum="10"
-    tools:context=".activities.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <!-- Background -->
     <RelativeLayout
@@ -78,7 +78,7 @@
             <TextView style="@style/MainMenu_TextView_Style"
                 android:drawableTop="@drawable/menuitem5"
                 android:text="Logout"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red1"/>
         </androidx.cardview.widget.CardView>
     </GridLayout>
 </LinearLayout>

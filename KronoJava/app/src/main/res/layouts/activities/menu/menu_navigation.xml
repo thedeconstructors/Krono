@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_allActivity"
+            android:icon="@drawable/ic_drawer_activities"
+            android:title="@string/navigation_allActivities"/>
+        <item
+            android:id="@+id/nav_plans"
+            android:icon="@drawable/ic_drawer_plan"
+            android:title="@string/navigation_plans"/>
+        <item
+            android:id="@+id/nav_friends"
+            android:icon="@drawable/ic_drawer_friends"
+            android:title="@string/navigation_friends"/>
+    </group>
+</menu>

@@ -1,7 +1,6 @@
 package com.deconstructors.krono.activities.plans;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,28 +11,19 @@ import java.util.Map;
 import java.util.HashMap;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.activities.ActivityRVAdapter;
+import com.deconstructors.krono.adapter.ActivityRVAdapter;
 import com.deconstructors.krono.helpers.SessionData;
 import com.deconstructors.krono.activities.activities.Activity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class NewPlan extends AppCompatActivity
@@ -66,7 +56,7 @@ public class NewPlan extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu1_plans_newplan);
+        setContentView(R.layout.ui_plan_newitem);
 
         title = (TextView) findViewById(R.id.txtTitle);
         startTime = (TextView) findViewById(R.id.txtStartTime);

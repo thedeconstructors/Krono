@@ -3,82 +3,95 @@ package com.deconstructors.krono.activities.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.SessionData;
+import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.adapter.ActivityRVAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class Menu0_Activities
         extends AppCompatActivity
-        implements SwipeRefreshLayout.OnRefreshListener
+        implements SwipeRefreshLayout.OnRefreshListener, com.deconstructors.krono.adapter.ActivityRVAdapter.ActivityRVClickListener, View.OnClickListener
 {
     // Error Handler Log Search
-    private static final String _Tag = "Krono_Menu0_Log";
-    private static final String _dbPath = "users";
+    private static final String TAG = "ActivityActivity";
 
-    // Variables
-    private List<Activity> _ActivityList = new ArrayList<>();
-    private ActivityRVAdapter _ActivityRVAdapter;
+    // Views
+    private ProgressBar ProgressBar;
+    private RecyclerView RecyclerView;
+    private SwipeRefreshLayout SwipeRefreshLayout;
+    private FloatingActionButton FAB;
+
+    // Vars
+    private Plan Plan;
+    private List<Activity> ActivityList = new ArrayList<>();
+    private Set<String> ActivityListIDs = new HashSet<>();
     private DocumentSnapshot _LastQueriedList;
+    private ActivityRVAdapter ActivityRVAdapter;
 
-    // XML Widgets
-    private RecyclerView _RecyclerView;
-    private Toolbar _ActivityToolbar;
-    private ItemTouchHelper itemTouchhelper;
-    private SwipeRefreshLayout _SwipeRefreshLayout;
+    private FirebaseFirestore FirestoreDB;
+    private ListenerRegistration ActivitiesEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu0_activities);
-        _RecyclerView = findViewById(R.id.MainMenu_ActivityListID);
-        _ActivityToolbar = findViewById(R.id.menu0_toolbar);
-        _SwipeRefreshLayout = findViewById(R.id.MainMenu_SwipeRefreshLayoutID);
-        _SwipeRefreshLayout.setOnRefreshListener(this);
+        setContentView(R.layout.ui_activity);
 
+        setContentViews();
         setUpRecyclerView();
-        setupToolbar();
+        getPlanIntent();
         getActivities();
     }
 
-    /***********************************************************************
-     * Purpose:         Setup the RecyclerView
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
+    private void setContentViews()
+    {
+        this.ProgressBar = findViewById(R.id.activity_progressBar);
+        this.RecyclerView = findViewById(R.id.activity_recyclerview);
+        this.SwipeRefreshLayout = findViewById(R.id.activity_refreshlayout);
+        this.SwipeRefreshLayout.setOnRefreshListener(this);
+        this.FAB = findViewById(R.id.activity_fab);
+        this.FAB.setOnClickListener(this);
+
+        this.FirestoreDB = FirebaseFirestore.getInstance();
+    }
+
     private void setUpRecyclerView()
     {
-        if (_ActivityRVAdapter == null)
-        {
-            _ActivityRVAdapter = new ActivityRVAdapter(_ActivityList);
-        }
+        this.ActivityRVAdapter = new ActivityRVAdapter(this.ActivityList);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setAdapter(ActivityRVAdapter);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        _RecyclerView.setHasFixedSize(true);
-        _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        _RecyclerView.setAdapter(_ActivityRVAdapter);
+    private void getPlanIntent()
+    {
+        if(getIntent().hasExtra(getString(R.string.intent_plans)))
+        {
+            Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
+        }
     }
 
     /***********************************************************************
@@ -88,8 +101,8 @@ public class Menu0_Activities
      ************************************************************************/
     private void setupToolbar()
     {
-        setSupportActionBar(_ActivityToolbar);
-        getSupportActionBar().setTitle("Activities Menu");
+        //setSupportActionBar(_ActivityToolbar);
+        //getSupportActionBar().setTitle("Activities Menu");
     }
 
     /***********************************************************************
@@ -99,13 +112,20 @@ public class Menu0_Activities
      *                  Grabs current user, and then their activities
      *
      ************************************************************************/
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        getActivities();
+    }
+
     private void getActivities()
     {
         /* Query The Database */
         FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(SessionData.GetInstance().GetUserID())
-                .collection("activities")
+                .collection("Plans")
+                .document(this.Plan.getPlanID())
+                .collection("Activities")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -114,9 +134,11 @@ public class Menu0_Activities
                         /* Grab the iterator from the built in google library */
                         Iterator<QueryDocumentSnapshot> iterator = queryDocumentSnapshots.iterator();
 
+                        boolean x = queryDocumentSnapshots.isEmpty();
+
                         /* Reset the activity list view */
-                        if (!_ActivityList.isEmpty()) {
-                            _ActivityList.clear();
+                        if (!ActivityList.isEmpty()) {
+                            ActivityList.clear();
                         }
 
                         /* Populate the list of activities using an iterator */
@@ -126,11 +148,11 @@ public class Menu0_Activities
 
                             Activity activity = snapshot.toObject(Activity.class);
                             activity.setId(snapshot.getId());
-                            _ActivityList.add(activity);
+                            ActivityList.add(activity);
                         }
 
                         /* Notify the adapter that the data has changed */
-                        _ActivityRVAdapter.notifyDataSetChanged();
+                        ActivityRVAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -146,7 +168,7 @@ public class Menu0_Activities
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater = getMenuInflater();
+        /*MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_toolbar_menu, menu);
 
         // Search Button
@@ -168,7 +190,7 @@ public class Menu0_Activities
                 _ActivityRVAdapter.resetFilterList();
                 return false;
             }
-        });
+        });*/
 
         return true;
     }
@@ -182,7 +204,7 @@ public class Menu0_Activities
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        int x = _ActivityRVAdapter.getItemCount();
+        int x = ActivityRVAdapter.getItemCount();
 
         switch (item.getItemId())
         {
@@ -218,6 +240,18 @@ public class Menu0_Activities
     public void onRefresh()
     {
         this.getActivities();
-        _SwipeRefreshLayout.setRefreshing(false);
+        this.SwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onActiviySelected(int position)
+    {
+        // on click
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+
     }
 }

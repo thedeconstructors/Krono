@@ -6,8 +6,9 @@ package com.deconstructors.krono.activities.plans;
  ************************************************************************/
 public class Plans
 {
-    String m_title;
-    String m_description;
+    private String PlanID;
+    private String Title;
+    private String Description;
     //Integer user_id;
 
     //boolean collaborative;
@@ -30,10 +31,11 @@ public class Plans
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Plans(String title, String description)
+    public Plans(String planID, String title, String description)
     {
-        this.m_title = title;
-        this.m_description = description;
+        this.PlanID = planID;
+        this.Title = title;
+        this.Description = description;
     }
 
     /************************************************************************
@@ -41,20 +43,29 @@ public class Plans
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
+
+    public String getPlanID()
+    {
+        return PlanID;
+    }
+    public void setPlanID(String planID)
+    {
+        PlanID = planID;
+    }
     public String getTitle()
     {
-        return m_title;
+        return Title;
     }
     public void setTitle(String title)
     {
-        this.m_title = title;
+        this.Title = title;
     }
     public String getDescription()
     {
-        return m_description;
+        return Description;
     }
     public void setDescription(String description)
     {
-        this.m_description = description;
+        this.Description = description;
     }
 }

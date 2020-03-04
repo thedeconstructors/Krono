@@ -1,11 +1,34 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- 1. Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#1034A6</item>
         <item name="colorPrimaryDark">#000080</item>
         <item name="colorAccent">#0080FF</item>
+    </style>
+
+    <!-- 2. User Interface -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- 2. Authentication -->
+    <style name="SignInEditTextStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+    <style name="SignInButtonStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:background">@drawable/ic_button_grayborder</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- Main Menu Item Cards -->

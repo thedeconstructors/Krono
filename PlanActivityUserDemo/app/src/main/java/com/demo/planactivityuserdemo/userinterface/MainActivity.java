@@ -28,6 +28,7 @@ import com.demo.planactivityuserdemo.R;
 import com.demo.planactivityuserdemo.adapter.PlansRecyclerAdapter;
 import com.demo.planactivityuserdemo.model.Plan;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.EventListener;

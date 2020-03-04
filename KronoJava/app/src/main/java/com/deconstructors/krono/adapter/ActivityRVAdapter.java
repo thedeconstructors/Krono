@@ -1,4 +1,4 @@
-package com.deconstructors.krono.activities.activities;
+package com.deconstructors.krono.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.activities.activities.ActivityDetails;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,11 +26,12 @@ import java.util.Locale;
  * Purpose:         Provide a binding from an app-specific data set to
  *  *                  views that are displayed within the RecyclerView.
  ************************************************************************/
-public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.ViewHolder> implements Filterable
+public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.ViewHolder>
+        implements Filterable
 {
-    private List<Activity> _ActivityList; // The original List
-    private List<Activity> _ActivityFilterList; // For Search Filter
-    private List<Activity> _ActivitySelectList; // For Multi-Select
+    private List<Activity> ActivityList; // The original List
+    private List<Activity> ActivityFilterList; // For Search Filter
+    private List<Activity> ActivitySelectList; // For Multi-Select
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
@@ -37,8 +40,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
      ************************************************************************/
     public ActivityRVAdapter(List<Activity> ActivityList)
     {
-        this._ActivityList = ActivityList;
-        this._ActivityFilterList = ActivityList;
+        this.ActivityList = ActivityList;
+        this.ActivityFilterList = ActivityList;
     }
 
     /************************************************************************
@@ -48,20 +51,20 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
      ************************************************************************/
     public void resetFilterList()
     {
-        this._ActivityFilterList = new ArrayList<>(_ActivityList);
+        this.ActivityFilterList = new ArrayList<>(ActivityList);
     }
 
     /************************************************************************
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler List View
-     *                  Using the menu0_activitylist_item.XML File
+     *                  Using the ui_activity_listitem.XML File
      ************************************************************************/
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int temp_res = R.layout.menu0_activitylist_item;
+        int temp_res = R.layout.ui_activity_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(temp_res, parent, false);
         return new ViewHolder(view);
     }
@@ -76,12 +79,12 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
     {
         SimpleDateFormat spf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
-        String date = spf.format(_ActivityFilterList.get(position).getTimestamp().toDate());
+        String date = spf.format(ActivityFilterList.get(position).getTimestamp().toDate());
         //final Activity temp_activity =  _ActivityFilterList.get(position);
 
-        holder._nameText.setText(_ActivityFilterList.get(position).getTitle());
-        holder._descriptionText.setText(_ActivityFilterList.get(position).getDescription());
-        holder._timestampText.setText(date);
+        holder.nameText.setText(ActivityFilterList.get(position).getTitle());
+        holder.descriptionText.setText(ActivityFilterList.get(position).getDescription());
+        holder.timestampText.setText(date);
     }
 
     public int getSelectedBGColor(Activity activity)
@@ -97,7 +100,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public int getItemCount()
     {
-        return _ActivityFilterList == null ? 0 : _ActivityFilterList.size();
+        return ActivityFilterList == null ? 0 : ActivityFilterList.size();
     }
 
     /************************************************************************
@@ -108,65 +111,73 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener, View.OnLongClickListener
     {
-        private View _view;
-        private TextView _nameText;
-        private TextView _descriptionText;
-        private TextView _timestampText;
+        View view;
+        TextView nameText;
+        TextView descriptionText;
+        TextView timestampText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            _view = itemView;
-            _nameText = (TextView) _view.findViewById(R.id.activitylist_name_text);
-            _descriptionText = (TextView) _view.findViewById(R.id.activitylist_description_text);
-            _timestampText = (TextView) _view.findViewById(R.id.activitylist_timestamp_text);
 
-            _view.setOnLongClickListener(this);
-            _view.setOnClickListener(this);
+            this.view = itemView;
+            this.nameText = (TextView) view.findViewById(R.id.activitylist_name_text);
+            this.descriptionText = (TextView) view.findViewById(R.id.activitylist_description_text);
+            this.timestampText = (TextView) view.findViewById(R.id.activitylist_timestamp_text);
+
+            view.setOnLongClickListener(this);
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view)
         {
+            //this.ClickListener.onActiviySelected(getAdapterPosition());
             ViewActivityDetails();
         }
 
         @Override
         public boolean onLongClick(View v)
         {
+            // Initiate an Active view multi selection
             return false;
         }
 
         public void ViewActivityDetails() {
 
-            Intent intent = new Intent(_view.getContext(), ActivityDetails.class);
-            intent.putExtra("activity_name", _ActivityList.get(getAdapterPosition()).getActivityID());
-            _view.getContext().startActivity(intent);
+            Intent intent = new Intent(this.view.getContext(), ActivityDetails.class);
+            intent.putExtra("activity_name", ActivityList.get(getAdapterPosition()).getActivityID());
+            this.view.getContext().startActivity(intent);
         }
 
         public void ToggleSelect()
         {
-            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            final Activity temp_activity = ActivityFilterList.get(getAdapterPosition());
             temp_activity.setSelected(!temp_activity.isSelected());
             if (temp_activity.isSelected())
-                _view.setBackgroundColor(Color.rgb(208,208,208));
+                this.view.setBackgroundColor(Color.rgb(208,208,208));
             else
-                _view.setBackgroundColor(Color.WHITE);
+                this.view.setBackgroundColor(Color.WHITE);
         }
 
         public void Select()
         {
-            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            final Activity temp_activity = ActivityFilterList.get(getAdapterPosition());
             temp_activity.setSelected(true);
-            _view.setBackgroundColor(Color.rgb(208,208,208));
+            this.view.setBackgroundColor(Color.rgb(208,208,208));
         }
 
         public void Deselect()
         {
-            final Activity temp_activity = _ActivityFilterList.get(getAdapterPosition());
+            final Activity temp_activity = ActivityFilterList.get(getAdapterPosition());
             temp_activity.setSelected(false);
-            _view.setBackgroundColor(Color.WHITE);
+            this.view.setBackgroundColor(Color.WHITE);
         }
+    }
+
+    public interface ActivityRVClickListener
+    {
+        void onActiviySelected(int position);
     }
 
     /************************************************************************
@@ -189,11 +200,11 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
 
             if (constraint == null || constraint.length() == 0)
             {
-                filteredList = new ArrayList<>(_ActivityFilterList);
+                filteredList = new ArrayList<>(ActivityFilterList);
             }
             else
             {
-                for (Activity activity : _ActivityFilterList)
+                for (Activity activity : ActivityFilterList)
                 {
                     if (activity.getTitle().toLowerCase().contains(filterPattern))
                     {
@@ -211,8 +222,8 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results)
         {
-            _ActivityFilterList.clear();
-            _ActivityFilterList.addAll((List)results.values);
+            ActivityFilterList.clear();
+            ActivityFilterList.addAll((List)results.values);
             notifyDataSetChanged();
         }
 

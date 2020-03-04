@@ -1,32 +1,14 @@
 package com.deconstructors.krono.activities.plans;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import com.deconstructors.krono.helpers.PlansListAdapter;
-import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.SessionData;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
+import com.deconstructors.krono.adapter.PlanRVAdapter;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Menu1_Plans extends AppCompatActivity {
@@ -39,7 +21,7 @@ public class Menu1_Plans extends AppCompatActivity {
 
     // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
     private RecyclerView m_MainList;
-    private PlansListAdapter m_PlansListAdapter;
+    private PlanRVAdapter m_PlansListAdapter;
     private List<Plans> m_PlansList;
     private DocumentSnapshot _LastQueriedList;
 
@@ -47,21 +29,21 @@ public class Menu1_Plans extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu1__plans);
+        //setContentView(R.layout.ui_plan);
 
-        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
+        /*// List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
         m_PlansList = new ArrayList<>();
-        m_PlansListAdapter = new PlansListAdapter(m_PlansList);
+        m_PlansListAdapter = new PlanRVAdapter(m_PlansList);
 
         m_MainList = (RecyclerView)findViewById(R.id.MainMenu_PlanListID);
         m_MainList.setHasFixedSize(true);
         m_MainList.setLayoutManager(new LinearLayoutManager(this));
         m_MainList.setAdapter(m_PlansListAdapter);
 
-        getPlans();
+        getPlans();*/
     }
 
-    private void getPlans()
+    /*private void getPlans()
     {
         // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
@@ -109,5 +91,5 @@ public class Menu1_Plans extends AppCompatActivity {
     {
         Intent intent = new Intent(this, NewPlan.class);
         startActivity(intent);
-    }
+    }*/
 }

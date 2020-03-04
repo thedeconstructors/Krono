@@ -1,6 +1,5 @@
-package com.deconstructors.krono.helpers;
+package com.deconstructors.krono.adapter;
 
-import com.deconstructors.krono.activities.plans.Plans;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.plans.Plan;
 
 import java.util.List;
 
@@ -17,44 +17,48 @@ import java.util.List;
  * Class:           PlansListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.ViewHolder>
+public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder>
 {
-    public List<Plans> m_PlansList;
+    public List<Plan> PlanList;
+    private PlanRVClickListener ClickListener;
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public PlansListAdapter(List<Plans> PlanList)
+    public PlanRVAdapter(List<Plan> planList, PlanRVClickListener clickListener)
     {
-        this.m_PlansList = PlanList;
+        this.PlanList = planList;
+        this.ClickListener = clickListener;
     }
 
     /************************************************************************
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler List View
-     *                  Using the menu1_planlist_item.XML File
+     *                  Using the ui_plan_listitem.XML File
      ************************************************************************/
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu1_planlist_item, parent, false);
-        return new ViewHolder(view);
+        int res = R.layout.ui_plan_listitem;
+        View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
+        ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
+        return viewholder;
     }
 
     /************************************************************************
-     * Purpose:         Bind View Holder
+     * Purpose:         On Bind View Holder
      * Precondition:    .
      * Postcondition:   Assign Values from ViewHolder class to the Fields
      ************************************************************************/
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.titleText.setText(m_PlansList.get(position).getTitle());
-        holder.descriptionText.setText(m_PlansList.get(position).getDescription());
+        holder.titleText.setText(this.PlanList.get(position).getTitle());
+        holder.descriptionText.setText(this.PlanList.get(position).getDescription());
     }
 
     /************************************************************************
@@ -65,7 +69,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public int getItemCount()
     {
-        return m_PlansList.size();
+        return this.PlanList == null ? 0 : this.PlanList.size();
     }
 
     /************************************************************************
@@ -74,18 +78,39 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
     public class ViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener
     {
-        View m_view;
-        public TextView titleText;
-        public TextView descriptionText;
+        TextView titleText;
+        TextView descriptionText;
+        PlanRVClickListener ClickListener;
 
-        public ViewHolder(@NonNull View itemView)
+        public ViewHolder(@NonNull View itemView, PlanRVClickListener clickListener)
         {
             super(itemView);
-            m_view = itemView;
 
-            titleText = (TextView) m_view.findViewById(R.id.planlist_title_text);
-            descriptionText = (TextView) m_view.findViewById(R.id.planlist_description_text);
+            this.titleText = (TextView) itemView.findViewById(R.id.planlist_title_text);
+            this.descriptionText = (TextView) itemView.findViewById(R.id.planlist_description_text);
+            this.ClickListener = clickListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v)
+        {
+            this.ClickListener.onPlanSelected(getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View v)
+        {
+            // Initiate an Active view multi selection
+            return false;
+        }
+    }
+
+    public interface PlanRVClickListener
+    {
+        void onPlanSelected(int position);
     }
 }

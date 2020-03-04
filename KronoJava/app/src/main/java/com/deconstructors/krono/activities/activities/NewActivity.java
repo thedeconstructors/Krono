@@ -34,7 +34,7 @@ public class NewActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu0_activities_newactivity);
+        setContentView(R.layout.ui_activity_newactivity);
 
         title = findViewById(R.id.txtTitle);
         description = findViewById(R.id.txtDescription);
