@@ -1,7 +1,6 @@
 package com.deconstructors.krono.activities.friends;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.activities.plans.Plans;
-import com.deconstructors.krono.helpers.PlansListAdapter;
-import com.google.android.gms.tasks.Continuation;
+import com.deconstructors.krono.activities.plans.Plan;
+import com.deconstructors.krono.adapter.PlanRVAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -25,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu3_Friends_ViewFriend extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
+public class Menu3_Friends_ViewFriend extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, PlanRVAdapter.PlanRVClickListener
 {
     //DEBUG TAG
     final String DEBUG_TAG = "DEBUG_VIEWFRIEND";
@@ -44,10 +42,10 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
     SwipeRefreshLayout _refreshLayout;
 
     //plan list members
-    List<Plans> _friend_publicPlans;
-    List<Plans> _friend_sharedPlans;
-    PlansListAdapter _friend_publicPlansAdapter;
-    PlansListAdapter _friend_sharedPlansAdapter;
+    List<Plan> _friend_publicPlans;
+    List<Plan> _friend_sharedPlans;
+    PlanRVAdapter _friend_publicPlansAdapter;
+    PlanRVAdapter _friend_sharedPlansAdapter;
 
     /**************************
      * OVERRIDES
@@ -73,8 +71,8 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
         _friend_publicPlans = new ArrayList<>();
         _friend_sharedPlans = new ArrayList<>();
 
-        _friend_publicPlansAdapter = new PlansListAdapter(_friend_publicPlans);
-        _friend_sharedPlansAdapter = new PlansListAdapter(_friend_sharedPlans);
+        _friend_publicPlansAdapter = new PlanRVAdapter(_friend_publicPlans, this);
+        _friend_sharedPlansAdapter = new PlanRVAdapter(_friend_sharedPlans, this);
         friend_publicPlans.setAdapter(_friend_publicPlansAdapter);
         friend_sharedPlans.setAdapter(_friend_sharedPlansAdapter);
 
@@ -153,7 +151,7 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                             List<DocumentSnapshot> publicPlans = task.getResult().getDocuments();
                             for (DocumentSnapshot doc : publicPlans)
                             {
-                                Plans plan = doc.toObject(Plans.class);
+                                Plan plan = doc.toObject(Plan.class);
                                 _friend_publicPlans.add(plan);
                             }
                             _friend_publicPlansAdapter.notifyDataSetChanged();
@@ -181,5 +179,11 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onPlanSelected(int position)
+    {
+
     }
 }
