@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +18,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.login.LoginPage;
+import com.deconstructors.krono.module.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     // Firebase Authentication Listener
     private FirebaseAuth.AuthStateListener AuthStateListener;
+    private User User;
 
     // XML Widgets
     private AppBarConfiguration AppBarConfiguration;
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
         setupFirebaseAuth();
         setContents();
+        setProfile();
 
         //Toast.makeText(MainActivity.this, "Current user's id: " + SessionData.GetInstance().GetUserID(), Toast.LENGTH_SHORT).show();
     }
@@ -82,6 +90,32 @@ public class MainActivity extends AppCompatActivity
     {
         this.NavController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(this.NavController, this.AppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    private void setProfile()
+    {
+        String x = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection(getString(R.string.collection_users))
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                    {
+                        String fn = documentSnapshot.getString("firstname");
+                        String ln = documentSnapshot.getString("lastname");
+                        String em = documentSnapshot.getString("loginEmail");
+
+                        View header = NavigationView.getHeaderView(0);
+                        TextView displayname = header.findViewById(R.id.profile_name);
+                        TextView email = header.findViewById(R.id.profile_email);
+                        
+                        displayname.setText(fn + " " + ln);
+                        email.setText(em);
+                    }
+                });
     }
 
     /***********************************************************************

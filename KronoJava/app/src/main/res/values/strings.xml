@@ -40,7 +40,7 @@
     <!-- 2. Cloud Firestore Collection Names --><!-- 2. Cloud Firestore Collection Names -->
 
     <!-- 2. Cloud Firestore Collection Names -->
-    <string name="collection_users">Users</string>
+    <string name="collection_users">users</string>
     <string name="collection_plans">Plans</string>
     <string name="collection_friends">Friends</string>
     <string name="collection_activities">Activities</string>
