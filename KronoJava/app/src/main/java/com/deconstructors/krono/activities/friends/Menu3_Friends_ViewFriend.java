@@ -1,11 +1,13 @@
 package com.deconstructors.krono.activities.friends;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -25,6 +27,8 @@ import java.util.List;
 
 public class Menu3_Friends_ViewFriend extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
 {
+    //DEBUG TAG
+    final String DEBUG_TAG = "DEBUG_VIEWFRIEND";
     //extra constant
     final String FRIENDID_EXTRA = "FRIEND_ID";
 
@@ -60,6 +64,11 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
         friend_email = (TextView) findViewById(R.id.ViewFriend_email);
         friend_publicPlans = (RecyclerView) findViewById(R.id.ViewFriend_PublicPlans);
         friend_sharedPlans = (RecyclerView) findViewById(R.id.ViewFriend_SharedPlans);
+
+        friend_publicPlans.setLayoutManager(new LinearLayoutManager(this));
+        friend_publicPlans.setHasFixedSize(true);
+        friend_sharedPlans.setLayoutManager(new LinearLayoutManager(this));
+        friend_sharedPlans.setHasFixedSize(true);
 
         _friend_publicPlans = new ArrayList<>();
         _friend_sharedPlans = new ArrayList<>();
@@ -128,7 +137,7 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                     }
                 });
 
-        _friend_publicPlans = new ArrayList<>();
+        _friend_publicPlans.clear();
 
         Task<QuerySnapshot> getPublicPlans =
             db.collection("users")
