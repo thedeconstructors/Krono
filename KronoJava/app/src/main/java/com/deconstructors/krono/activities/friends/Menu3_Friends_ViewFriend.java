@@ -1,6 +1,7 @@
 package com.deconstructors.krono.activities.friends;
 
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.plans.Plans;
 import com.deconstructors.krono.helpers.PlansListAdapter;
+import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -165,10 +167,40 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                     }
                 });
 
+        Task<QuerySnapshot> getSharedPlans =
+            db.collection("users")
+                .document(friendId)
+                .collection("plans")
+                .whereArrayContains("collaborators",
+                        SessionData.GetInstance().GetUserID())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<DocumentSnapshot> docList = task.getResult().getDocuments();
+
+                            for (DocumentSnapshot doc : docList)
+                            {
+                                Plans plan = doc.toObject(Plans.class);
+                                _friend_sharedPlans.add(plan);
+                            }
+
+                            _friend_sharedPlansAdapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            NotifyMessage("Unable to retrieve friend's shared plans");
+                        }
+                    }
+                });
+
         List<Task<?>> taskList = new ArrayList<>();
 
         taskList.add(getFriendInfo);
         taskList.add(getPublicPlans);
+        taskList.add(getSharedPlans);
 
         Tasks.whenAllSuccess(taskList)
                 .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
