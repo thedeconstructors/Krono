@@ -2,6 +2,7 @@ package com.deconstructors.krono.activities.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /************************************************************************
  * Class:           ActivityRVAdapter
@@ -75,13 +74,14 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
     {
-        SimpleDateFormat spf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
-        String date = spf.format(_ActivityFilterList.get(position).getTimestamp().toDate());
+        //SimpleDateFormat spf = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+        //String date = spf.format(_ActivityFilterList.get(position).getTimestamp().toDate());
         //final Activity temp_activity =  _ActivityFilterList.get(position);
 
         holder._nameText.setText(_ActivityFilterList.get(position).getTitle());
         holder._descriptionText.setText(_ActivityFilterList.get(position).getDescription());
-        holder._timestampText.setText(date);
+        holder._durationText.setText(_ActivityFilterList.get(position).getDuration()
+                                        + " min");
     }
 
     public int getSelectedBGColor(Activity activity)
@@ -111,7 +111,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         private View _view;
         private TextView _nameText;
         private TextView _descriptionText;
-        private TextView _timestampText;
+        private TextView _durationText;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -119,7 +119,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
             _view = itemView;
             _nameText = (TextView) _view.findViewById(R.id.activitylist_name_text);
             _descriptionText = (TextView) _view.findViewById(R.id.activitylist_description_text);
-            _timestampText = (TextView) _view.findViewById(R.id.activitylist_timestamp_text);
+            _durationText = (TextView) _view.findViewById(R.id.activitylist_duration_text);
 
             _view.setOnLongClickListener(this);
             _view.setOnClickListener(this);
@@ -141,7 +141,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
 
             Intent intent = new Intent(_view.getContext(), ActivityDetails.class);
             intent.putExtra("activity_name", _ActivityList.get(getAdapterPosition()).getActivityID());
-            _view.getContext().startActivity(intent);
+            ((Menu0_Activities)_view.getContext()).startActivityForResult(intent, 0);
         }
 
         public void ToggleSelect()

@@ -34,6 +34,9 @@ public class Menu0_Activities
         extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener
 {
+    //result constant for extra
+    final String RESULT_REFRESH = "RESULT_REFRESH";
+
     // Error Handler Log Search
     private static final String _Tag = "Krono_Menu0_Log";
     private static final String _dbPath = "users";
@@ -131,6 +134,7 @@ public class Menu0_Activities
 
                         /* Notify the adapter that the data has changed */
                         _ActivityRVAdapter.notifyDataSetChanged();
+                        _SwipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -206,7 +210,7 @@ public class Menu0_Activities
     public void btnNewActivity(View view)
     {
         Intent intent = new Intent(this, NewActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     /************************************************************************
@@ -218,6 +222,17 @@ public class Menu0_Activities
     public void onRefresh()
     {
         this.getActivities();
-        _SwipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent resultIntent)
+    {
+        super.onActivityResult(requestCode, resultCode, resultIntent);
+        if (resultIntent.getBooleanExtra(RESULT_REFRESH,false))
+        {
+            _SwipeRefreshLayout.setRefreshing(true);
+            onRefresh();
+        }
     }
 }

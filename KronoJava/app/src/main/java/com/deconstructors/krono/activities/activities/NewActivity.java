@@ -1,6 +1,8 @@
 package com.deconstructors.krono.activities.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,6 +25,10 @@ import java.util.Map;
 
 public class NewActivity extends AppCompatActivity
 {
+    //result constant for extra
+    final String RESULT_REFRESH = "RESULT_REFRESH";
+    final int IRESULT_REFRESH = 1;
+
     private TextView title;
     private TextView description;
     private TextView duration;
@@ -53,7 +59,7 @@ public class NewActivity extends AppCompatActivity
         {
             userActivity.put("title", title.getText().toString());
             userActivity.put("description", description.getText().toString());
-            userActivity.put("timestamp", new Timestamp(new Date(0,0,0,0,45)));
+            userActivity.put("duration", duration.getText().toString());
             userActivity.put("isPublic", isPublic.isChecked());
             userActivity.put("ownerId", SessionData.GetInstance().GetUserID());
 
@@ -61,12 +67,17 @@ public class NewActivity extends AppCompatActivity
             final Toast failureMessage = Toast.makeText(NewActivity.this, "Error: Could Not Add Activity.", Toast.LENGTH_SHORT);
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("useractivities")
+            db.collection("users")
+                    .document(SessionData.GetInstance().GetUserID())
+                    .collection("activities")
                     .add(userActivity)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             successMessage.show();
+                            Intent intent = new Intent();
+                            intent.putExtra(RESULT_REFRESH, true);
+                            setResult(IRESULT_REFRESH, intent);
                             finish();
                         }
                     })
@@ -76,8 +87,6 @@ public class NewActivity extends AppCompatActivity
                             failureMessage.show();
                         }
                     });
-
-            finish();
         }
         else
         {

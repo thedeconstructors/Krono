@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <ProgressBar
+        android:id="@+id/menu0_activities_activitydetails_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorAccent"
+        android:progressTint="@color/colorAccent"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/activity_title"
         android:layout_width="match_parent"
@@ -101,13 +111,14 @@
     </TableLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/remove_activity"
+        android:id="@+id/menu0_activities_removeactivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="DeleteActivityOnClick"
         app:srcCompat="@drawable/remove_24px" />
 
 </LinearLayout>
