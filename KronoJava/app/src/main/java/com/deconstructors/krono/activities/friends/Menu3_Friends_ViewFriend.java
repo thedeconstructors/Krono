@@ -167,6 +167,8 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                     }
                 });
 
+        _friend_publicPlans.clear();
+
         Task<QuerySnapshot> getSharedPlans =
             db.collection("users")
                 .document(friendId)
