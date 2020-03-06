@@ -120,6 +120,7 @@
             android:onClick="cancleNewActivityOnClick"
             android:text="@string/newactivity_cancel"
             android:textSize="24sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

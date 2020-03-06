@@ -73,6 +73,15 @@ public class ActivityDetails extends AppCompatActivity
         PopulateDetails();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putExtra(RESULT_REFRESH, false);
+        setResult(IRESULT_REFRESH, intent);
+        finish();
+    }
+
     void RemoveActivity()
     {
         _progress.setVisibility(View.VISIBLE);

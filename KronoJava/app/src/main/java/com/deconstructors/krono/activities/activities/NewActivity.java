@@ -103,4 +103,13 @@ public class NewActivity extends AppCompatActivity
     {
         finish();
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putExtra(RESULT_REFRESH, false);
+        setResult(IRESULT_REFRESH, intent);
+        finish();
+    }
 }
