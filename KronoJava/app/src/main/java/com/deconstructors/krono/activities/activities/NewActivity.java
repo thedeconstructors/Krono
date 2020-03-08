@@ -16,6 +16,7 @@ import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -61,14 +62,14 @@ public class NewActivity extends AppCompatActivity
             userActivity.put("description", description.getText().toString());
             userActivity.put("duration", duration.getText().toString());
             userActivity.put("isPublic", isPublic.isChecked());
-            userActivity.put("ownerId", SessionData.GetInstance().GetUserID());
+            userActivity.put("ownerId", FirebaseAuth.getInstance().getUid());
 
             final Toast successMessage = Toast.makeText(NewActivity.this, "Activity Added Successfully.", Toast.LENGTH_SHORT);
             final Toast failureMessage = Toast.makeText(NewActivity.this, "Error: Could Not Add Activity.", Toast.LENGTH_SHORT);
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("users")
-                    .document(SessionData.GetInstance().GetUserID())
+                    .document(FirebaseAuth.getInstance().getUid())
                     .collection("activities")
                     .add(userActivity)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

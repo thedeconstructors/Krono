@@ -14,6 +14,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,7 +45,7 @@ public class Menu4_Users extends AppCompatActivity
 
         DocumentReference docRef = db
                 .collection("users")
-                .document(SessionData.GetInstance().GetUserID());
+                .document(FirebaseAuth.getInstance().getUid());
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
         {

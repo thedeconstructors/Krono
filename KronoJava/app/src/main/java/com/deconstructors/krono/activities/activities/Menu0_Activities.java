@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -107,7 +108,7 @@ public class Menu0_Activities
         /* Query The Database */
         FirebaseFirestore.getInstance()
                 .collection("users")
-                .document(SessionData.GetInstance().GetUserID())
+                .document(FirebaseAuth.getInstance().getUid())
                 .collection("activities")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

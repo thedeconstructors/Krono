@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -92,7 +94,7 @@ public class NewPlan extends AppCompatActivity
         //check if title and start time are not empty
         if (title.getText().toString().trim().compareTo("") != 0 && startTime.getText().toString().trim().compareTo("") != 0)
         {
-            userPlan.put("ownerId", SessionData.GetInstance().GetUserID());
+            userPlan.put("ownerId", FirebaseAuth.getInstance().getUid());
             userPlan.put("title", title.getText().toString());
             userPlan.put("startTime", startTime.getText().toString());
 
@@ -139,69 +141,37 @@ public class NewPlan extends AppCompatActivity
      */
 
     //Sets up 'My Activities' recycler view
-    private void PopulateMyActivitiesRecycler()
-    {
-
-        // Database Listener
-        /*m_Firestore = FirebaseFirestore.getInstance();
-        m_Firestore.collection("useractivities").addSnapshotListener(new EventListener<QuerySnapshot>()
-        {*/
-            /************************************************************************
-             * Purpose:         On Event
-             * Precondition:    An Item has been added
-             * Postcondition:   Change the Activity list accordingly and
-             *                  Notify the adapter
-             *                  This way, we don't have to scan DB every time
-             ************************************************************************/
-            /*@Override
-            public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e)
-            {
-                if (e != null)
-                {
-                    Log.d(m_Tag, "Error : " + e.getMessage());
-                }
-                else
-                {
-                    // Document contains data read from a document in your Firestore database
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                    {
-                        if (doc.getType() == DocumentChange.Type.ADDED
-                                && doc.getDocument().get("ownerId") == SessionData.GetInstance().GetUserID())
-                        {
-                            // Arrange the data according to the model class
-                            // All by itself
-                            Activity activity = doc.getDocument().toObject(Activity.class);
-                            activity.setId(doc.getDocument().getId());
-                            myActivities_ActivityList.add(activity);
-
-                            // Notify the Adapter something is changed
-                            myActivities_ActivityListAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-        });*/
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("useractivities")
-                .whereEqualTo("ownerId",SessionData.GetInstance().GetUserID())
+    private void PopulateMyActivitiesRecycler() {
+        /* Query The Database */
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("activities")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (DocumentSnapshot doc : queryDocumentSnapshots)
-                        {
-                            Activity act = doc.toObject(Activity.class);
-                            myActivities_ActivityList.add(act);
+
+                        /* Grab the iterator from the built in google library */
+                        Iterator<QueryDocumentSnapshot> iterator = queryDocumentSnapshots.iterator();
+
+                        /* Reset the activity list view */
+                        if (!myActivities_ActivityList.isEmpty()) {
+                            myActivities_ActivityList.clear();
                         }
+
+                        /* Populate the list of activities using an iterator */
+                        while (iterator.hasNext())
+                        {
+                            QueryDocumentSnapshot snapshot = iterator.next();
+
+                            Activity activity = snapshot.toObject(Activity.class);
+                            activity.setId(snapshot.getId());
+                            myActivities_ActivityList.add(activity);
+                        }
+
+                        /* Notify the adapter that the data has changed */
                         myActivities_ActivityListAdapter.notifyDataSetChanged();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(NewPlan.this,"Could not retrieve user activities",
-                                Toast.LENGTH_SHORT);
                     }
                 });
     }

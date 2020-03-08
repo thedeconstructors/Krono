@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -148,7 +149,7 @@ public class Menu3_Friends
             //get my document from db
             Task<DocumentSnapshot> getMyDocument =
                     db.collection("users")
-                    .document(SessionData.GetInstance().GetUserID())
+                    .document(FirebaseAuth.getInstance().getUid())
                     .get();
 
             //create list of tasks
@@ -187,7 +188,7 @@ public class Menu3_Friends
                                 //add document to user's friend collection
                                 Task<DocumentReference> addedFriendDoc =
                                     db.collection("users")
-                                            .document(SessionData.GetInstance().GetUserID())
+                                            .document(FirebaseAuth.getInstance().getUid())
                                             .collection("friends")
                                             .add(friendInfo);
 
@@ -272,12 +273,12 @@ public class Menu3_Friends
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             //query to retrieve doc (user,friend)
             final Query friendDocLocalQuery = db.collection("userfriends")
-                    .whereEqualTo("user1",SessionData.GetInstance().GetUserID())
+                    .whereEqualTo("user1", FirebaseAuth.getInstance().getUid())
                     .whereEqualTo("user2",friendId);
             //query to retrieve doc (friend,user)
             Query friendDocRemoteQuery = db.collection("userfriends")
                     .whereEqualTo("user1", friendId)
-                    .whereEqualTo("user2",SessionData.GetInstance().GetUserID());
+                    .whereEqualTo("user2", FirebaseAuth.getInstance().getUid());
 
             List<Task<QuerySnapshot>> removeFriends = new ArrayList<>();
 
@@ -356,12 +357,12 @@ public class Menu3_Friends
                 db.collection("users")
                     .document(friendId)
                     .collection("friends")
-                    .whereEqualTo("userid", SessionData.GetInstance().GetUserID())
+                    .whereEqualTo("userid", FirebaseAuth.getInstance().getUid())
                     .get();
 
             Task<QuerySnapshot> getFriendDoc =
                 db.collection("users")
-                    .document(SessionData.GetInstance().GetUserID())
+                    .document(FirebaseAuth.getInstance().getUid())
                     .collection("friends")
                     .whereEqualTo("userid",friendId)
                     .get();
@@ -385,7 +386,7 @@ public class Menu3_Friends
 
                                 deleteTasks.add(
                                     db.collection("users")
-                                        .document(SessionData.GetInstance().GetUserID())
+                                        .document(FirebaseAuth.getInstance().getUid())
                                         .collection("friends")
                                         .document(myDoc.getId())
                                         .delete()
@@ -451,7 +452,7 @@ public class Menu3_Friends
         CollectionReference friendsCollectionRef = db.collection("userfriends");
 
         Query friendsQuery = friendsCollectionRef
-                .whereEqualTo("user1", SessionData.GetInstance().GetUserID());
+                .whereEqualTo("user1", FirebaseAuth.getInstance().getUid());
 
         Task getID = friendsQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
         {
@@ -532,7 +533,7 @@ public class Menu3_Friends
         //task to get entire collection of user friends
         Task<QuerySnapshot> getUserFriends =
             db.collection("users")
-                .document(SessionData.GetInstance().GetUserID())
+                .document(FirebaseAuth.getInstance().getUid())
                 .collection("friends")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -16,6 +16,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -72,13 +73,13 @@ public class Menu1_Plans extends AppCompatActivity {
         if (_LastQueriedList != null)
         {
             plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID())
+                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid())
                     .startAfter(_LastQueriedList);
         }
         else
         {
             plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", SessionData.GetInstance().GetUserID());
+                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid());
         }
 
         plansQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()

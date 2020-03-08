@@ -120,38 +120,26 @@ public class LoginPage extends AppCompatActivity
             final String loginid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             //get user in db and set session id to its id
             FirebaseFirestore.getInstance().collection("users")
-                    .whereEqualTo("loginId",loginid)
+                    .document(FirebaseAuth.getInstance().getUid())
                     .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
-                            if (users.size() > 0)
-                            {
-                                SessionData.GetInstance().SetUserID(
-                                        users.get(0).getId());
-                                startSnackbarMessage("Signed in");
-                                setProgressbar(false);
-                                Intent intent = new Intent(LoginPage.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                            {
-                                startSnackbarMessage("No user found with login " + loginid);
-                                setProgressbar(false);
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            startSnackbarMessage("Failed to retreive user:\n" +
-                                    e.toString());
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            startSnackbarMessage("Signed in");
                             setProgressbar(false);
+                            Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
                         }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    startSnackbarMessage("Failed to retreive user:\n" +
+                            e.toString());
+                    setProgressbar(false);
+                }
+            });
         }
         //FirebaseAuth.getInstance().addAuthStateListener(_AuthStateListener);
     }
@@ -193,41 +181,29 @@ public class LoginPage extends AppCompatActivity
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task)
                         {
-                            final String loginid = task.getResult().getUser().getUid();
+                            //final String loginid = task.getResult().getUser().getUid();
                             //get user in db and set session id to its id
                             FirebaseFirestore.getInstance().collection("users")
-                                    .whereEqualTo("loginId",loginid)
+                                    .document(FirebaseAuth.getInstance().getUid())
                                     .get()
-                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
-                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                            List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
-                                            if (users.size() > 0)
-                                            {
-                                                SessionData.GetInstance().SetUserID(
-                                                        users.get(0).getId());
-                                                startSnackbarMessage("Signed in");
-                                                setProgressbar(false);
-                                                Intent intent = new Intent(LoginPage.this, MainActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            else
-                                            {
-                                                startSnackbarMessage("No user found with login " + loginid);
-                                                setProgressbar(false);
-                                            }
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            startSnackbarMessage("Failed to retreive user:\n" +
-                                                    e.toString());
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            startSnackbarMessage("Signed in");
                                             setProgressbar(false);
+                                            Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                            finish();
                                         }
-                                    });
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    startSnackbarMessage("Failed to retreive user:\n" +
+                                            e.toString());
+                                    setProgressbar(false);
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener()

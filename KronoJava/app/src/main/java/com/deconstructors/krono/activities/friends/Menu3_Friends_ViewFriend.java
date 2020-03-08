@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -174,7 +175,7 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
                 .document(friendId)
                 .collection("plans")
                 .whereArrayContains("collaborators",
-                        SessionData.GetInstance().GetUserID())
+                        FirebaseAuth.getInstance().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

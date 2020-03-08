@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         setupFirebaseAuth();
         enablePersistence();
 
-        Toast.makeText(MainActivity.this, "Current user's id: " + SessionData.GetInstance().GetUserID(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Current user's id: " + FirebaseAuth.getInstance().getUid(), Toast.LENGTH_SHORT).show();
     }
 
     /**************************** Database *********************************/

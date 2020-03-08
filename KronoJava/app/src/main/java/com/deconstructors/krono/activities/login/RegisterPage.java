@@ -43,8 +43,9 @@ public class RegisterPage extends AppCompatActivity
     String email;
     String password;
 
+    /* No Longer Required */
     //Used to add login id to user doc
-    String loginId = null;
+    //String loginId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,8 @@ public class RegisterPage extends AppCompatActivity
                     // if successful, add user to db
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        loginId = authResult.getUser().getUid();
+                        /* No Longer Required after refactor */
+                        //loginId = authResult.getUser().getUid();
                         AddUserToDatabase();
                     }
                 })
@@ -102,8 +104,10 @@ public class RegisterPage extends AppCompatActivity
     {
         user.put("firstname",firstName.getText().toString());
         user.put("lastname",lastName.getText().toString());
-        user.put("loginId",loginId);
         user.put("loginEmail",email);
+
+        /* No Longer Required */
+        //user.put("loginId",loginId);
 
         FirebaseFirestore.getInstance().collection("users")
                 .add(user)
@@ -111,7 +115,8 @@ public class RegisterPage extends AppCompatActivity
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         //Set user id in SessionData
-                        SessionData.GetInstance().SetUserID(documentReference.getId());
+                        /* As Per Refactor, this is no longer required */
+                        // SessionData.GetInstance().SetUserID(documentReference.getId());
                         Intent intent = new Intent(RegisterPage.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
