@@ -104,7 +104,9 @@ public class NewPlan extends AppCompatActivity
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            db.collection("userplans")
+            db.collection("users")
+                    .document(FirebaseAuth.getInstance().getUid())
+                    .collection("plans")
                     .add(userPlan)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
