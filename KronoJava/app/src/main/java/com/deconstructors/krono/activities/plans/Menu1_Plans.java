@@ -132,7 +132,9 @@ public class Menu1_Plans extends AppCompatActivity {
 
                             for (DocumentSnapshot doc : docs)
                             {
-                                m_PlansList.add(doc.toObject(Plans.class));
+                                Plans plan = doc.toObject(Plans.class);
+                                plan.setId(doc.getId());
+                                m_PlansList.add(plan);
                             }
                             m_PlansListAdapter.notifyDataSetChanged();
                         }

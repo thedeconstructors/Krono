@@ -1,7 +1,11 @@
 package com.deconstructors.krono.helpers;
 
 import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.activities.plans.PlanDetails;
 import com.deconstructors.krono.activities.plans.Plans;
+
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
@@ -23,6 +28,9 @@ import java.util.List;
  ************************************************************************/
 public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.ViewHolder> implements Filterable
 {
+    //Extra id string
+    final String EXTRA_PLANID = "EXTRA_PLANID";
+
     private List<Plans> m_PlansList;
     private List<Plans> _PlansFilterList; // For Search Filter
 
@@ -83,7 +91,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         View m_view;
         public TextView titleText;
@@ -96,6 +104,17 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
 
             titleText = (TextView) m_view.findViewById(R.id.planlist_title_text);
             descriptionText = (TextView) m_view.findViewById(R.id.planlist_description_text);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            Log.d("DEBUG_KRONO", "clciked plan!");
+            Intent intent = new Intent(m_view.getContext(), PlanDetails.class);
+            intent.putExtra(EXTRA_PLANID, m_PlansList.get(getAdapterPosition()).getId());
+            (m_view.getContext()).startActivity(intent);
         }
     }
 

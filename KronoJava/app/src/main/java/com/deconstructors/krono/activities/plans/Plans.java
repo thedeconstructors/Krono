@@ -8,6 +8,8 @@ public class Plans
 {
     String m_title;
     String m_description;
+    String m_startTime;
+    String m_planId;
     //Integer user_id;
 
     //boolean collaborative;
@@ -30,10 +32,10 @@ public class Plans
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Plans(String title, String description)
+    public Plans(String title, String startTime)
     {
         this.m_title = title;
-        this.m_description = description;
+        this.m_startTime = startTime;
     }
 
     /************************************************************************
@@ -49,6 +51,8 @@ public class Plans
     {
         this.m_title = title;
     }
+    public String getStartTime() { return m_startTime; }
+    public void setStartTime(String time) { m_startTime = time; }
     public String getDescription()
     {
         return m_description;
@@ -57,4 +61,6 @@ public class Plans
     {
         this.m_description = description;
     }
+    public String getId() { return m_planId; }
+    public void setId(String id) { m_planId = id; }
 }
