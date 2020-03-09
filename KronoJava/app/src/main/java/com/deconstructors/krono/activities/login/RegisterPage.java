@@ -106,13 +106,11 @@ public class RegisterPage extends AppCompatActivity
         //user.put("loginId",loginId);
 
         FirebaseFirestore.getInstance().collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(FirebaseAuth.getInstance().getUid())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        //Set user id in SessionData
-                        /* As Per Refactor, this is no longer required */
-                        // SessionData.GetInstance().SetUserID(documentReference.getId());
+                    public void onSuccess(Void aVoid) {
                         Intent intent = new Intent(RegisterPage.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
