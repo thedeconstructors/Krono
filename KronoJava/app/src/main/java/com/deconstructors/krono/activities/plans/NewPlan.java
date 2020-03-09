@@ -18,12 +18,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.activities.ActivityAdapter_MultiSelect;
 import com.deconstructors.krono.activities.activities.ActivityRVAdapter;
 import com.deconstructors.krono.activities.activities.Activity;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,12 +49,12 @@ public class NewPlan extends AppCompatActivity
 
     //MyActivities box vars
     private RecyclerView myActivities_RecyclerView;
-    private ActivityRVAdapter myActivities_ActivityListAdapter;
+    private ActivityAdapter_MultiSelect myActivities_ActivityListAdapter;
     private List<Activity> myActivities_ActivityList;
 
     //Plan Activities box vars
     private RecyclerView planActivities_RecyclerView;
-    private ActivityRVAdapter planActivities_ActivityListAdapter;
+    private ActivityAdapter_MultiSelect planActivities_ActivityListAdapter;
     private List<Activity> planActivities_ActivityList;
 
     /****************************************
@@ -82,13 +88,59 @@ public class NewPlan extends AppCompatActivity
         Toast emptyTextFailureMessage = Toast.makeText(NewPlan.this, "Must Enter All Text Fields", Toast.LENGTH_SHORT);
 
         //check if title and start time are not empty
-        if (title.getText().toString().trim().compareTo("") != 0 && startTime.getText().toString().trim().compareTo("") != 0)
-        {
+        if (title.getText().toString().trim().compareTo("") != 0 && startTime.getText().toString().trim().compareTo("") != 0) {
             userPlan.put("ownerId", FirebaseAuth.getInstance().getUid());
             userPlan.put("title", title.getText().toString());
             userPlan.put("startTime", startTime.getText().toString());
 
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            Task<DocumentReference> addPlanInfo =
+                    db.collection("users")
+                            .document(FirebaseAuth.getInstance().getUid())
+                            .collection("plans")
+                            .add(userPlan);
+
+            Tasks.whenAllSuccess(addPlanInfo)
+                    .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
+                        @Override
+                        public void onComplete(@NonNull Task<List<Object>> task) {
+                            if (task.isSuccessful()) {
+                                DocumentReference planDoc = (DocumentReference) (task.getResult().get(0));
+                                List<Task<DocumentReference>> addActivities = new ArrayList<>();
+
+                                for (Activity act : planActivities_ActivityList) {
+                                    Map<String, Object> activity = new HashMap<>();
+
+                                    activity.put("title", act.getTitle());
+                                    activity.put("description", act.getDescription());
+                                    activity.put("duration", act.getDuration());
+                                    activity.put("isPublic", act.IsPublic());
+                                    activity.put("ownerId", act.getOwnerId());
+
+                                    addActivities.add(
+                                            planDoc
+                                                    .collection("activities")
+                                                    .add(activity)
+                                    );
+                                }
+
+                                Tasks.whenAllSuccess(addActivities)
+                                        .addOnCompleteListener(new OnCompleteListener<List<Object>>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<List<Object>> task) {
+                                                if (task.isSuccessful()) {
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                            }
+                        }
+                    });
+        }
+
             //populate activityids string
+            /*
             String activityIds = "";
             for (Activity act : planActivities_ActivityList)
             {
@@ -123,7 +175,7 @@ public class NewPlan extends AppCompatActivity
         else
         {
             emptyTextFailureMessage.show();
-        }
+        }*/
     }
 
     /***********************************************
@@ -170,7 +222,7 @@ public class NewPlan extends AppCompatActivity
     {
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         planActivities_ActivityList = new ArrayList<>();
-        planActivities_ActivityListAdapter = new ActivityRVAdapter(planActivities_ActivityList);
+        planActivities_ActivityListAdapter = new ActivityAdapter_MultiSelect(planActivities_ActivityList);
 
         planActivities_RecyclerView.setHasFixedSize(true);
         planActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -181,7 +233,7 @@ public class NewPlan extends AppCompatActivity
     {
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         myActivities_ActivityList = new ArrayList<>();
-        myActivities_ActivityListAdapter = new ActivityRVAdapter(myActivities_ActivityList);
+        myActivities_ActivityListAdapter = new ActivityAdapter_MultiSelect(myActivities_ActivityList);
 
         myActivities_RecyclerView.setHasFixedSize(true);
         myActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));

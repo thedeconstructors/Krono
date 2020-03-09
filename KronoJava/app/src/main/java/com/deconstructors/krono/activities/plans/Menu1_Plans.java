@@ -115,6 +115,33 @@ public class Menu1_Plans extends AppCompatActivity {
 
     private void getPlans()
     {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("plans")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful())
+                        {
+                            QuerySnapshot query = task.getResult();
+
+                            List<DocumentSnapshot> docs = query.getDocuments();
+
+                            for (DocumentSnapshot doc : docs)
+                            {
+                                m_PlansList.add(doc.toObject(Plans.class));
+                            }
+                            m_PlansListAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+    }
+
+    private void getPlans_OLD()
+    {
         // Database Listener
         m_Firestore = FirebaseFirestore.getInstance();
 
