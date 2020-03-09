@@ -1,8 +1,6 @@
 package com.deconstructors.krono.activities.friends;
 
 import android.os.Bundle;
-import android.se.omapi.Session;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +13,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.plans.Plans;
 import com.deconstructors.krono.helpers.PlansListAdapter;
-import com.deconstructors.krono.helpers.SessionData;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;

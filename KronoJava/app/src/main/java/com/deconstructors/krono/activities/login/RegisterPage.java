@@ -11,12 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.activities.MainActivity;
-import com.deconstructors.krono.helpers.SessionData;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;

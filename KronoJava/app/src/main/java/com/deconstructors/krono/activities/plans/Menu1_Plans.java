@@ -1,28 +1,28 @@
 package com.deconstructors.krono.activities.plans;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import com.deconstructors.krono.helpers.PlansListAdapter;
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.helpers.SessionData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,11 +44,17 @@ public class Menu1_Plans extends AppCompatActivity {
     private List<Plans> m_PlansList;
     private DocumentSnapshot _LastQueriedList;
 
+    //ToolBar
+    private Toolbar _PlanToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1__plans);
+
+        //Grab the toolbar
+        _PlanToolbar = findViewById(R.id.menu1_toolbar);
 
         // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
         m_PlansList = new ArrayList<>();
@@ -59,7 +65,52 @@ public class Menu1_Plans extends AppCompatActivity {
         m_MainList.setLayoutManager(new LinearLayoutManager(this));
         m_MainList.setAdapter(m_PlansListAdapter);
 
+        setupToolbar();
         getPlans();
+    }
+
+    private void setupToolbar()
+    {
+        setSupportActionBar(_PlanToolbar);
+        getSupportActionBar().setTitle("Plans Menu");
+    }
+
+    /******************************* XML ***********************************/
+    /************************************************************************
+     * Purpose:         Toolbar Menu Inflater
+     * Precondition:    .
+     * Postcondition:   Activates the toolbar menu by inflating it
+     *                  See more from res/menu/activity_boolbar_menu
+     *                  and layout/menu0_toolbar
+     ************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_toolbar_menu, menu);
+
+        // Search Button
+        MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                m_PlansListAdapter.getFilter().filter(newText);
+                m_PlansListAdapter.resetFilterList();
+                return false;
+            }
+        });
+
+        return true;
     }
 
     private void getPlans()
