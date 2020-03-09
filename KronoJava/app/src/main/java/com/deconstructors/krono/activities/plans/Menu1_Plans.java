@@ -15,9 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.deconstructors.krono.activities.activities.Activity;
 import com.deconstructors.krono.helpers.PlansListAdapter;
 import com.deconstructors.krono.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Menu1_Plans extends AppCompatActivity {
@@ -39,12 +42,13 @@ public class Menu1_Plans extends AppCompatActivity {
     private FirebaseFirestore m_Firestore;
 
     // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-    private RecyclerView m_MainList;
-    private PlansListAdapter m_PlansListAdapter;
-    private List<Plans> m_PlansList;
+    private RecyclerView _MainList;
+    private PlansListAdapter _PlansListAdapter;
+    private List<Plans> _PlansList;
     private DocumentSnapshot _LastQueriedList;
 
     //ToolBar
+    private RecyclerView _RecyclerView;
     private Toolbar _PlanToolbar;
 
     @Override
@@ -57,13 +61,13 @@ public class Menu1_Plans extends AppCompatActivity {
         _PlanToolbar = findViewById(R.id.menu1_toolbar);
 
         // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-        m_PlansList = new ArrayList<>();
-        m_PlansListAdapter = new PlansListAdapter(m_PlansList);
+        _PlansList = new ArrayList<>();
+        _PlansListAdapter = new PlansListAdapter(_PlansList);
 
-        m_MainList = (RecyclerView)findViewById(R.id.MainMenu_PlanListID);
-        m_MainList.setHasFixedSize(true);
-        m_MainList.setLayoutManager(new LinearLayoutManager(this));
-        m_MainList.setAdapter(m_PlansListAdapter);
+        _MainList = (RecyclerView)findViewById(R.id.MainMenu_PlanListID);
+        _MainList.setHasFixedSize(true);
+        _MainList.setLayoutManager(new LinearLayoutManager(this));
+        _MainList.setAdapter(_PlansListAdapter);
 
         setupToolbar();
         getPlans();
@@ -104,8 +108,8 @@ public class Menu1_Plans extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                m_PlansListAdapter.getFilter().filter(newText);
-                m_PlansListAdapter.resetFilterList();
+                _PlansListAdapter.getFilter().filter(newText);
+                _PlansListAdapter.resetFilterList();
                 return false;
             }
         });
@@ -115,46 +119,35 @@ public class Menu1_Plans extends AppCompatActivity {
 
     private void getPlans()
     {
-        // Database Listener
-        m_Firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("plans")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                          @Override
+                                          public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        CollectionReference PlansCollectionRef = m_Firestore.collection(_dbPath);
+                                              /* Grab the iterator from the built in google library */
+                                              Iterator<QueryDocumentSnapshot> iterator = queryDocumentSnapshots.iterator();
 
-        Query plansQuery;
-        if (_LastQueriedList != null)
-        {
-            plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid())
-                    .startAfter(_LastQueriedList);
-        }
-        else
-        {
-            plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid());
-        }
+                                              /* Reset the plan list view */
+                                              if (!_PlansList.isEmpty()) {
+                                                  _PlansList.clear();
+                                              }
 
-        plansQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
-                if (task.isComplete())
-                {
-                    for (QueryDocumentSnapshot document : task.getResult())
-                    {
-                        Plans plan = document.toObject(Plans.class);
-                        m_PlansList.add(plan);
-                    }
+                                              /* Populate the list of plans using an iterator */
+                                              while (iterator.hasNext()) {
+                                                  QueryDocumentSnapshot snapshot = iterator.next();
 
-                    if (task.getResult().size() != 0)
-                    {
-                        _LastQueriedList = task.getResult().getDocuments().get(task.getResult().size() - 1);
-                    }
+                                                  Plans plan = snapshot.toObject(Plans.class);
+                                                  plan.setPlanId(snapshot.getId());
+                                                  _PlansList.add(plan);
+                                              }
 
-                    m_PlansListAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+                                              _PlansListAdapter.notifyDataSetChanged();
+                                          }
+                                      });
     }
 
     public void btnNewPlan(View view)

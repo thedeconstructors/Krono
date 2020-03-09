@@ -34,6 +34,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     public PlansListAdapter(List<Plans> PlanList)
     {
         this.m_PlansList = PlanList;
+        this._PlansFilterList = PlanList;
     }
 
     /************************************************************************
@@ -70,7 +71,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public int getItemCount()
     {
-        return m_PlansList.size();
+        return m_PlansList == null ? 0 : m_PlansList.size();
     }
 
     @Override
