@@ -172,6 +172,13 @@ public class Menu1_Plans extends AppCompatActivity implements SwipeRefreshLayout
         startActivity(intent);
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        getPlans();
+    }
+
     //Currently not used
     @Override
     public void onRefresh()
