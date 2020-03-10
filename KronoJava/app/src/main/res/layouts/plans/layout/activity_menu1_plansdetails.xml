@@ -13,6 +13,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:text="@string/MainMenu1_PlanListTitleString"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -23,7 +25,7 @@
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_margin="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
@@ -36,27 +38,41 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="72dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/plans_details_description_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/MainMenu1_PlanListDescString" />
+                android:text="@string/MainMenu1_PlanListDescString"
+                android:textSize="18sp" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/plans_details_start_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='"Start Time"' />
+                android:text="Start Time"
+                android:textSize="18sp" />
         </TableRow>
 
     </TableLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/menu1_plans_remove_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="DeletePlanOnClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/remove_24px" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

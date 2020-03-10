@@ -1,17 +1,25 @@
 package com.deconstructors.krono.activities.plans;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.activities.ActivityDetails;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class PlansDetails  extends AppCompatActivity
+public class PlansDetails extends AppCompatActivity
 {
     final String PlanExtra = "plan_name";
 
@@ -56,5 +64,55 @@ public class PlansDetails  extends AppCompatActivity
                         _startTime.setText(queryDocumentSnapshot.get("startTime").toString());
                     }
                 });
+    }
+
+    public void RemovePlan()
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users")
+                .document(FirebaseAuth.getInstance().getUid()) //Refactored to use UID
+                .collection("plans")
+                .document(clicked_plan)
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(PlansDetails.this,
+                                    "Unable to remove plan ):",
+                                    Toast.LENGTH_SHORT);
+                        }
+                    }
+                });
+    }
+
+    public void DeletePlanOnClick(View view)
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(PlansDetails.this);
+        alert.setTitle("Delete");
+        alert.setMessage("Are you sure you want to delete this plan?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RemovePlan();
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
     }
 }
