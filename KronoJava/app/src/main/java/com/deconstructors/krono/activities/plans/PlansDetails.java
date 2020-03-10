@@ -130,6 +130,16 @@ public class PlansDetails extends AppCompatActivity
     {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        for (int i = 0; i < _activitiesInPlanList.size(); i++) {
+            db.collection("users")
+                    .document(FirebaseAuth.getInstance().getUid()) //Refactored to use UID
+                    .collection("plans")
+                    .document(clicked_plan)
+                    .collection("activities")
+                    .document(_activitiesInPlanList.get(i).getActivityID())
+                    .delete();
+        }
+
         db.collection("users")
                 .document(FirebaseAuth.getInstance().getUid()) //Refactored to use UID
                 .collection("plans")

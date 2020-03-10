@@ -133,7 +133,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
             if (_inActivitiesMenu)
                 ViewActivityDetails();
             else
-                Select();
+                ToggleSelect();
         }
 
         @Override
