@@ -36,8 +36,7 @@ public class NewPlan extends AppCompatActivity
     private TextView title;
     private TextView startTime;
     private TextView description;
-    private RecyclerView myActivities;
-    private RecyclerView planActivities;
+    private ArrayList<String> activityIds;
 
     //MyActivities box vars
     private RecyclerView myActivities_RecyclerView;
@@ -61,6 +60,8 @@ public class NewPlan extends AppCompatActivity
         title = (TextView) findViewById(R.id.txtTitle);
         startTime = (TextView) findViewById(R.id.txtStartTime);
         description = (TextView)findViewById(R.id.txtDescription);
+        activityIds = null;
+
         myActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerMyActivities);
         planActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerPlan);
 
@@ -77,6 +78,7 @@ public class NewPlan extends AppCompatActivity
     public void createPlanOnClick(View view)
     {
         Map<String, Object> userPlan = new HashMap<>();
+        final Map<String, Object> userActivity = new HashMap<>();
 
         Toast emptyTextFailureMessage = Toast.makeText(NewPlan.this, "Must Enter All Text Fields", Toast.LENGTH_SHORT);
 
@@ -88,21 +90,12 @@ public class NewPlan extends AppCompatActivity
             userPlan.put("description", description.getText().toString());
             userPlan.put("startTime", startTime.getText().toString());
 
-            //populate activityids string
-            String activityIds = "";
-            for (Activity act : planActivities_ActivityList)
-            {
-                activityIds += act.getId() + ";";
-            }
-
-            userPlan.put("activityids", activityIds);
-
             final Toast successMessage = Toast.makeText(NewPlan.this,
                     "Plan Added Successfully.", Toast.LENGTH_SHORT);
             final Toast failureMessage = Toast.makeText(NewPlan.this,
                     "Error: Could Not Add Plan.", Toast.LENGTH_SHORT);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             db.collection("users")
                     .document(FirebaseAuth.getInstance().getUid())
@@ -110,7 +103,23 @@ public class NewPlan extends AppCompatActivity
                     .add(userPlan)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                        public void onSuccess(DocumentReference documentReference)
+                        {
+                            for (int i = 0; i < planActivities_ActivityList.size(); i++)
+                            {
+                                userActivity.put("title", planActivities_ActivityList.get(i).getTitle());
+                                userActivity.put("description", planActivities_ActivityList.get(i).getDescription());
+                                userActivity.put("duration", planActivities_ActivityList.get(i).getDuration());
+                                userActivity.put("isPublic", planActivities_ActivityList.get(i).IsPublic());
+                                userActivity.put("ownerId", FirebaseAuth.getInstance().getUid());
+
+                                db.collection("users")
+                                        .document(FirebaseAuth.getInstance().getUid())
+                                        .collection("plans")
+                                        .document(documentReference.getId())
+                                        .collection("activities")
+                                        .add(userActivity);
+                            }
                             successMessage.show();
                             finish();
                         }
@@ -184,6 +193,7 @@ public class NewPlan extends AppCompatActivity
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         myActivities_ActivityList = new ArrayList<>();
         myActivities_ActivityListAdapter = new ActivityRVAdapter(myActivities_ActivityList);
+        myActivities_ActivityListAdapter.setInActivitiesMenu(false);
 
         myActivities_RecyclerView.setHasFixedSize(true);
         myActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));
