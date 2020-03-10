@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/plan_title"
+        android:id="@+id/plan_details_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,19 +31,30 @@
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/plan_title"
-        app:layout_constraintTop_toBottomOf="@+id/plan_title">
+        app:layout_constraintStart_toEndOf="@+id/plan_details_title_text"
+        app:layout_constraintTop_toBottomOf="@+id/plan_details_title_text">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="72dp">
 
             <TextView
-                android:id="@+id/plan_desc"
+                android:id="@+id/plans_details_description_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MainMenu1_PlanListDescString" />
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/plans_details_start_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='"Start Time"' />
         </TableRow>
 
     </TableLayout>

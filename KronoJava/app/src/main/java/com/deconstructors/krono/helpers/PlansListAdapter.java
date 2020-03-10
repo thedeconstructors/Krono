@@ -41,6 +41,16 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     }
 
     /************************************************************************
+     * Purpose:         resetFilterList
+     * Precondition:    onQueryTextChange
+     * Postcondition:   Reset _PlansFilterList after search
+     ************************************************************************/
+    public void resetFilterList()
+    {
+        this._PlansFilterList = new ArrayList<>(_PlansList);
+    }
+
+    /************************************************************************
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler List View
@@ -62,9 +72,9 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.titleText.setText(_PlansList.get(position).getTitle());
-        holder.descriptionText.setText(_PlansList.get(position).getDescription());
-        holder.startTimeText.setText(_PlansList.get(position).getStartTime());
+        holder._titleText.setText(_PlansList.get(position).getTitle());
+        holder._descriptionText.setText(_PlansList.get(position).getDescription());
+        holder._startTimeText.setText(_PlansList.get(position).getStartTime());
     }
 
     /************************************************************************
@@ -90,19 +100,21 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      ************************************************************************/
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        View _view;
-        public TextView titleText;
-        public TextView descriptionText;
-        public TextView startTimeText;
+        private View _view;
+        private TextView _titleText;
+        private TextView _descriptionText;
+        private TextView _startTimeText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             _view = itemView;
 
-            titleText = (TextView) _view.findViewById(R.id.planlist_title_text);
-            descriptionText = (TextView) _view.findViewById(R.id.planlist_description_text);
-            startTimeText = (TextView) _view.findViewById(R.id.planlist_starttime_text);
+            _titleText = (TextView) _view.findViewById(R.id.planlist_title_text);
+            _descriptionText = (TextView) _view.findViewById(R.id.planlist_description_text);
+            _startTimeText = (TextView) _view.findViewById(R.id.planlist_starttime_text);
+
+            _view.setOnClickListener(this);
         }
 
         @Override
@@ -166,14 +178,4 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
             notifyDataSetChanged();
         }
     };
-
-    /************************************************************************
-     * Purpose:         resetFilterList
-     * Precondition:    onQueryTextChange
-     * Postcondition:   Reset _PlansFilterList after search
-     ************************************************************************/
-    public void resetFilterList()
-    {
-        this._PlansFilterList = new ArrayList<>(_PlansList);
-    }
 }
