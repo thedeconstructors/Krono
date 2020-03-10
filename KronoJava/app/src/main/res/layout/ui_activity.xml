@@ -23,6 +23,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
 
             app:expandedTitleGravity="top|center_horizontal"
 
@@ -34,11 +35,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="28dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginStart="50dp"
                 app:layout_collapseMode="parallax"
                 android:layout_gravity="bottom"
+                android:minLines="1"
+                android:maxLines="2"
                 android:text=""
                 android:id="@+id/ui_activityDescription"/>
 

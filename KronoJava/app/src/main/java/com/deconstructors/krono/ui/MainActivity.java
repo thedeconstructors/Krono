@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +15,11 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanRVAdapter;
 import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity
     // XML Widgets
     private Toolbar Toolbar;
     private RecyclerView PlanRecyclerView;
+    private FloatingActionButton FAB;
+    private TextView NameTextView;
+    private TextView EmailTextView;
 
     // Vars
     private ListenerRegistration PlanEventListener;
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.ui_main);
 
         this.setContents();
+        this.getProfile();
         this.getMenu();
     }
 
@@ -60,6 +69,8 @@ public class MainActivity extends AppCompatActivity
         this.Toolbar = findViewById(R.id.ui_toolbar);
         this.Toolbar.setTitle("");
         this.setSupportActionBar(this.Toolbar);
+        this.NameTextView = findViewById(R.id.ui_main_displayName);
+        this.EmailTextView = findViewById(R.id.ui_main_email);
 
         // Recycler View
         this.PlanList = new ArrayList<>();
@@ -68,6 +79,10 @@ public class MainActivity extends AppCompatActivity
         this.PlanRecyclerView.setHasFixedSize(true);
         this.PlanRecyclerView.setAdapter(this.PlanRVAdapter);
         this.PlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Others
+        this.FAB = findViewById(R.id.ui_main_fab);
+        this.FAB.setOnClickListener(this);
 
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
@@ -78,6 +93,30 @@ public class MainActivity extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
+    private void getProfile()
+    {
+        FirestoreDB.collection(getString(R.string.collection_users))
+                   .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                   .get()
+                   .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                   {
+                       @Override
+                       public void onSuccess(DocumentSnapshot documentSnapshot)
+                       {
+                           if (documentSnapshot != null)
+                           {
+                               String fn = documentSnapshot.get("firstname").toString();
+                               String ln = documentSnapshot.get("lastname").toString();
+                               String em = documentSnapshot.get("loginEmail").toString();
+
+                               NameTextView.setText(fn + " " + ln);
+                               EmailTextView.setText(em);
+                           }
+                       }
+                   });
+    }
+
+
     private void getMenu()
     {
         Query planRef = FirestoreDB.collection(getString(R.string.collection_plans));

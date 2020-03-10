@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.deconstructors.krono">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,17 +11,21 @@
         android:roundIcon="@drawable/launcher_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- Main Menu -->
-        <activity android:name=".ui.MainActivity">
+        <!-- Auth -->
+        <activity android:name=".auth.WelcomePage">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- Main Menu -->
+        <activity android:name=".ui.MainActivity"/>
         <activity
             android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.NewActivityPage"
+            android:parentActivityName=".ui.ActivityPage"/>
     </application>
 
 </manifest>

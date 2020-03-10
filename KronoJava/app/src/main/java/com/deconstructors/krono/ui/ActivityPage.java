@@ -1,5 +1,6 @@
 package com.deconstructors.krono.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -65,7 +66,7 @@ public class ActivityPage extends AppCompatActivity
         setContentView(R.layout.ui_activity);
 
         this.setContents();
-        this.setPlanIntent();
+        this.getPlanIntent();
         this.getActivities();
     }
 
@@ -78,7 +79,7 @@ public class ActivityPage extends AppCompatActivity
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Widgets
+        // Other Widgets
         this.ProgressBar = findViewById(R.id.activities_progressBar);
         this.RecyclerView = findViewById(R.id.activities_recyclerview);
         this.FAB = findViewById(R.id.activities_fab);
@@ -100,19 +101,17 @@ public class ActivityPage extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   Save Plan Intent from MainActivity
      ************************************************************************/
-    private void setPlanIntent()
+    private void getPlanIntent()
     {
         if(getIntent().hasExtra(getString(R.string.intent_plans)))
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
-            //this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             this.DescriptionTextView.setText(this.Plan.getDescription());
         }
         else
         {
             this.getSupportActionBar().setTitle(R.string.menu_allactivities);
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -232,9 +231,18 @@ public class ActivityPage extends AppCompatActivity
      * Postcondition:   .
      ************************************************************************/
     @Override
-    public void onClick(View v)
+    public void onClick(View view)
     {
-        // add
+        switch (view.getId())
+        {
+            case R.id.activities_fab:
+            {
+                Intent intent = new Intent(ActivityPage.this, NewActivityPage.class);
+                intent.putExtra(getString(R.string.intent_activity), this.Plan);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     @Override

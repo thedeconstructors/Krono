@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:visibility="gone"
+    tools:showIn="@layout/auth_welcome">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/auth_email"
+        android:autofillHints="@string/auth_email"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/auth_email"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_signIn_emailEditText"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/auth_password"
+        android:autofillHints="@string/auth_password"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/auth_password"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_signIn_passwordEditText"/>
+
+    <!-- Remember Me & Forgot Password Button -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/auth_rememberMe"
+            android:textStyle="normal"
+            android:layout_gravity="center|start"
+            android:textColor="@color/lightGrey"
+            android:buttonTint="@color/lightGrey"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|end"
+            android:text="@string/auth_forgotPassword"
+            android:textColor="@color/lightGrey"
+            android:id="@+id/auth_signIn_forgotPassword"/>
+    </GridLayout>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:text="@string/auth_signin"
+        android:textColor="@color/lightGrey"
+        android:background="@drawable/auth_buttonborder"
+        android:onClick="onClick"
+        android:id="@+id/auth_signIn"/>
+</LinearLayout>

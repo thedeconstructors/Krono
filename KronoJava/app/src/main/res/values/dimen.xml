@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Menu -->
+    <!-- 3. Auth -->
+    <dimen name="auth_headerText">40sp</dimen>
+    <dimen name="auth_buttonStartEndPadding">50dp</dimen>
+    <dimen name="auth_buttonBetweenPadding">20dp</dimen>
+
+    <!-- 4. User Interface -->
     <dimen name="toolbar_padding">13dp</dimen>
     <dimen name="menu_textSize">18sp</dimen>
     <dimen name="menu_imagePadding">10sp</dimen>

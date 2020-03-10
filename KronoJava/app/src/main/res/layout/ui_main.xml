@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorPrimary"
+    android:background="@color/White"
     tools:context=".ui.MainActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -45,11 +45,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/menu_textSize"
                         android:textStyle="bold"
-                        android:text="Name"/>
+                        android:text="@string/navigation_displayNameText"
+                        android:id="@+id/ui_main_displayName"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Email"/>
+                        android:text="@string/navigation_emailFieldText"
+                        android:id="@+id/ui_main_email"/>
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
