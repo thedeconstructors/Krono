@@ -35,11 +35,9 @@ public class NewPlan extends AppCompatActivity
 
     private TextView title;
     private TextView startTime;
+    //private TextView description;
     private RecyclerView myActivities;
     private RecyclerView planActivities;
-
-    // Database
-    private FirebaseFirestore m_Firestore;
 
     //MyActivities box vars
     private RecyclerView myActivities_RecyclerView;
@@ -62,6 +60,7 @@ public class NewPlan extends AppCompatActivity
 
         title = (TextView) findViewById(R.id.txtTitle);
         startTime = (TextView) findViewById(R.id.txtStartTime);
+        //description = (TextView)findViewById(R.id.txtDescription);
         myActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerMyActivities);
         planActivities_RecyclerView = (RecyclerView) findViewById(R.id.recyclerPlan);
 
@@ -86,6 +85,7 @@ public class NewPlan extends AppCompatActivity
         {
             userPlan.put("ownerId", FirebaseAuth.getInstance().getUid());
             userPlan.put("title", title.getText().toString());
+            userPlan.put("description", "sample_description");
             userPlan.put("startTime", startTime.getText().toString());
 
             //populate activityids string

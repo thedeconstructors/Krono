@@ -1,7 +1,9 @@
 package com.deconstructors.krono.helpers;
 
-import com.deconstructors.krono.activities.activities.Activity;
+import com.deconstructors.krono.activities.plans.Menu1_Plans;
 import com.deconstructors.krono.activities.plans.Plans;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.activities.plans.PlansDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.List;
  ************************************************************************/
 public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.ViewHolder> implements Filterable
 {
-    private List<Plans> m_PlansList;
+    private List<Plans> _PlansList;
     private List<Plans> _PlansFilterList; // For Search Filter
 
     /************************************************************************
@@ -33,7 +36,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      ************************************************************************/
     public PlansListAdapter(List<Plans> PlanList)
     {
-        this.m_PlansList = PlanList;
+        this._PlansList = PlanList;
         this._PlansFilterList = PlanList;
     }
 
@@ -59,8 +62,9 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.titleText.setText(m_PlansList.get(position).getTitle());
-        holder.descriptionText.setText(m_PlansList.get(position).getDescription());
+        holder.titleText.setText(_PlansList.get(position).getTitle());
+        holder.descriptionText.setText(_PlansList.get(position).getDescription());
+        holder.startTimeText.setText(_PlansList.get(position).getStartTime());
     }
 
     /************************************************************************
@@ -71,7 +75,7 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
     @Override
     public int getItemCount()
     {
-        return m_PlansList == null ? 0 : m_PlansList.size();
+        return _PlansList == null ? 0 : _PlansList.size();
     }
 
     @Override
@@ -84,19 +88,34 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        View m_view;
+        View _view;
         public TextView titleText;
         public TextView descriptionText;
+        public TextView startTimeText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            m_view = itemView;
+            _view = itemView;
 
-            titleText = (TextView) m_view.findViewById(R.id.planlist_title_text);
-            descriptionText = (TextView) m_view.findViewById(R.id.planlist_description_text);
+            titleText = (TextView) _view.findViewById(R.id.planlist_title_text);
+            descriptionText = (TextView) _view.findViewById(R.id.planlist_description_text);
+            startTimeText = (TextView) _view.findViewById(R.id.planlist_starttime_text);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            ViewPlanDetails();
+        }
+
+        public void ViewPlanDetails()
+        {
+            Intent intent = new Intent(_view.getContext(), PlansDetails.class);
+            intent.putExtra("plan_name", _PlansList.get(getAdapterPosition()).getPlanId());
+            ((Menu1_Plans)_view.getContext()).startActivityForResult(intent, 0);
         }
     }
 
@@ -155,6 +174,6 @@ public class PlansListAdapter extends RecyclerView.Adapter<PlansListAdapter.View
      ************************************************************************/
     public void resetFilterList()
     {
-        this._PlansFilterList = new ArrayList<>(m_PlansList);
+        this._PlansFilterList = new ArrayList<>(_PlansList);
     }
 }

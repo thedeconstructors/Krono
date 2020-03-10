@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,23 +34,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Menu1_Plans extends AppCompatActivity {
-
-    // Error Handler Log Search
-    private static final String _dbPath = "userplans";
-
-    // Database
-    private FirebaseFirestore m_Firestore;
-
-    // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-    private RecyclerView _MainList;
+public class Menu1_Plans extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
+{
+    // Variables
     private PlansListAdapter _PlansListAdapter;
     private List<Plans> _PlansList;
-    private DocumentSnapshot _LastQueriedList;
 
-    //ToolBar
+    // XML Widgets
     private RecyclerView _RecyclerView;
     private Toolbar _PlanToolbar;
+    //SwipeRefreshLayout _SwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,22 +51,36 @@ public class Menu1_Plans extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1__plans);
 
-        //Grab the toolbar
-        _PlanToolbar = findViewById(R.id.menu1_toolbar);
-
-        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
         _PlansList = new ArrayList<>();
         _PlansListAdapter = new PlansListAdapter(_PlansList);
 
-        _MainList = (RecyclerView)findViewById(R.id.MainMenu_PlanListID);
-        _MainList.setHasFixedSize(true);
-        _MainList.setLayoutManager(new LinearLayoutManager(this));
-        _MainList.setAdapter(_PlansListAdapter);
+        _RecyclerView = findViewById(R.id.MainMenu_PlanListID);
+        _PlanToolbar = findViewById(R.id.menu1_toolbar);
+        //_SwipeRefreshLayout = findViewById(R.id.MainMenu_SwipeRefreshPlanListID);
+        //_SwipeRefreshLayout.setOnRefreshListener(this);
 
+        setUpRecyclerView();
         setupToolbar();
         getPlans();
     }
 
+    /***********************************************************************
+     * Purpose:         Setup the RecyclerView
+     * Precondition:    Called from onCreate
+     * Postcondition:   RecyclerView matched to MainMenu_PlanListID
+     ************************************************************************/
+    private void setUpRecyclerView()
+    {
+        _RecyclerView.setHasFixedSize(true);
+        _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _RecyclerView.setAdapter(_PlansListAdapter);
+    }
+
+    /***********************************************************************
+     * Purpose:         Setup the Toolbar
+     * Precondition:    Called from onCreate
+     * Postcondition:   .
+     ************************************************************************/
     private void setupToolbar()
     {
         setSupportActionBar(_PlanToolbar);
@@ -117,6 +125,13 @@ public class Menu1_Plans extends AppCompatActivity {
         return true;
     }
 
+    /***********************************************************************
+     * Purpose:         Get plans
+     * Precondition:    Called from onCreate
+     * Postcondition:   Retrieve plans from the database
+     *                  Grabs current user, and then their planss
+     *
+     ************************************************************************/
     private void getPlans()
     {
         FirebaseFirestore.getInstance()
@@ -146,6 +161,7 @@ public class Menu1_Plans extends AppCompatActivity {
                                               }
 
                                               _PlansListAdapter.notifyDataSetChanged();
+                                              //_SwipeRefreshLayout.setRefreshing(false);
                                           }
                                       });
     }
@@ -154,5 +170,12 @@ public class Menu1_Plans extends AppCompatActivity {
     {
         Intent intent = new Intent(this, NewPlan.class);
         startActivity(intent);
+    }
+
+    //Currently not used
+    @Override
+    public void onRefresh()
+    {
+        this.getPlans();
     }
 }
