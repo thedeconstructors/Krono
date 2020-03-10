@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--<Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="start|center"
+        android:padding="@dimen/menu_layoutPadding"
+
+        android:drawableStart="@drawable/ic_menu_plan"
+        android:drawablePadding="@dimen/menu_imagePadding"
+        android:text="@string/menu_plan"
+        android:textSize="@dimen/menu_textSize"
+        android:id="@+id/planlist_title_text"/>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+
+        android:padding="@dimen/menu_layoutPadding"
+        android:drawableStart="@drawable/ic_menu_plan"
+        android:drawablePadding="@dimen/menu_imagePadding"
+        android:text="@string/menu_plan"
+        android:textSize="@dimen/menu_textSize"
+        android:gravity="start|center"
+        android:id="@+id/planlist_title_text"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

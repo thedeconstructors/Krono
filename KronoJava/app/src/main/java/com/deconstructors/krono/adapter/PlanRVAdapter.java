@@ -4,13 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Plan;
-
 import java.util.List;
 
 /************************************************************************
@@ -23,7 +21,7 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
     private PlanRVClickListener ClickListener;
 
     /************************************************************************
-     * Purpose:         1 Arg Constructor
+     * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -37,13 +35,13 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
      * Purpose:         View Holder
      * Precondition:    .
      * Postcondition:   Inflate the layout to Recycler List View
-     *                  Using the ui_plan_listitem.XML File
+     *                  Using the ui_drawer_listitem.XML File
      ************************************************************************/
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.ui_plan_listitem;
+        int res = R.layout.ui_main_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
         ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
         return viewholder;
@@ -58,7 +56,7 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         holder.titleText.setText(this.PlanList.get(position).getTitle());
-        holder.descriptionText.setText(this.PlanList.get(position).getDescription());
+        //holder.descriptionText.setText(this.PlanList.get(position).getDescription());
     }
 
     /************************************************************************
@@ -77,11 +75,10 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, View.OnLongClickListener
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView titleText;
-        TextView descriptionText;
+        //TextView descriptionText;
         PlanRVClickListener ClickListener;
 
         public ViewHolder(@NonNull View itemView, PlanRVClickListener clickListener)
@@ -89,7 +86,7 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
             super(itemView);
 
             this.titleText = (TextView) itemView.findViewById(R.id.planlist_title_text);
-            this.descriptionText = (TextView) itemView.findViewById(R.id.planlist_description_text);
+            //this.descriptionText = (TextView) itemView.findViewById(R.id.planlist_description_text);
             this.ClickListener = clickListener;
 
             itemView.setOnClickListener(this);
@@ -100,13 +97,6 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
         {
             this.ClickListener.onPlanSelected(getAdapterPosition());
         }
-
-        @Override
-        public boolean onLongClick(View v)
-        {
-            // Initiate an Active view multi selection
-            return false;
-        }
     }
 
     public interface PlanRVClickListener
@@ -114,3 +104,4 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
         void onPlanSelected(int position);
     }
 }
+

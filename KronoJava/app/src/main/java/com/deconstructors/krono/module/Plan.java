@@ -2,12 +2,14 @@ package com.deconstructors.krono.module;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
 
 public class Plan implements Parcelable
 {
     private String PlanID;
     private String Title;
     private String Description;
+    private ArrayList ActivityList;
 
     /************************************************************************
      * Purpose:         Constructors
@@ -21,10 +23,11 @@ public class Plan implements Parcelable
         this.PlanID = planID;
         this.Title = title;
         this.Description = description;
+        this.ActivityList = new ArrayList<>();
     }
 
     /************************************************************************
-     * Purpose:         Parcel Stuffs
+     * Purpose:         Parcelable Override Methods
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -33,6 +36,7 @@ public class Plan implements Parcelable
         this.PlanID = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
+        this.ActivityList = in.readArrayList(null);
     }
 
     @Override
@@ -77,92 +81,9 @@ public class Plan implements Parcelable
 
     public String getDescription() { return this.Description; }
     public void setDescription(String description) { this.Description = description; }
+
+    public ArrayList getActivityList() { return this.ActivityList; }
+    public void setActivityList(ArrayList activityList) { this.ActivityList = activityList; }
+
+    public int getListSize() { return this.ActivityList.size(); }
 }
-
-/*
-public class Plan {
-
-    private String _name;
-    //private Date _date;
-    private boolean _isPublic;
-    private Activity[] _activities;
-    private int _currentIndex;
-
-    public Plan() {
-        _name = "Plan";
-        //_date = new Date();
-        _isPublic = false;
-        _activities = new Activity[20];
-        _currentIndex = 0;
-
-    }
-
-    public Plan(String name, boolean isPublic) {
-        _name = name;
-
-        //A lot of the methods in the Date class here are deprecated. Might update _date to a DateTime variable later.
-        //currently commenting out date so as not to use Date type
-        //_date = new Date(date.getYear(), date.getMonth(), date.getDay());
-
-        _isPublic = isPublic;
-        _activities = new Activity[20];
-        _currentIndex = 0;
-    }
-
-    //Need to add logic to deal with overlapping activities.
-    public void AddActivity(Activity activity) {
-        _activities[_currentIndex] = activity;
-        _currentIndex++;
-    }
-
-    public void RemoveActivity(String name) {
-        Activity[] newActivities = new Activity[20];
-
-        for (int i = 0; i < _currentIndex; i++) {
-            int j = 0;
-            if (name != _activities[i].getTitle()) {
-                newActivities[j] = _activities[i];
-                j++;
-            }
-        }
-
-        _activities = newActivities;
-        _currentIndex--;
-    }
-
-
-    //Setters and Getters
-    public void SetName(String name) {
-        _name = name;
-    }
-
-    */
-/*
-    public void SetDate(Date date) {
-        _date = date;
-    }*//*
-
-
-    public void SetIsPublic(boolean isPublic) {
-        _isPublic = isPublic;
-    }
-
-    public String GetName() {
-        return _name;
-    }
-
-    */
-/*
-    public Date GetDate() {
-        return _date;
-    }*//*
-
-
-    public boolean GetIsPublic() {
-        return _isPublic;
-    }
-
-    public Activity[] GetActivities() {
-        return _activities;
-    }
-}*/

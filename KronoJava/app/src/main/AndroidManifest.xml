@@ -13,75 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Login -->
-        <activity
-            android:name=".activities.login.LoginPage"
-            android:theme="@style/AppTheme.NoActionBar">
+        <!-- Main Menu -->
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.login.RegisterPage"
-            android:parentActivityName=".activities.login.LoginPage"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <!-- Default -->
-        <activity android:name=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <!-- Plans -->
-        <activity
-            android:name=".activities.plans.NewPlan"
-            android:parentActivityName=".ui.MainActivity" />
-        <!-- Activities -->
-        <activity
-            android:name=".activities.activities.Menu0_Activities"
+            android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
-        <activity
-            android:name=".activities.activities.NewActivity"
-            android:parentActivityName=".ui.MainActivity" />
-
-        <!-- Menu 0 Activities -->
-        <!--<activity
-            android:name=".activities.activities.Menu0_Activities"
-            android:parentActivityName=".ui.MainActivity"/>
-        <activity
-            android:name=".activities.activities.NewActivity"
-            android:parentActivityName=".activities.activities.Menu0_Activities" />
-        <activity
-            android:name=".activities.activities.ActivityDetails"
-            android:parentActivityName=".activities.activities.Menu0_Activities" />
-        &lt;!&ndash; Menu 1 Plan &ndash;&gt;
-        <activity
-            android:name=".activities.plans.Menu1_Plans"
-            android:parentActivityName=".ui.MainActivity"/>
-        <activity
-            android:name=".activities.plans.NewPlan"
-            android:parentActivityName=".activities.plans.Menu1_Plans" />
-        &lt;!&ndash; Menu 2 Calendar &ndash;&gt;
-        &lt;!&ndash; Menu 3 Friends &ndash;&gt;
-        <activity
-            android:name=".activities.friends.Menu3_Friends"
-            android:parentActivityName=".ui.MainActivity"/>
-        <activity
-            android:name=".activities.friends.Menu3_Friends_ViewFriend"
-            android:parentActivityName=".activities.friends.Menu3_Friends"/>
-        &lt;!&ndash; Menu 4 Users &ndash;&gt;
-        <activity
-            android:name=".activities.profile.Menu4_Users"
-            android:parentActivityName=".ui.MainActivity"/>-->
-        <!-- Menu 5 Settings -->
-
-        <!-- Tile Service -->
-        <service
-            android:name=".helpers.MyTileService"
-            android:icon="@drawable/quicktile_addactivity"
-            android:label="@string/quick_tile_title"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

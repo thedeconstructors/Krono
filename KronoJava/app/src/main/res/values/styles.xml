@@ -1,34 +1,21 @@
 <resources>
 
-    <!-- 1. Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#1034A6</item>
-        <item name="colorPrimaryDark">#000080</item>
-        <item name="colorAccent">#0080FF</item>
-    </style>
-
-    <!-- 2. User Interface -->
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">#6200EE</item>
+        <item name="colorPrimaryDark">#6200EE</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- 2. Authentication -->
-    <style name="SignInEditTextStyle" parent="TextAppearance.AppCompat.Small">
-        <item name="android:maxLines">1</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-    <style name="SignInButtonStyle" parent="TextAppearance.AppCompat.Small">
-        <item name="android:background">@drawable/ic_button_grayborder</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
     <!-- Main Menu Item Cards -->

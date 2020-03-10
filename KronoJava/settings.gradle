@@ -1,3 +1,2 @@
-include ':app', ':dbinteract'
+include ':app'
 rootProject.name='Krono'
-project(':dbinteract').projectDir = new File('firestoreinteract')
