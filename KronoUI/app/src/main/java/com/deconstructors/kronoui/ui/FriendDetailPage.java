@@ -3,7 +3,7 @@ package com.deconstructors.kronoui.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
+import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,10 +13,10 @@ import com.deconstructors.kronoui.module.User;
 public class FriendDetailPage extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
-    private static final String TAG = "NewActivityPage";
+    private static final String TAG = "FriendDetailPage";
 
     //result constant for extra
-    private androidx.appcompat.widget.Toolbar Toolbar;
+    private Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
     private EditText DateTime;

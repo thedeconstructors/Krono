@@ -41,6 +41,12 @@
     <string name="navigation_emailFieldText">email@field.com</string>
 
     <!-- 4.3 - Plan -->
+    <string name="plan_menu">Activity Menu</string>
+    <string name="plan_details">Plan Details</string>
+    <string name="plan_new">New Plan</string>
+    <string name="plan_title">Title</string>
+    <string name="plan_description">Description</string>
+    <string name="plan_save">Save</string>
 
     <!-- 4.4 - Activity -->
     <string name="newactivity_header">New Activity</string>

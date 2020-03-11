@@ -184,7 +184,9 @@ public class ActivityPage extends AppCompatActivity
 
     private void editPlan()
     {
-
+        Intent intent = new Intent(ActivityPage.this, PlanDetailPage.class);
+        intent.putExtra(getString(R.string.intent_plans), this.Plan);
+        startActivity(intent);
     }
 
     private void deletePlan()

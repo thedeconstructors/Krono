@@ -43,7 +43,7 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.ui_main_listitem;
+        int res = R.layout.ui_plan_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
         ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
         return viewholder;

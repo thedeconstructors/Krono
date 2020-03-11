@@ -212,7 +212,8 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.ui_main_fab:
             {
-
+                Intent intent = new Intent(MainActivity.this, NewPlanPage.class);
+                startActivity(intent);
                 break;
             }
         }
