@@ -15,11 +15,17 @@
         <activity android:name=".auth.WelcomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Main Menu -->
+        </activity>
+        <!-- Main Menu -->
         <activity android:name=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.AllActivitiesPage"
+            android:parentActivityName=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.FriendPage"
+            android:parentActivityName=".ui.MainActivity"/>
         <activity
             android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
@@ -27,5 +33,4 @@
             android:name=".ui.NewActivityPage"
             android:parentActivityName=".ui.ActivityPage"/>
     </application>
-
 </manifest>

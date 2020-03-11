@@ -44,13 +44,11 @@ public class MainActivity extends AppCompatActivity
     private TextView NameTextView;
     private TextView EmailTextView;
 
-    // Vars
+    // Database
+    private FirebaseFirestore FirestoreDB;
     private ListenerRegistration PlanEventListener;
     private List<Plan> PlanList;
     private PlanRVAdapter PlanRVAdapter;
-
-    // Database
-    private FirebaseFirestore FirestoreDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.ui_main);
 
         this.setContents();
-        this.getProfile();
+        this.getUserInfo();
         this.getMenu();
     }
 
@@ -93,8 +91,9 @@ public class MainActivity extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void getProfile()
+    private void getUserInfo()
     {
+        // Get User Name & Email
         FirestoreDB.collection(getString(R.string.collection_users))
                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                    .get()
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             {
                 if (e != null)
                 {
-                    Log.e(TAG, "getPlans: onEvent Listen failed.", e);
+                    Log.e(TAG, "getMenu: onEvent Listen failed.", e);
                     return;
                 }
 
@@ -182,20 +181,24 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ui_menu_allActivities:
             {
-                Intent intent = new Intent(MainActivity.this, ActivityPage.class);
+                Intent intent = new Intent(MainActivity.this, AllActivitiesPage.class);
                 startActivity(intent);
+                break;
             }
             case R.id.ui_menu_friends:
             {
-
+                Intent intent = new Intent(MainActivity.this, FriendPage.class);
+                startActivity(intent);
+                break;
             }
             case R.id.ui_menu_chat:
             {
 
+                break;
             }
             case R.id.ui_main_fab:
             {
-                int x = 5;
+                break;
             }
         }
     }

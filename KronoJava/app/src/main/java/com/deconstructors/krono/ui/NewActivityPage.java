@@ -26,6 +26,9 @@ import java.util.Map;
 public class NewActivityPage extends AppCompatActivity
         implements View.OnClickListener
 {
+    // Error Log
+    private static final String TAG = "NewActivityPage";
+
     //result constant for extra
     private Toolbar Toolbar;
     private EditText Title;

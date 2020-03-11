@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
@@ -14,11 +15,13 @@
         android:orientation="horizontal"
         android:padding="15dp">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="15dp"
-            android:buttonTint="@color/colorPrimaryDark"/>
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/Black"
+            android:src="@drawable/ui_friend_emptyprofile"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,21 +29,21 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/activitylist_title_text"
+                android:id="@+id/friendlist_nameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Title"
+                android:text="Display Name"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/activitylist_description_text"
+                android:id="@+id/friendlist_emailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Description"
+                android:text="Email@field.com"
                 android:maxLines="3"
                 android:textColor="@android:color/secondary_text_dark"
                 android:textSize="18sp" />

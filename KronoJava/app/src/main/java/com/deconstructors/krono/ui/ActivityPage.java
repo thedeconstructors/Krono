@@ -245,6 +245,11 @@ public class ActivityPage extends AppCompatActivity
         }
     }
 
+    /************************************************************************
+     * Purpose:         Toolbar Back Button Animation Overrides
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

@@ -2,14 +2,13 @@ package com.deconstructors.krono.module;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import java.util.ArrayList;
 
 public class Plan implements Parcelable
 {
     private String PlanID;
     private String Title;
     private String Description;
-    private ArrayList ActivityList;
+    //private int ActivitySize;
 
     /************************************************************************
      * Purpose:         Constructors
@@ -23,7 +22,7 @@ public class Plan implements Parcelable
         this.PlanID = planID;
         this.Title = title;
         this.Description = description;
-        this.ActivityList = new ArrayList<>();
+        //this.ActivitySize = activitySize;
     }
 
     /************************************************************************
@@ -36,7 +35,7 @@ public class Plan implements Parcelable
         this.PlanID = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
-        this.ActivityList = in.readArrayList(null);
+        //this.ActivitySize = in.readInt();
     }
 
     @Override
@@ -45,6 +44,7 @@ public class Plan implements Parcelable
         dest.writeString(this.PlanID);
         dest.writeString(this.Title);
         dest.writeString(this.Description);
+        //dest.writeInt(this.ActivitySize);
     }
 
     @Override
@@ -82,8 +82,6 @@ public class Plan implements Parcelable
     public String getDescription() { return this.Description; }
     public void setDescription(String description) { this.Description = description; }
 
-    public ArrayList getActivityList() { return this.ActivityList; }
-    public void setActivityList(ArrayList activityList) { this.ActivityList = activityList; }
-
-    public int getListSize() { return this.ActivityList.size(); }
+    //public int getActivitySize() { return ActivitySize; }
+    //public void setActivitySize(int activitySize) { ActivitySize = activitySize; }
 }
