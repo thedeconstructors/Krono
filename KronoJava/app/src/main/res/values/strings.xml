@@ -27,12 +27,12 @@
     <string name="intent_activity">intent_activity</string>
     <string name="intent_userList">intent_userlist</string>
 
-    <!-- 4.1 - Menu -->
+    <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
     <string name="menu_plan">New Plan</string>
     <string name="menu_chat">Chats</string>
-    <string name="menu_textsize">20dp</string>
+    <string name="menu_searchButton">Search Button</string>
 
     <!-- 4.2 - Profile -->
     <string name="navigation_profileText">Profile</string>
@@ -41,10 +41,19 @@
 
     <!-- 4.3 - Plan -->
 
-    <!-- 4.3 - Activity -->
+    <!-- 4.4 - Activity -->
     <string name="newactivity_header">New Activity</string>
     <string name="newactivity_title">Title</string>
     <string name="newactivity_description">Description</string>
     <string name="newactivity_timestamp">Due Date</string>
     <string name="newactivity_save">Save</string>
+
+    <!-- 4.5 - Menu -->
+    <string name="activity_menu">Activity Menu</string>
+    <string name="menu_friend">Friend Menu</string>
+    <string name="menu_sortBy">Sort By</string>
+    <string name="activity_menu_editPlan">Edit Plan</string>
+    <string name="activity_menu_sortBy">Sort By</string>
+    <string name="activity_menu_deletePlan">Delete Plan</string>
+
 </resources>

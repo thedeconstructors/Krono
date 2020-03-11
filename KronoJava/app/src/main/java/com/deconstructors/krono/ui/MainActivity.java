@@ -3,6 +3,8 @@ package com.deconstructors.krono.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity
     private void getUserInfo()
     {
         // Get User Name & Email
+        // Change to a singleton object or write to strings.xml later
         FirestoreDB.collection(getString(R.string.collection_users))
                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                    .get()
@@ -114,7 +117,6 @@ public class MainActivity extends AppCompatActivity
                        }
                    });
     }
-
 
     private void getMenu()
     {
@@ -198,8 +200,25 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.ui_main_fab:
             {
+
                 break;
             }
         }
+    }
+
+    /************************************************************************
+     * Purpose:         Toolbar Menu Inflater
+     * Precondition:    .
+     * Postcondition:   Activates the toolbar menu by inflating it
+     *                  See more from res/menu/activity_boolbar_menu
+     *                  and layout/menu0_toolbar
+     ************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
     }
 }

@@ -3,6 +3,8 @@ package com.deconstructors.krono.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -259,6 +261,22 @@ public class ActivityPage extends AppCompatActivity
                 finish();
                 break;
         }
+        return true;
+    }
+
+    /************************************************************************
+     * Purpose:         Toolbar Menu Inflater
+     * Precondition:    .
+     * Postcondition:   Activates the toolbar menu by inflating it
+     *                  See more from res/menu/activity_boolbar_menu
+     *                  and layout/menu0_toolbar
+     ************************************************************************/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity, menu);
+
         return true;
     }
 }
