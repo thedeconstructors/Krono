@@ -58,7 +58,7 @@ public class FriendPage extends AppCompatActivity
     {
         // Toolbar
         this.Toolbar = findViewById(R.id.friend_toolbar);
-        this.Toolbar.setTitle("");
+        this.Toolbar.setTitle(getString(R.string.menu_friends));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);

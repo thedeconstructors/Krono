@@ -78,7 +78,7 @@ public class WelcomePage extends AppCompatActivity
     {
         // Firebase
         this.Auth = FirebaseAuth.getInstance();
-        //this.Auth.signOut(); // Debug Purpose Only
+        this.Auth.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -289,6 +289,19 @@ public class WelcomePage extends AppCompatActivity
                 this.onRegisterClick();
                 break;
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (this.HeaderLayout.getVisibility() == View.VISIBLE)
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            this.onClick(this.BackButton);
         }
     }
 

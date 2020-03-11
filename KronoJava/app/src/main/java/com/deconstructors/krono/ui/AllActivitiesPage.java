@@ -58,7 +58,7 @@ public class AllActivitiesPage extends AppCompatActivity
     {
         // Toolbar
         this.Toolbar = findViewById(R.id.allactivities_toolbar);
-        this.Toolbar.setTitle("");
+        this.Toolbar.setTitle(getString(R.string.menu_allactivities));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);

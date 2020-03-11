@@ -9,6 +9,7 @@
     android:visibility="gone"
     tools:showIn="@layout/auth_welcome">
 
+    <!-- Email & Password -->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
         android:textColorHint="@color/lightGrey"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_signIn_emailEditText"/>
 
@@ -37,6 +39,7 @@
         android:textColorHint="@color/lightGrey"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_signIn_passwordEditText"/>
 

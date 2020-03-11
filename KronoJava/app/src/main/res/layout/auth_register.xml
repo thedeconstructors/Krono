@@ -21,6 +21,7 @@
         android:textColorHint="@color/lightGrey"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_register_emailEditText"/>
 
@@ -37,6 +38,7 @@
         android:textColorHint="@color/lightGrey"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_register_passwordEditText"/>
 
@@ -53,6 +55,7 @@
         android:textColorHint="@color/lightGrey"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_register_confirmEditText"/>
 
