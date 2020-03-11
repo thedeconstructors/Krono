@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "586082563240",
+    "firebase_url": "https://kronoui-39c5f.firebaseio.com",
+    "project_id": "kronoui-39c5f",
+    "storage_bucket": "kronoui-39c5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586082563240:android:2a83f7faadd19be2ec7e9d",
+        "android_client_info": {
+          "package_name": "com.deconstructors.kronoui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586082563240-fq4q0ltk7urnprm29lalll99m1sctjsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-UNf3B-jTLTAz3eTYU621-RtTE7VhMWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586082563240-fq4q0ltk7urnprm29lalll99m1sctjsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

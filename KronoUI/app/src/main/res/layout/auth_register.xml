@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:visibility="gone"
+    tools:showIn="@layout/auth_welcome">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/navigation_displayNameText"
+        android:autofillHints="@string/navigation_displayNameText"
+        android:inputType="textPersonName"
+        android:drawableStart="@drawable/ui_friend_emptyprofile"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_register_nameEditText"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/auth_email"
+        android:autofillHints="@string/auth_email"
+        android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/auth_email"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_register_emailEditText"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/auth_password"
+        android:autofillHints="@string/auth_password"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/auth_password"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_register_passwordEditText"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:hint="@string/auth_passwordConfirm"
+        android:autofillHints="@string/auth_passwordConfirm"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/auth_password"
+        android:textColorHint="@color/lightGrey"
+        android:drawableTint="@color/lightGrey"
+        android:backgroundTint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+        android:maxLines="1"
+        android:id="@+id/auth_register_confirmEditText"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:text="@string/auth_register"
+        android:textColor="@color/lightGrey"
+        android:background="@drawable/auth_buttonborder"
+        android:onClick="onClick"
+        android:id="@+id/auth_register"/>
+
+</LinearLayout>

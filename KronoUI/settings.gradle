@@ -1,0 +1,2 @@
+rootProject.name='KronoUI'
+include ':app'
