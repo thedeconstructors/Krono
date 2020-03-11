@@ -30,6 +30,8 @@
             android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
         <activity
+            android:name=".ui.ActivityDetailPage"/>
+        <activity
             android:name=".ui.NewActivityPage"
             android:parentActivityName=".ui.ActivityPage"/>
     </application>

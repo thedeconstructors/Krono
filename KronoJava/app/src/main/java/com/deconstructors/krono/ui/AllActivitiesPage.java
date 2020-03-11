@@ -1,5 +1,6 @@
 package com.deconstructors.krono.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -128,10 +129,17 @@ public class AllActivitiesPage extends AppCompatActivity
                    });
     }
 
+    /************************************************************************
+     * Purpose:         Parcelable Activity Interaction
+     * Precondition:    .
+     * Postcondition:   Send Activity Intent to ActivityDetailPage
+     ************************************************************************/
     @Override
     public void onActiviySelected(int position)
     {
-
+        Intent intent = new Intent(AllActivitiesPage.this, ActivityDetailPage.class);
+        intent.putExtra(getString(R.string.intent_activity), this.AllActivitiesList.get(position));
+        startActivity(intent);
     }
 
     /************************************************************************

@@ -66,22 +66,33 @@ public class NewActivityPage extends AppCompatActivity
         this.FAB.setOnClickListener(this);
     }
 
+    /************************************************************************
+     * Purpose:         Parcelable Plan Interaction
+     * Precondition:    .
+     * Postcondition:   Get Plan Intent from MainActivity
+     ************************************************************************/
     private void getPlanIntent()
     {
-        if(getIntent().hasExtra(getString(R.string.intent_activity)))
+        if(getIntent().hasExtra(getString(R.string.intent_plans)))
         {
-            this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_activity));
+            this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
             //this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
+    /************************************************************************
+     * Purpose:         Database
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void createNewActivity()
     {
         if (!Helper.isEmpty(this.Title)
                 && !Helper.isEmpty(this.Description)
                 && !Helper.isEmpty(this.DateTime))
         {
+            // Set ref first to get the destination document id
             DocumentReference ref = FirebaseFirestore
                     .getInstance()
                     .collection(getString(R.string.collection_plans))

@@ -118,6 +118,20 @@ public class MainActivity extends AppCompatActivity
                    });
     }
 
+
+    /************************************************************************
+     * Purpose:         Parcelable Activity Interaction
+     * Precondition:    .
+     * Postcondition:   Send Activity Intent from MainActivity
+     ************************************************************************/
+    @Override
+    public void onPlanSelected(int position)
+    {
+        Intent intent = new Intent(MainActivity.this, ActivityPage.class);
+        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
+        startActivity(intent);
+    }
+
     private void getMenu()
     {
         Query planRef = FirestoreDB.collection(getString(R.string.collection_plans));
@@ -161,14 +175,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    @Override
-    public void onPlanSelected(int position)
-    {
-        Intent intent = new Intent(MainActivity.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
-        startActivity(intent);
     }
 
     /************************************************************************

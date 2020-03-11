@@ -101,7 +101,7 @@ public class ActivityPage extends AppCompatActivity
     /************************************************************************
      * Purpose:         Parcelable Plan Interaction
      * Precondition:    .
-     * Postcondition:   Save Plan Intent from MainActivity
+     * Postcondition:   Get Plan Intent from MainActivity
      ************************************************************************/
     private void getPlanIntent()
     {
@@ -120,14 +120,14 @@ public class ActivityPage extends AppCompatActivity
     /************************************************************************
      * Purpose:         Parcelable Activity Interaction
      * Precondition:    .
-     * Postcondition:   Send Activity Intent from MainActivity
+     * Postcondition:   Send Activity Intent to ActivityDetailPage
      ************************************************************************/
     @Override
     public void onActiviySelected(int position)
     {
-        /*Intent intent = new Intent(MainActivity.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
-        startActivity(intent);*/
+        Intent intent = new Intent(ActivityPage.this, ActivityDetailPage.class);
+        intent.putExtra(getString(R.string.intent_activity), this.ActivityList.get(position));
+        startActivity(intent);
     }
 
     /************************************************************************
@@ -240,7 +240,7 @@ public class ActivityPage extends AppCompatActivity
             case R.id.activities_fab:
             {
                 Intent intent = new Intent(ActivityPage.this, NewActivityPage.class);
-                intent.putExtra(getString(R.string.intent_activity), this.Plan);
+                intent.putExtra(getString(R.string.intent_plans), this.Plan);
                 startActivity(intent);
                 break;
             }

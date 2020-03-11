@@ -47,6 +47,7 @@
     <string name="newactivity_description">Description</string>
     <string name="newactivity_timestamp">Due Date</string>
     <string name="newactivity_save">Save</string>
+    <string name="activitydetail_header">Activity Details</string>
 
     <!-- 4.5 - Menu -->
     <string name="activity_menu">Activity Menu</string>
@@ -55,5 +56,8 @@
     <string name="activity_menu_editPlan">Edit Plan</string>
     <string name="activity_menu_sortBy">Sort By</string>
     <string name="activity_menu_deletePlan">Delete Plan</string>
+    <string name="menu_activitydetail_editActivity">Edit Activity</string>
+    <string name="menu_activitydetail_sortBy">Sort By</string>
+    <string name="menu_activitydetail_deletePlan">Delete Activity</string>
 
 </resources>
