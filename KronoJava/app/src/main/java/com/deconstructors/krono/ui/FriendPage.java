@@ -1,5 +1,6 @@
 package com.deconstructors.krono.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -133,7 +134,9 @@ public class FriendPage extends AppCompatActivity
     @Override
     public void onFriendSelected(int position)
     {
-
+        Intent intent = new Intent(FriendPage.this, FriendDetailPage.class);
+        intent.putExtra(getString(R.string.intent_friend), this.FriendList.get(position));
+        startActivity(intent);
     }
 
     /************************************************************************

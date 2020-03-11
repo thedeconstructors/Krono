@@ -13,12 +13,7 @@
                 app:showAsAction="never"
                 android:icon="@drawable/menu_sort"/>
 
-            <item android:id="@+id/activitydetail_menu_editPlan"
-                android:title="@string/menu_activitydetail_editActivity"
-                app:showAsAction="ifRoom"
-                android:icon="@drawable/menu_edit"/>
-
-            <item android:id="@+id/activitydetail_menu_deletePlan"
+            <item android:id="@+id/activitydetail_menu_deleteActivity"
                 android:title="@string/menu_activitydetail_deletePlan"
                 android:icon="@drawable/menu_delete"
                 app:showAsAction="ifRoom"/>

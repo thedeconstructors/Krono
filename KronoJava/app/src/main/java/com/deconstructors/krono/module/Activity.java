@@ -8,11 +8,10 @@ import com.google.firebase.Timestamp;
 public class Activity implements Parcelable
 {
     private String ActivityID;
+    private String PlanID;
     private String Title;
     private String Description;
     private Timestamp Timestamp;
-
-    private boolean isSelected;
 
     /************************************************************************
      * Purpose:         Default Constructor
@@ -29,11 +28,10 @@ public class Activity implements Parcelable
     public Activity(Activity activity)
     {
         this.ActivityID = activity.ActivityID;
+        this.PlanID = activity.PlanID;
         this.Title = activity.Title;
         this.Description = activity.Description;
         this.Timestamp = activity.Timestamp;
-
-        this.isSelected = activity.isSelected;
     }
 
     /************************************************************************
@@ -41,14 +39,13 @@ public class Activity implements Parcelable
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String activityID, String title, String description, Timestamp timestamp)
+    public Activity(String activityID, String planID, String title, String description, Timestamp timestamp)
     {
         this.ActivityID = activityID;
+        this.PlanID = planID;
         this.Title = title;
         this.Description = description;
-        this.Timestamp = timestamp; //timestamp.toString();
-
-        this.isSelected = false;
+        this.Timestamp = timestamp;
     }
 
     /************************************************************************
@@ -58,10 +55,11 @@ public class Activity implements Parcelable
      ************************************************************************/
     protected Activity(Parcel in)
     {
-        ActivityID = in.readString();
-        Title = in.readString();
-        Description = in.readString();
-        isSelected = in.readByte() != 0;
+        this.ActivityID = in.readString();
+        this.PlanID = in.readString();
+        this.Title = in.readString();
+        this.Description = in.readString();
+        //this.Timestamp = in.readSerializable();
     }
 
     public static final Creator<Activity> CREATOR = new Creator<Activity>()
@@ -89,9 +87,9 @@ public class Activity implements Parcelable
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(ActivityID);
+        dest.writeString(PlanID);
         dest.writeString(Title);
         dest.writeString(Description);
-        dest.writeByte((byte) (isSelected ? 1 : 0));
     }
 
     /************************************************************************
@@ -104,6 +102,10 @@ public class Activity implements Parcelable
      *                  to the plan table using the activity array.
      ************************************************************************/
     public String getActivityID() { return this.ActivityID; }
+    public void setActivityID(String activityID) { this.ActivityID = activityID; }
+
+    public String getPlanID() { return this.PlanID; }
+    public void setPlanID(String planID) { this.PlanID = planID; }
 
     public String getTitle() { return this.Title; }
     public void setTitle(String title) { this.Title = title; }
@@ -113,17 +115,4 @@ public class Activity implements Parcelable
 
     public Timestamp getTimestamp(){ return this.Timestamp; }
     public void setTimestamp(Timestamp timestamp) { this.Timestamp = timestamp; }
-
-    public String getId() { return this.ActivityID; }
-    public void setId(String id) { this.ActivityID = id; }
-
-    /************************************************************************
-     * Purpose:         Is this Activity Selected
-     * Precondition:    .
-     * Postcondition:   Maybe we should find a more resource saving method
-     *                  like, Item Touch Helper if supported.
-     *                  But it is what it is for the tomorrow's presentation
-     ************************************************************************/
-    public boolean isSelected() { return this.isSelected; }
-    public void setSelected(boolean isSelected) { this.isSelected = isSelected; }
 }

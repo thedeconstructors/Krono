@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -118,29 +119,16 @@ public class MainActivity extends AppCompatActivity
                    });
     }
 
-
-    /************************************************************************
-     * Purpose:         Parcelable Activity Interaction
-     * Precondition:    .
-     * Postcondition:   Send Activity Intent from MainActivity
-     ************************************************************************/
-    @Override
-    public void onPlanSelected(int position)
-    {
-        Intent intent = new Intent(MainActivity.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
-        startActivity(intent);
-    }
-
     private void getMenu()
     {
-        Query planRef = FirestoreDB.collection(getString(R.string.collection_plans));
+        Query planRef = FirestoreDB.collection(getString(R.string.collection_plans))
+                                   .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         this.PlanEventListener = planRef.addSnapshotListener(new EventListener<QuerySnapshot>()
         {
             @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot documentSnapshots,
-                                @javax.annotation.Nullable FirebaseFirestoreException e)
+            public void onEvent(@Nullable QuerySnapshot documentSnapshots,
+                                @Nullable FirebaseFirestoreException e)
             {
                 if (e != null)
                 {
@@ -175,6 +163,19 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Activity Interaction
+     * Precondition:    .
+     * Postcondition:   Send Activity Intent from MainActivity
+     ************************************************************************/
+    @Override
+    public void onPlanSelected(int position)
+    {
+        Intent intent = new Intent(MainActivity.this, ActivityPage.class);
+        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
+        startActivity(intent);
     }
 
     /************************************************************************
@@ -215,9 +216,7 @@ public class MainActivity extends AppCompatActivity
     /************************************************************************
      * Purpose:         Toolbar Menu Inflater
      * Precondition:    .
-     * Postcondition:   Activates the toolbar menu by inflating it
-     *                  See more from res/menu/activity_boolbar_menu
-     *                  and layout/menu0_toolbar
+     * Postcondition:   .
      ************************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

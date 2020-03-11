@@ -27,6 +27,9 @@
             android:name=".ui.FriendPage"
             android:parentActivityName=".ui.MainActivity"/>
         <activity
+            android:name=".ui.FriendDetailPage"
+            android:parentActivityName=".ui.FriendPage"/>
+        <activity
             android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
         <activity

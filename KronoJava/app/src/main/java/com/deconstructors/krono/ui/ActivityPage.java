@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +21,9 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.ActivityRVAdapter;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.module.Plan;
+import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,8 +33,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -50,16 +49,16 @@ public class ActivityPage extends AppCompatActivity
     private ProgressBar ProgressBar;
     private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
+    private CoordinatorLayout BaseLayout;
 
     // Vars
     private Plan Plan;
     private ArrayList<Activity> ActivityList = new ArrayList<>();
-    private Set<String> ActivityListIDs = new HashSet<>();
     private ActivityRVAdapter ActivityRVAdapter;
 
     // Database
     private FirebaseFirestore FirestoreDB;
-    private ListenerRegistration ActivitiesEventListener;
+    private ListenerRegistration ActivityEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,6 +86,7 @@ public class ActivityPage extends AppCompatActivity
         this.FAB = findViewById(R.id.activities_fab);
         this.FAB.setOnClickListener(this);
         this.DescriptionTextView = findViewById(R.id.ui_activityDescription);
+        this.BaseLayout = findViewById(R.id.ui_activitiesLayout);
 
         // RecyclerView
         this.ActivityRVAdapter = new ActivityRVAdapter(this.ActivityList, this);
@@ -126,6 +126,7 @@ public class ActivityPage extends AppCompatActivity
     public void onActiviySelected(int position)
     {
         Intent intent = new Intent(ActivityPage.this, ActivityDetailPage.class);
+        //intent.putExtra(getString(R.string.intent_plans), this.Plan);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityList.get(position));
         startActivity(intent);
     }
@@ -137,82 +138,70 @@ public class ActivityPage extends AppCompatActivity
      ************************************************************************/
     private void getActivities()
     {
-        if (this.Plan != null)
-        {
-            CollectionReference activitiesRef = FirestoreDB
-                    .collection(getString(R.string.collection_plans))
-                    .document(this.Plan.getPlanID())
-                    .collection(getString(R.string.collection_activities));
+        Query activitiesRef = FirestoreDB.collection(getString(R.string.collection_plans))
+                                         .document(this.Plan.getPlanID())
+                                         .collection(getString(R.string.collection_activities));
 
-            ActivitiesEventListener = activitiesRef.addSnapshotListener(new EventListener<QuerySnapshot>()
-            {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot documentSnapshots,
-                                    @Nullable FirebaseFirestoreException e)
+        this.ActivityEventListener = activitiesRef
+                .addSnapshotListener(new EventListener<QuerySnapshot>()
                 {
-                    if (e != null)
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot documentSnapshots,
+                                        @Nullable FirebaseFirestoreException e)
                     {
-                        Log.e(TAG, "getActivities: onEvent Listen failed.", e);
-                        return;
-                    }
-
-                    if (documentSnapshots != null)
-                    {
-                        for (DocumentChange doc : documentSnapshots.getDocumentChanges())
+                        if (e != null)
                         {
-                            if (doc.getType() == DocumentChange.Type.ADDED)
-                            {
-                                Activity activity = doc.getDocument().toObject(Activity.class);
-                                ActivityList.add(activity);
-                            }
+                            Log.e(TAG, "getActivities: onEvent Listen failed.", e);
+                            return;
                         }
 
-                        Log.d(TAG, "getActivities: number of activities: " + ActivityList.size());
-                        ActivityRVAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
-        }
-        else
-        {
+                        if (documentSnapshots != null)
+                        {
+                            for (DocumentChange doc : documentSnapshots.getDocumentChanges())
+                            {
+                                if (doc.getType() == DocumentChange.Type.ADDED)
+                                {
+                                    Activity activity = doc.getDocument().toObject(Activity.class);
+                                    ActivityList.add(activity);
+                                }
+                                else if (doc.getType() == DocumentChange.Type.MODIFIED)
+                                {
+                                    Activity activity = doc.getDocument().toObject(Activity.class);
+                                    ActivityList.remove(Helper.getActivity(ActivityList, activity.getActivityID()));
+                                    ActivityList.add(activity);
+                                }
+                                else if (doc.getType() == DocumentChange.Type.REMOVED)
+                                {
+                                    Activity activity = doc.getDocument().toObject(Activity.class);
+                                    ActivityList.remove(Helper.getActivity(ActivityList, activity.getActivityID()));
+                                }
+                            }
 
-        }
+                            Log.d(TAG, "getActivities: number of activities: " + ActivityList.size());
+                            ActivityRVAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
-    private void getAllActivities()
+    private void editPlan()
     {
-        Query activitiesRef = FirestoreDB
-                .collectionGroup(getString(R.string.collection_activities))
-                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        ActivitiesEventListener = activitiesRef.addSnapshotListener(new EventListener<QuerySnapshot>()
-        {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot documentSnapshots,
-                                @Nullable FirebaseFirestoreException e)
-            {
-                if (e != null)
-                {
-                    Log.e(TAG, "getActivities: onEvent Listen failed.", e);
-                    return;
-                }
+    }
 
-                if(documentSnapshots != null)
-                {
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                    {
-                        if (doc.getType() == DocumentChange.Type.ADDED)
-                        {
-                            Activity activity = doc.getDocument().toObject(Activity.class);
-                            ActivityList.add(activity);
-                        }
-                    }
-
-                    Log.d(TAG, "getActivities: number of activities: " + ActivityList.size());
-                    ActivityRVAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+    private void deletePlan()
+    {
+        FirestoreDB.collection(getString(R.string.collection_plans))
+                   .document(this.Plan.getPlanID())
+                   .delete()
+                   .addOnSuccessListener(new OnSuccessListener<Void>()
+                   {
+                       @Override
+                       public void onSuccess(Void aVoid)
+                       {
+                           finish();
+                       }
+                   });
     }
 
     /************************************************************************
@@ -248,7 +237,7 @@ public class ActivityPage extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Toolbar Back Button Animation Overrides
+     * Purpose:         Toolbar Menu Selection
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -257,9 +246,26 @@ public class ActivityPage extends AppCompatActivity
     {
         switch (item.getItemId())
         {
+            // Back Button Animation Override
             case android.R.id.home:
+            {
                 finish();
                 break;
+            }
+            case R.id.activity_menu_sortBy:
+            {
+                break;
+            }
+            case R.id.activity_menu_editPlan:
+            {
+                this.editPlan();
+                break;
+            }
+            case R.id.activity_menu_deletePlan:
+            {
+                this.deletePlan();
+                break;
+            }
         }
         return true;
     }
@@ -267,9 +273,7 @@ public class ActivityPage extends AppCompatActivity
     /************************************************************************
      * Purpose:         Toolbar Menu Inflater
      * Precondition:    .
-     * Postcondition:   Activates the toolbar menu by inflating it
-     *                  See more from res/menu/activity_boolbar_menu
-     *                  and layout/menu0_toolbar
+     * Postcondition:   .
      ************************************************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

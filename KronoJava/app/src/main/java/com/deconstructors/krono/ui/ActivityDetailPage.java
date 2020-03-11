@@ -9,11 +9,18 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
-import com.deconstructors.krono.module.Plan;
+import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivityDetailPage extends AppCompatActivity implements View.OnClickListener
 {
@@ -21,15 +28,17 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
     private static final String TAG = "NewActivityPage";
 
     //result constant for extra
-    private androidx.appcompat.widget.Toolbar Toolbar;
+    private Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
     private EditText DateTime;
     private FloatingActionButton FAB;
 
     // Vars
-    private Plan Plan;
     private Activity Activity;
+
+    // Database
+    private FirebaseFirestore FirestoreDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +47,7 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.ui_activity_detail);
 
         this.setContents();
-        this.getPlanIntent();
+        //this.getPlanIntent();
         this.getActivityIntent();
     }
 
@@ -57,15 +66,18 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
         this.FAB = findViewById(R.id.activitydetail_fab);
         this.FAB.setOnClickListener(this);
+
+        // Firebase
+        this.FirestoreDB = FirebaseFirestore.getInstance();
     }
 
-    private void getPlanIntent()
+    /*private void getPlanIntent()
     {
         if(getIntent().hasExtra(getString(R.string.intent_plans)))
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
         }
-    }
+    }*/
 
     private void getActivityIntent()
     {
@@ -90,7 +102,53 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
      ************************************************************************/
     private void saveActivity()
     {
+        if (!Helper.isEmpty(this.Title)
+                && !Helper.isEmpty(this.Description)
+                && !Helper.isEmpty(this.DateTime))
+        {
+            Map<String, Object> activity = new HashMap<>();
 
+            //activity.put("ownerID", FirebaseAuth.getInstance().getUid());
+            //activity.put("activityID", this.Activity.getActivityID());
+            activity.put("title", this.Title.getText().toString());
+            activity.put("description", this.Description.getText().toString());
+            activity.put("timestamp", Helper.getDateFromString(this.DateTime.getText().toString()));
+
+            FirestoreDB.collection(getString(R.string.collection_plans))
+                       .document(this.Activity.getPlanID())
+                       .collection(getString(R.string.collection_activities))
+                       .document(this.Activity.getActivityID())
+                       .update(activity)
+            .addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    finish();
+                }
+            });
+        }
+        else
+        {
+            makeSnackbarMessage("Please fill in all the fields");
+        }
+    }
+
+    private void deleteActivity()
+    {
+        FirestoreDB.collection(getString(R.string.collection_plans))
+                   .document(this.Activity.getPlanID())
+                   .collection(getString(R.string.collection_activities))
+                   .document(this.Activity.getActivityID())
+                   .delete()
+                   .addOnSuccessListener(new OnSuccessListener<Void>()
+                   {
+                       @Override
+                       public void onSuccess(Void aVoid)
+                       {
+                           finish();
+                       }
+                   });
     }
 
     /************************************************************************
@@ -103,10 +161,9 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
     {
         switch (view.getId())
         {
-            case R.id.activities_fab:
+            case R.id.activitydetail_fab:
             {
                 this.saveActivity();
-                this.finish();
                 break;
             }
         }
@@ -122,9 +179,21 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
     {
         switch (item.getItemId())
         {
+            // Back Button Animation Override
             case android.R.id.home:
+            {
                 finish();
                 break;
+            }
+            case R.id.activitydetail_menu_sortBy:
+            {
+                break;
+            }
+            case R.id.activitydetail_menu_deleteActivity:
+            {
+                this.deleteActivity();
+                break;
+            }
         }
         return true;
     }
@@ -143,5 +212,15 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         inflater.inflate(R.menu.menu_activitydetail, menu);
 
         return true;
+    }
+
+    /************************************************************************
+     * Purpose:         Utilities
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void makeSnackbarMessage(String string)
+    {
+        Snackbar.make(findViewById(R.id.activitydetail_background), string, Snackbar.LENGTH_SHORT).show();
     }
 }
