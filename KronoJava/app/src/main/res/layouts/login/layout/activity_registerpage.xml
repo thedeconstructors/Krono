@@ -22,7 +22,8 @@
         android:layout_width="200dp"
         android:layout_height="60dp"
         app:layout_constraintTop_toTopOf="@+id/first_name_prompt"
-        app:layout_constraintLeft_toRightOf="@+id/first_name_prompt" />
+        app:layout_constraintLeft_toRightOf="@+id/first_name_prompt"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/last_name_prompt"
@@ -39,7 +40,8 @@
         android:layout_width="200dp"
         android:layout_height="60dp"
         app:layout_constraintTop_toTopOf="@+id/last_name_prompt"
-        app:layout_constraintLeft_toRightOf="@+id/last_name_prompt" />
+        app:layout_constraintLeft_toRightOf="@+id/last_name_prompt"
+        android:maxLines="1"/>
 
 
     <Button

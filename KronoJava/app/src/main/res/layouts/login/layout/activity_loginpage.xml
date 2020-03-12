@@ -131,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Guest Login"
+            android:text="Skip"
             android:textStyle="bold"
             android:onClick="onGuestLoginButtonClick"/>
 

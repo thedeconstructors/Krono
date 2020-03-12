@@ -142,7 +142,7 @@ public class Menu3_Friends_ViewFriend extends AppCompatActivity implements Swipe
             db.collection("users")
                 .document(friendId)
                 .collection("plans")
-                .whereEqualTo("public",true)
+                //.whereEqualTo("public",true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

@@ -47,6 +47,7 @@ public class LoginPage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.setupFirebaseAuth();
         setContentView(R.layout.activity_loginpage);
         _email = findViewById(R.id.edittext_email);
         _password = findViewById(R.id.edittext_password);
@@ -55,8 +56,6 @@ public class LoginPage extends AppCompatActivity
         _guestLogIn = findViewById(R.id.button_guestLogin);
         _progressBar = findViewById(R.id.login_progressBar);
         _relativeLayout = findViewById(R.id.login_relativeLayout);
-
-        //setupFirebaseAuth();
     }
 
     /**************************** Database *********************************/
@@ -66,41 +65,45 @@ public class LoginPage extends AppCompatActivity
      * Precondition:    Authentication State Changed
      * Postcondition:   Change Intent when signed in
      ************************************************************************/
-    /*private void setupFirebaseAuth()
+    private void setupFirebaseAuth()
     {
         Log.d(_Tag, "setUpFirebaseAuth started");
 
-        _AuthStateListener = new FirebaseAuth.AuthStateListener()
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
         {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null)
-                {
-                    Log.d(_Tag, "setupFirebaseAuth - signed in as:" + user.getUid());
-                    Toast.makeText(LoginPage.this, "Signed in", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(LoginPage.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+            //get user id from db and log them in
+            final String loginid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            //get user in db and set session id to its id
+            FirebaseFirestore.getInstance().collection("users")
+                             .document(FirebaseAuth.getInstance().getUid())
+                             .get()
+                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                 @Override
+                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                     startSnackbarMessage("Signed in");
+                                     setProgressbar(false);
+                                     Intent intent = new Intent(LoginPage.this, MainActivity.class);
+                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                     startActivity(intent);
+                                     finish();
+                                 }
+                             }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    startSnackbarMessage("Failed to retreive user:\n" +
+                                                 e.toString());
+                    setProgressbar(false);
                 }
-                else
-                {
-                    Log.d(_Tag, "setupFirebaseAuth - signed out");
-                }
-            }
-        };
-    }*/
+            });
+        }
+    }
 
     /***********************************************************************
      * Purpose:         onStart
      * Precondition:    Comes right after onCreate
      * Postcondition:   Setup Firebase Authentication Listener On Start
      ************************************************************************/
-    @Override
+    /*@Override
     public void onStart()
     {
         super.onStart();
@@ -134,7 +137,7 @@ public class LoginPage extends AppCompatActivity
             });
         }
         //FirebaseAuth.getInstance().addAuthStateListener(_AuthStateListener);
-    }
+    }*/
 
     /***********************************************************************
      * Purpose:         onStop
