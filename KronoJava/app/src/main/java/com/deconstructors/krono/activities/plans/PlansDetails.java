@@ -47,15 +47,14 @@ public class PlansDetails extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1_plansdetails);
-        findViewById(R.id.plan_details_title_text);
 
         clicked_plan = getIntent().getExtras().getString(PlanExtra);
 
-        _title = findViewById(R.id.plan_details_title_text);
-        _description = findViewById(R.id.plans_details_description_text);
-        _startTime = findViewById(R.id.plans_details_start_time_text);
+        _title = findViewById(R.id.ViewPlan_Title);
+        _description = findViewById(R.id.ViewPlan_Description);
+        _startTime = findViewById(R.id.ViewPlan_StartTime);
 
-        _activitiesInPlanRecyclerView = (RecyclerView) findViewById(R.id.recyclerPlanDetailsActivities);
+        _activitiesInPlanRecyclerView = (RecyclerView) findViewById(R.id.ViewPlan_recyclerActivities);
         _activitiesInPlanList = new ArrayList<>();
         _activityListAdapter = new ActivityRVAdapter(_activitiesInPlanList);
         _activityListAdapter.setInActivitiesMenu(false);
@@ -100,6 +99,7 @@ public class PlansDetails extends AppCompatActivity
                         }
 
                         // Notify the adapter that the data has changed
+                        _activityListAdapter.notifyDataSetChanged();
                     }
                 });
     }
