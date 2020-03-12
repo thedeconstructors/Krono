@@ -118,6 +118,7 @@ public class NewActivityPage extends AppCompatActivity
             Map<String, Object> activity = new HashMap<>();
 
             activity.put("ownerID", FirebaseAuth.getInstance().getUid());
+            activity.put("planID", this.Plan.getPlanID());
             activity.put("activityID", ref.getId());
             activity.put("title", this.Title.getText().toString());
             activity.put("description", this.Description.getText().toString());

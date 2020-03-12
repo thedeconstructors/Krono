@@ -46,7 +46,6 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.ui_activity_detail);
 
         this.setContents();
-        //this.getPlanIntent();
         this.getActivityIntent();
     }
 
@@ -69,14 +68,6 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
     }
-
-    /*private void getPlanIntent()
-    {
-        if(getIntent().hasExtra(getString(R.string.intent_plans)))
-        {
-            this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
-        }
-    }*/
 
     private void getActivityIntent()
     {
@@ -107,11 +98,9 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
         {
             Map<String, Object> activity = new HashMap<>();
 
-            //activity.put("ownerID", FirebaseAuth.getInstance().getUid());
-            //activity.put("activityID", this.Activity.getActivityID());
             activity.put("title", this.Title.getText().toString());
             activity.put("description", this.Description.getText().toString());
-            activity.put("timestamp", Helper.getDateFromString(this.DateTime.getText().toString()));
+            activity.put("timestamp", this.DateTime.getText().toString());
 
             FirestoreDB.collection(getString(R.string.collection_plans))
                        .document(this.Activity.getPlanID())
