@@ -5,12 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#6E34C1</item>
         <item name="colorPrimaryDark">#6200EE</item>
-        <item name="colorAccent">#ffffff</item>
+        <item name="colorAccent">#6E34C1</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Base App Dialog -->
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
@@ -45,8 +46,16 @@
         <item name="android:paddingTop">10dp</item>
     </style>
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/colorPrimary</item>
+    <!-- Floating Action Button -->
+    <style name="WhiteFAB">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:layout_gravity">end|bottom</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:backgroundTint">@color/White</item>
+        <item name="borderWidth">0dp</item>
     </style>
 
 </resources>

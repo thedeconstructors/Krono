@@ -2,6 +2,7 @@ package com.deconstructors.kronoui.module;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.firebase.Timestamp;
 
 public class Activity implements Parcelable
 {
@@ -9,7 +10,7 @@ public class Activity implements Parcelable
     private String PlanID;
     private String Title;
     private String Description;
-    private com.google.firebase.Timestamp Timestamp;
+    private String Timestamp;
 
     /************************************************************************
      * Purpose:         Default Constructor
@@ -37,7 +38,7 @@ public class Activity implements Parcelable
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String activityID, String planID, String title, String description, com.google.firebase.Timestamp timestamp)
+    public Activity(String activityID, String planID, String title, String description, String timestamp)
     {
         this.ActivityID = activityID;
         this.PlanID = planID;
@@ -57,7 +58,7 @@ public class Activity implements Parcelable
         this.PlanID = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
-        //this.Timestamp = in.readSerializable();
+        this.Timestamp = in.readString();
     }
 
     public static final Creator<Activity> CREATOR = new Creator<Activity>()
@@ -84,10 +85,11 @@ public class Activity implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeString(ActivityID);
-        dest.writeString(PlanID);
-        dest.writeString(Title);
-        dest.writeString(Description);
+        dest.writeString(this.ActivityID);
+        dest.writeString(this.PlanID);
+        dest.writeString(this.Title);
+        dest.writeString(this.Description);
+        dest.writeString(this.Timestamp);
     }
 
     /************************************************************************
@@ -111,6 +113,6 @@ public class Activity implements Parcelable
     public String getDescription(){ return this.Description; }
     public void setDescription(String description) { this.Description = description; }
 
-    public com.google.firebase.Timestamp getTimestamp(){ return this.Timestamp; }
-    public void setTimestamp(com.google.firebase.Timestamp timestamp) { this.Timestamp = timestamp; }
+    public String getTimestamp(){ return this.Timestamp; }
+    public void setTimestamp(String timestamp) { this.Timestamp = timestamp; }
 }

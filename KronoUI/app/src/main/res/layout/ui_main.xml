@@ -106,8 +106,8 @@
                 android:text="@string/menu_chat"
                 android:textSize="@dimen/menu_textSize"
                 android:gravity="start|center"
-                android:id="@+id/ui_menu_chat"
-                android:enabled="false"/>
+                android:id="@+id/ui_menu_chat"/>
+                <!--android:enabled="false"/>-->
 
             <include layout="@layout/ui_main_separator"/>
 
@@ -133,15 +133,7 @@
 
     <!-- Floating Action Button (Add Plans) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
-
-        android:clickable="true"
-        android:focusable="true"
+        style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ui_main_fab"/>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

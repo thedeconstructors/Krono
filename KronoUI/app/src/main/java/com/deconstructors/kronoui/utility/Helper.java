@@ -13,6 +13,9 @@ import java.util.List;
 
 public class Helper
 {
+    public static final String displayFormat = "EEE, MMM d";
+    public static final String firebaseFormat = "dd-MM-yyyy HH:mm:ss";
+
     public static boolean isEmpty(EditText editText){ return editText.getText().toString().equals(""); }
     public static boolean isEmpty(String string){ return string.equals(""); }
 

@@ -23,7 +23,6 @@
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:id="@+id/newactivity_toolbar"/>
         </com.google.android.material.appbar.AppBarLayout>
@@ -66,40 +65,21 @@
                 android:maxLines="5"
                 android:importantForAutofill="no" />
 
-            <TextView
+            <EditText
                 android:id="@+id/newactivity_dueDateEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-                android:hint="@string/newactivity_timestamp"
                 android:clickable="true"
+                android:editable="false"
                 android:focusable="true"
+                android:hint="@string/newactivity_timestamp"
                 android:importantForAutofill="no" />
         </LinearLayout>
     </LinearLayout>
 
-    <!--<DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_anchorGravity="center"
-        android:theme="@style/DialogTheme"
-        android:datePickerMode="calendar"
-        android:background="@color/White"
-        android:visibility="gone"
-        android:id="@+id/newActivity_datepicker"/>-->
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newactivity_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-
-        android:layout_margin="16dp"
-        android:layout_gravity="end|bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
-        android:src="@drawable/ui_activity_done"/>
+        style="@style/WhiteFAB"
+        android:src="@drawable/ui_activity_done"
+        android:id="@+id/newactivity_fab"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

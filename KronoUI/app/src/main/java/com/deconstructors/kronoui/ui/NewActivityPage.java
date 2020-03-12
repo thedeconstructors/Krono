@@ -1,9 +1,11 @@
 package com.deconstructors.kronoui.ui;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.Plan;
@@ -26,12 +29,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NewActivityPage extends AppCompatActivity
-        implements View.OnClickListener, android.app.DatePickerDialog.OnDateSetListener {
+        implements View.OnClickListener, DatePickerDialog.OnDateSetListener
+{
     // Error Log
     private static final String TAG = "NewActivityPage";
 
@@ -41,11 +48,8 @@ public class NewActivityPage extends AppCompatActivity
     private EditText Description;
     private TextView DateTime;
     private FloatingActionButton FAB;
-    private DatePicker DatePicker;
 
     // Vars
-    private DatePickerDialog DatePickerDialog;
-    private Calendar Calendar;
     private Plan Plan;
 
     @Override
@@ -76,8 +80,6 @@ public class NewActivityPage extends AppCompatActivity
         this.FAB.setOnClickListener(this);
 
         //
-        this.Calendar = java.util.Calendar.getInstance();
-        this.DatePickerDialog.setOnDateSetListener(this);
     }
 
     /************************************************************************
@@ -119,7 +121,7 @@ public class NewActivityPage extends AppCompatActivity
             activity.put("activityID", ref.getId());
             activity.put("title", this.Title.getText().toString());
             activity.put("description", this.Description.getText().toString());
-            activity.put("timestamp", Helper.getDateFromString(this.DateTime.getText().toString()));
+            activity.put("timestamp", this.DateTime.getText().toString());
 
             ref.set(activity).addOnSuccessListener(new OnSuccessListener<Void>()
             {
@@ -162,7 +164,7 @@ public class NewActivityPage extends AppCompatActivity
             }
             case R.id.newactivity_dueDateEditText:
             {
-                this.setDatePicker();
+                this.showDatePicker();
                 break;
             }
         }
@@ -180,42 +182,26 @@ public class NewActivityPage extends AppCompatActivity
         return true;
     }
 
-    private void setDatePicker()
+    private void showDatePicker()
     {
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        this.DatePickerDialog = new DatePickerDialog(
+        DatePickerDialog dpd = new DatePickerDialog(
                 NewActivityPage.this,
-                R.style.DialogTheme,
-                this.DatePickerListener,
-                year, month, day);
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
 
-        this.DatePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        this.DatePickerDialog.show();
-
-        this.DatePickerListener = new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth)
-            {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy");
-                c.set(year, month, dayOfMonth);
-                String dateString = sdf.format(c.getTime());
-                DateTime.setText(dateString);
-            }
-        };
+        dpd.show();
     }
 
     @Override
-    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth)
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy");
-        c.set(year, month, dayOfMonth);
-        String dateString = sdf.format(c.getTime());
-        DateTime.setText(dateString);
+        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayFormat, new Locale("en", "US"));
+        Calendar.getInstance().set(year, month, dayOfMonth);
+        String dateString = sdf.format(Calendar.getInstance().getTime());
+        this.DateTime.setText(dateString);
     }
 
     /************************************************************************
@@ -227,4 +213,5 @@ public class NewActivityPage extends AppCompatActivity
     {
         Snackbar.make(findViewById(R.id.newactivity_background), string, Snackbar.LENGTH_SHORT).show();
     }
+
 }

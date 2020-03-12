@@ -89,7 +89,7 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
             this.Description.setText(this.Activity.getDescription());
             if (this.Activity.getTimestamp() != null)
             {
-                this.DateTime.setText(this.Activity.getTimestamp().toDate().toString());
+                this.DateTime.setText(this.Activity.getTimestamp());
             }
         }
     }

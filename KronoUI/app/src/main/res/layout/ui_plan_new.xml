@@ -68,16 +68,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newPlan_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-
-        android:layout_margin="16dp"
-        android:layout_gravity="end|bottom"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
-        android:src="@drawable/ui_activity_done"/>
+        style="@style/WhiteFAB"
+        android:src="@drawable/ui_activity_done"
+        android:id="@+id/newPlan_fab"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
