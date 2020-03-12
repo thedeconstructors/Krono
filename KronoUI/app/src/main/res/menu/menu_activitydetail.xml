@@ -8,11 +8,6 @@
         app:showAsAction="always"
         android:icon="@drawable/menu_menu">
         <menu>
-            <item android:id="@+id/activitydetail_menu_sortBy"
-                android:title="@string/menu_activitydetail_sortBy"
-                app:showAsAction="never"
-                android:icon="@drawable/menu_sort"/>
-
             <item android:id="@+id/activitydetail_menu_deleteActivity"
                 android:title="@string/menu_activitydetail_deletePlan"
                 android:icon="@drawable/menu_delete"

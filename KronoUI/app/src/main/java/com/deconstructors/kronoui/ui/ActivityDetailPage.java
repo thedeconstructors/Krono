@@ -173,10 +173,6 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             }
-            case R.id.activitydetail_menu_sortBy:
-            {
-                break;
-            }
             case R.id.activitydetail_menu_deleteActivity:
             {
                 this.deleteActivity();
