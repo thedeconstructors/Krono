@@ -43,6 +43,9 @@
         <activity
             android:name=".activities.plans.NewPlan"
             android:parentActivityName=".activities.plans.Menu1_Plans" />
+        <activity
+            android:name=".activities.plans.PlansDetails"
+            android:parentActivityName=".activities.plans.Menu1_Plans" />
         <!-- Menu 2 Calendar -->
         <!-- Menu 3 Friends -->
         <activity

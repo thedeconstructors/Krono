@@ -111,6 +111,9 @@ public class RegisterPage extends AppCompatActivity
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        //Set user id in SessionData
+                        /* As Per Refactor, this is no longer required */
+                        // SessionData.GetInstance().SetUserID(documentReference.getId());
                         Intent intent = new Intent(RegisterPage.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

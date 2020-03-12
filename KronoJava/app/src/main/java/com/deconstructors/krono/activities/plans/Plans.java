@@ -6,8 +6,11 @@ package com.deconstructors.krono.activities.plans;
  ************************************************************************/
 public class Plans
 {
-    String m_title;
-    String m_description;
+    String _planId;
+    String _title;
+    String _description;
+    String _startTime;
+    String _ownerId;
     //Integer user_id;
 
     //boolean collaborative;
@@ -30,10 +33,12 @@ public class Plans
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Plans(String title, String description)
+    public Plans(String title, String description, String startTime, String ownerId)
     {
-        this.m_title = title;
-        this.m_description = description;
+        this._title = title;
+        this._description = description;
+        this._startTime = startTime;
+        this._ownerId = ownerId;
     }
 
     /************************************************************************
@@ -43,18 +48,28 @@ public class Plans
      ************************************************************************/
     public String getTitle()
     {
-        return m_title;
+        return _title;
     }
     public void setTitle(String title)
     {
-        this.m_title = title;
+        this._title = title;
     }
+
     public String getDescription()
     {
-        return m_description;
+        return _description;
     }
     public void setDescription(String description)
     {
-        this.m_description = description;
+        this._description = description;
     }
+
+    public String getPlanId() { return _planId; }
+    public void setPlanId(String planId) { _planId = planId; }
+
+    public String getStartTime() { return _startTime; }
+    public void setStartTime(String startTime) { _startTime = startTime; }
+
+    public String getOwnerId() { return _ownerId; }
+    public void setOwnerId(String id) { _ownerId = id; }
 }

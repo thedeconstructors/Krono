@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.deconstructors.krono.activities.activities.Activity;
 import com.deconstructors.krono.helpers.PlansListAdapter;
 import com.deconstructors.krono.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,24 +31,19 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Menu1_Plans extends AppCompatActivity {
+public class Menu1_Plans extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
+{
+    // Variables
+    private PlansListAdapter _PlansListAdapter;
+    private List<Plans> _PlansList;
 
-    // Error Handler Log Search
-    private static final String _dbPath = "userplans";
-
-    // Database
-    private FirebaseFirestore m_Firestore;
-
-    // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-    private RecyclerView m_MainList;
-    private PlansListAdapter m_PlansListAdapter;
-    private List<Plans> m_PlansList;
-    private DocumentSnapshot _LastQueriedList;
-
-    //ToolBar
+    // XML Widgets
+    private RecyclerView _RecyclerView;
     private Toolbar _PlanToolbar;
+    //SwipeRefreshLayout _SwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,22 +51,36 @@ public class Menu1_Plans extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu1__plans);
 
-        //Grab the toolbar
+        _PlansList = new ArrayList<>();
+        _PlansListAdapter = new PlansListAdapter(_PlansList);
+
+        _RecyclerView = findViewById(R.id.MainMenu_PlanListID);
         _PlanToolbar = findViewById(R.id.menu1_toolbar);
+        //_SwipeRefreshLayout = findViewById(R.id.MainMenu_SwipeRefreshPlanListID);
+        //_SwipeRefreshLayout.setOnRefreshListener(this);
 
-        // List of Plan (Class) -> Plan List Adapter -> Recycler View (XML)
-        m_PlansList = new ArrayList<>();
-        m_PlansListAdapter = new PlansListAdapter(m_PlansList);
-
-        m_MainList = (RecyclerView)findViewById(R.id.MainMenu_PlanListID);
-        m_MainList.setHasFixedSize(true);
-        m_MainList.setLayoutManager(new LinearLayoutManager(this));
-        m_MainList.setAdapter(m_PlansListAdapter);
-
+        setUpRecyclerView();
         setupToolbar();
         getPlans();
     }
 
+    /***********************************************************************
+     * Purpose:         Setup the RecyclerView
+     * Precondition:    Called from onCreate
+     * Postcondition:   RecyclerView matched to MainMenu_PlanListID
+     ************************************************************************/
+    private void setUpRecyclerView()
+    {
+        _RecyclerView.setHasFixedSize(true);
+        _RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        _RecyclerView.setAdapter(_PlansListAdapter);
+    }
+
+    /***********************************************************************
+     * Purpose:         Setup the Toolbar
+     * Precondition:    Called from onCreate
+     * Postcondition:   .
+     ************************************************************************/
     private void setupToolbar()
     {
         setSupportActionBar(_PlanToolbar);
@@ -104,8 +116,8 @@ public class Menu1_Plans extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                m_PlansListAdapter.getFilter().filter(newText);
-                m_PlansListAdapter.resetFilterList();
+                _PlansListAdapter.getFilter().filter(newText);
+                _PlansListAdapter.resetFilterList();
                 return false;
             }
         });
@@ -113,53 +125,64 @@ public class Menu1_Plans extends AppCompatActivity {
         return true;
     }
 
+    /***********************************************************************
+     * Purpose:         Get plans
+     * Precondition:    Called from onCreate
+     * Postcondition:   Retrieve plans from the database
+     *                  Grabs current user, and then their planss
+     *
+     ************************************************************************/
     private void getPlans()
     {
-        // Database Listener
-        m_Firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("plans")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                          @Override
+                                          public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        CollectionReference PlansCollectionRef = m_Firestore.collection(_dbPath);
+                                              /* Grab the iterator from the built in google library */
+                                              Iterator<QueryDocumentSnapshot> iterator = queryDocumentSnapshots.iterator();
 
-        Query plansQuery;
-        if (_LastQueriedList != null)
-        {
-            plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid())
-                    .startAfter(_LastQueriedList);
-        }
-        else
-        {
-            plansQuery = PlansCollectionRef
-                    .whereEqualTo("ownerId", FirebaseAuth.getInstance().getUid());
-        }
+                                              /* Reset the plan list view */
+                                              if (!_PlansList.isEmpty()) {
+                                                  _PlansList.clear();
+                                              }
 
-        plansQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task)
-            {
-                if (task.isComplete())
-                {
-                    for (QueryDocumentSnapshot document : task.getResult())
-                    {
-                        Plans plan = document.toObject(Plans.class);
-                        m_PlansList.add(plan);
-                    }
+                                              /* Populate the list of plans using an iterator */
+                                              while (iterator.hasNext()) {
+                                                  QueryDocumentSnapshot snapshot = iterator.next();
 
-                    if (task.getResult().size() != 0)
-                    {
-                        _LastQueriedList = task.getResult().getDocuments().get(task.getResult().size() - 1);
-                    }
+                                                  Plans plan = snapshot.toObject(Plans.class);
+                                                  plan.setPlanId(snapshot.getId());
+                                                  _PlansList.add(plan);
+                                              }
 
-                    m_PlansListAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+                                              _PlansListAdapter.notifyDataSetChanged();
+                                              //_SwipeRefreshLayout.setRefreshing(false);
+                                          }
+                                      });
     }
 
     public void btnNewPlan(View view)
     {
         Intent intent = new Intent(this, NewPlan.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        getPlans();
+    }
+
+    //Currently not used
+    @Override
+    public void onRefresh()
+    {
+        this.getPlans();
     }
 }

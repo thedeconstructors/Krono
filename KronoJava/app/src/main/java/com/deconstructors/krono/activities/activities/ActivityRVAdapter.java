@@ -28,6 +28,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     private List<Activity> _ActivityList; // The original List
     private List<Activity> _ActivityFilterList; // For Search Filter
     private List<Activity> _ActivitySelectList; // For Multi-Select
+    private boolean _inActivitiesMenu;
 
     /************************************************************************
      * Purpose:         1 Arg Constructor
@@ -38,6 +39,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     {
         this._ActivityList = ActivityList;
         this._ActivityFilterList = ActivityList;
+        _inActivitiesMenu = true;
     }
 
     /************************************************************************
@@ -128,7 +130,10 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
         @Override
         public void onClick(View view)
         {
-            ViewActivityDetails();
+            if (_inActivitiesMenu)
+                ViewActivityDetails();
+            else
+                ToggleSelect();
         }
 
         @Override
@@ -229,4 +234,6 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     {
         return _ActivityListFilter;
     }
+
+    public void setInActivitiesMenu(boolean inActivitiesMenu) { _inActivitiesMenu = inActivitiesMenu; }
 }

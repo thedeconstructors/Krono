@@ -23,4 +23,13 @@
         android:text="@string/MainMenu1_PlanListDescString"
         android:textColor="@android:color/secondary_text_dark"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/planlist_starttime_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="Start Time"
+        android:textColor="@android:color/secondary_text_dark"
+        android:textSize="18sp" />
 </LinearLayout>
