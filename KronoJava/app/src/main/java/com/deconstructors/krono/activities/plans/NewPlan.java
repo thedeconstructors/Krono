@@ -182,6 +182,7 @@ public class NewPlan extends AppCompatActivity
         // List of Activity (Class) -> Activity List Adapter -> Recycler View (XML)
         planActivities_ActivityList = new ArrayList<>();
         planActivities_ActivityListAdapter = new ActivityRVAdapter(planActivities_ActivityList);
+        planActivities_ActivityListAdapter.setInActivitiesMenu(false);
 
         planActivities_RecyclerView.setHasFixedSize(true);
         planActivities_RecyclerView.setLayoutManager(new LinearLayoutManager(this));

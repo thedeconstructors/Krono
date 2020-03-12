@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -112,14 +117,15 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/menu0_activities_removeplan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="DeletePlanOnClick"
-        app:srcCompat="@drawable/remove_24px" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/menu0_plans_removeplan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="DeletePlanOnClick"
+            app:srcCompat="@drawable/remove_24px" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
