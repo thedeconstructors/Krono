@@ -66,7 +66,7 @@
                 android:maxLines="5"
                 android:importantForAutofill="no" />
 
-            <EditText
+            <TextView
                 android:id="@+id/newactivity_dueDateEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,10 +74,20 @@
                 android:hint="@string/newactivity_timestamp"
                 android:clickable="true"
                 android:focusable="true"
-                android:inputType="datetime"
                 android:importantForAutofill="no" />
         </LinearLayout>
     </LinearLayout>
+
+    <!--<DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_anchorGravity="center"
+        android:theme="@style/DialogTheme"
+        android:datePickerMode="calendar"
+        android:background="@color/White"
+        android:visibility="gone"
+        android:id="@+id/newActivity_datepicker"/>-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newactivity_fab"

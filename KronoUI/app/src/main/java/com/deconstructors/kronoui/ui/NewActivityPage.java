@@ -1,9 +1,14 @@
 package com.deconstructors.kronoui.ui;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,18 +18,20 @@ import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.utility.Helper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NewActivityPage extends AppCompatActivity
-        implements View.OnClickListener
-{
+        implements View.OnClickListener, android.app.DatePickerDialog.OnDateSetListener {
     // Error Log
     private static final String TAG = "NewActivityPage";
 
@@ -32,10 +39,13 @@ public class NewActivityPage extends AppCompatActivity
     private androidx.appcompat.widget.Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
-    private EditText DateTime;
+    private TextView DateTime;
     private FloatingActionButton FAB;
+    private DatePicker DatePicker;
 
     // Vars
+    private DatePickerDialog DatePickerDialog;
+    private Calendar Calendar;
     private Plan Plan;
 
     @Override
@@ -61,8 +71,13 @@ public class NewActivityPage extends AppCompatActivity
         this.Title = findViewById(R.id.newactivity_titleEditText);
         this.Description = findViewById(R.id.newactivity_descriptionText);
         this.DateTime = findViewById(R.id.newactivity_dueDateEditText);
+        this.DateTime.setOnClickListener(this);
         this.FAB = findViewById(R.id.newactivity_fab);
         this.FAB.setOnClickListener(this);
+
+        //
+        this.Calendar = java.util.Calendar.getInstance();
+        this.DatePickerDialog.setOnDateSetListener(this);
     }
 
     /************************************************************************
@@ -76,7 +91,6 @@ public class NewActivityPage extends AppCompatActivity
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
-            //this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -89,7 +103,7 @@ public class NewActivityPage extends AppCompatActivity
     {
         if (!Helper.isEmpty(this.Title)
                 && !Helper.isEmpty(this.Description)
-                && !Helper.isEmpty(this.DateTime))
+                && !this.DateTime.getText().toString().equals(""))
         {
             // Set ref first to get the destination document id
             DocumentReference ref = FirebaseFirestore
@@ -130,6 +144,12 @@ public class NewActivityPage extends AppCompatActivity
         }
     }
 
+
+    /************************************************************************
+     * Purpose:         Click Events
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public void onClick(View view)
     {
@@ -138,6 +158,11 @@ public class NewActivityPage extends AppCompatActivity
             case R.id.newactivity_fab:
             {
                 this.createNewActivity();
+                break;
+            }
+            case R.id.newactivity_dueDateEditText:
+            {
+                this.setDatePicker();
                 break;
             }
         }
@@ -153,6 +178,44 @@ public class NewActivityPage extends AppCompatActivity
                 break;
         }
         return true;
+    }
+
+    private void setDatePicker()
+    {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        this.DatePickerDialog = new DatePickerDialog(
+                NewActivityPage.this,
+                R.style.DialogTheme,
+                this.DatePickerListener,
+                year, month, day);
+
+        this.DatePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        this.DatePickerDialog.show();
+
+        this.DatePickerListener = new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth)
+            {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy");
+                c.set(year, month, dayOfMonth);
+                String dateString = sdf.format(c.getTime());
+                DateTime.setText(dateString);
+            }
+        };
+    }
+
+    @Override
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM/yyyy");
+        c.set(year, month, dayOfMonth);
+        String dateString = sdf.format(c.getTime());
+        DateTime.setText(dateString);
     }
 
     /************************************************************************

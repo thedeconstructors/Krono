@@ -91,7 +91,7 @@ public class WelcomePage extends AppCompatActivity
     {
         // Firebase
         this.FirebaseAuth = FirebaseAuth.getInstance();
-        this.FirebaseAuth.signOut(); // Debug Purpose Only
+        //this.FirebaseAuth.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
