@@ -1,6 +1,14 @@
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/thedeconstructors) [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/thedeconstructors) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
+<p align=center>
+  <img src="https://github.com/thedeconstructors/Krono/blob/Development/Images/logo.png" alt="" width="200" height="200"></p>
 
-# Krono
+<h1 align="center">Krono</h1>
+
+<p align=center> 
+  <a href="https://travis-ci.org/badges/thedeconstructors" rel="nofollow"><img src="http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square" alt="Build Status"></a>
+  <a href="https://coveralls.io/r/badges/thedeconstructors" rel="nofollow"><img src="http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square" alt="Coverage Status"></a>
+    <!-- <a href="http://badges.mit-license.org" rel="nofollow"><img src="http://img.shields.io/:license-mit-blue.svg?style=flat-square" alt="License"></a> -->
+</p>
+
 Krono is an android app to manage and organize localized activities with friends or colleagues.
 
 ## Table of Contents
