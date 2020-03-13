@@ -9,7 +9,9 @@
     <!-- <a href="http://badges.mit-license.org" rel="nofollow"><img src="http://img.shields.io/:license-mit-blue.svg?style=flat-square" alt="License"></a> -->
 </p>
 
-Krono is an android app to manage and organize localized activities with friends or colleagues.
+## About the App
+
+Krono provides a simple, visual way to organize localized activities. Create new plans, group activities, and organize them on your calendar or Google map. Share your plans and chat to easily collaborate with your friends.
 
 ## Table of Contents
 
