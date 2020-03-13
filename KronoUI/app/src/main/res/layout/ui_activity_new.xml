@@ -71,10 +71,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
                 android:clickable="true"
-                android:editable="false"
+                android:focusableInTouchMode="false"
                 android:focusable="true"
                 android:hint="@string/newactivity_timestamp"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"/>
         </LinearLayout>
     </LinearLayout>
 

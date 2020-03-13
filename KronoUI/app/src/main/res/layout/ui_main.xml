@@ -123,13 +123,10 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Progress Bar -->
+    <!-- Hidden Progress Bar -->
     <ProgressBar
-        android:id="@+id/main_progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"/>
+        style="@style/ProgressBar"
+        android:id="@+id/main_progressbar"/>
 
     <!-- Floating Action Button (Add Plans) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

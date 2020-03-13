@@ -74,18 +74,14 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
+    <!-- Hidden Progress Bar -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/activities_progressBar"/>
+
+    <!-- Floating Action Button (Add Activity -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
-        android:id="@+id/activities_fab">
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/activities_progressBar"
-        android:gravity="center"
-        android:visibility="gone">
-    </ProgressBar>
-
+        android:id="@+id/activities_fab"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

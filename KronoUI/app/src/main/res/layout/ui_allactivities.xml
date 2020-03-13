@@ -35,12 +35,9 @@
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
+    <!-- Hidden Progress Bar -->
     <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/allactivities_progressBar"
-        android:gravity="center"
-        android:visibility="gone">
-    </ProgressBar>
+        style="@style/ProgressBar"
+        android:id="@+id/allactivities_progressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

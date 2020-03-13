@@ -11,14 +11,34 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/************************************************************************
+ * Purpose:         Help the project to have cleaner code.
+ * Precondition:    .
+ * Postcondition:   .
+ ************************************************************************/
 public class Helper
 {
-    public static final String displayFormat = "EEE, MMM d";
-    public static final String firebaseFormat = "dd-MM-yyyy HH:mm:ss";
+    /************************************************************************
+     * Purpose:         Check if an input is empty
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public static boolean isEmpty(EditText editText)
+    {
+        return editText.getText().toString().equals("");
+    }
 
-    public static boolean isEmpty(EditText editText){ return editText.getText().toString().equals(""); }
-    public static boolean isEmpty(String string){ return string.equals(""); }
+    public static boolean isEmpty(String string)
+    {
+        return string.equals("");
+    }
 
+    /************************************************************************
+     * Purpose:         Check a list using an input
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    // Change field type to getDocumentID and combine both
     public static Activity getActivity(List<Activity> list, String id)
     {
         for (Activity activity : list)
@@ -57,6 +77,14 @@ public class Helper
 
         return null;
     }
+
+    /************************************************************************
+     * Purpose:         Date Picker
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public static final String displayDateFormat = "EEE, MMM d";
+    public static final String firebaseDateFormat = "dd-MM-yyyy HH:mm:ss";
 
     public static Date getDateFromString(String date)
     {

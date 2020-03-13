@@ -129,12 +129,9 @@
         android:layout_gravity="end|bottom"
         android:id="@+id/auth_anonymousSignIn"/>
 
-    <!-- Progress Bar -->
+    <!-- Hidden Progress Bar -->
     <ProgressBar
-        android:id="@+id/auth_progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"/>
+        style="@style/ProgressBar"
+        android:id="@+id/auth_progressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

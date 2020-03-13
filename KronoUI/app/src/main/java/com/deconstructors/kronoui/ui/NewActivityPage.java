@@ -1,12 +1,9 @@
 package com.deconstructors.kronoui.ui;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,14 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.utility.Helper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,15 +24,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class NewActivityPage extends AppCompatActivity
-        implements View.OnClickListener, DatePickerDialog.OnDateSetListener
+        implements View.OnClickListener,
+                   DatePickerDialog.OnDateSetListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
@@ -75,11 +69,10 @@ public class NewActivityPage extends AppCompatActivity
         this.Title = findViewById(R.id.newactivity_titleEditText);
         this.Description = findViewById(R.id.newactivity_descriptionText);
         this.DateTime = findViewById(R.id.newactivity_dueDateEditText);
+        //this.DateTime.setOnTouchListener(this);
         this.DateTime.setOnClickListener(this);
         this.FAB = findViewById(R.id.newactivity_fab);
         this.FAB.setOnClickListener(this);
-
-        //
     }
 
     /************************************************************************
@@ -147,6 +140,18 @@ public class NewActivityPage extends AppCompatActivity
         }
     }
 
+    /************************************************************************
+     * Purpose:         Touch Events for DatePicker
+     * Problem:         Click Event requires double click to open the dpd
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    /*@Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        this.showDatePicker();
+        return false;
+    }*/
 
     /************************************************************************
      * Purpose:         Click Events
@@ -183,6 +188,11 @@ public class NewActivityPage extends AppCompatActivity
         return true;
     }
 
+    /************************************************************************
+     * Purpose:         Date Picker
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void showDatePicker()
     {
         DatePickerDialog dpd = new DatePickerDialog(
@@ -199,7 +209,7 @@ public class NewActivityPage extends AppCompatActivity
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayFormat, new Locale("en", "US"));
+        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
         Calendar.getInstance().set(year, month, dayOfMonth);
         String dateString = sdf.format(Calendar.getInstance().getTime());
         this.DateTime.setText(dateString);
@@ -214,5 +224,4 @@ public class NewActivityPage extends AppCompatActivity
     {
         Snackbar.make(findViewById(R.id.newactivity_background), string, Snackbar.LENGTH_SHORT).show();
     }
-
 }
