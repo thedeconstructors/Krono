@@ -3,7 +3,6 @@ package com.deconstructors.kronoui.ui;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -50,7 +49,7 @@ public class NewActivityPage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_activity_new);
+        setContentView(R.layout.activity_new);
 
         this.setContents();
         this.getPlanIntent();

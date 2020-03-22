@@ -39,7 +39,7 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.ui_friend_listitem;
+        int res = R.layout.friend_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
         ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
         return viewholder;

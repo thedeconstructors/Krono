@@ -50,7 +50,7 @@ public class FriendPage extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_friend);
+        setContentView(R.layout.friend_main);
 
         this.setContents();
         this.getFriends();

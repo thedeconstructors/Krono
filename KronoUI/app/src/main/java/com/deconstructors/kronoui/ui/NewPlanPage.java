@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.utility.Helper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +38,7 @@ public class NewPlanPage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_plan_new);
+        setContentView(R.layout.plan_new);
 
         this.setContents();
     }

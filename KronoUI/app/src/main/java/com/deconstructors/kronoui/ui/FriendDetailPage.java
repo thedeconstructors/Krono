@@ -28,7 +28,7 @@ public class FriendDetailPage extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_friend_detail);
+        setContentView(R.layout.friend_detail);
 
         this.setContents();
         this.getFriendIntent();

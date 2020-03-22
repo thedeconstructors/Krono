@@ -96,10 +96,10 @@ public class Activity implements Parcelable
      * Purpose:         Getters and Setters for Activity Class
      * Precondition:    .
      * Postcondition:   .
-     * Warning:         Changing "get" to "Get" crashed the activity even
+     * Warning:         Changing "get" to "Get" crashed the activity_main even
      *                  though, it was used in only 3 locations.
      *                  I have no idea why this happened, but probably due
-     *                  to the plan table using the activity array.
+     *                  to the plan table using the activity_main array.
      ************************************************************************/
     public String getActivityID() { return this.ActivityID; }
     public void setActivityID(String activityID) { this.ActivityID = activityID; }

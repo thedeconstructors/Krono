@@ -28,7 +28,7 @@ public class ActivityRVAdapter extends RecyclerView.Adapter<ActivityRVAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.ui_activity_listitem;
+        int res = R.layout.activity_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
         final ViewHolder holder = new ViewHolder(view, this.ClickListener);
         return holder;

@@ -1,8 +1,6 @@
 package com.deconstructors.kronoui.ui;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -45,7 +43,7 @@ public class PlanDetailPage extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_plan_detail);
+        setContentView(R.layout.plan_detail);
 
         this.setContents();
         this.getPlanIntent();

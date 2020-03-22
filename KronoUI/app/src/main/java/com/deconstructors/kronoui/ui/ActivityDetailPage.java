@@ -43,7 +43,7 @@ public class ActivityDetailPage extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_activity_detail);
+        setContentView(R.layout.activity_detail);
 
         this.setContents();
         this.getActivityIntent();
