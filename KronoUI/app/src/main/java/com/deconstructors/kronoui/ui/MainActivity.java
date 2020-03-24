@@ -2,40 +2,36 @@ package com.deconstructors.kronoui.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.adapter.PlanRVAdapter;
+import com.deconstructors.kronoui.adapter.PlanAdapter;
 import com.deconstructors.kronoui.module.Plan;
-import com.deconstructors.kronoui.utility.Helper;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements PlanRVAdapter.PlanRVClickListener,
+        implements PlanAdapter.PlanClickListener,
                    View.OnClickListener
 {
     // Error Log
@@ -47,13 +43,12 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton FAB;
     private TextView NameTextView;
     private TextView EmailTextView;
-    private ProgressBar ProgressBar;
 
     // Database
-    private FirebaseFirestore FirestoreDB;
-    private ListenerRegistration PlanEventListener;
-    private List<Plan> PlanList;
-    private PlanRVAdapter PlanRVAdapter;
+    private FirebaseFirestore DBInstance;
+    private Query PlanQuery;
+    private FirestoreRecyclerOptions<Plan> PlanOptions;
+    private PlanAdapter PlanAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,9 +56,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
 
+        this.setDatabase();
         this.setContents();
-        this.getUserInfo();
-        this.getMenu();
     }
 
     private void setContents()
@@ -76,20 +70,14 @@ public class MainActivity extends AppCompatActivity
         this.EmailTextView = findViewById(R.id.ui_main_email);
 
         // Recycler View
-        this.PlanList = new ArrayList<>();
-        this.PlanRVAdapter = new PlanRVAdapter(PlanList, this);
         this.PlanRecyclerView = findViewById(R.id.ui_main_recyclerview);
         this.PlanRecyclerView.setHasFixedSize(true);
-        this.PlanRecyclerView.setAdapter(this.PlanRVAdapter);
         this.PlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.PlanRecyclerView.setAdapter(this.PlanAdapter);
 
-        // Others
-        this.ProgressBar = findViewById(R.id.main_progressbar);
+        // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
-
-        // Firebase
-        this.FirestoreDB = FirebaseFirestore.getInstance();
     }
 
     /************************************************************************
@@ -97,89 +85,60 @@ public class MainActivity extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void getUserInfo()
+    private void setDatabase()
     {
-        this.showProgressBar();
+        // Plan
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.PlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());;
+        this.PlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.PlanQuery, Plan.class)
+                .build();
+        this.PlanAdapter = new PlanAdapter(this.PlanOptions, this);
 
-        // Get User Name & Email
-        // Change to a singleton object or write to strings.xml later
-        FirestoreDB.collection(getString(R.string.collection_users))
-                   .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                   .get()
-                   .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
-                   {
-                       @Override
-                       public void onSuccess(DocumentSnapshot documentSnapshot)
-                       {
-                           if (documentSnapshot != null)
-                           {
-                               hideProgressBar();
-                               NameTextView.setText(documentSnapshot.get("displayName").toString());
-                               EmailTextView.setText(documentSnapshot.get("email").toString());
-                           }
-                       }
-                   });
-    }
-
-    private void getMenu()
-    {
-        this.showProgressBar();
-
-        Query planRef = FirestoreDB.collection(getString(R.string.collection_plans))
-                                   .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-        this.PlanEventListener = planRef.addSnapshotListener(new EventListener<QuerySnapshot>()
-        {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot documentSnapshots,
-                                @Nullable FirebaseFirestoreException e)
-            {
-                if (e != null)
+        // User
+        this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>()
                 {
-                    Log.e(TAG, "getMenu: onEvent Listen failed.", e);
-                    return;
-                }
-
-                if(documentSnapshots != null)
-                {
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges())
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e)
                     {
-                        if (doc.getType() == DocumentChange.Type.ADDED)
+                        if (documentSnapshot != null)
                         {
-                            Plan plan = doc.getDocument().toObject(Plan.class);
-                            PlanList.add(plan);
-                        }
-                        else if (doc.getType() == DocumentChange.Type.MODIFIED)
-                        {
-                            Plan plan = doc.getDocument().toObject(Plan.class);
-                            PlanList.remove(Helper.getPlan(PlanList, plan.getPlanID()));
-                            PlanList.add(plan);
-                        }
-                        else if (doc.getType() == DocumentChange.Type.REMOVED)
-                        {
-                            Plan plan = doc.getDocument().toObject(Plan.class);
-                            PlanList.remove(Helper.getPlan(PlanList, plan.getPlanID()));
+                            NameTextView.setText(documentSnapshot.get("displayName").toString());
+                            EmailTextView.setText(documentSnapshot.get("email").toString());
                         }
                     }
+                });
+    }
 
-                    Log.d(TAG, "getPlans: number of plans: " + PlanList.size());
-                    PlanRVAdapter.notifyDataSetChanged();
-                    hideProgressBar();
-                }
-            }
-        });
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
     }
 
     /************************************************************************
-     * Purpose:         Parcelable Activity Interaction
+     * Purpose:         Parcelable Plan Interaction
      * Precondition:    .
-     * Postcondition:   Send Activity Intent from MainActivity
+     * Postcondition:   Send Plan Intent from MainActivity
      ************************************************************************/
     @Override
     public void onPlanSelected(int position)
     {
         Intent intent = new Intent(MainActivity.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanList.get(position));
+        intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
         startActivity(intent);
     }
 
@@ -195,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ui_menu_allActivities:
             {
-                Intent intent = new Intent(MainActivity.this, AllActivitiesPage.class);
+                Intent intent = new Intent(MainActivity.this, ActivityPage_All.class);
                 startActivity(intent);
                 break;
             }
@@ -207,12 +166,11 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.ui_menu_chat:
             {
-
                 break;
             }
             case R.id.ui_main_fab:
             {
-                Intent intent = new Intent(MainActivity.this, NewPlanPage.class);
+                Intent intent = new Intent(MainActivity.this, PlanPage_New.class);
                 startActivity(intent);
                 break;
             }
@@ -231,21 +189,5 @@ public class MainActivity extends AppCompatActivity
         inflater.inflate(R.menu.menu_main, menu);
 
         return true;
-    }
-
-    private void showProgressBar()
-    {
-        if (this.ProgressBar.getVisibility() == View.INVISIBLE)
-        {
-            this.ProgressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideProgressBar()
-    {
-        if(this.ProgressBar.getVisibility() == View.VISIBLE)
-        {
-            this.ProgressBar.setVisibility(View.INVISIBLE);
-        }
     }
 }

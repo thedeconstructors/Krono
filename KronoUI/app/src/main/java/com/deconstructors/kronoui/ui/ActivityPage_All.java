@@ -29,7 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllActivitiesPage extends AppCompatActivity
+public class ActivityPage_All extends AppCompatActivity
         implements ActivityRVAdapter.ActivityRVClickListener
 {
     // Error Log
@@ -84,7 +84,7 @@ public class AllActivitiesPage extends AppCompatActivity
     @Override
     public void onActiviySelected(int position)
     {
-        Intent intent = new Intent(AllActivitiesPage.this, ActivityDetailPage.class);
+        Intent intent = new Intent(ActivityPage_All.this, ActivityPage_Detail.class);
         //intent.putExtra(getString(R.string.intent_plans), this.Plan);
         intent.putExtra(getString(R.string.intent_activity), this.AllActivitiesList.get(position));
         startActivity(intent);

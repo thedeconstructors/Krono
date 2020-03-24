@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityDetailPage extends AppCompatActivity implements View.OnClickListener
+public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";

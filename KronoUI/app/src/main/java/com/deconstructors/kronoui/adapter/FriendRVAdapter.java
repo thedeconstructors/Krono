@@ -68,37 +68,37 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
         return this.FriendList == null ? 0 : this.FriendList.size();
     }
 
-/************************************************************************
- * Purpose:         List Item Size Getter
- * Precondition:    .
- * Postcondition:   Archive the element from the single list item
- ************************************************************************/
-public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-{
-    TextView displayNameText;
-    TextView emailText;
-    FriendRVClickListener ClickListener;
-
-    public ViewHolder(@NonNull View itemView, FriendRVClickListener clickListener)
+    /************************************************************************
+     * Purpose:         List Item Size Getter
+     * Precondition:    .
+     * Postcondition:   Archive the element from the single list item
+     ************************************************************************/
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        super(itemView);
+        TextView displayNameText;
+        TextView emailText;
+        FriendRVClickListener ClickListener;
 
-        this.displayNameText = (TextView) itemView.findViewById(R.id.friendlist_nameText);
-        this.emailText = (TextView) itemView.findViewById(R.id.friendlist_emailText);
-        this.ClickListener = clickListener;
+        public ViewHolder(@NonNull View itemView, FriendRVClickListener clickListener)
+        {
+            super(itemView);
 
-        itemView.setOnClickListener(this);
+            this.displayNameText = (TextView) itemView.findViewById(R.id.friendlist_nameText);
+            this.emailText = (TextView) itemView.findViewById(R.id.friendlist_emailText);
+            this.ClickListener = clickListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            this.ClickListener.onFriendSelected(getAdapterPosition());
+        }
     }
 
-    @Override
-    public void onClick(View v)
+    public interface FriendRVClickListener
     {
-        this.ClickListener.onFriendSelected(getAdapterPosition());
+        void onFriendSelected(int position);
     }
-}
-
-public interface FriendRVClickListener
-{
-    void onFriendSelected(int position);
-}
 }

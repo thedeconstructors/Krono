@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class NewActivityPage extends AppCompatActivity
+public class ActivityPage_New extends AppCompatActivity
         implements View.OnClickListener,
                    DatePickerDialog.OnDateSetListener
 {
@@ -195,7 +195,7 @@ public class NewActivityPage extends AppCompatActivity
     private void showDatePicker()
     {
         DatePickerDialog dpd = new DatePickerDialog(
-                NewActivityPage.this,
+                ActivityPage_New.this,
                 this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),

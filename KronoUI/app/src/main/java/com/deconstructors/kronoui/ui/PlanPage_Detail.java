@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlanDetailPage extends AppCompatActivity
+public class PlanPage_Detail extends AppCompatActivity
         implements View.OnClickListener
 {
     // Error Log

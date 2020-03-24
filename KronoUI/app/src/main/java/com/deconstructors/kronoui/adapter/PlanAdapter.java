@@ -10,26 +10,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.Plan;
-
-import java.util.List;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 /************************************************************************
  * Class:           PlansListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder>
+public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder>
 {
-    public List<Plan> PlanList;
-    private PlanRVClickListener ClickListener;
+    private PlanClickListener ClickListener;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public PlanRVAdapter(List<Plan> planList, PlanRVClickListener clickListener)
+    public PlanAdapter(@NonNull FirestoreRecyclerOptions<Plan> options,
+                       PlanClickListener clickListener)
     {
-        this.PlanList = planList;
+        super(options);
         this.ClickListener = clickListener;
     }
 
@@ -41,12 +41,12 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
      ************************************************************************/
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public PlanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         int res = R.layout.plan_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
-        ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
-        return viewholder;
+
+        return new PlanHolder(view, this.ClickListener);
     }
 
     /************************************************************************
@@ -55,40 +55,28 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
      * Postcondition:   Assign Values from ViewHolder class to the Fields
      ************************************************************************/
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    protected void onBindViewHolder(@NonNull PlanHolder holder,
+                                    int position,
+                                    @NonNull Plan model)
     {
-        holder.titleText.setText(this.PlanList.get(position).getTitle());
-        //holder.descriptionText.setText(this.PlanList.get(position).getDescription());
+        holder.titleText.setText(model.getTitle());
     }
 
     /************************************************************************
-     * Purpose:         List Item Size Getter
+     * Purpose:         PlanHolder
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    @Override
-    public int getItemCount()
-    {
-        return this.PlanList == null ? 0 : this.PlanList.size();
-    }
-
-    /************************************************************************
-     * Purpose:         List Item Size Getter
-     * Precondition:    .
-     * Postcondition:   Archive the element from the single list item
-     ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class PlanHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView titleText;
-        //TextView descriptionText;
-        PlanRVClickListener ClickListener;
+        PlanClickListener ClickListener;
 
-        public ViewHolder(@NonNull View itemView, PlanRVClickListener clickListener)
+        public PlanHolder(@NonNull View itemView, PlanClickListener clickListener)
         {
             super(itemView);
 
             this.titleText = (TextView) itemView.findViewById(R.id.planlist_title_text);
-            //this.descriptionText = (TextView) itemView.findViewById(R.id.planlist_description_text);
             this.ClickListener = clickListener;
 
             itemView.setOnClickListener(this);
@@ -97,11 +85,12 @@ public class PlanRVAdapter extends RecyclerView.Adapter<PlanRVAdapter.ViewHolder
         @Override
         public void onClick(View v)
         {
+            int x = getAdapterPosition();
             this.ClickListener.onPlanSelected(getAdapterPosition());
         }
     }
 
-    public interface PlanRVClickListener
+    public interface PlanClickListener
     {
         void onPlanSelected(int position);
     }

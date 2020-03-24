@@ -123,7 +123,7 @@ public class ActivityPage extends AppCompatActivity
     @Override
     public void onActiviySelected(int position)
     {
-        Intent intent = new Intent(ActivityPage.this, ActivityDetailPage.class);
+        Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
         //intent.putExtra(getString(R.string.intent_plans), this.Plan);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityList.get(position));
         startActivity(intent);
@@ -184,7 +184,7 @@ public class ActivityPage extends AppCompatActivity
 
     private void editPlan()
     {
-        Intent intent = new Intent(ActivityPage.this, PlanDetailPage.class);
+        Intent intent = new Intent(ActivityPage.this, PlanPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);
     }
@@ -228,7 +228,7 @@ public class ActivityPage extends AppCompatActivity
         {
             case R.id.activities_fab:
             {
-                Intent intent = new Intent(ActivityPage.this, NewActivityPage.class);
+                Intent intent = new Intent(ActivityPage.this, ActivityPage_New.class);
                 intent.putExtra(getString(R.string.intent_plans), this.Plan);
                 startActivity(intent);
                 break;

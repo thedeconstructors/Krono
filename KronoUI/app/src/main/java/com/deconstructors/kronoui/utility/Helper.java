@@ -1,6 +1,8 @@
 package com.deconstructors.kronoui.utility;
 
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.deconstructors.kronoui.module.Activity;
 import com.deconstructors.kronoui.module.Plan;
@@ -97,5 +99,21 @@ public class Helper
             return null ;
         }
 
+    }
+
+    private void showProgressBar(ProgressBar progressBar)
+    {
+        if (progressBar.getVisibility() == View.INVISIBLE)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideProgressBar(ProgressBar progressBar)
+    {
+        if(progressBar.getVisibility() == View.VISIBLE)
+        {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 }

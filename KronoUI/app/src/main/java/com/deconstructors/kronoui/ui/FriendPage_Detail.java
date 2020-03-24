@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.User;
 
-public class FriendDetailPage extends AppCompatActivity implements View.OnClickListener
+public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
     private static final String TAG = "FriendDetailPage";

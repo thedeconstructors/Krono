@@ -23,27 +23,27 @@
         <!-- Main Menu -->
         <activity android:name=".ui.MainActivity"/>
         <activity
-            android:name=".ui.AllActivitiesPage"
+            android:name=".ui.ActivityPage_All"
             android:parentActivityName=".ui.MainActivity"/>
         <activity
             android:name=".ui.FriendPage"
             android:parentActivityName=".ui.MainActivity"/>
         <activity
-            android:name=".ui.FriendDetailPage"
+            android:name=".ui.FriendPage_Detail"
             android:parentActivityName=".ui.FriendPage"/>
         <activity
-            android:name=".ui.NewPlanPage"
+            android:name=".ui.PlanPage_New"
             android:parentActivityName=".ui.MainActivity"/>
         <!-- Activity Page -->
         <activity
             android:name=".ui.ActivityPage"
             android:parentActivityName=".ui.MainActivity"/>
         <activity
-            android:name=".ui.ActivityDetailPage"/>
+            android:name=".ui.ActivityPage_Detail"/>
         <activity
-            android:name=".ui.PlanDetailPage"/>
+            android:name=".ui.PlanPage_Detail"/>
         <activity
-            android:name=".ui.NewActivityPage"
+            android:name=".ui.ActivityPage_New"
             android:parentActivityName=".ui.ActivityPage"/>
     </application>
 </manifest>

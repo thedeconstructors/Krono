@@ -133,7 +133,7 @@ public class FriendPage extends AppCompatActivity
     @Override
     public void onFriendSelected(int position)
     {
-        Intent intent = new Intent(FriendPage.this, FriendDetailPage.class);
+        Intent intent = new Intent(FriendPage.this, FriendPage_Detail.class);
         intent.putExtra(getString(R.string.intent_friend), this.FriendList.get(position));
         startActivity(intent);
     }
