@@ -193,7 +193,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activitydetail, menu);
+        inflater.inflate(R.menu.menu_activity_detail, menu);
 
         return true;
     }

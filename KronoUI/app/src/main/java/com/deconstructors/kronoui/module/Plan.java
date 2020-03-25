@@ -8,6 +8,7 @@ public class Plan implements Parcelable
     private String PlanID;
     private String Title;
     private String Description;
+    private String OwnerID;
     //private int ActivitySize;
 
     /************************************************************************
@@ -17,11 +18,12 @@ public class Plan implements Parcelable
      ************************************************************************/
     public Plan() { }
 
-    public Plan(String planID, String title, String description)
+    public Plan(String planID, String ownerID, String title, String description)
     {
         this.PlanID = planID;
         this.Title = title;
         this.Description = description;
+        this.OwnerID = ownerID;
         //this.ActivitySize = activitySize;
     }
 
@@ -35,6 +37,7 @@ public class Plan implements Parcelable
         this.PlanID = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
+        this.OwnerID = in.readString();
         //this.ActivitySize = in.readInt();
     }
 
@@ -44,28 +47,20 @@ public class Plan implements Parcelable
         dest.writeString(this.PlanID);
         dest.writeString(this.Title);
         dest.writeString(this.Description);
+        dest.writeString(this.OwnerID);
         //dest.writeInt(this.ActivitySize);
     }
 
     @Override
-    public int describeContents()
-    {
-        return 0;
-    }
+    public int describeContents() { return 0; }
 
     public static final Creator<Plan> CREATOR = new Creator<Plan>()
     {
         @Override
-        public Plan createFromParcel(Parcel in)
-        {
-            return new Plan(in);
-        }
+        public Plan createFromParcel(Parcel in) { return new Plan(in); }
 
         @Override
-        public Plan[] newArray(int size)
-        {
-            return new Plan[size];
-        }
+        public Plan[] newArray(int size) { return new Plan[size]; }
     };
 
     /************************************************************************
@@ -81,6 +76,9 @@ public class Plan implements Parcelable
 
     public String getDescription() { return this.Description; }
     public void setDescription(String description) { this.Description = description; }
+
+    public String getOwnerID() { return OwnerID; }
+    public void setOwnerID(String ownerID) { OwnerID = ownerID; }
 
     //public int getActivitySize() { return ActivitySize; }
     //public void setActivitySize(int activitySize) { ActivitySize = activitySize; }

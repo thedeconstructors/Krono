@@ -23,11 +23,11 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:id="@+id/allactivities_toolbar"/>
+                android:id="@+id/ActivityPageAll_Toolbar"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/allactivities_recyclerview"
+            android:id="@+id/ActivityPageAll_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -36,8 +36,8 @@
     </LinearLayout>
 
     <!-- Hidden Progress Bar -->
-    <ProgressBar
+    <!--<ProgressBar
         style="@style/ProgressBar"
-        android:id="@+id/allactivities_progressBar"/>
+        android:id="@+id/allactivities_progressBar"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

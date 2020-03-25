@@ -7,56 +7,46 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.adapter.ActivityRVAdapter;
+import com.deconstructors.kronoui.adapter.ActivityAdapter;
 import com.deconstructors.kronoui.module.Activity;
 import com.deconstructors.kronoui.module.Plan;
-import com.deconstructors.kronoui.utility.Helper;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-
-import javax.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ActivityPage extends AppCompatActivity
-        implements ActivityRVAdapter.ActivityRVClickListener,
+        implements ActivityAdapter.ActivityClickListener,
                    View.OnClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
 
     // XML Widgets
-    private androidx.appcompat.widget.Toolbar Toolbar;
-    private TextView DescriptionTextView;
-    private ProgressBar ProgressBar;
-    private androidx.recyclerview.widget.RecyclerView RecyclerView;
+    private Toolbar Toolbar;
+    private TextView ToolbarDescription;
+    private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
-    private CoordinatorLayout BaseLayout;
-
-    // Vars
-    private Plan Plan;
-    private ArrayList<Activity> ActivityList = new ArrayList<>();
-    private ActivityRVAdapter ActivityRVAdapter;
 
     // Database
-    private FirebaseFirestore FirestoreDB;
-    private ListenerRegistration ActivityEventListener;
+    private Plan Plan;
+    private FirebaseFirestore DBInstance;
+    private Query ActivityQuery;
+    private FirestoreRecyclerOptions<Activity> ActivityOptions;
+    private ActivityAdapter ActivityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,36 +54,33 @@ public class ActivityPage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.setToolbar();
+        this.checkIntent();
+        this.setDatabase();
         this.setContents();
-        this.getPlanIntent();
-        this.getActivities();
     }
 
-    private void setContents()
+    /************************************************************************
+     * Purpose:         Set Toolbar & Inflate Toolbar Menu
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setToolbar()
     {
-        // Toolbar
-        this.Toolbar = findViewById(R.id.ui_activityToolbar);
-        this.Toolbar.setTitle("");
+        this.Toolbar = findViewById(R.id.ActivityPage_Toolbar);
+        this.ToolbarDescription = findViewById(R.id.ActivityPage_Description);
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
-        // Other Widgets
-        this.ProgressBar = findViewById(R.id.activities_progressBar);
-        this.RecyclerView = findViewById(R.id.activities_recyclerview);
-        this.FAB = findViewById(R.id.activities_fab);
-        this.FAB.setOnClickListener(this);
-        this.DescriptionTextView = findViewById(R.id.ui_activityDescription);
-        this.BaseLayout = findViewById(R.id.ui_activitiesLayout);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_main, menu);
 
-        // RecyclerView
-        this.ActivityRVAdapter = new ActivityRVAdapter(this.ActivityList, this);
-        this.RecyclerView.setHasFixedSize(true);
-        this.RecyclerView.setAdapter(ActivityRVAdapter);
-        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Firebase
-        this.FirestoreDB = FirebaseFirestore.getInstance();
+        return true;
     }
 
     /************************************************************************
@@ -101,32 +88,25 @@ public class ActivityPage extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   Get Plan Intent from MainActivity
      ************************************************************************/
-    private void getPlanIntent()
+    private void checkIntent()
     {
         if(getIntent().hasExtra(getString(R.string.intent_plans)))
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
-            this.DescriptionTextView.setText(this.Plan.getDescription());
+            this.ToolbarDescription.setText(this.Plan.getDescription());
         }
         else
         {
-            this.getSupportActionBar().setTitle(R.string.menu_allactivities);
-        }
-    }
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Error");
+            builder.setMessage("Plan not found");
+            builder.setPositiveButton("OK", null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
-    /************************************************************************
-     * Purpose:         Parcelable Activity Interaction
-     * Precondition:    .
-     * Postcondition:   Send Activity Intent to ActivityDetailPage
-     ************************************************************************/
-    @Override
-    public void onActiviySelected(int position)
-    {
-        Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
-        //intent.putExtra(getString(R.string.intent_plans), this.Plan);
-        intent.putExtra(getString(R.string.intent_activity), this.ActivityList.get(position));
-        startActivity(intent);
+            finish();
+        }
     }
 
     /************************************************************************
@@ -134,52 +114,79 @@ public class ActivityPage extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void getActivities()
+    private void setDatabase()
     {
-        Query activitiesRef = FirestoreDB.collection(getString(R.string.collection_plans))
-                                         .document(this.Plan.getPlanID())
-                                         .collection(getString(R.string.collection_activities));
+        // Plan
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.ActivityQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .document(this.Plan.getPlanID())
+                .collection(getString(R.string.collection_activities));
+        this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
+                .setQuery(this.ActivityQuery, Activity.class)
+                .build();
+        this.ActivityAdapter = new ActivityAdapter(this.ActivityOptions, this);
+    }
 
-        this.ActivityEventListener = activitiesRef
-                .addSnapshotListener(new EventListener<QuerySnapshot>()
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (this.ActivityAdapter != null) { this.ActivityAdapter.startListening(); }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
+    }
+
+    private void deletePlan()
+    {
+        this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .document(this.Plan.getPlanID())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot documentSnapshots,
-                                        @Nullable FirebaseFirestoreException e)
+                    public void onSuccess(Void aVoid)
                     {
-                        if (e != null)
-                        {
-                            Log.e(TAG, "getActivities: onEvent Listen failed.", e);
-                            return;
-                        }
-
-                        if (documentSnapshots != null)
-                        {
-                            for (DocumentChange doc : documentSnapshots.getDocumentChanges())
-                            {
-                                if (doc.getType() == DocumentChange.Type.ADDED)
-                                {
-                                    Activity activity = doc.getDocument().toObject(Activity.class);
-                                    ActivityList.add(activity);
-                                }
-                                else if (doc.getType() == DocumentChange.Type.MODIFIED)
-                                {
-                                    Activity activity = doc.getDocument().toObject(Activity.class);
-                                    ActivityList.remove(Helper.getActivity(ActivityList, activity.getActivityID()));
-                                    ActivityList.add(activity);
-                                }
-                                else if (doc.getType() == DocumentChange.Type.REMOVED)
-                                {
-                                    Activity activity = doc.getDocument().toObject(Activity.class);
-                                    ActivityList.remove(Helper.getActivity(ActivityList, activity.getActivityID()));
-                                }
-                            }
-
-                            Log.d(TAG, "getActivities: number of activities: " + ActivityList.size());
-                            ActivityRVAdapter.notifyDataSetChanged();
-                        }
+                        finish();
                     }
                 });
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // RecyclerView
+        this.RecyclerView = findViewById(R.id.ActivityPage_RecyclerView);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.RecyclerView.setAdapter(this.ActivityAdapter);
+
+        // Other Widgets
+        this.FAB = findViewById(R.id.ActivityPage_FAB);
+        this.FAB.setOnClickListener(this);
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Plan & Activity Interaction
+     * Precondition:    .
+     * Postcondition:   Go to another page
+     ************************************************************************/
+    @Override
+    public void onActiviySelected(int position)
+    {
+        Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
+        intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
+        startActivity(intent);
     }
 
     private void editPlan()
@@ -189,35 +196,8 @@ public class ActivityPage extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void deletePlan()
-    {
-        FirestoreDB.collection(getString(R.string.collection_plans))
-                   .document(this.Plan.getPlanID())
-                   .delete()
-                   .addOnSuccessListener(new OnSuccessListener<Void>()
-                   {
-                       @Override
-                       public void onSuccess(Void aVoid)
-                       {
-                           finish();
-                       }
-                   });
-    }
-
     /************************************************************************
-     * Purpose:         Swipe Refresh Layout onRefresh Overrides
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    /*@Override
-    public void onRefresh()
-    {
-        //this.getActivities();
-        this.SwipeRefreshLayout.setRefreshing(false);
-    }*/
-
-    /************************************************************************
-     * Purpose:         Floating Action Button onClick Overrides
+     * Purpose:         Click Listener
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -226,7 +206,7 @@ public class ActivityPage extends AppCompatActivity
     {
         switch (view.getId())
         {
-            case R.id.activities_fab:
+            case R.id.ActivityPage_FAB:
             {
                 Intent intent = new Intent(ActivityPage.this, ActivityPage_New.class);
                 intent.putExtra(getString(R.string.intent_plans), this.Plan);
@@ -267,20 +247,6 @@ public class ActivityPage extends AppCompatActivity
                 break;
             }
         }
-        return true;
-    }
-
-    /************************************************************************
-     * Purpose:         Toolbar Menu Inflater
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity, menu);
-
         return true;
     }
 }

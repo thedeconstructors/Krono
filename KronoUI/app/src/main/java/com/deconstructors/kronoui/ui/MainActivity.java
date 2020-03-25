@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,16 +18,14 @@ import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.adapter.PlanAdapter;
 import com.deconstructors.kronoui.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements PlanAdapter.PlanClickListener,
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
     // XML Widgets
     private Toolbar Toolbar;
-    private RecyclerView PlanRecyclerView;
+    private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
     private TextView NameTextView;
     private TextView EmailTextView;
@@ -49,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private Query PlanQuery;
     private FirestoreRecyclerOptions<Plan> PlanOptions;
     private PlanAdapter PlanAdapter;
+    private ListenerRegistration UserRegistration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,11 +54,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
 
+        this.setToolbar();
         this.setDatabase();
         this.setContents();
     }
 
-    private void setContents()
+    /************************************************************************
+     * Purpose:         Set Toolbar & Inflate Toolbar Menu
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setToolbar()
     {
         // Toolbar
         this.Toolbar = findViewById(R.id.ui_toolbar);
@@ -68,16 +72,15 @@ public class MainActivity extends AppCompatActivity
         this.setSupportActionBar(this.Toolbar);
         this.NameTextView = findViewById(R.id.ui_main_displayName);
         this.EmailTextView = findViewById(R.id.ui_main_email);
+    }
 
-        // Recycler View
-        this.PlanRecyclerView = findViewById(R.id.ui_main_recyclerview);
-        this.PlanRecyclerView.setHasFixedSize(true);
-        this.PlanRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        this.PlanRecyclerView.setAdapter(this.PlanAdapter);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
 
-        // Other XML Widgets
-        this.FAB = findViewById(R.id.ui_main_fab);
-        this.FAB.setOnClickListener(this);
+        return true;
     }
 
     /************************************************************************
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         this.PlanAdapter = new PlanAdapter(this.PlanOptions, this);
 
         // User
-        this.DBInstance
+        this.UserRegistration = this.DBInstance
                 .collection(getString(R.string.collection_users))
                 .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>()
@@ -129,6 +132,35 @@ public class MainActivity extends AppCompatActivity
         if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        // Why onDestroy instead of onStop?
+        // The PlanAdapter, starts and stops listening in onStart and onStop.
+        // The Listener Registration was created in onCreate, thus it should
+        // be removed from onDestroy.
+        super.onDestroy();
+        if (this.UserRegistration != null) { this.UserRegistration.remove(); }
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Recycler View
+        this.RecyclerView = findViewById(R.id.MainActivity_RecyclerView);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.RecyclerView.setAdapter(this.PlanAdapter);
+
+        // Other XML Widgets
+        this.FAB = findViewById(R.id.ui_main_fab);
+        this.FAB.setOnClickListener(this);
+    }
+
     /************************************************************************
      * Purpose:         Parcelable Plan Interaction
      * Precondition:    .
@@ -143,7 +175,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Main Menu
+     * Purpose:         Click Listener
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -175,19 +207,5 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
         }
-    }
-
-    /************************************************************************
-     * Purpose:         Toolbar Menu Inflater
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-
-        return true;
     }
 }

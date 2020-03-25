@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/White"
     tools:context=".ui.ActivityPage"
-    android:id="@+id/ui_activitiesLayout">
+    android:id="@+id/ActivityPage_BaseLayout">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -39,10 +39,10 @@
                 android:minLines="1"
                 android:maxLines="2"
                 android:text=""
-                android:id="@+id/ui_activityDescription"/>
+                android:id="@+id/ActivityPage_Description"/>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/ui_activityToolbar"
+                android:id="@+id/ActivityPage_Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -51,19 +51,14 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ActivityPage_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activities_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-        </androidx.recyclerview.widget.RecyclerView>
-    </androidx.core.widget.NestedScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -74,14 +69,9 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
-    <!-- Hidden Progress Bar -->
-    <ProgressBar
-        style="@style/ProgressBar"
-        android:id="@+id/activities_progressBar"/>
-
-    <!-- Floating Action Button (Add Activity -->
+    <!-- Floating Action Button (Add Activity) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
-        android:id="@+id/activities_fab"/>
+        android:id="@+id/ActivityPage_FAB"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

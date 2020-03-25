@@ -115,7 +115,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/ui_main_recyclerview"
+                android:id="@+id/MainActivity_RecyclerView"
                 android:overScrollMode="never"/>
 
             <include layout="@layout/main_separator"/>

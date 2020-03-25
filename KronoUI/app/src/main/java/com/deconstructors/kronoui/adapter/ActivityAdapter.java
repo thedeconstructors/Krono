@@ -9,25 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.module.Plan;
+import com.deconstructors.kronoui.module.Activity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-/************************************************************************
- * Class:           PlansListAdapter
- * Purpose:         To customize list view layout
- ************************************************************************/
-public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder>
+public class ActivityAdapter extends FirestoreRecyclerAdapter<Activity, ActivityAdapter.ActivityHolder>
 {
-    private PlanClickListener ClickListener;
+    private ActivityClickListener ClickListener;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public PlanAdapter(@NonNull FirestoreRecyclerOptions<Plan> options,
-                       PlanClickListener clickListener)
+    public ActivityAdapter(@NonNull FirestoreRecyclerOptions<Activity> options,
+                           ActivityClickListener clickListener)
     {
         super(options);
         this.ClickListener = clickListener;
@@ -39,14 +35,15 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
      * Postcondition:   Inflate the layout to Recycler List View
      *                  Using the ui_drawer_listitem.XML File
      ************************************************************************/
+
     @NonNull
     @Override
-    public PlanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ActivityHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.plan_listitem;
+        int res = R.layout.activity_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
 
-        return new PlanHolder(view, this.ClickListener);
+        return new ActivityHolder(view, this.ClickListener);
     }
 
     /************************************************************************
@@ -55,27 +52,26 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
      * Postcondition:   Assign Values from ViewHolder class to the Fields
      ************************************************************************/
     @Override
-    protected void onBindViewHolder(@NonNull PlanHolder holder,
+    protected void onBindViewHolder(@NonNull ActivityHolder holder,
                                     int position,
-                                    @NonNull Plan model)
+                                    @NonNull Activity model)
     {
         holder.Title.setText(model.getTitle());
+        holder.Description.setText(model.getDescription());
     }
 
-    /************************************************************************
-     * Purpose:         PlanHolder
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    public class PlanHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class ActivityHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener
     {
         TextView Title;
-        PlanClickListener ClickListener;
+        TextView Description;
+        ActivityClickListener ClickListener;
 
-        public PlanHolder(@NonNull View itemView, PlanClickListener clickListener)
+        public ActivityHolder(View itemView, ActivityClickListener clickListener)
         {
             super(itemView);
-            this.Title = itemView.findViewById(R.id.planlist_title_text);
+            this.Title = itemView.findViewById(R.id.activitylist_title_text);
+            this.Description = itemView.findViewById(R.id.activitylist_description_text);
             this.ClickListener = clickListener;
 
             itemView.setOnClickListener(this);
@@ -84,13 +80,19 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
         @Override
         public void onClick(View v)
         {
-            this.ClickListener.onPlanSelected(getAdapterPosition());
+            this.ClickListener.onActiviySelected(getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View v)
+        {
+            // Initiate an Active view multi selection
+            return false;
         }
     }
 
-    public interface PlanClickListener
+    public interface ActivityClickListener
     {
-        void onPlanSelected(int position);
+        void onActiviySelected(int position);
     }
 }
-
