@@ -17,7 +17,7 @@
     <string name="auth_rememberMe">Remember Me</string>
     <string name="auth_forgotPassword">Forgot Password</string>
     <string name="auth_or">OR</string>
-    <string name="auth_signin">Sign In</string>
+    <string name="auth_signin">Log In</string>
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>

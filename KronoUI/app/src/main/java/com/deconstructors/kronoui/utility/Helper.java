@@ -1,12 +1,16 @@
 package com.deconstructors.kronoui.utility;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.deconstructors.kronoui.module.Activity;
+import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.module.User;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +45,7 @@ public class Helper
      * Postcondition:   .
      ************************************************************************/
     // Change field type to getDocumentID and combine both
-    public static Activity getActivity(List<Activity> list, String id)
+    /*public static Activity getActivity(List<Activity> list, String id)
     {
         for (Activity activity : list)
         {
@@ -52,7 +56,7 @@ public class Helper
         }
 
         return null;
-    }
+    }*/
 
     public static Plan getPlan(List<Plan> list, String id)
     {
@@ -101,7 +105,12 @@ public class Helper
 
     }
 
-    private void showProgressBar(ProgressBar progressBar)
+    public static void makeSnackbarMessage(View view, String string)
+    {
+        Snackbar.make(view, string, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static void showProgressBar(ProgressBar progressBar)
     {
         if (progressBar.getVisibility() == View.INVISIBLE)
         {
@@ -109,11 +118,21 @@ public class Helper
         }
     }
 
-    private void hideProgressBar(ProgressBar progressBar)
+    public static void hideProgressBar(ProgressBar progressBar)
     {
         if(progressBar.getVisibility() == View.VISIBLE)
         {
             progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static void hideKeyboard(Activity instance)
+    {
+        View view = instance.getCurrentFocus();
+        if (view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) instance.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }

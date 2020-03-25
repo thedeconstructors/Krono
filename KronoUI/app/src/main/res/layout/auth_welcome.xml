@@ -8,13 +8,14 @@
     tools:context=".auth.WelcomePage"
     android:id="@+id/auth_welcomeBackground">
 
+    <!-- Logo & Welcome Text & Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:id="@+id/auth_welcomeViews">
 
-        <!-- Logo & Welcome Text -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,9 +41,6 @@
                 android:textSize="@dimen/auth_headerText"/>
         </LinearLayout>
 
-        <!-- Sign In (Hidden) -->
-        <include layout="@layout/auth_signin"
-            android:id="@+id/auth_signinLayout"/>
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -56,9 +54,6 @@
             android:onClick="onClick"
             android:id="@+id/auth_welcome_signIn"/>
 
-        <!-- Register (Hidden) -->
-        <include layout="@layout/auth_register"
-            android:id="@+id/auth_registerLayout"/>
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -89,6 +84,15 @@
                 android:textColor="@color/lightGrey"/>
         </RelativeLayout>
     </LinearLayout>
+
+    <!-- Sign In Page (Hidden) -->
+    <include
+        layout="@layout/auth_login"
+        android:id="@+id/auth_signinLayout"/>
+
+    <!-- Register Page (Hidden) -->
+    <include layout="@layout/auth_register"
+        android:id="@+id/auth_registerLayout"/>
 
     <!-- Back Button (Hidden) -->
     <TextView

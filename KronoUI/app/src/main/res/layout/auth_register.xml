@@ -86,6 +86,6 @@
         android:textColor="@color/lightGrey"
         android:background="@drawable/auth_buttonborder"
         android:onClick="onClick"
-        android:id="@+id/auth_register"/>
+        android:id="@+id/auth_registerButton"/>
 
 </LinearLayout>

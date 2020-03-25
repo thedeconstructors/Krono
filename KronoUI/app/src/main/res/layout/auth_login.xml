@@ -24,7 +24,7 @@
         android:backgroundTint="@color/lightGrey"
         android:textColor="@color/lightGrey"
         android:maxLines="1"
-        android:id="@+id/auth_signIn_emailEditText"/>
+        android:id="@+id/auth_login_emailEditText"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:backgroundTint="@color/lightGrey"
         android:textColor="@color/lightGrey"
         android:maxLines="1"
-        android:id="@+id/auth_signIn_passwordEditText"/>
+        android:id="@+id/auth_login_passwordEditText"/>
 
     <!-- Remember Me & Forgot Password Button -->
     <GridLayout
@@ -66,7 +66,7 @@
             android:layout_gravity="center|end"
             android:text="@string/auth_forgotPassword"
             android:textColor="@color/lightGrey"
-            android:id="@+id/auth_signIn_forgotPassword"/>
+            android:id="@+id/auth_login_forgotPassword"/>
     </GridLayout>
 
     <Button
@@ -79,5 +79,5 @@
         android:textColor="@color/lightGrey"
         android:background="@drawable/auth_buttonborder"
         android:onClick="onClick"
-        android:id="@+id/auth_signIn"/>
+        android:id="@+id/auth_loginButton"/>
 </LinearLayout>
