@@ -44,7 +44,7 @@
                 android:id="@+id/frienddetail_Description"/>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/frienddetail_Toolbar"
+                android:id="@+id/FriendPageDetail_Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -67,35 +67,30 @@
                 android:layout_marginEnd="30dp"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/activitydetail_titleEditText"
+                <TextView
+                    android:id="@+id/FriendPageDetail_DisplayName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                     android:hint="@string/navigation_displayNameText"
-                    android:inputType="textShortMessage"
-                    android:importantForAutofill="no" />
+                    android:textSize="20sp"/>
 
-                <EditText
-                    android:id="@+id/activitydetail_descriptionText"
+                <TextView
+                    android:id="@+id/FriendPageDetail_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                     android:hint="@string/navigation_emailFieldText"
-                    android:inputType="textShortMessage"
-                    android:maxLines="5"
-                    android:importantForAutofill="no" />
+                    android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/activitydetail_dueDateEditText"
+                    android:id="@+id/FriendPageDetail_Bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
                     android:hint="Bio"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="datetime"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:textSize="20sp"/>
             </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

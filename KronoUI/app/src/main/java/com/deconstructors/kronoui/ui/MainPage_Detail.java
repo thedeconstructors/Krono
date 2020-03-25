@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlanPage_Detail extends AppCompatActivity
+public class MainPage_Detail extends AppCompatActivity
         implements View.OnClickListener
 {
     // Error Log
@@ -43,7 +43,7 @@ public class PlanPage_Detail extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.plan_detail);
+        setContentView(R.layout.main_detail);
 
         this.setContents();
         this.getPlanIntent();

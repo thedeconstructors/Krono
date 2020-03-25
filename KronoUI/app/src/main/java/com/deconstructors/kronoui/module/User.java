@@ -12,7 +12,6 @@ public class User implements Parcelable
     private String Email;
     private String ProfileURL;
     private String Bio;
-    private List<String> FriendList;
 
     /************************************************************************
      * Purpose:         Constructors
@@ -21,12 +20,11 @@ public class User implements Parcelable
      ************************************************************************/
     public User(){}
 
-    public User(String displayName, String email, String bio, List<String> friendList)
+    public User(String displayName, String email, String bio)
     {
         this.DisplayName = displayName;
         this.Email = email;
         this.Bio = bio;
-        this.FriendList = new ArrayList<>(friendList);
     }
 
     /************************************************************************
@@ -40,8 +38,6 @@ public class User implements Parcelable
         this.Email = in.readString();
         this.Bio = in.readString();
         this.ProfileURL = in.readString();
-        this.FriendList = new ArrayList<String>();
-        in.readList(this.FriendList, User.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>()
@@ -70,8 +66,8 @@ public class User implements Parcelable
     {
         dest.writeString(this.DisplayName);
         dest.writeString(this.Email);
+        dest.writeString(this.Bio);
         dest.writeString(this.ProfileURL);
-        dest.writeList(this.FriendList);
     }
 
     /************************************************************************
@@ -84,9 +80,6 @@ public class User implements Parcelable
 
     public String getEmail() { return this.Email; }
     public void setEmail(String email) { this.Email = email; }
-
-    public List<String> getFriendList() { return this.FriendList; }
-    public void setFriendList(List<String> friendList) { this.FriendList = friendList; }
 
     public String getBio() { return this.Bio; }
     public void setBio(String bio) { this.Bio = bio; }

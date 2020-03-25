@@ -2,7 +2,6 @@ package com.deconstructors.kronoui.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ import com.deconstructors.kronoui.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -189,7 +187,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void editPlan()
     {
-        Intent intent = new Intent(ActivityPage.this, PlanPage_Detail.class);
+        Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);
     }

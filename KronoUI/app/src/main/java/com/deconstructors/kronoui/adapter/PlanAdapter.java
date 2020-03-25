@@ -43,7 +43,7 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
     @Override
     public PlanHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        int res = R.layout.plan_listitem;
+        int res = R.layout.main_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
 
         return new PlanHolder(view, this.ClickListener);

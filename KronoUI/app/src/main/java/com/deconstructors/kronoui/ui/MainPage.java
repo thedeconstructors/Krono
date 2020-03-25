@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
-public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
+public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener
 {
     // Error Log
@@ -51,7 +51,7 @@ public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClick
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.plan_main);
+        setContentView(R.layout.main_main);
 
         this.setToolbar();
         this.setDatabase();
@@ -168,7 +168,7 @@ public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     public void onPlanSelected(int position)
     {
-        Intent intent = new Intent(PlanPage.this, ActivityPage.class);
+        Intent intent = new Intent(MainPage.this, ActivityPage.class);
         intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
         startActivity(intent);
     }
@@ -185,13 +185,13 @@ public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClick
         {
             case R.id.ui_menu_allActivities:
             {
-                Intent intent = new Intent(PlanPage.this, ActivityPage_All.class);
+                Intent intent = new Intent(MainPage.this, ActivityPage_All.class);
                 startActivity(intent);
                 break;
             }
             case R.id.ui_menu_friends:
             {
-                Intent intent = new Intent(PlanPage.this, FriendPage.class);
+                Intent intent = new Intent(MainPage.this, FriendPage.class);
                 startActivity(intent);
                 break;
             }
@@ -201,7 +201,7 @@ public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_main_fab:
             {
-                Intent intent = new Intent(PlanPage.this, PlanPage_New.class);
+                Intent intent = new Intent(MainPage.this, MainPage_New.class);
                 startActivity(intent);
                 break;
             }

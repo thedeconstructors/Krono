@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/menu_activity"
+        android:title="@string/menu_FriendDetail"
         app:showAsAction="always"
         android:icon="@drawable/menu_menu">
         <menu>
-            <item android:id="@+id/activitydetail_menu_deleteActivity"
-                android:title="@string/menu_activitydetail_deletePlan"
+            <item android:id="@+id/Menu_FriendPageDetail_DeleteFriend"
+                android:title="@string/Menu_FriendDetail_RemoveFriend"
                 android:icon="@drawable/menu_delete"
                 app:showAsAction="ifRoom"/>
         </menu>

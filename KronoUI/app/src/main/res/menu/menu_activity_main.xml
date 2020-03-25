@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/activity_menu"
+        android:title="@string/menu_activity"
         app:showAsAction="always"
         android:icon="@drawable/menu_menu">
         <menu>

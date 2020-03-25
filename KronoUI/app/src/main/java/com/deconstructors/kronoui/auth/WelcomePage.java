@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.ui.PlanPage;
+import com.deconstructors.kronoui.ui.MainPage;
 import com.deconstructors.kronoui.utility.Helper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -286,7 +286,7 @@ public class WelcomePage extends AppCompatActivity
 
                 if (user != null)
                 {
-                    Intent intent = new Intent(WelcomePage.this, PlanPage.class);
+                    Intent intent = new Intent(WelcomePage.this, MainPage.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();

@@ -57,8 +57,9 @@
     <string name="activitydetail_header">Activity Details</string>
 
     <!-- 4.5 - Menu -->
-    <string name="activity_menu">Activity Menu</string>
+    <string name="menu_activity">Activity Menu</string>
     <string name="menu_friend">Friend Menu</string>
+    <string name="menu_FriendDetail">Friend Detail Menu</string>
     <string name="menu_sortBy">Sort By</string>
     <string name="activity_menu_editPlan">Edit Plan</string>
     <string name="activity_menu_sortBy">Sort By</string>
@@ -66,5 +67,6 @@
     <string name="menu_activitydetail_editActivity">Edit Activity</string>
     <string name="menu_activitydetail_sortBy">Sort By</string>
     <string name="menu_activitydetail_deletePlan">Delete Activity</string>
+    <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
 
 </resources>

@@ -21,27 +21,27 @@
             </intent-filter>
         </activity>
         <!-- Main Menu -->
-        <activity android:name=".ui.PlanPage"/>
+        <activity android:name=".ui.MainPage"/>
         <activity
             android:name=".ui.ActivityPage_All"
-            android:parentActivityName=".ui.PlanPage"/>
+            android:parentActivityName=".ui.MainPage"/>
         <activity
             android:name=".ui.FriendPage"
-            android:parentActivityName=".ui.PlanPage"/>
+            android:parentActivityName=".ui.MainPage"/>
         <activity
             android:name=".ui.FriendPage_Detail"
             android:parentActivityName=".ui.FriendPage"/>
         <activity
-            android:name=".ui.PlanPage_New"
-            android:parentActivityName=".ui.PlanPage"/>
+            android:name=".ui.MainPage_New"
+            android:parentActivityName=".ui.MainPage"/>
         <!-- Activity Page -->
         <activity
             android:name=".ui.ActivityPage"
-            android:parentActivityName=".ui.PlanPage"/>
+            android:parentActivityName=".ui.MainPage"/>
         <activity
             android:name=".ui.ActivityPage_Detail"/>
         <activity
-            android:name=".ui.PlanPage_Detail"/>
+            android:name=".ui.MainPage_Detail"/>
         <activity
             android:name=".ui.ActivityPage_New"
             android:parentActivityName=".ui.ActivityPage"/>
