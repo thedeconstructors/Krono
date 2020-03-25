@@ -27,9 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
-public class MainActivity extends AppCompatActivity
-        implements PlanAdapter.PlanClickListener,
-                   View.OnClickListener
+public class PlanPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
+                                                           View.OnClickListener
 {
     // Error Log
     private static final String TAG = "MainActivity";
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_main);
+        setContentView(R.layout.plan_main);
 
         this.setToolbar();
         this.setDatabase();
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_plan_main, menu);
 
         return true;
     }
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPlanSelected(int position)
     {
-        Intent intent = new Intent(MainActivity.this, ActivityPage.class);
+        Intent intent = new Intent(PlanPage.this, ActivityPage.class);
         intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
         startActivity(intent);
     }
@@ -186,13 +185,13 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.ui_menu_allActivities:
             {
-                Intent intent = new Intent(MainActivity.this, ActivityPage_All.class);
+                Intent intent = new Intent(PlanPage.this, ActivityPage_All.class);
                 startActivity(intent);
                 break;
             }
             case R.id.ui_menu_friends:
             {
-                Intent intent = new Intent(MainActivity.this, FriendPage.class);
+                Intent intent = new Intent(PlanPage.this, FriendPage.class);
                 startActivity(intent);
                 break;
             }
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.ui_main_fab:
             {
-                Intent intent = new Intent(MainActivity.this, PlanPage_New.class);
+                Intent intent = new Intent(PlanPage.this, PlanPage_New.class);
                 startActivity(intent);
                 break;
             }

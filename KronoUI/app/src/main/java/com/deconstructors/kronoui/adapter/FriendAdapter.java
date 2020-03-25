@@ -10,22 +10,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.User;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-import java.util.List;
-
-public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHolder>
+public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.FriendHolder>
 {
-    public List<User> FriendList;
-    private FriendRVClickListener ClickListener;
+    private FriendClickListener ClickListener;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public FriendRVAdapter(List<User> friendList, FriendRVClickListener clickListener)
+    public FriendAdapter(@NonNull FirestoreRecyclerOptions<User> options,
+                         FriendClickListener clickListener)
     {
-        this.FriendList = friendList;
+        super(options);
         this.ClickListener = clickListener;
     }
 
@@ -37,12 +37,12 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
      ************************************************************************/
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public FriendHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         int res = R.layout.friend_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
-        ViewHolder viewholder = new ViewHolder(view, this.ClickListener);
-        return viewholder;
+
+        return new FriendHolder(view, this.ClickListener);
     }
 
     /************************************************************************
@@ -51,21 +51,12 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
      * Postcondition:   Assign Values from ViewHolder class to the Fields
      ************************************************************************/
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    protected void onBindViewHolder(@NonNull FriendAdapter.FriendHolder holder,
+                                    int position,
+                                    @NonNull User model)
     {
-        holder.displayNameText.setText(this.FriendList.get(position).getDisplayName());
-        holder.emailText.setText(this.FriendList.get(position).getEmail());
-    }
-
-    /************************************************************************
-     * Purpose:         List Item Size Getter
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    @Override
-    public int getItemCount()
-    {
-        return this.FriendList == null ? 0 : this.FriendList.size();
+        holder.displayNameText.setText(model.getDisplayName());
+        holder.emailText.setText(model.getEmail());
     }
 
     /************************************************************************
@@ -73,13 +64,13 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class FriendHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         TextView displayNameText;
         TextView emailText;
-        FriendRVClickListener ClickListener;
+        FriendClickListener ClickListener;
 
-        public ViewHolder(@NonNull View itemView, FriendRVClickListener clickListener)
+        public FriendHolder(@NonNull View itemView, FriendClickListener clickListener)
         {
             super(itemView);
 
@@ -97,7 +88,7 @@ public class FriendRVAdapter extends RecyclerView.Adapter<FriendRVAdapter.ViewHo
         }
     }
 
-    public interface FriendRVClickListener
+    public interface FriendClickListener
     {
         void onFriendSelected(int position);
     }

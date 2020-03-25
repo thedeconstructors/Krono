@@ -28,9 +28,8 @@ import com.google.firebase.firestore.Query;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ActivityPage extends AppCompatActivity
-        implements ActivityAdapter.ActivityClickListener,
-                   View.OnClickListener
+public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener,
+                                                               View.OnClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
@@ -116,7 +115,6 @@ public class ActivityPage extends AppCompatActivity
      ************************************************************************/
     private void setDatabase()
     {
-        // Plan
         this.DBInstance = FirebaseFirestore.getInstance();
         this.ActivityQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
@@ -179,7 +177,7 @@ public class ActivityPage extends AppCompatActivity
     /************************************************************************
      * Purpose:         Parcelable Plan & Activity Interaction
      * Precondition:    .
-     * Postcondition:   Go to another page
+     * Postcondition:   Go to Activity Details or Plan Edit page
      ************************************************************************/
     @Override
     public void onActiviySelected(int position)

@@ -2,7 +2,6 @@ package com.deconstructors.kronoui.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,36 +14,37 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.kronoui.R;
-import com.deconstructors.kronoui.adapter.FriendRVAdapter;
+import com.deconstructors.kronoui.adapter.FriendAdapter;
 import com.deconstructors.kronoui.module.User;
-import com.deconstructors.kronoui.utility.Helper;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class FriendPage extends AppCompatActivity
-        implements FriendRVAdapter.FriendRVClickListener,
-                   View.OnClickListener
+import androidx.appcompat.widget.Toolbar;
+
+public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener,
+                                                             View.OnClickListener
 {
     // Error Log
     private static final String TAG = "FriendPage";
 
     // XML Widgets
-    private androidx.appcompat.widget.Toolbar Toolbar;
-    private RecyclerView FriendRecyclerView;
+    private Toolbar Toolbar;
+    private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
 
     // Database
-    private FirebaseFirestore FirestoreDB;
-    private List<User> FriendList;
-    private FriendRVAdapter FriendRVAdapter;
+    private FirebaseFirestore DBInstance;
+    private List<String> FriendList;
+    private ListenerRegistration FriendRegistration;
+    private Query FriendQuery;
+    private FirestoreRecyclerOptions<User> FriendOptions;
+    private FriendAdapter FriendAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -52,33 +52,32 @@ public class FriendPage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_main);
 
+        this.setToolbar();
+        this.setDatabase();
         this.setContents();
-        this.getFriends();
     }
 
-    private void setContents()
+    /************************************************************************
+     * Purpose:         Set Toolbar & Inflate Toolbar Menu
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setToolbar()
     {
-        // Toolbar
         this.Toolbar = findViewById(R.id.friend_toolbar);
         this.Toolbar.setTitle(getString(R.string.menu_friends));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
-        // Recycler View
-        this.FriendList = new ArrayList<>();
-        this.FriendRVAdapter = new FriendRVAdapter(FriendList, this);
-        this.FriendRecyclerView = findViewById(R.id.friend_recyclerview);
-        this.FriendRecyclerView.setHasFixedSize(true);
-        this.FriendRecyclerView.setAdapter(this.FriendRVAdapter);
-        this.FriendRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_friend_main, menu);
 
-        // Others Widgets
-        this.FAB = findViewById(R.id.friend_fab);
-        this.FAB.setOnClickListener(this);
-
-        // Firebase
-        this.FirestoreDB = FirebaseFirestore.getInstance();
+        return true;
     }
 
     /************************************************************************
@@ -86,55 +85,60 @@ public class FriendPage extends AppCompatActivity
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void getFriends()
+    private void setDatabase()
     {
-        FirestoreDB.collection(getString(R.string.collection_users))
-                   .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                   .collection(getString(R.string.collection_friends))
-                   .addSnapshotListener(new EventListener<QuerySnapshot>()
-                   {
-                       @Override
-                       public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
-                                           @Nullable FirebaseFirestoreException e)
-                       {
-                           if (e != null)
-                           {
-                               Log.d(TAG,"getFriends: onEvent Listen failed.", e);
-                               return;
-                           }
-
-                           for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges())
-                           {
-                               if (doc.getType() == DocumentChange.Type.ADDED)
-                               {
-                                   User user = doc.getDocument().toObject(User.class);
-                                   FriendList.add(user);
-                               }
-                               else if (doc.getType() == DocumentChange.Type.MODIFIED)
-                               {
-                                   User user = doc.getDocument().toObject(User.class);
-                                   FriendList.remove(Helper.getFriend(FriendList, user.getEmail()));
-                                   FriendList.add(user);
-                               }
-                               else if (doc.getType() == DocumentChange.Type.REMOVED)
-                               {
-                                   User user = doc.getDocument().toObject(User.class);
-                                   FriendList.remove(Helper.getFriend(FriendList, user.getEmail()));
-                               }
-                           }
-
-                           Log.d(TAG, "getFriends: number of friends: " + FriendList.size());
-                           FriendRVAdapter.notifyDataSetChanged();
-                       }
-                   });
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.FriendQuery = this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .whereArrayContains("friendList", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(this.FriendQuery, User.class)
+                .build();
+        this.FriendAdapter = new FriendAdapter(this.FriendOptions, this);
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (this.FriendAdapter != null) { this.FriendAdapter.startListening(); }
+    }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.FriendAdapter != null) { this.FriendAdapter.stopListening(); }
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Recycler View
+        this.RecyclerView = findViewById(R.id.friend_recyclerview);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setAdapter(this.FriendAdapter);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Others Widgets
+        this.FAB = findViewById(R.id.friend_fab);
+        this.FAB.setOnClickListener(this);
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Friend Interaction
+     * Precondition:    .
+     * Postcondition:   Go to Friend Details page
+     ************************************************************************/
     @Override
     public void onFriendSelected(int position)
     {
         Intent intent = new Intent(FriendPage.this, FriendPage_Detail.class);
-        intent.putExtra(getString(R.string.intent_friend), this.FriendList.get(position));
+        intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
         startActivity(intent);
     }
 
@@ -163,22 +167,6 @@ public class FriendPage extends AppCompatActivity
                 finish();
                 break;
         }
-        return true;
-    }
-
-    /************************************************************************
-     * Purpose:         Toolbar Menu Inflater
-     * Precondition:    .
-     * Postcondition:   Activates the toolbar menu by inflating it
-     *                  See more from res/menu/activity_boolbar_menu
-     *                  and layout/menu0_toolbar
-     ************************************************************************/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_friend, menu);
-
         return true;
     }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.PlanPage">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
-            <include layout="@layout/main_separator"/>
+            <include layout="@layout/plan_separator"/>
 
             <!-- Menu Items -->
             <TextView
@@ -109,7 +109,7 @@
                 android:id="@+id/ui_menu_chat"/>
                 <!--android:enabled="false"/>-->
 
-            <include layout="@layout/main_separator"/>
+            <include layout="@layout/plan_separator"/>
 
             <!-- Plan Menu Items -->
             <androidx.recyclerview.widget.RecyclerView
@@ -118,7 +118,7 @@
                 android:id="@+id/MainActivity_RecyclerView"
                 android:overScrollMode="never"/>
 
-            <include layout="@layout/main_separator"/>
+            <include layout="@layout/plan_separator"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -70,6 +70,7 @@ public class ActivityAdapter extends FirestoreRecyclerAdapter<Activity, Activity
         public ActivityHolder(View itemView, ActivityClickListener clickListener)
         {
             super(itemView);
+
             this.Title = itemView.findViewById(R.id.activitylist_title_text);
             this.Description = itemView.findViewById(R.id.activitylist_description_text);
             this.ClickListener = clickListener;

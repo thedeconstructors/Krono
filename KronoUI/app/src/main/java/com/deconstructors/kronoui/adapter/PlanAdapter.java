@@ -75,6 +75,7 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
         public PlanHolder(@NonNull View itemView, PlanClickListener clickListener)
         {
             super(itemView);
+
             this.Title = itemView.findViewById(R.id.planlist_title_text);
             this.ClickListener = clickListener;
 
