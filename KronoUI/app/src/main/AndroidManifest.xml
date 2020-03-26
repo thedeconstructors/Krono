@@ -22,28 +22,25 @@
         </activity>
         <!-- Main Menu -->
         <activity android:name=".ui.MainPage"/>
+        <!-- All Activities Page -->
         <activity
-            android:name=".ui.ActivityPage_All"
-            android:parentActivityName=".ui.MainPage"/>
+            android:name=".ui.ActivityPage_All"/>
+        <!-- Friends Page -->
         <activity
-            android:name=".ui.FriendPage"
-            android:parentActivityName=".ui.MainPage"/>
+            android:name=".ui.FriendPage"/>
         <activity
-            android:name=".ui.FriendPage_Detail"
-            android:parentActivityName=".ui.FriendPage"/>
-        <activity
-            android:name=".ui.MainPage_New"
-            android:parentActivityName=".ui.MainPage"/>
-        <!-- Activity Page -->
-        <activity
-            android:name=".ui.ActivityPage"
-            android:parentActivityName=".ui.MainPage"/>
-        <activity
-            android:name=".ui.ActivityPage_Detail"/>
+            android:name=".ui.FriendPage_Detail"/>
+        <!-- Plan (Menu) Page -->
         <activity
             android:name=".ui.MainPage_Detail"/>
         <activity
-            android:name=".ui.ActivityPage_New"
-            android:parentActivityName=".ui.ActivityPage"/>
+            android:name=".ui.MainPage_New"/>
+        <!-- Activity Page -->
+        <activity
+            android:name=".ui.ActivityPage"/>
+        <activity
+            android:name=".ui.ActivityPage_Detail"/>
+        <activity
+            android:name=".ui.ActivityPage_New"/>
     </application>
 </manifest>

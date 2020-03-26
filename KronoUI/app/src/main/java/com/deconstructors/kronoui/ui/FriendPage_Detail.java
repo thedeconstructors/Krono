@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.User;
+import com.google.android.material.appbar.AppBarLayout;
 
-public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener
+public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
+                                                                    AppBarLayout.OnOffsetChangedListener
 {
     // Error Log
     private static final String TAG = "FriendDetailPage";
 
     //result constant for extra
     private Toolbar Toolbar;
+    private AppBarLayout AppBarLayout;
+    private ImageView Profile;
     private TextView DisplayName;
     private TextView Email;
     private TextView Bio;
@@ -35,7 +40,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_detail);
 
-        this.setTitle();
+        this.setToolbar();
         this.setContents();
         this.getFriendIntent();
     }
@@ -45,9 +50,10 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void setTitle()
+    private void setToolbar()
     {
         this.Toolbar = findViewById(R.id.FriendPageDetail_Toolbar);
+        this.Toolbar.setTitle("");
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -69,6 +75,10 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
      ************************************************************************/
     private void setContents()
     {
+        this.AppBarLayout = findViewById(R.id.FriendDetaiPage_Appbar);
+        this.AppBarLayout.addOnOffsetChangedListener(this);
+
+        this.Profile = findViewById(R.id.FriendPageDetail_Profile);
         this.DisplayName = findViewById(R.id.FriendPageDetail_DisplayName);
         this.Email = findViewById(R.id.FriendPageDetail_Email);
         this.Bio = findViewById(R.id.FriendPageDetail_Bio);
@@ -128,5 +138,18 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
                 break;
         }
         return true;
+    }
+
+    /************************************************************************
+     * Purpose:         Custom Profile Image Behavior
+     * Precondition:    .
+     * Postcondition:   Fades profile image as scroll up
+     ************************************************************************/
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+    {
+        float percentage = (appBarLayout.getTotalScrollRange() - (float)Math.abs(verticalOffset))
+                /appBarLayout.getTotalScrollRange();
+        this.Profile.setAlpha(percentage);
     }
 }

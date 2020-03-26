@@ -6,42 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
+    android:fitsSystemWindows="true"
     tools:context=".ui.FriendPage_Detail"
     android:id="@+id/ui_friendDetailLayout">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/friendetail_appbar"
+        android:id="@+id/FriendDetaiPage_Appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="160dp"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/frienddetail_coltoolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            android:background="@color/colorPrimary"
-
             app:expandedTitleGravity="top|center_horizontal"
-
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@android:color/white"
-                android:layout_marginBottom="28dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginStart="50dp"
-                app:layout_collapseMode="parallax"
-                android:layout_gravity="bottom"
-                android:minLines="1"
-                android:maxLines="2"
-                android:text=""
-                android:id="@+id/frienddetail_Description"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/FriendPageDetail_Toolbar"
@@ -99,11 +84,20 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:src="@drawable/profile"
+        app:layout_anchor="@id/FriendDetaiPage_Appbar"
+        app:layout_anchorGravity="center|bottom"
+        app:civ_border_color="@color/White"
         app:civ_border_width="1dp"
-        app:civ_border_color="@color/Black"
+        android:id="@+id/FriendPageDetail_Profile"/>
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         app:layout_anchor="@id/friendetail_appbar"
         app:layout_anchorGravity="bottom|center"
-        android:src="@drawable/profile"/>
+        app:backgroundTint="@android:color/transparent"
+        android:src="@drawable/profile"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
