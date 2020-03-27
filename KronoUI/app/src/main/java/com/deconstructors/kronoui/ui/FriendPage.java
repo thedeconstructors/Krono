@@ -10,13 +10,15 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.adapter.FriendAdapter;
 import com.deconstructors.kronoui.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,8 +29,7 @@ import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 
-public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener,
-                                                             View.OnClickListener
+public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener
 {
     // Error Log
     private static final String TAG = "FriendPage";
@@ -36,12 +37,11 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     // XML Widgets
     private Toolbar Toolbar;
     private RecyclerView RecyclerView;
-    private FloatingActionButton FAB;
+    private FriendPage_New FriendPage_New;
 
     // Database
+    private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private List<String> FriendList;
-    private ListenerRegistration FriendRegistration;
     private Query FriendQuery;
     private FirestoreRecyclerOptions<User> FriendOptions;
     private FriendAdapter FriendAdapter;
@@ -87,10 +87,12 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
      ************************************************************************/
     private void setDatabase()
     {
+        // Friend Info
+        this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
         this.FriendQuery = this.DBInstance
                 .collection(getString(R.string.collection_users))
-                .whereArrayContains("friendList", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereArrayContains("friends", this.AuthInstance.getCurrentUser().getUid());
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();
@@ -119,14 +121,13 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     private void setContents()
     {
         // Recycler View
-        this.RecyclerView = findViewById(R.id.friend_recyclerview);
+        this.RecyclerView = findViewById(R.id.FriendPage_recyclerview);
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setAdapter(this.FriendAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Others Widgets
-        this.FAB = findViewById(R.id.friend_fab);
-        this.FAB.setOnClickListener(this);
+        // Bottom Sheet
+        this.FriendPage_New = new FriendPage_New(this);
     }
 
     /************************************************************************
@@ -143,14 +144,21 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     }
 
     /************************************************************************
-     * Purpose:         Floating Action Button onClick Overrides
+     * Purpose:         BottomSheet BackButton Overrides
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
     @Override
-    public void onClick(View v)
+    public void onBackPressed()
     {
-
+        if (this.FriendPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        {
+            this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
     }
 
     /************************************************************************

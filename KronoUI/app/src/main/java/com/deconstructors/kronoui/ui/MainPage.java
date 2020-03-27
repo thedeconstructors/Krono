@@ -20,12 +20,17 @@ import com.deconstructors.kronoui.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener
@@ -41,6 +46,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private TextView EmailTextView;
 
     // Database
+    private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private Query PlanQuery;
     private FirestoreRecyclerOptions<Plan> PlanOptions;
@@ -54,7 +60,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         setContentView(R.layout.main_main);
 
         this.setToolbar();
-        this.setDatabase();
+        this.setPlanDB();
+        this.setUserDB();
         this.setContents();
     }
 
@@ -87,26 +94,31 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void setDatabase()
+    private void setPlanDB()
     {
         // Plan
+        this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
         this.PlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());;
+                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());;
         this.PlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.PlanQuery, Plan.class)
                 .build();
         this.PlanAdapter = new PlanAdapter(this.PlanOptions, this);
+    }
 
+    private void setUserDB()
+    {
         // User
         this.UserRegistration = this.DBInstance
                 .collection(getString(R.string.collection_users))
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .document(this.AuthInstance.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>()
                 {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e)
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot,
+                                        @Nullable FirebaseFirestoreException e)
                     {
                         if (documentSnapshot != null)
                         {
@@ -134,10 +146,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     protected void onDestroy()
     {
-        // Why onDestroy instead of onStop?
-        // The PlanAdapter, starts and stops listening in onStart and onStop.
-        // The Listener Registration was created in onCreate, thus it should
-        // be removed from onDestroy.
         super.onDestroy();
         if (this.UserRegistration != null) { this.UserRegistration.remove(); }
     }

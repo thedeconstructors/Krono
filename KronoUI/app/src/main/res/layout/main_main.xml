@@ -99,6 +99,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
+                android:enabled="false"
 
                 android:padding="@dimen/menu_layoutPadding"
                 android:drawableStart="@drawable/ic_menu_chats"

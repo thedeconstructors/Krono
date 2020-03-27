@@ -26,7 +26,7 @@
     <string name="intent_plans">intent_plans</string>
     <string name="intent_activity">intent_activity</string>
     <string name="intent_friend">intent_friend</string>
-    <string name="intent_userList">intent_userlist</string>
+    <string name="intent_friendList">intent_friendList</string>
 
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
