@@ -6,6 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="separator">#DDDDDD</color>
+    <color name="GrayTrans">#9AFFFFFF</color>
 
     <color name="red1">#af0a0a</color>
     <color name="red2">#c40909</color>

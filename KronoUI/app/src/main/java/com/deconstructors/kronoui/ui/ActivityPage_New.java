@@ -1,6 +1,7 @@
 package com.deconstructors.kronoui.ui;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +29,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ActivityPage_New extends AppCompatActivity
-        implements View.OnClickListener,
-                   DatePickerDialog.OnDateSetListener
+public class ActivityPage_New extends AppCompatActivity implements View.OnClickListener,
+                                                                   DatePickerDialog.OnDateSetListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
@@ -40,6 +40,7 @@ public class ActivityPage_New extends AppCompatActivity
     private EditText Title;
     private EditText Description;
     private TextView DateTime;
+    private TextView Location;
     private FloatingActionButton FAB;
 
     // Vars
@@ -72,6 +73,8 @@ public class ActivityPage_New extends AppCompatActivity
         this.DateTime.setOnClickListener(this);
         this.FAB = findViewById(R.id.newactivity_fab);
         this.FAB.setOnClickListener(this);
+        this.Location = findViewById(R.id.newactivity_addLocEditText);
+        this.Location.setOnClickListener(this);
     }
 
     /************************************************************************
@@ -140,19 +143,6 @@ public class ActivityPage_New extends AppCompatActivity
     }
 
     /************************************************************************
-     * Purpose:         Touch Events for DatePicker
-     * Problem:         Click Event requires double click to open the dpd
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    /*@Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
-        this.showDatePicker();
-        return false;
-    }*/
-
-    /************************************************************************
      * Purpose:         Click Events
      * Precondition:    .
      * Postcondition:   .
@@ -172,9 +162,20 @@ public class ActivityPage_New extends AppCompatActivity
                 this.showDatePicker();
                 break;
             }
+            case R.id.newactivity_addLocEditText:
+            {
+                Intent intent = new Intent(ActivityPage_New.this, ActivityPage_Map.class);
+                startActivity(intent);
+                break;
+            }
         }
     }
 
+    /************************************************************************
+     * Purpose:         Back Button Override for animation
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

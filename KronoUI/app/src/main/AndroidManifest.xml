@@ -4,6 +4,7 @@
     package="com.deconstructors.kronoui">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <!-- Auth -->
         <activity android:name=".auth.WelcomePage">
@@ -23,24 +28,17 @@
         <!-- Main Menu -->
         <activity android:name=".ui.MainPage"/>
         <!-- All Activities Page -->
-        <activity
-            android:name=".ui.ActivityPage_All"/>
+        <activity android:name=".ui.ActivityPage_All"/>
         <!-- Friends Page -->
-        <activity
-            android:name=".ui.FriendPage"/>
-        <activity
-            android:name=".ui.FriendPage_Detail"/>
+        <activity android:name=".ui.FriendPage"/>
+        <activity android:name=".ui.FriendPage_Detail"/>
         <!-- Plan (Menu) Page -->
-        <activity
-            android:name=".ui.MainPage_Detail"/>
-        <activity
-            android:name=".ui.MainPage_New"/>
+        <activity android:name=".ui.MainPage_Detail"/>
+        <activity android:name=".ui.MainPage_New"/>
         <!-- Activity Page -->
-        <activity
-            android:name=".ui.ActivityPage"/>
-        <activity
-            android:name=".ui.ActivityPage_Detail"/>
-        <activity
-            android:name=".ui.ActivityPage_New"/>
+        <activity android:name=".ui.ActivityPage"/>
+        <activity android:name=".ui.ActivityPage_Detail"/>
+        <activity android:name=".ui.ActivityPage_New"/>
+        <activity android:name=".ui.ActivityPage_Map"/>
     </application>
 </manifest>

@@ -69,11 +69,22 @@
                 android:id="@+id/newactivity_dueDateEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:clickable="true"
                 android:focusableInTouchMode="false"
                 android:focusable="true"
                 android:hint="@string/newactivity_timestamp"
+                android:importantForAutofill="no"/>
+
+            <EditText
+                android:id="@+id/newactivity_addLocEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+                android:clickable="true"
+                android:focusableInTouchMode="false"
+                android:focusable="true"
+                android:hint="Add Location"
                 android:importantForAutofill="no"/>
         </LinearLayout>
     </LinearLayout>
