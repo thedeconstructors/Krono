@@ -1,6 +1,8 @@
 package com.deconstructors.kronoui.ui;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.deconstructors.kronoui.R;
+import com.deconstructors.kronoui.module.Location;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdate;
@@ -35,10 +38,9 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
+import com.google.maps.android.SphericalUtil;
 import java.util.Arrays;
 import java.util.List;
-
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCallback,
@@ -48,10 +50,12 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
     // Error Log & Global variables
     private final static String TAG = "ActivityPage_Map";
     public final int LOCATION_PERMISSION_REQUEST_CODE = 5001;
-    public final float MAP_DEFAULT_ZOOM = 20.0F;
+    public final float MAP_DEFAULT_ZOOM = 15.0F;
     public final int CAMERA_DEFAULT_SPEED = 1000;
+    public final float LOCATION_BIAS_RADIUS = 5000.0F;
 
     // Loc
+    private Location Location;
     private GoogleMap Map;
     private PlacesClient PlacesClient;
     private AutocompleteSupportFragment AutoFragment;
@@ -101,15 +105,18 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
                 .findFragmentById(R.id.autocomplete_fragment);
         this.AutoFragment.setPlaceFields(Arrays.asList(Place.Field.ID,
                                                        Place.Field.NAME,
+                                                       Place.Field.ADDRESS,
                                                        Place.Field.LAT_LNG));
         this.AutoFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
         {
             @Override
             public void onPlaceSelected(@NonNull Place place)
             {
-                LatLng latlng = new LatLng(place.getLatLng().latitude,
-                                           place.getLatLng().longitude);
-                ActivityPage_Map.this.setMarkerPosition(latlng, place.getName());
+
+                ActivityPage_Map.this.Location = new Location(place.getName(),
+                                                              place.getAddress(),
+                                                              place.getLatLng());
+                ActivityPage_Map.this.setMarkerPosition();
             }
 
             @Override
@@ -240,18 +247,19 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
             FindCurrentPlaceResponse response = (FindCurrentPlaceResponse) task.getResult();
             for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods())
             {
+                this.Location = new Location(placeLikelihood.getPlace().getName(),
+                                             placeLikelihood.getPlace().getAddress(),
+                                             placeLikelihood.getPlace().getLatLng());
+
                 Log.i(TAG, String.format("Place '%s' has likelihood: %f",
-                                         placeLikelihood.getPlace().getName(),
+                                         this.Location.getName(),
                                          placeLikelihood.getLikelihood()));
 
                 // Search Location Bias
-                LatLng latlng = placeLikelihood.getPlace().getLatLng();
-                /*this.AutoFragment.setLocationBias(RectangularBounds.newInstance(
-                        new LatLng(latlng.latitude, latlng.latitude),
-                        new LatLng(latlng.latitude + 0.03, latlng.latitude + 0.03)));*/
+                this.AutoFragment.setLocationBias(this.toBounds(this.Location.getLatLng()));
 
                 // Current Location Marker
-                setMarkerPosition(latlng, "Your Location");
+                setMarkerPosition();
             }
         }
         else
@@ -272,7 +280,13 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
      ************************************************************************/
     private void addLocation()
     {
-
+        if (this.Location != null)
+        {
+            Intent returnIntent = new Intent().putExtra(getString(R.string.intent_location),
+                                                        this.Location);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+        }
     }
 
     /************************************************************************
@@ -280,13 +294,32 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
      * Precondition:    .
      * Postcondition:   Change Google Map's marker position
      ************************************************************************/
-    public void setMarkerPosition(LatLng latlng, String name)
+    public void setMarkerPosition()
     {
-        MarkerOptions options = new MarkerOptions().position(latlng).title(name);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng, MAP_DEFAULT_ZOOM);
+        if (this.Location != null)
+        {
+            MarkerOptions options = new MarkerOptions().position(this.Location.getLatLng())
+                                                       .title(this.Location.getName());
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(this.Location.getLatLng(),
+                                                                    MAP_DEFAULT_ZOOM);
 
-        this.Map.clear();
-        this.Map.addMarker(options);
-        this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
+            this.Map.clear();
+            this.Map.addMarker(options);
+            this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         Utility
+     * Precondition:    .
+     * Postcondition:   Get Bounds
+     ************************************************************************/
+    public RectangularBounds toBounds(LatLng center)
+    {
+        double distance = LOCATION_BIAS_RADIUS * Math.sqrt(2.0);
+        LatLng southwest = SphericalUtil.computeOffset(center, distance, 225.0);
+        LatLng northeast = SphericalUtil.computeOffset(center, distance, 45.0);
+
+        return RectangularBounds.newInstance(southwest, northeast);
     }
 }

@@ -1,5 +1,6 @@
 package com.deconstructors.kronoui.ui;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.deconstructors.kronoui.R;
+import com.deconstructors.kronoui.module.Location;
 import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.utility.Helper;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,16 +39,18 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
+    private static final int MAPACTIVITY_REQUESTCODE = 5002;
 
     //result constant for extra
-    private androidx.appcompat.widget.Toolbar Toolbar;
-    private EditText Title;
-    private EditText Description;
-    private TextView DateTime;
-    private TextView Location;
+    private Toolbar Toolbar;
+    private EditText TitleText;
+    private EditText DescText;
+    private TextView DateTimeText;
+    private TextView LocationText;
     private FloatingActionButton FAB;
 
     // Vars
+    private Location Location;
     private Plan Plan;
 
     @Override
@@ -66,15 +73,15 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Other Widgets
-        this.Title = findViewById(R.id.newactivity_titleEditText);
-        this.Description = findViewById(R.id.newactivity_descriptionText);
-        this.DateTime = findViewById(R.id.newactivity_dueDateEditText);
+        this.TitleText = findViewById(R.id.newactivity_titleEditText);
+        this.DescText = findViewById(R.id.newactivity_descriptionText);
+        this.DateTimeText = findViewById(R.id.newactivity_dueDateEditText);
         //this.DateTime.setOnTouchListener(this);
-        this.DateTime.setOnClickListener(this);
+        this.DateTimeText.setOnClickListener(this);
         this.FAB = findViewById(R.id.newactivity_fab);
         this.FAB.setOnClickListener(this);
-        this.Location = findViewById(R.id.newactivity_addLocEditText);
-        this.Location.setOnClickListener(this);
+        this.LocationText = findViewById(R.id.newactivity_addLocEditText);
+        this.LocationText.setOnClickListener(this);
     }
 
     /************************************************************************
@@ -98,9 +105,9 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
      ************************************************************************/
     private void createNewActivity()
     {
-        if (!Helper.isEmpty(this.Title)
-                && !Helper.isEmpty(this.Description)
-                && !this.DateTime.getText().toString().equals(""))
+        if (!Helper.isEmpty(this.TitleText)
+                && !Helper.isEmpty(this.DescText)
+                && !this.DateTimeText.getText().toString().equals(""))
         {
             // Set ref first to get the destination document id
             DocumentReference ref = FirebaseFirestore
@@ -115,9 +122,9 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
             activity.put("ownerID", FirebaseAuth.getInstance().getUid());
             activity.put("planID", this.Plan.getPlanID());
             activity.put("activityID", ref.getId());
-            activity.put("title", this.Title.getText().toString());
-            activity.put("description", this.Description.getText().toString());
-            activity.put("timestamp", this.DateTime.getText().toString());
+            activity.put("title", this.TitleText.getText().toString());
+            activity.put("description", this.DescText.getText().toString());
+            activity.put("timestamp", this.DateTimeText.getText().toString());
 
             ref.set(activity).addOnSuccessListener(new OnSuccessListener<Void>()
             {
@@ -165,9 +172,21 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
             case R.id.newactivity_addLocEditText:
             {
                 Intent intent = new Intent(ActivityPage_New.this, ActivityPage_Map.class);
-                startActivity(intent);
+                startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
                 break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK)
+        {
+            this.Location = data.getParcelableExtra(getString(R.string.intent_location));
+            this.LocationText.setText(this.Location.getName());
         }
     }
 
@@ -212,7 +231,7 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
         SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
         Calendar.getInstance().set(year, month, dayOfMonth);
         String dateString = sdf.format(Calendar.getInstance().getTime());
-        this.DateTime.setText(dateString);
+        this.DateTimeText.setText(dateString);
     }
 
     /************************************************************************
