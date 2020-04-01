@@ -10,3 +10,4 @@ This is a test branch for more effective and convenient graphical user interface
 6. Custom activity animations on enter and exit
 7. Collapsing Toolbars for plans, friends and profile pages
 8. Custom toolbar behavior and animation for viewing profile images
+9. Google Map & Places for Activity Locations
