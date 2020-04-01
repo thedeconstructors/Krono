@@ -54,11 +54,13 @@
     <string name="newactivity_description">Description</string>
     <string name="newactivity_timestamp">Due Date</string>
     <string name="newactivity_save">Save</string>
-    <string name="activitydetail_header">Activity Details</string>
+    <string name="activitydetail_header">Edit Activity</string>
     <string name="permission_denied">
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
     </string>
+    <string name="activitymap_myloc">My Location</string>
+    <string name="activitymap_addloc">Add this Location</string>
 
     <!-- 4.5 - Menu -->
     <string name="menu_activity">Activity Menu</string>

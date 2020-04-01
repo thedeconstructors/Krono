@@ -48,7 +48,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
     // Error Log & Global variables
     private final static String TAG = "ActivityPage_Map";
     public final int LOCATION_PERMISSION_REQUEST_CODE = 5001;
-    public final float MAP_DEFAULT_ZOOM = 15.0F;
+    public final float MAP_DEFAULT_ZOOM = 20.0F;
     public final int CAMERA_DEFAULT_SPEED = 1000;
 
     // Loc
@@ -159,7 +159,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
 
     /************************************************************************
      * Purpose:         MyLocation Button Click Handler
-     * Precondition:    My Location button clicked
+     * Precondition:    MyLocation button clicked
      * Postcondition:   check permission
      ************************************************************************/
     private void getMyLocation()

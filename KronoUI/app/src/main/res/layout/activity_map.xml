@@ -46,6 +46,7 @@
             android:layout_marginBottom="15dp"
             android:padding="10dp"
             android:background="@color/GrayTrans"
+            android:contentDescription="@string/activitymap_myloc"
             android:src="@drawable/activity_mylocation"/>
 
         <Button
@@ -56,7 +57,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
             android:background="@color/colorPrimary"
-            android:text="Add this Location"
+            android:text="@string/activitymap_addloc"
             android:textColor="@color/White"
             android:textStyle="bold"/>
     </LinearLayout>
