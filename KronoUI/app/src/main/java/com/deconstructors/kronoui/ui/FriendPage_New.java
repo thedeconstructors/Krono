@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,7 @@ public class FriendPage_New implements View.OnClickListener
     private BottomSheetBehavior SheetBehavior;
     private FloatingActionButton FAB;
     private EditText SearchText;
-    private Button SearchButton;
+    private ImageView SearchButton;
 
     // Database
     private FirebaseFirestore DBInstance;
@@ -138,7 +139,7 @@ public class FriendPage_New implements View.OnClickListener
 
     private void addFriend(String email)
     {
-        FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     /************************************************************************
@@ -153,7 +154,7 @@ public class FriendPage_New implements View.OnClickListener
         {
             case R.id.FriendPage_FAB:
             {
-                FriendPage_New.this.FAB.setVisibility(View.GONE);
+                this.FAB.setVisibility(View.GONE);
                 this.setSheetState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             }

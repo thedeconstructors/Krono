@@ -3,26 +3,26 @@ package com.deconstructors.kronoui.ui;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.deconstructors.kronoui.R;
 import com.deconstructors.kronoui.module.Location;
 import com.deconstructors.kronoui.module.Plan;
 import com.deconstructors.kronoui.utility.Helper;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,72 +30,98 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class ActivityPage_New extends AppCompatActivity implements View.OnClickListener,
-                                                                   DatePickerDialog.OnDateSetListener
+public class ActivityPage_New implements View.OnClickListener,
+                                         DatePickerDialog.OnDateSetListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
     private static final int MAPACTIVITY_REQUESTCODE = 5002;
 
-    //result constant for extra
-    private Toolbar Toolbar;
-    private EditText TitleText;
-    private EditText DescText;
-    private TextView DateTimeText;
-    private TextView LocationText;
+    // XML Widgets
+    private Activity ActivityInstance; // This is not the activity module
+    private LinearLayout BottomSheet;
+    private BottomSheetBehavior SheetBehavior;
     private FloatingActionButton FAB;
 
-    // Vars
-    private Location Location;
+    private EditText TitleText;
+    private EditText DescText;
+    private Calendar CalendarInstance;
+    private Button DateButton;
+    private Button LocationButton;
+    private ImageView AddButton;
+
+    // Database
     private Plan Plan;
+    private FirebaseFirestore DBInstance;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public ActivityPage_New(Activity instance, Plan plan)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new);
-
-        this.setContents();
-        this.getPlanIntent();
-    }
-
-    private void setContents()
-    {
-        // Toolbar
-        this.Toolbar = findViewById(R.id.newactivity_toolbar);
-        this.Toolbar.setTitle("");
-        this.setSupportActionBar(this.Toolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        // Other Widgets
-        this.TitleText = findViewById(R.id.newactivity_titleEditText);
-        this.DescText = findViewById(R.id.newactivity_descriptionText);
-        this.DateTimeText = findViewById(R.id.newactivity_dueDateEditText);
-        //this.DateTime.setOnTouchListener(this);
-        this.DateTimeText.setOnClickListener(this);
-        this.FAB = findViewById(R.id.newactivity_fab);
-        this.FAB.setOnClickListener(this);
-        this.LocationText = findViewById(R.id.newactivity_addLocEditText);
-        this.LocationText.setOnClickListener(this);
+        this.ActivityInstance = instance;
+        this.Plan = plan;
+        setContents();
     }
 
     /************************************************************************
-     * Purpose:         Parcelable Plan Interaction
+     * Purpose:         XML Contents
      * Precondition:    .
-     * Postcondition:   Get Plan Intent from MainActivity
+     * Postcondition:   .
      ************************************************************************/
-    private void getPlanIntent()
+    public void setContents()
     {
-        if(getIntent().hasExtra(getString(R.string.intent_plans)))
+        // Database
+        this.DBInstance = FirebaseFirestore.getInstance();
+
+        // XML Contents
+        this.FAB = this.ActivityInstance.findViewById(R.id.ActivityPage_FAB);
+        this.FAB.setOnClickListener(this);
+        this.TitleText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_TitleText);
+        this.DescText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_Description);
+        this.CalendarInstance = Calendar.getInstance();
+        this.DateButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DateButton);
+        this.DateButton.setOnClickListener(this);
+        this.LocationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_LocationButton);
+        this.LocationButton.setOnClickListener(this);
+        ImageView completeButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DoneButton);
+        completeButton.setOnClickListener(this);
+
+        // Bottom Sheet Interaction
+        this.BottomSheet = this.ActivityInstance.findViewById(R.id.ActivityPageNew_BottomSheet);
+        this.SheetBehavior = BottomSheetBehavior.from(this.BottomSheet);
+        this.SheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback()
         {
-            this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
-            this.getSupportActionBar().setTitle(this.Plan.getTitle());
-        }
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState)
+            {
+                switch (newState)
+                {
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                    {
+                        ActivityPage_New.this.FAB.setVisibility(View.GONE);
+                        ActivityPage_New.this.TitleText.requestFocus();
+                        Helper.showKeyboard(ActivityPage_New.this.ActivityInstance);
+                        break;
+                    }
+
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                    {
+                        ActivityPage_New.this.FAB.setVisibility(View.VISIBLE);
+                        Helper.hideKeyboard(ActivityPage_New.this.ActivityInstance);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset)
+            {
+
+            }
+        });
     }
 
     /************************************************************************
@@ -107,14 +133,14 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
     {
         if (!Helper.isEmpty(this.TitleText)
                 && !Helper.isEmpty(this.DescText)
-                && !this.DateTimeText.getText().toString().equals(""))
+                && !this.DateButton.getText().toString().equals(""))
         {
             // Set ref first to get the destination document id
             DocumentReference ref = FirebaseFirestore
                     .getInstance()
-                    .collection(getString(R.string.collection_plans))
-                    .document(Plan.getPlanID())
-                    .collection(getString(R.string.collection_activities))
+                    .collection(this.ActivityInstance.getString(R.string.collection_plans))
+                    .document(this.Plan.getPlanID())
+                    .collection(this.ActivityInstance.getString(R.string.collection_activities))
                     .document();
 
             Map<String, Object> activity = new HashMap<>();
@@ -124,28 +150,28 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
             activity.put("activityID", ref.getId());
             activity.put("title", this.TitleText.getText().toString());
             activity.put("description", this.DescText.getText().toString());
-            activity.put("timestamp", this.DateTimeText.getText().toString());
+            activity.put("timestamp", this.DateButton.getText().toString());
 
             ref.set(activity).addOnSuccessListener(new OnSuccessListener<Void>()
             {
                 @Override
                 public void onSuccess(Void aVoid)
                 {
-                    finish();
+                    ActivityPage_New.this.ActivityInstance.finish();
                 }
             })
-            .addOnFailureListener(new OnFailureListener()
-            {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
-                    makeSnackbarMessage("Error: Could Not Add Activity");
-                }
-            });
+               .addOnFailureListener(new OnFailureListener()
+               {
+                   @Override
+                   public void onFailure(@NonNull Exception e)
+                   {
+                       ActivityPage_New.this.makeBottomSheetSnackbarMessage("Error: Could Not Add Activity");
+                   }
+               });
         }
         else
         {
-            makeSnackbarMessage("Must Enter All Text Fields");
+            this.makeBottomSheetSnackbarMessage("Must Enter All Text Fields");
         }
     }
 
@@ -159,52 +185,44 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
     {
         switch (view.getId())
         {
-            case R.id.newactivity_fab:
+            case R.id.ActivityPage_FAB:
+            {
+                this.FAB.setVisibility(View.GONE);
+                this.setSheetState(BottomSheetBehavior.STATE_EXPANDED);
+                break;
+            }
+            case R.id.ActivityPageNew_DoneButton:
             {
                 this.createNewActivity();
                 break;
             }
-            case R.id.newactivity_dueDateEditText:
+            case R.id.ActivityPageNew_DateButton:
             {
                 this.showDatePicker();
                 break;
             }
-            case R.id.newactivity_addLocEditText:
+            case R.id.ActivityPageNew_LocationButton:
             {
-                Intent intent = new Intent(ActivityPage_New.this, ActivityPage_Map.class);
-                startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
+                Intent intent = new Intent(this.ActivityInstance, ActivityPage_Map.class);
+                this.ActivityInstance.startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
                 break;
             }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK)
-        {
-            this.Location = data.getParcelableExtra(getString(R.string.intent_location));
-            this.LocationText.setText(this.Location.getName());
-        }
-    }
-
     /************************************************************************
-     * Purpose:         Back Button Override for animation
+     * Purpose:         On Google Map Activity Completed
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    public void ActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
-        switch (item.getItemId())
+        if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK && data != null)
         {
-            case android.R.id.home:
-                finish();
-                break;
+            String text = this.ActivityInstance.getString(R.string.intent_location);
+            Location location = data.getParcelableExtra(text);
+            this.LocationButton.setText(location.getName());
         }
-        return true;
     }
 
     /************************************************************************
@@ -215,11 +233,11 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
     private void showDatePicker()
     {
         DatePickerDialog dpd = new DatePickerDialog(
-                ActivityPage_New.this,
+                this.ActivityInstance,
                 this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                this.CalendarInstance.get(Calendar.YEAR),
+                this.CalendarInstance.get(Calendar.MONTH),
+                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
         );
 
         dpd.show();
@@ -229,9 +247,24 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
         SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
-        Calendar.getInstance().set(year, month, dayOfMonth);
-        String dateString = sdf.format(Calendar.getInstance().getTime());
-        this.DateTimeText.setText(dateString);
+        this.CalendarInstance.set(year, month, dayOfMonth);
+        String dateString = sdf.format(this.CalendarInstance.getTime());
+        this.DateButton.setText(dateString);
+    }
+
+    /************************************************************************
+     * Purpose:         Setter & Getter
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void setSheetState(int sheetState)
+    {
+        this.SheetBehavior.setState(sheetState);
+    }
+
+    public int getSheetState()
+    {
+        return this.SheetBehavior.getState();
     }
 
     /************************************************************************
@@ -239,8 +272,13 @@ public class ActivityPage_New extends AppCompatActivity implements View.OnClickL
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void makeSnackbarMessage(String string)
+    private void makeBottomSheetSnackbarMessage(String text)
     {
-        Snackbar.make(findViewById(R.id.newactivity_background), string, Snackbar.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(this.ActivityInstance.findViewById(R.id.ActivityPageNew_BottomSheet),
+                                          text,
+                                          Snackbar.LENGTH_SHORT);
+        snackbar.setAnchorView(this.BottomSheet);
+        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE);
+        snackbar.show();
     }
 }

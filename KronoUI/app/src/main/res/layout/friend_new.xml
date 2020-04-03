@@ -14,33 +14,28 @@
     android:padding="5dp"
     android:id="@+id/FriendPageNew_BottomSheet">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:autoSizeTextType="none"
-        android:gravity="center"
-        android:textStyle="normal"
-        android:textColor="@color/Black"
-        android:textSize="17sp"
-        android:text="Find: "/>
-
     <EditText
-        android:layout_width="50dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
         android:textSize="16sp"
         android:maxLines="1"
         android:layout_weight="1"
         android:id="@+id/FriendPageNew_SearchText"
         android:autofillHints="your.friend@email.com"
+        android:hint="@string/friendnew_hint"
         android:inputType="textEmailSubject" />
 
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:gravity="center"
         android:background="?android:attr/selectableItemBackground"
-        android:textSize="16sp"
-        android:text="Search"
-        android:id="@+id/FriendPageNew_SearchButton"/>
+        android:contentDescription="@string/friendnew_done"
+        android:src="@drawable/ui_activity_done"
+        android:id="@+id/FriendPageNew_SearchButton" />
 
 </LinearLayout>

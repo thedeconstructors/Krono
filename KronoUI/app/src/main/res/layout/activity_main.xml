@@ -74,4 +74,7 @@
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ActivityPage_FAB"/>
+
+    <include layout="@layout/activity_new"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

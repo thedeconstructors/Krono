@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.deconstructors.kronoui.module.Activity;
 import com.deconstructors.kronoui.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -26,8 +28,7 @@ import com.google.firebase.firestore.Query;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener,
-                                                               View.OnClickListener
+public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
@@ -37,6 +38,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private TextView ToolbarDescription;
     private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
+    private ActivityPage_New ActivityPage_New;
 
     // Database
     private Plan Plan;
@@ -168,8 +170,11 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setAdapter(this.ActivityAdapter);
 
         // Other Widgets
-        this.FAB = findViewById(R.id.ActivityPage_FAB);
-        this.FAB.setOnClickListener(this);
+        //this.FAB = findViewById(R.id.ActivityPage_FAB);
+        //this.FAB.setOnClickListener(this);
+
+        // Bottom Sheet
+        this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
     }
 
     /************************************************************************
@@ -197,20 +202,20 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    @Override
+    /*@Override
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.ActivityPage_FAB:
             {
-                Intent intent = new Intent(ActivityPage.this, ActivityPage_New.class);
+                Intent intent = new Intent(ActivityPage.this, ActivityPage_New_Old.class);
                 intent.putExtra(getString(R.string.intent_plans), this.Plan);
                 startActivity(intent);
                 break;
             }
         }
-    }
+    }*/
 
     /************************************************************************
      * Purpose:         Toolbar Menu Selection
@@ -244,5 +249,30 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             }
         }
         return true;
+    }
+
+    /************************************************************************
+     * Purpose:         BottomSheet BackButton Overrides
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    @Override
+    public void onBackPressed()
+    {
+        if (this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        {
+            this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
     }
 }

@@ -15,14 +15,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
         android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:inputType="textEmailAddress"
         android:hint="@string/auth_email"
         android:autofillHints="@string/auth_email"
-        android:inputType="textEmailAddress"
-        android:drawableStart="@drawable/auth_email"
         android:textColorHint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+
+        android:drawableStart="@drawable/auth_email"
+        android:drawablePadding="5dp"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
-        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_login_emailEditText"/>
 
@@ -32,14 +34,16 @@
         android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
         android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
         android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:inputType="textPassword"
         android:hint="@string/auth_password"
         android:autofillHints="@string/auth_password"
-        android:inputType="textPassword"
-        android:drawableStart="@drawable/auth_password"
         android:textColorHint="@color/lightGrey"
+        android:textColor="@color/lightGrey"
+
+        android:drawableStart="@drawable/auth_password"
+        android:drawablePadding="5dp"
         android:drawableTint="@color/lightGrey"
         android:backgroundTint="@color/lightGrey"
-        android:textColor="@color/lightGrey"
         android:maxLines="1"
         android:id="@+id/auth_login_passwordEditText"/>
 
@@ -78,6 +82,7 @@
         android:text="@string/auth_signin"
         android:textColor="@color/lightGrey"
         android:background="@drawable/auth_buttonborder"
+        android:foreground="?android:attr/selectableItemBackground"
         android:onClick="onClick"
         android:id="@+id/auth_loginButton"/>
 </LinearLayout>

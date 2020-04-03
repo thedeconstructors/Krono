@@ -38,7 +38,6 @@
         <!-- Activity Page -->
         <activity android:name=".ui.ActivityPage"/>
         <activity android:name=".ui.ActivityPage_Detail"/>
-        <activity android:name=".ui.ActivityPage_New"/>
         <activity android:name=".ui.ActivityPage_Map"/>
     </application>
 </manifest>
