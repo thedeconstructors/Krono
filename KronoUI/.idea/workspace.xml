@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="LoginPage" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a8fef676-6a86-4e61-bdc6-04cde3a5407b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/adapter/ActivityAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/adapter/FriendAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/adapter/PlanAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/auth/AnonymousLoginPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/auth/EmailLoginPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/auth/RegisterPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/auth/WelcomePage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Friend.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Location.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_All.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_Detail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_Map.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_New.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage_Detail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage_New.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/MainPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/MainPage_Detail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/MainPage_New.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/utility/Helper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/slide_in_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/slide_in_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/slide_out_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/anim/slide_out_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/activity_calendar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/activity_location.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/activity_mylocation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_background1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_background2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_bganimation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_email.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_password.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_person.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_allactivities.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_chats.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_friends.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_plan.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/menu_delete.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/menu_menu.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/menu_searchbutton.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/toolbar_edit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ui_activity_done.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ui_friend_emptyprofile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_all.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_listitem.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/auth_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/auth_register.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/auth_welcome.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_listitem.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_listitem.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_separator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_activity_all.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_activity_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_friend_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_friend_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/dimen.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/google_maps_api.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.graphqlconfig.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/runConfigurations.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/.config/project-config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/backend/api/kronoapp/parameters.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/backend/api/kronoapp/schema.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/backend/api/kronoapp/stacks/CustomResources.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/backend/api/kronoapp/transform.conf.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/backend/backend-config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/amplify/team-provider-info.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/app/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/androidTest/java/com/example/krono/ExampleInstrumentedTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/java/com/example/krono/DisplayActivityActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/java/com/example/krono/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/layout/activity_display_activity.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/app/src/test/java/com/example/krono/ExampleUnitTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/graphql/com/amazonaws/amplify/generated/graphql/mutations.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/graphql/com/amazonaws/amplify/generated/graphql/queries.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/graphql/com/amazonaws/amplify/generated/graphql/subscriptions.graphql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/graphql/schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoApp/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/dictionaries/Sea_Hawk_1080.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/androidTest/java/com/deconstructors/krono/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/assets/definitely_not_a_turtle_dancing_in_the_shower.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/Activity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/ActivityDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/ActivityDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/ActivityRVAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/ActivityRVAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/Menu0_Activities.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/Menu0_Activities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/NewActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/activities/NewActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/Friend.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/FriendHolder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/Menu3_Friends.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/Menu3_Friends.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/Menu3_Friends_ViewFriend.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/friends/Menu3_Friends_ViewFriend.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/login/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/login/LoginPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/login/RegisterPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/login/RegisterPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/Menu1_Plans.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/Menu1_Plans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/NewPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/NewPlan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/Plans.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/Plans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/plans/PlansDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/profile/Menu4_Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/activities/profile/Menu4_Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/helpers/DatePickerFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/helpers/FriendsListAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/helpers/MyTileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/helpers/PlansListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/java/com/deconstructors/krono/helpers/PlansListAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/bg.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/launcher_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/launcher_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/list_addbutton_24dp_white.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/list_addbutton_24dp_white.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/menuitem5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/quicktile_addactivity.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/remove_24px.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/remove_24px.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/tileservice_addactivity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tileservice_addactivity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/tileservice_inactive.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tileservice_inactive.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/toolbar_backbutton.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/toolbar_backbutton.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/toolbar_menubutton.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/toolbar_menubutton.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/toolbar_searchbutton.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/toolbar_searchbutton.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/drawable/toolbar_searchbutton_white.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/toolbar_searchbutton_white.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/activity_menu0_activities.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/activity_menu0_activities_newactivity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/activity_menu0_activities_newactivity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/activity_menu0_activitydetails.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/activity_menu0_activitydetails.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/layout/menu0_toolbar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/menu/activity_toolbar_menu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/activities/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/friends/layout/activity_friends_viewfriend.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/friends/layout/activity_menu3__friends.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/friends/layout/menu3_friendlist_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/login/layout/activity_loginpage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/login/layout/activity_loginpage.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/login/layout/activity_registerpage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/login/layout/activity_registerpage.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/login/layout/login_activity.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/plans/layout/activity_menu1__plans.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/plans/layout/activity_menu1__plans.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/plans/layout/activity_menu1_plans_newplan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/plans/layout/activity_menu1_plans_newplan.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/plans/layout/activity_menu1_plansdetails.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/profile/layout/activity_menu4__users.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/resource_layouts/layout/menu0_activitylist_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/resource_layouts/layout/menu0_activitylist_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/resource_layouts/layout/menu1_planlist_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/layouts/resource_layouts/layout/menu1_planlist_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/app/src/test/java/com/deconstructors/krono/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/consumer-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/androidTest/java/com/deconstructors/firestoreinteract/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/java/com/deconstructors/firestoreinteract/FirestoreDB.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/java/com/deconstructors/firestoreinteract/IntegerCounter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/java/com/deconstructors/firestoreinteract/ListHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/java/com/deconstructors/firestoreinteract/MapHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/firestoreinteract/src/test/java/com/deconstructors/firestoreinteract/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/.transforms/96745e3215dc5ea4a526c739d9e77ad3.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/.transforms/96745e3215dc5ea4a526c739d9e77ad3/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/.transforms/9e21c741a0f87d8af1bdefe25251a9f0.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/.transforms/9e21c741a0f87d8af1bdefe25251a9f0/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/generated/source/buildConfig/androidTest/debug/com/deconstructors/structures/test/BuildConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/generated/source/buildConfig/debug/com/deconstructors/structures/BuildConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/annotation_processor_list/debug/annotationProcessors.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/compile_library_classes/debug/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/compile_only_not_namespaced_r_class_jar/debug/R.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/debug-mergeNativeLibs/merge-state" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/mergeDebugShaders/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/packageDebugAssets/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/packageDebugResources/merged.dir/values/values.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/incremental/packageDebugResources/merger.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/javac/debug/classes/com/deconstructors/structures/Activity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/javac/debug/classes/com/deconstructors/structures/BuildConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/javac/debug/classes/com/deconstructors/structures/Plan.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/javac/debug/classes/com/deconstructors/structures/Plans.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/library_java_res/debug/res.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/library_manifest/debug/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/local_only_symbol_list/debug/parseDebugLibraryResources/R-def.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/manifest_merge_blame_file/debugAndroidTest/manifest-merger-blame-debug-androidTest-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/merged_manifests/debug/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/merged_manifests/debugAndroidTest/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/merged_manifests/debugAndroidTest/output.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/packaged_res/debug/values/values.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/res/symbol-table-with-package/debug/package-aware-r.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/runtime_library_classes/debug/classes.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/intermediates/symbols/debug/R.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../KronoJava/structures/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/activities/plans/PlansDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/activities/plans/PlansDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layouts/plans/layout/activity_menu1_plansdetails.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layouts/plans/layout/activity_menu1_plansdetails.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/dictionaries/Sea_Hawk_1080.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/google-services.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/androidTest/java/com/demo/planactivityuserdemo/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/deconstructors/krono/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/UserClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/adapter/ActivitiesRecyclerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/adapter/PlansRecyclerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/authentication/RegisterActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/authentication/SignInActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/model/Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Activity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/model/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Plan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/userinterface/ActivitiesActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/userinterface/ActivitiesFragment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/userinterface/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/userinterface/PlansActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/java/com/demo/planactivityuserdemo/utility/Helper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_button_floatingadd.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_button_grayborder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/auth_buttonborder.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_drawer_activities.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/menu_sort.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_drawer_addbutton.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_menu_addbutton.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_drawer_friends.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/menu_edit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_drawer_plan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/activity_repeat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_logo_600_48dp.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_delete.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_menu.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_rename.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_search.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_share.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/ic_toolbar_sortby.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/drawable/unnamed.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/profile.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/auth_register.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/auth_signin.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_activities.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_activities_listitem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_navheader.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_plans.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/layout/ui_plans_listitem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/menu/menu_activities.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/menu/menu_drawer.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/menu/menu_plans.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_plan_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/app/src/test/java/com/demo/planactivityuserdemo/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/com/deconstructors/krono/ExampleUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlanActivityUserDemo/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_26" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1Zy1GjpZckd8hBkAYJRwexsuzb5" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../KronoJava" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Default Config" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a8fef676-6a86-4e61-bdc6-04cde3a5407b" name="Default Changelist" comment="" />
+      <created>1585796425419</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585796425419</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

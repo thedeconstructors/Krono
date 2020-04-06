@@ -1,0 +1,232 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.deconstructors.krono"
+4    android:versionCode="2"
+5    android:versionName="2.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:6:5-67
+11-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+12-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:7:5-78
+12-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:7:22-76
+13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Although the *SdkVersion is captured in gradle build files, this is required for non gradle builds -->
+13-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:10:5-76
+13-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:10:22-73
+14    <!-- <uses-sdk android:minSdkVersion="14" /> -->
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+15-->[com.google.firebase:firebase-firestore:21.4.1] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\396265654ae34b1d5ad68bd300d49e52\jetified-firebase-firestore-21.4.1\AndroidManifest.xml:13:5-79
+15-->[com.google.firebase:firebase-firestore:21.4.1] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\396265654ae34b1d5ad68bd300d49e52\jetified-firebase-firestore-21.4.1\AndroidManifest.xml:13:22-76
+16
+17    <uses-feature
+17-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:26:5-28:35
+18        android:glEsVersion="0x00020000"
+18-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:27:9-41
+19        android:required="true" />
+19-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:28:9-32
+20
+21    <application
+21-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:9:5-42:19
+22        android:allowBackup="true"
+22-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:10:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\b8d4f275bec3f3edcbb739dc4dc6c4e8\core-1.2.0\AndroidManifest.xml:24:18-86
+24        android:debuggable="true"
+25        android:extractNativeLibs="false"
+26        android:icon="@mipmap/ic_launcher"
+26-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:11:9-43
+27        android:label="@string/app_name"
+27-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:12:9-41
+28        android:roundIcon="@mipmap/ic_launcher_round"
+28-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:13:9-54
+29        android:supportsRtl="true"
+29-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:14:9-35
+30        android:testOnly="true"
+31        android:theme="@style/AppTheme" >
+31-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:15:9-40
+32        <meta-data
+32-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:17:9-19:55
+33            android:name="com.google.android.geo.API_KEY"
+33-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:18:13-58
+34            android:value="@string/google_maps_key" />
+34-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:19:13-52
+35
+36        <!-- Auth -->
+37        <activity android:name="com.deconstructors.krono.auth.WelcomePage" >
+37-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:22:9-27:20
+37-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:22:19-51
+38            <intent-filter>
+38-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:23:13-26:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:24:17-69
+39-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:24:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:25:17-77
+41-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:25:27-74
+42            </intent-filter>
+43        </activity>
+44        <!-- Main Menu -->
+45        <activity android:name="com.deconstructors.krono.ui.MainPage" />
+45-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:29:9-48
+45-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:29:19-46
+46        <!-- All Activities Page -->
+47        <activity android:name="com.deconstructors.krono.ui.ActivityPage_All" />
+47-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:31:9-56
+47-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:31:19-54
+48        <!-- Friends Page -->
+49        <activity android:name="com.deconstructors.krono.ui.FriendPage" />
+49-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:33:9-50
+49-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:33:19-48
+50        <activity android:name="com.deconstructors.krono.ui.FriendPage_Detail" />
+50-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:34:9-57
+50-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:34:19-55
+51        <!-- Plan (Menu) Page -->
+52        <activity android:name="com.deconstructors.krono.ui.MainPage_Detail" />
+52-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:36:9-55
+52-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:36:19-53
+53        <activity android:name="com.deconstructors.krono.ui.MainPage_New" />
+53-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:37:9-52
+53-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:37:19-50
+54        <!-- Activity Page -->
+55        <activity android:name="com.deconstructors.krono.ui.ActivityPage" />
+55-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:39:9-52
+55-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:39:19-50
+56        <activity android:name="com.deconstructors.krono.ui.ActivityPage_Detail" />
+56-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:40:9-59
+56-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:40:19-57
+57        <activity android:name="com.deconstructors.krono.ui.ActivityPage_Map" />
+57-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:41:9-56
+57-->C:\Users\Codey\Documents\OIT\JP\Krono\KronoUI\app\src\main\AndroidManifest.xml:41:19-54
+58        <activity
+58-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:14:9-20:20
+59            android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
+59-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:15:13-91
+60            android:exported="false"
+60-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:16:13-37
+61            android:label="@string/places_autocomplete_label"
+61-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:17:13-62
+62            android:theme="@style/PlacesAutocompleteOverlay"
+62-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:18:13-61
+63            android:windowSoftInputMode="adjustResize" >
+63-->[com.google.android.libraries.places:places:2.2.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\0e819a364e2f911772d9b1dd06f2211a\jetified-places-2.2.0\AndroidManifest.xml:19:13-55
+64        </activity>
+65        <activity
+65-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:24:9-31:50
+66            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+66-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:25:13-85
+67            android:excludeFromRecents="true"
+67-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:26:13-46
+68            android:exported="true"
+68-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:27:13-36
+69            android:launchMode="singleTask"
+69-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:28:13-44
+70            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+70-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:29:13-102
+71            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+71-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:30:13-72
+72
+73        <service
+73-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:33:9-39:19
+74            android:name="com.google.firebase.components.ComponentDiscoveryService"
+74-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:34:13-84
+75            android:directBootAware="true"
+75-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
+76            android:exported="false" >
+76-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:35:13-37
+77            <meta-data
+77-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:36:13-38:85
+78                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+78-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:37:17-109
+79                android:value="com.google.firebase.components.ComponentRegistrar" />
+79-->[com.google.firebase:firebase-auth:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\14604c0a6af4167a1fbdfbf9ae7c8710\jetified-firebase-auth-19.3.0\AndroidManifest.xml:38:17-82
+80            <meta-data
+80-->[com.google.firebase:firebase-firestore:21.4.1] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\396265654ae34b1d5ad68bd300d49e52\jetified-firebase-firestore-21.4.1\AndroidManifest.xml:20:13-22:85
+81                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+81-->[com.google.firebase:firebase-firestore:21.4.1] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\396265654ae34b1d5ad68bd300d49e52\jetified-firebase-firestore-21.4.1\AndroidManifest.xml:21:17-111
+82                android:value="com.google.firebase.components.ComponentRegistrar" />
+82-->[com.google.firebase:firebase-firestore:21.4.1] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\396265654ae34b1d5ad68bd300d49e52\jetified-firebase-firestore-21.4.1\AndroidManifest.xml:22:17-82
+83        </service> <!-- Needs to be explicitly declared on P+ -->
+84        <uses-library
+84-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:33:9-35:40
+85            android:name="org.apache.http.legacy"
+85-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:34:13-50
+86            android:required="false" />
+86-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\c68fd95edbf036eb6e25b894ffe98cc4\jetified-play-services-maps-17.0.0\AndroidManifest.xml:35:13-37
+87
+88        <meta-data
+88-->[com.google.maps.android:android-maps-utils:1.0.2] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\09cdcc27cbde7632a7ef567b2ed83965\jetified-android-maps-utils-1.0.2\AndroidManifest.xml:12:9-14:69
+89            android:name="com.google.android.gms.version"
+89-->[com.google.maps.android:android-maps-utils:1.0.2] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\09cdcc27cbde7632a7ef567b2ed83965\jetified-android-maps-utils-1.0.2\AndroidManifest.xml:13:13-58
+90            android:value="@integer/google_play_services_version" />
+90-->[com.google.maps.android:android-maps-utils:1.0.2] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\09cdcc27cbde7632a7ef567b2ed83965\jetified-android-maps-utils-1.0.2\AndroidManifest.xml:14:13-66
+91
+92        <activity
+92-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\8d306c96d5671c46c09e41df093ec68f\jetified-play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
+93            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+93-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\8d306c96d5671c46c09e41df093ec68f\jetified-play-services-base-17.1.0\AndroidManifest.xml:24:13-79
+94            android:exported="false"
+94-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\8d306c96d5671c46c09e41df093ec68f\jetified-play-services-base-17.1.0\AndroidManifest.xml:25:13-37
+95            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+95-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\8d306c96d5671c46c09e41df093ec68f\jetified-play-services-base-17.1.0\AndroidManifest.xml:26:13-72
+96
+97        <provider
+97-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:26:9-30:39
+98            android:name="com.google.firebase.provider.FirebaseInitProvider"
+98-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
+99            android:authorities="com.deconstructors.krono.firebaseinitprovider"
+99-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:28:13-72
+100            android:exported="false"
+100-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:29:13-37
+101            android:initOrder="100" />
+101-->[com.google.firebase:firebase-common:19.3.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\89e8c50f4adcfa71f0d90282494b2c06\jetified-firebase-common-19.3.0\AndroidManifest.xml:30:13-36
+102
+103        <service
+103-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:29:9-35:19
+104            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+104-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:30:13-103
+105            android:exported="false" >
+105-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:31:13-37
+106            <meta-data
+106-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:32:13-34:39
+107                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+107-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:33:17-94
+108                android:value="cct" />
+108-->[com.google.android.datatransport:transport-backend-cct:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\4622bff475115952eafbf32b6043c886\jetified-transport-backend-cct-2.1.0\AndroidManifest.xml:34:17-36
+109        </service>
+110        <service
+110-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:26:9-30:19
+111            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+111-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:27:13-117
+112            android:exported="false"
+112-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:28:13-37
+113            android:permission="android.permission.BIND_JOB_SERVICE" >
+113-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:29:13-69
+114        </service>
+115
+116        <receiver
+116-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:32:9-34:40
+117            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+117-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:33:13-132
+118            android:exported="false" />
+118-->[com.google.android.datatransport:transport-runtime:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\a9314f00313698ea61f22b3c64dcb8a2\jetified-transport-runtime-2.1.0\AndroidManifest.xml:34:13-37
+119
+120        <provider
+120-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\e56c6df5d6a37ca4cc9eb25aa65348e5\jetified-lifecycle-process-2.1.0\AndroidManifest.xml:23:9-27:43
+121            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+121-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\e56c6df5d6a37ca4cc9eb25aa65348e5\jetified-lifecycle-process-2.1.0\AndroidManifest.xml:24:13-79
+122            android:authorities="com.deconstructors.krono.lifecycle-process"
+122-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\e56c6df5d6a37ca4cc9eb25aa65348e5\jetified-lifecycle-process-2.1.0\AndroidManifest.xml:25:13-69
+123            android:exported="false"
+123-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\e56c6df5d6a37ca4cc9eb25aa65348e5\jetified-lifecycle-process-2.1.0\AndroidManifest.xml:26:13-37
+124            android:multiprocess="true" />
+124-->[androidx.lifecycle:lifecycle-process:2.1.0] C:\Users\Codey\.gradle\caches\transforms-2\files-2.1\e56c6df5d6a37ca4cc9eb25aa65348e5\jetified-lifecycle-process-2.1.0\AndroidManifest.xml:27:13-40
+125    </application>
+126
+127</manifest>
