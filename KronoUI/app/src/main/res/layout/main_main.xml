@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    tools:context=".ui.MainPage">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="@dimen/toolbar_padding"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:id="@+id/ui_toolbar">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:civ_border_width="1dp"
+                    app:civ_border_color="@color/Black"
+                    android:src="@drawable/profile"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/menu_layoutPadding"
+                    android:paddingEnd="@dimen/menu_layoutPadding"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/menu_textSize"
+                        android:textStyle="bold"
+                        android:text="@string/navigation_displayNameText"
+                        android:id="@+id/ui_main_displayName"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/navigation_emailFieldText"
+                        android:id="@+id/ui_main_email"/>
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <include layout="@layout/main_separator"/>
+
+            <!-- Menu Items -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClick"
+
+                android:padding="@dimen/menu_layoutPadding"
+                android:drawableStart="@drawable/ic_menu_allactivities"
+                android:drawablePadding="@dimen/menu_imagePadding"
+                android:text="@string/menu_allactivities"
+                android:textSize="@dimen/menu_textSize"
+                android:gravity="start|center"
+                android:id="@+id/ui_menu_allActivities"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClick"
+
+                android:padding="@dimen/menu_layoutPadding"
+                android:drawableStart="@drawable/ic_menu_friends"
+                android:drawablePadding="@dimen/menu_imagePadding"
+                android:text="@string/menu_friends"
+                android:textSize="@dimen/menu_textSize"
+                android:gravity="start|center"
+                android:id="@+id/ui_menu_friends"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:enabled="false"
+
+                android:padding="@dimen/menu_layoutPadding"
+                android:drawableStart="@drawable/ic_menu_chats"
+                android:drawablePadding="@dimen/menu_imagePadding"
+                android:text="@string/menu_chat"
+                android:textSize="@dimen/menu_textSize"
+                android:gravity="start|center"
+                android:id="@+id/ui_menu_chat"/>
+                <!--android:enabled="false"/>-->
+
+            <include layout="@layout/main_separator"/>
+
+            <!-- Plan Menu Items -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/MainActivity_RecyclerView"
+                android:overScrollMode="never"/>
+
+            <include layout="@layout/main_separator"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Hidden Progress Bar -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/main_progressbar"/>
+
+    <!-- Floating Action Button (Add Plans) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB"
+        android:src="@drawable/ic_menu_addbutton"
+        android:id="@+id/ui_main_fab"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

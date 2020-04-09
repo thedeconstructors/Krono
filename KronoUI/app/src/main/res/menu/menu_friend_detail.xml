@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/menu_FriendDetail"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_menu">
+        <menu>
+            <item android:id="@+id/Menu_FriendPageDetail_DeleteFriend"
+                android:title="@string/Menu_FriendDetail_RemoveFriend"
+                android:icon="@drawable/menu_delete"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
+</menu>

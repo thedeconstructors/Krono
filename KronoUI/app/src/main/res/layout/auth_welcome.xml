@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/auth_bganimation"
+    tools:context=".auth.WelcomePage"
+    android:id="@+id/auth_welcomeBackground">
+
+    <!-- Logo & Welcome Text & Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:id="@+id/auth_welcomeViews">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/auth_header">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/launcher_logo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/auth_welcome"
+                android:gravity="center_horizontal"
+                android:textColor="@color/lightGrey"
+                android:textSize="@dimen/auth_headerText"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+            android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+            android:text="@string/auth_signin"
+            android:textColor="@color/lightGrey"
+            android:background="@drawable/auth_buttonborder"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:id="@+id/auth_welcome_signIn"/>
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+            android:text="@string/auth_register"
+            android:textColor="@color/lightGrey"
+            android:background="@drawable/auth_buttonborder"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:id="@+id/auth_welcome_register"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout1"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:text="@string/auth_or"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/lightGrey"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!-- Sign In Page (Hidden) -->
+    <include
+        layout="@layout/auth_login"
+        android:id="@+id/auth_signinLayout"/>
+
+    <!-- Register Page (Hidden) -->
+    <include layout="@layout/auth_register"
+        android:id="@+id/auth_registerLayout"/>
+
+    <!-- Back Button (Hidden) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginEnd="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+
+        android:text="@string/auth_back"
+        android:textSize="16sp"
+        android:textColor="@color/lightGrey"
+        android:layout_gravity="top|start"
+        android:visibility="gone"
+        android:id="@+id/auth_back"/>
+
+    <!-- Skip Button -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginEnd="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+
+        android:text="@string/auth_anonymousSignIn"
+        android:textSize="16sp"
+        android:textColor="@color/lightGrey"
+        android:layout_gravity="end|bottom"
+        android:id="@+id/auth_anonymousSignIn"/>
+
+    <!-- Hidden Progress Bar -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/auth_progressBar"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

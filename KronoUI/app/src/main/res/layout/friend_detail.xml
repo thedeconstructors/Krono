@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.FriendPage_Detail"
+    android:id="@+id/ui_friendDetailLayout">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/FriendDetaiPage_Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/frienddetail_coltoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="top|center_horizontal"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/FriendPageDetail_Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Info -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/FriendPageDetail_DisplayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:hint="@string/navigation_displayNameText"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/FriendPageDetail_Email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:hint="@string/navigation_emailFieldText"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/FriendPageDetail_Bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+                    android:hint="Bio"
+                    android:importantForAutofill="no"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Profile Image -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile"
+        app:layout_anchor="@id/FriendDetaiPage_Appbar"
+        app:layout_anchorGravity="center|bottom"
+        app:civ_border_color="@color/White"
+        app:civ_border_width="1dp"
+        android:id="@+id/FriendPageDetail_Profile"/>
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_anchor="@id/friendetail_appbar"
+        app:layout_anchorGravity="bottom|center"
+        app:backgroundTint="@android:color/transparent"
+        android:src="@drawable/profile"/>-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
