@@ -182,7 +182,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
      * Postcondition:   Go to Activity Details or Plan Edit page
      ************************************************************************/
     @Override
-    public void onActiviySelected(int position)
+    public void onActivitySelected(int position)
     {
         Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));

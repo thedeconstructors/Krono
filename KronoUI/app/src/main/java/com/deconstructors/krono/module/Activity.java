@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Activity implements Parcelable
 {
     private String ActivityID;
-    private String PlanID;
+    //private String PlanID;
     private String Title;
     private String Description;
     private String Timestamp;
@@ -26,7 +26,7 @@ public class Activity implements Parcelable
     public Activity(Activity activity)
     {
         this.ActivityID = activity.ActivityID;
-        this.PlanID = activity.PlanID;
+        //this.PlanID = activity.PlanID;
         this.Title = activity.Title;
         this.Description = activity.Description;
         this.Timestamp = activity.Timestamp;
@@ -37,10 +37,11 @@ public class Activity implements Parcelable
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Activity(String activityID, String planID, String title, String description, String timestamp)
+    //public Activity(String activityID, String planID, String title, String description, String timestamp)
+    public Activity(String activityID, String title, String description, String timestamp)
     {
         this.ActivityID = activityID;
-        this.PlanID = planID;
+        //this.PlanID = planID;
         this.Title = title;
         this.Description = description;
         this.Timestamp = timestamp;
@@ -54,7 +55,7 @@ public class Activity implements Parcelable
     protected Activity(Parcel in)
     {
         this.ActivityID = in.readString();
-        this.PlanID = in.readString();
+        //this.PlanID = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
         this.Timestamp = in.readString();
@@ -85,7 +86,7 @@ public class Activity implements Parcelable
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(this.ActivityID);
-        dest.writeString(this.PlanID);
+        //dest.writeString(this.PlanID);
         dest.writeString(this.Title);
         dest.writeString(this.Description);
         dest.writeString(this.Timestamp);
@@ -103,8 +104,8 @@ public class Activity implements Parcelable
     public String getActivityID() { return this.ActivityID; }
     public void setActivityID(String activityID) { this.ActivityID = activityID; }
 
-    public String getPlanID() { return this.PlanID; }
-    public void setPlanID(String planID) { this.PlanID = planID; }
+    //public String getPlanID() { return this.PlanID; }
+    //public void setPlanID(String planID) { this.PlanID = planID; }
 
     public String getTitle() { return this.Title; }
     public void setTitle(String title) { this.Title = title; }

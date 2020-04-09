@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -98,11 +102,31 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         {
             Map<String, Object> activity = new HashMap<>();
 
-            activity.put("title", this.Title.getText().toString());
-            activity.put("description", this.Description.getText().toString());
-            activity.put("timestamp", this.DateTime.getText().toString());
+            activity.put("ActivityID", this.Activity.getActivityID());
+            activity.put("Title", this.Title.getText().toString());
+            activity.put("Description", this.Description.getText().toString());
+            activity.put("Timestamp", this.DateTime.getText().toString());
 
-            FirestoreDB.collection(getString(R.string.collection_plans))
+            FirestoreDB.collection(getString(R.string.collection_users))
+                    .document(FirebaseAuth.getInstance().getUid())
+                    .collection(getString(R.string.collection_activities))
+                    .document(this.Activity.getActivityID())
+                    .update(activity)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                finish();
+                            }
+                            else
+                            {
+                                Log.d(TAG, "Failed to delete");
+                            }
+                        }
+                    });
+
+            /*FirestoreDB.collection(getString(R.string.collection_plans))
                        .document(this.Activity.getPlanID())
                        .collection(getString(R.string.collection_activities))
                        .document(this.Activity.getActivityID())
@@ -114,7 +138,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                 {
                     finish();
                 }
-            });
+            });*/
         }
         else
         {
@@ -124,7 +148,25 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        FirestoreDB.collection(getString(R.string.collection_plans))
+        FirestoreDB.collection(getString(R.string.collection_users))
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection(getString(R.string.collection_activities))
+                .document(this.Activity.getActivityID())
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            Log.d(TAG, "Failed to delete");
+                        }
+                    }
+                });
+        /*FirestoreDB.collection(getString(R.string.collection_plans))
                    .document(this.Activity.getPlanID())
                    .collection(getString(R.string.collection_activities))
                    .document(this.Activity.getActivityID())
@@ -136,7 +178,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                        {
                            finish();
                        }
-                   });
+                   });*/
     }
 
     /************************************************************************
