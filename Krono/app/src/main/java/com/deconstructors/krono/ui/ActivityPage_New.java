@@ -28,10 +28,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import io.opencensus.internal.StringUtils;
 
 public class ActivityPage_New implements View.OnClickListener,
                                          DatePickerDialog.OnDateSetListener
@@ -39,6 +42,7 @@ public class ActivityPage_New implements View.OnClickListener,
     // Error Log
     private static final String TAG = "NewActivityPage";
     private static final int MAPACTIVITY_REQUESTCODE = 5002;
+    private static final int LOCATIONSTR_SIZE = 10;
 
     // XML Widgets
     private Activity ActivityInstance; // This is not the activity module
@@ -51,10 +55,10 @@ public class ActivityPage_New implements View.OnClickListener,
     private Calendar CalendarInstance;
     private Button DateButton;
     private Button LocationButton;
-    private ImageView AddButton;
 
     // Database
     private Plan Plan;
+    private Location Location;
     private FirebaseFirestore DBInstance;
 
     public ActivityPage_New(Activity instance, Plan plan)
@@ -129,35 +133,39 @@ public class ActivityPage_New implements View.OnClickListener,
      ************************************************************************/
     private void createNewActivity()
     {
-        if (!Helper.isEmpty(this.TitleText)
-                && !Helper.isEmpty(this.DescText)
-                && !this.DateButton.getText().toString().equals(""))
+        if (!Helper.isEmpty(this.TitleText))
         {
             // Set ref first to get the destination document id
-            DocumentReference ref = FirebaseFirestore
-                    .getInstance()
-                    .collection(this.ActivityInstance.getString(R.string.collection_plans))
-                    .document(this.Plan.getPlanID())
+            DocumentReference ref = this.DBInstance
                     .collection(this.ActivityInstance.getString(R.string.collection_activities))
                     .document();
 
             Map<String, Object> activity = new HashMap<>();
 
             activity.put("ownerID", FirebaseAuth.getInstance().getUid());
-            activity.put("planID", this.Plan.getPlanID());
             activity.put("activityID", ref.getId());
             activity.put("title", this.TitleText.getText().toString());
-            activity.put("description", this.DescText.getText().toString());
-            activity.put("timestamp", this.DateButton.getText().toString());
-
-            ref.set(activity).addOnSuccessListener(new OnSuccessListener<Void>()
+            if (this.Plan != null) { activity.put("planID", Arrays.asList(this.Plan.getPlanID())); }
+            if (!Helper.isEmpty(this.DescText)) { activity.put("description", this.DescText.getText().toString()); }
+            if (!this.DateButton.getText().toString().equals("Pick a date"))
             {
-                @Override
-                public void onSuccess(Void aVoid)
+                activity.put("timestamp", this.DateButton.getText().toString());
+            }
+            if (this.Location != null)
+            {
+                activity.put("location", this.Location.getName());
+                activity.put("latlng", this.Location.getLatLng());
+            }
+
+            ref.set(activity)
+               .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
-                    ActivityPage_New.this.ActivityInstance.finish();
-                }
-            })
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        ActivityPage_New.this.ActivityInstance.finish();
+                    }
+                })
                .addOnFailureListener(new OnFailureListener()
                {
                    @Override
@@ -169,7 +177,7 @@ public class ActivityPage_New implements View.OnClickListener,
         }
         else
         {
-            this.makeBottomSheetSnackbarMessage("Must Enter All Text Fields");
+            this.makeBottomSheetSnackbarMessage("Please Enter a Title");
         }
     }
 
@@ -218,8 +226,16 @@ public class ActivityPage_New implements View.OnClickListener,
         if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK && data != null)
         {
             String text = this.ActivityInstance.getString(R.string.intent_location);
-            Location location = data.getParcelableExtra(text);
-            this.LocationButton.setText(location.getName());
+            this.Location = data.getParcelableExtra(text);
+            if (this.Location.getName().length() > LOCATIONSTR_SIZE)
+            {
+                String substr = this.Location.getName().substring(0, LOCATIONSTR_SIZE) + "...";
+                this.LocationButton.setText(substr);
+            }
+            else
+            {
+                this.LocationButton.setText(this.Location.getName());
+            }
         }
     }
 

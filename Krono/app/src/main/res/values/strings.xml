@@ -28,6 +28,7 @@
     <string name="intent_friend">intent_friend</string>
     <string name="intent_friendList">intent_friendList</string>
     <string name="intent_location">location</string>
+    <string name="intent_latlng">latlng</string>
 
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>

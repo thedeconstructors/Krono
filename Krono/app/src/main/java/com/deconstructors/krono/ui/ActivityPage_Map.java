@@ -282,8 +282,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
     {
         if (this.Location != null)
         {
-            Intent returnIntent = new Intent().putExtra(getString(R.string.intent_location),
-                                                        this.Location);
+            Intent returnIntent = new Intent().putExtra(getString(R.string.intent_location), this.Location);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }

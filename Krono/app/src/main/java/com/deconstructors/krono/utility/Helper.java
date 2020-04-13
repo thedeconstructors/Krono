@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -28,14 +29,14 @@ public class Helper
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public static boolean isEmpty(EditText editText)
-    {
-        return editText.getText().toString().equals("");
-    }
-
+    public static boolean isEmpty(EditText editText) { return editText.getText().toString().equals(""); }
     public static boolean isEmpty(String string)
     {
         return string.equals("");
+    }
+    public static boolean isEmpty(Button button)
+    {
+        return button.getText().toString().equals("");
     }
 
     /************************************************************************
