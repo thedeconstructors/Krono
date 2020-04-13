@@ -1,0 +1,14 @@
+*.iml
+/KronoUI/.gradle/*
+/KronoUI/local.properties
+/KronoUI/.idea/caches/*
+/KronoUI/.idea/libraries/*
+/KronoUI/.idea/modules.xml
+/KronoUI/.idea/workspace.xml
+/KronoUI/.idea/navEditor.xml
+/KronoUI/.idea/assetWizardSettings.xml
+/KronoUI/.DS_Store
+/KronoUI/build
+/KronoUI/captures
+/KronoUI/.externalNativeBuild
+/KronoUI/.cxx

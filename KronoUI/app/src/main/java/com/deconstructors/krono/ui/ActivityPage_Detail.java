@@ -82,9 +82,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
             this.Title.setText(this.Activity.getTitle());
             this.Description.setText(this.Activity.getDescription());
-            if (this.Activity.getTimestamp() != null)
+            if (this.Activity.getDuration() != null)
             {
-                this.DateTime.setText(this.Activity.getTimestamp());
+                this.DateTime.setText(this.Activity.getDuration().toString());
             }
         }
     }
@@ -96,7 +96,19 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
      ************************************************************************/
     private void saveActivity()
     {
-        if (!Helper.isEmpty(this.Title)
+        boolean duration_valid = false;
+        Integer activity_duration = 0;
+        try
+        {
+            activity_duration = Integer.parseInt(this.DateTime.getText().toString());
+            if (activity_duration > 0)
+                duration_valid = true;
+        }
+        catch (NumberFormatException e)
+        {}
+
+        if ( duration_valid
+                && !Helper.isEmpty(this.Title)
                 && !Helper.isEmpty(this.Description)
                 && !Helper.isEmpty(this.DateTime))
         {
@@ -105,11 +117,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             activity.put("ActivityID", this.Activity.getActivityID());
             activity.put("Title", this.Title.getText().toString());
             activity.put("Description", this.Description.getText().toString());
-            activity.put("Timestamp", this.DateTime.getText().toString());
+            activity.put("Duration", activity_duration);
 
-            FirestoreDB.collection(getString(R.string.collection_users))
-                    .document(FirebaseAuth.getInstance().getUid())
-                    .collection(getString(R.string.collection_activities))
+            FirestoreDB.collection(getString(R.string.collection_activities))
                     .document(this.Activity.getActivityID())
                     .update(activity)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -148,9 +158,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        FirestoreDB.collection(getString(R.string.collection_users))
-                .document(FirebaseAuth.getInstance().getUid())
-                .collection(getString(R.string.collection_activities))
+        FirestoreDB.collection(getString(R.string.collection_activities))
                 .document(this.Activity.getActivityID())
                 .delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

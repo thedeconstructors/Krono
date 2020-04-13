@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8fef676-6a86-4e61-bdc6-04cde3a5407b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../KronoJava/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../KronoJava/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" afterDir="false" />
@@ -17,10 +16,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/adapter/ActivityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/adapter/ActivityAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/module/Activity$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/module/Activity$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/module/Activity.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/module/Activity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_All.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_All.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail.class" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/javac/debug/classes/com/deconstructors/krono/ui/ActivityPage_Detail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/module/Activity$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/module/Activity$1.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/module/Activity.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/module/Activity.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_All.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_All.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail$1.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail$1.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail$2.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail$2.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/project_dex_archive/debug/out/com/deconstructors/krono/ui/ActivityPage_Detail.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Activity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_All.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_All.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_Detail.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_Detail.java" afterDir="false" />
     </list>
@@ -54,7 +65,7 @@
   <component name="ProjectId" id="1aHkXD0r1zFVpKpsluMUUngmfvI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../KronoJava" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -153,5 +164,14 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="app">
+        <watch expression="Description" language="JAVA" />
+        <watch expression="getOwnerID()" language="JAVA" />
+        <watch expression="planid_data" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

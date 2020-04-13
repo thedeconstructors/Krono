@@ -3,13 +3,18 @@ package com.deconstructors.krono.module;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Activity implements Parcelable
 {
     private String ActivityID;
-    //private String PlanID;
+    private ArrayList<String> PlanIDs;
     private String Title;
     private String Description;
-    private String Timestamp;
+    private Integer Duration;
+    private String OwnerID;
 
     /************************************************************************
      * Purpose:         Default Constructor
@@ -26,10 +31,11 @@ public class Activity implements Parcelable
     public Activity(Activity activity)
     {
         this.ActivityID = activity.ActivityID;
-        //this.PlanID = activity.PlanID;
+        this.PlanIDs = activity.PlanIDs;
         this.Title = activity.Title;
         this.Description = activity.Description;
-        this.Timestamp = activity.Timestamp;
+        this.Duration = activity.Duration;
+        this.OwnerID = activity.OwnerID;
     }
 
     /************************************************************************
@@ -38,13 +44,14 @@ public class Activity implements Parcelable
      * Postcondition:   .
      ************************************************************************/
     //public Activity(String activityID, String planID, String title, String description, String timestamp)
-    public Activity(String activityID, String title, String description, String timestamp)
+    public Activity(String activityID, String title, String description, Integer duration, String ownerID)
     {
         this.ActivityID = activityID;
-        //this.PlanID = planID;
         this.Title = title;
         this.Description = description;
-        this.Timestamp = timestamp;
+        this.Duration = duration;
+        this.PlanIDs = new ArrayList<>();
+        this.OwnerID = ownerID;
     }
 
     /************************************************************************
@@ -55,10 +62,18 @@ public class Activity implements Parcelable
     protected Activity(Parcel in)
     {
         this.ActivityID = in.readString();
-        //this.PlanID = in.readString();
+        Object[] planid_data = in.readArray(String.class.getClassLoader());
+        if (planid_data.length == 0)
+            this.PlanIDs = new ArrayList<>();
+        else
+            this.PlanIDs = new ArrayList<>(
+                Arrays.asList(
+                        (String[])planid_data)
+                );
         this.Title = in.readString();
         this.Description = in.readString();
-        this.Timestamp = in.readString();
+        this.Duration = in.readInt();
+        this.OwnerID = in.readString();
     }
 
     public static final Creator<Activity> CREATOR = new Creator<Activity>()
@@ -86,10 +101,11 @@ public class Activity implements Parcelable
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeString(this.ActivityID);
-        //dest.writeString(this.PlanID);
+        dest.writeArray(this.PlanIDs.toArray());
         dest.writeString(this.Title);
         dest.writeString(this.Description);
-        dest.writeString(this.Timestamp);
+        dest.writeInt(this.Duration);
+        dest.writeString(this.OwnerID);
     }
 
     /************************************************************************
@@ -104,8 +120,8 @@ public class Activity implements Parcelable
     public String getActivityID() { return this.ActivityID; }
     public void setActivityID(String activityID) { this.ActivityID = activityID; }
 
-    //public String getPlanID() { return this.PlanID; }
-    //public void setPlanID(String planID) { this.PlanID = planID; }
+    public ArrayList<String> getPlanIDs() { return this.PlanIDs; }
+    public void setPlanIDs(ArrayList<String> planIds) { this.PlanIDs = planIds; }
 
     public String getTitle() { return this.Title; }
     public void setTitle(String title) { this.Title = title; }
@@ -113,6 +129,9 @@ public class Activity implements Parcelable
     public String getDescription(){ return this.Description; }
     public void setDescription(String description) { this.Description = description; }
 
-    public String getTimestamp(){ return this.Timestamp; }
-    public void setTimestamp(String timestamp) { this.Timestamp = timestamp; }
+    public Integer getDuration(){ return this.Duration; }
+    public void setDuration(Integer duration) { this.Duration = duration; }
+
+    public String getOwnerID(){ return this.OwnerID; }
+    public void setOwnerID(String ownerID) {this.OwnerID = ownerID; }
 }
