@@ -86,6 +86,7 @@ obj/
 /out/
 
 # User-specific configurations
+KronoUI/.ideaL
 KronoUI/.idea/caches/
 KronoUI/.idea/libraries/
 KronoUI/.idea/shelf/
