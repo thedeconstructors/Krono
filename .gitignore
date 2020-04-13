@@ -44,10 +44,7 @@ gen/
 out/
 
 # Gradle files
-.gradle
-.gradle/
-build/
-KronoUI/app/build/
+KronoUI/build/
 KronoUI/.gradle
 KronoUI/./gradle/
 
