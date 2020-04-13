@@ -1,50 +1,34 @@
 {
   "project_info": {
-    "project_number": "883544464569",
-    "firebase_url": "https://krono-cee48.firebaseio.com",
-    "project_id": "krono-cee48",
-    "storage_bucket": "krono-cee48.appspot.com"
+    "project_number": "586082563240",
+    "firebase_url": "https://kronoui-39c5f.firebaseio.com",
+    "project_id": "kronoui-39c5f",
+    "storage_bucket": "kronoui-39c5f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:883544464569:android:fc4eba6a5dabddc4ea8f68",
+        "mobilesdk_app_id": "1:586082563240:android:11626323cf4a4de3ec7e9d",
         "android_client_info": {
           "package_name": "com.deconstructors.krono"
         }
       },
       "oauth_client": [
         {
-          "client_id": "883544464569-o50uav082oe7vh94iceo9qh2sbb3hmti.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.deconstructors.krono",
-            "certificate_hash": "4ed525b3d3f844d9ab4d8681179e53ae5c3c0736"
-          }
-        },
-        {
-          "client_id": "883544464569-hpmd2m9r133i25nvoen88oq9f4d5pu20.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.deconstructors.krono",
-            "certificate_hash": "e1d477001241ca1cd958f98420b21f05b30860fa"
-          }
-        },
-        {
-          "client_id": "883544464569-slv9gidj47cioprik34g1un6gli58gsv.apps.googleusercontent.com",
+          "client_id": "586082563240-fq4q0ltk7urnprm29lalll99m1sctjsn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZVxYxmmyNXfK6M-xvd8kfSY260OewK04"
+          "current_key": "AIzaSyCIk1hIJcRq3rV3ojPtdqJ3oxfy2zMOktU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "883544464569-slv9gidj47cioprik34g1un6gli58gsv.apps.googleusercontent.com",
+              "client_id": "586082563240-fq4q0ltk7urnprm29lalll99m1sctjsn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

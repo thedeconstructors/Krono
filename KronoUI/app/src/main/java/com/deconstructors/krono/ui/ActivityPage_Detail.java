@@ -15,11 +15,9 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -35,7 +33,8 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private EditText Title;
     private EditText Description;
     private EditText DateTime;
-    private FloatingActionButton FAB;
+    private FloatingActionButton FAB_Save;
+    private FloatingActionButton FAB_Delete;
 
     // Vars
     private Activity Activity;
@@ -66,8 +65,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.Title = findViewById(R.id.activitydetail_titleEditText);
         this.Description = findViewById(R.id.activitydetail_descriptionText);
         this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
-        this.FAB = findViewById(R.id.activitydetail_fab);
-        this.FAB.setOnClickListener(this);
+        this.FAB_Save = findViewById(R.id.activitydetail_fab_save);
+        this.FAB_Save.setOnClickListener(this);
+        this.FAB_Delete = findViewById(R.id.activitydetail_fab_delete);
+        this.FAB_Delete.setOnClickListener(this);
 
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
@@ -199,9 +200,14 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     {
         switch (view.getId())
         {
-            case R.id.activitydetail_fab:
+            case R.id.activitydetail_fab_save:
             {
                 this.saveActivity();
+                break;
+            }
+            case R.id.activitydetail_fab_delete:
+            {
+                this.deleteActivity();
                 break;
             }
         }
