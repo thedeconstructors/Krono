@@ -1,3 +1,0 @@
-include ':app', ':dbinteract'
-rootProject.name='Krono'
-project(':dbinteract').projectDir = new File('firestoreinteract')
