@@ -18,6 +18,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WelcomePage extends AppCompatActivity implements View.OnClickListener
 {
@@ -54,7 +55,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     {
         // Firebase
         this.DBInstance = FirebaseAuth.getInstance();
-        this.DBInstance.signOut(); // Debug Purpose Only
+        //this.DBInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
