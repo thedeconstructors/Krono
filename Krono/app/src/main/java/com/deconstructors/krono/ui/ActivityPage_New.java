@@ -26,15 +26,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import io.opencensus.internal.StringUtils;
 
 public class ActivityPage_New implements View.OnClickListener,
                                          DatePickerDialog.OnDateSetListener
@@ -55,6 +55,7 @@ public class ActivityPage_New implements View.OnClickListener,
     private Calendar CalendarInstance;
     private Button DateButton;
     private Button LocationButton;
+    private ImageView AddButton;
 
     // Database
     private Plan Plan;
@@ -142,20 +143,34 @@ public class ActivityPage_New implements View.OnClickListener,
 
             Map<String, Object> activity = new HashMap<>();
 
-            activity.put("ownerID", FirebaseAuth.getInstance().getUid());
             activity.put("activityID", ref.getId());
-            activity.put("title", this.TitleText.getText().toString());
-            if (this.Plan != null) { activity.put("planID", Arrays.asList(this.Plan.getPlanID())); }
-            if (!Helper.isEmpty(this.DescText)) { activity.put("description", this.DescText.getText().toString()); }
-            if (!this.DateButton.getText().toString().equals("Pick a date"))
-            {
-                activity.put("timestamp", this.DateButton.getText().toString());
-            }
+            activity.put("description", this.DescText.getText().toString());
+            activity.put("duration", 0);
             if (this.Location != null)
             {
-                activity.put("location", this.Location.getName());
-                activity.put("latlng", this.Location.getLatLng());
+                activity.put("geoAddr", this.Location.getAddress());
+                activity.put("geoName", this.Location.getName());
+                activity.put("geoPoint", new GeoPoint(this.Location.getLatLng().latitude,
+                                                      this.Location.getLatLng().longitude));
             }
+            else
+            {
+                activity.put("geoAddr", "");
+                activity.put("geoName", "");
+                activity.put("geoPoint", new GeoPoint(0,
+                                                      0));
+            }
+            activity.put("ownerID", FirebaseAuth.getInstance().getUid());
+            if (this.Plan != null)
+            {
+                activity.put(this.ActivityInstance.getString(R.string.collection_planIDs), Collections.singletonList(this.Plan.getPlanID()));
+            }
+            else
+            {
+                activity.put(this.ActivityInstance.getString(R.string.collection_planIDs), Collections.emptyList());
+            }
+            activity.put("timestamp", this.DateButton.getText().toString());
+            activity.put("title", this.TitleText.getText().toString());
 
             ref.set(activity)
                .addOnSuccessListener(new OnSuccessListener<Void>()
@@ -163,7 +178,7 @@ public class ActivityPage_New implements View.OnClickListener,
                     @Override
                     public void onSuccess(Void aVoid)
                     {
-                        ActivityPage_New.this.ActivityInstance.finish();
+                        ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                     }
                 })
                .addOnFailureListener(new OnFailureListener()
@@ -219,14 +234,13 @@ public class ActivityPage_New implements View.OnClickListener,
     /************************************************************************
      * Purpose:         On Google Map Activity Completed
      * Precondition:    .
-     * Postcondition:   .
+     * Postcondition:   Set Returned Location Data To the Button GUI
      ************************************************************************/
     public void ActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK && data != null)
         {
-            String text = this.ActivityInstance.getString(R.string.intent_location);
-            this.Location = data.getParcelableExtra(text);
+            this.Location = data.getParcelableExtra(this.ActivityInstance.getString(R.string.intent_location));
             if (this.Location.getName().length() > LOCATIONSTR_SIZE)
             {
                 String substr = this.Location.getName().substring(0, LOCATIONSTR_SIZE) + "...";

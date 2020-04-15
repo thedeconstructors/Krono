@@ -27,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener
 {
@@ -39,6 +41,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private FloatingActionButton FAB;
     private TextView NameTextView;
     private TextView EmailTextView;
+    private CircleImageView ProfilePicture;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -161,6 +164,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
+        this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
+        this.ProfilePicture.setOnClickListener(this);
     }
 
     /************************************************************************
@@ -208,6 +213,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
+            case R.id.ui_main_profilepicture:
+            {
+                LogOut();
+                break;
+            }
         }
+    }
+
+    private void LogOut()
+    {
+        FirebaseAuth.getInstance().signOut();
+        finish();
     }
 }

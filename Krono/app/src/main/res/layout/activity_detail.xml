@@ -82,5 +82,10 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ui_activity_done"
-        android:id="@+id/activitydetail_fab"/>
+        android:id="@+id/activitydetail_fab_save"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB_Left"
+        android:src="@drawable/ui_activity_delete"
+        android:id="@+id/activitydetail_fab_delete"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,6 +6,7 @@
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>
     <string name="collection_plans">plans</string>
+    <string name="collection_planIDs">planIDs</string>
     <string name="collection_friends">friends</string>>
     <string name="collection_activities">activities</string>
 
@@ -28,7 +29,6 @@
     <string name="intent_friend">intent_friend</string>
     <string name="intent_friendList">intent_friendList</string>
     <string name="intent_location">location</string>
-    <string name="intent_latlng">latlng</string>
 
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
@@ -63,6 +63,7 @@
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
     </string>
+    <string name="activitymap_notSelected">Location Not Selected</string>
     <string name="activitymap_myloc">My Location</string>
     <string name="activitymap_addloc">Add this Location</string>
 

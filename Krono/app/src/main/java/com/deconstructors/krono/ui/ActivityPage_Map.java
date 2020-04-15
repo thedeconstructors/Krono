@@ -103,8 +103,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
         // Search Auto Complete
         this.AutoFragment = (AutocompleteSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.autocomplete_fragment);
-        this.AutoFragment.setPlaceFields(Arrays.asList(Place.Field.ID,
-                                                       Place.Field.NAME,
+        this.AutoFragment.setPlaceFields(Arrays.asList(Place.Field.NAME,
                                                        Place.Field.ADDRESS,
                                                        Place.Field.LAT_LNG));
         this.AutoFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -158,7 +157,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
             }
             case R.id.complete_button:
             {
-                this.addLocation();
+                this.onActivityComplete();
                 break;
             }
         }
@@ -247,19 +246,19 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
             FindCurrentPlaceResponse response = (FindCurrentPlaceResponse) task.getResult();
             for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods())
             {
-                this.Location = new Location(placeLikelihood.getPlace().getName(),
-                                             placeLikelihood.getPlace().getAddress(),
-                                             placeLikelihood.getPlace().getLatLng());
-
-                Log.i(TAG, String.format("Place '%s' has likelihood: %f",
+                // Debug Purpose Only
+                /*Log.i(TAG, String.format("Place '%s' has likelihood: %f",
                                          this.Location.getName(),
-                                         placeLikelihood.getLikelihood()));
+                                         placeLikelihood.getLikelihood()));*/
 
                 // Search Location Bias
-                this.AutoFragment.setLocationBias(this.toBounds(this.Location.getLatLng()));
+                final LatLng latlng = placeLikelihood.getPlace().getLatLng();
+                this.AutoFragment.setLocationBias(this.toBounds(latlng));
 
-                // Current Location Marker
-                setMarkerPosition();
+                // Move Camera
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng,
+                                                                        MAP_DEFAULT_ZOOM);
+                this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
             }
         }
         else
@@ -278,13 +277,20 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
      * Precondition:    .
      * Postcondition:   Return to the previous activity with the position
      ************************************************************************/
-    private void addLocation()
+    private void onActivityComplete()
     {
         if (this.Location != null)
         {
             Intent returnIntent = new Intent().putExtra(getString(R.string.intent_location), this.Location);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
+        }
+        else
+        {
+            Toast.makeText(ActivityPage_Map.this,
+                           getString(R.string.activitymap_notSelected),
+                           Toast.LENGTH_LONG)
+                 .show();
         }
     }
 

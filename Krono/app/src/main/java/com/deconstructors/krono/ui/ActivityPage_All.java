@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,8 +16,12 @@ import com.deconstructors.krono.adapter.ActivityAdapter;
 import com.deconstructors.krono.module.Activity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +39,7 @@ public class ActivityPage_All extends AppCompatActivity
 
     // Database
     private FirebaseFirestore DBInstance;
+    private FirebaseAuth AuthInstance;
     private ActivityAdapter ActivityAdapter;
     private Query ActivityQuery;
     private FirestoreRecyclerOptions<Activity> ActivityOptions;
@@ -72,9 +78,10 @@ public class ActivityPage_All extends AppCompatActivity
     {
         // Plan
         this.DBInstance = FirebaseFirestore.getInstance();
+        this.AuthInstance = FirebaseAuth.getInstance();
         this.ActivityQuery = this.DBInstance
-                .collectionGroup(getString(R.string.collection_activities))
-                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .collection(getString(R.string.collection_activities))
+                .whereEqualTo("OwnerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(this.ActivityQuery, Activity.class)
                 .build();
@@ -115,7 +122,7 @@ public class ActivityPage_All extends AppCompatActivity
      * Postcondition:   Send Activity Intent to ActivityDetailPage
      ************************************************************************/
     @Override
-    public void onActiviySelected(int position)
+    public void onActivitySelected(int position)
     {
         Intent intent = new Intent(ActivityPage_All.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));

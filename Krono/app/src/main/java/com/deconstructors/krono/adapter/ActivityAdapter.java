@@ -81,7 +81,7 @@ public class ActivityAdapter extends FirestoreRecyclerAdapter<Activity, Activity
         @Override
         public void onClick(View v)
         {
-            this.ClickListener.onActiviySelected(getAdapterPosition());
+            this.ClickListener.onActivitySelected(getAdapterPosition());
         }
 
         @Override
@@ -94,6 +94,6 @@ public class ActivityAdapter extends FirestoreRecyclerAdapter<Activity, Activity
 
     public interface ActivityClickListener
     {
-        void onActiviySelected(int position);
+        void onActivitySelected(int position);
     }
 }

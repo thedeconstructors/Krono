@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,11 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.utility.Helper;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.appcompat.widget.Toolbar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,11 +30,12 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private static final String TAG = "NewActivityPage";
 
     //result constant for extra
-    private androidx.appcompat.widget.Toolbar Toolbar;
+    private Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
     private EditText DateTime;
-    private FloatingActionButton FAB;
+    private FloatingActionButton FAB_Save;
+    private FloatingActionButton FAB_Delete;
 
     // Vars
     private Activity Activity;
@@ -62,8 +66,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.Title = findViewById(R.id.activitydetail_titleEditText);
         this.Description = findViewById(R.id.activitydetail_descriptionText);
         this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
-        this.FAB = findViewById(R.id.activitydetail_fab);
-        this.FAB.setOnClickListener(this);
+        this.FAB_Save = findViewById(R.id.activitydetail_fab_save);
+        this.FAB_Save.setOnClickListener(this);
+        this.FAB_Delete = findViewById(R.id.activitydetail_fab_delete);
+        this.FAB_Delete.setOnClickListener(this);
 
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
@@ -78,9 +84,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
             this.Title.setText(this.Activity.getTitle());
             this.Description.setText(this.Activity.getDescription());
-            if (this.Activity.getTimestamp() != null)
+            if (this.Activity.getDuration() != null)
             {
-                this.DateTime.setText(this.Activity.getTimestamp());
+                this.DateTime.setText(this.Activity.getDuration().toString());
             }
         }
     }
@@ -92,29 +98,47 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
      ************************************************************************/
     private void saveActivity()
     {
-        if (!Helper.isEmpty(this.Title)
+        boolean duration_valid = false;
+        Integer activity_duration = 0;
+        try
+        {
+            activity_duration = Integer.parseInt(this.DateTime.getText().toString());
+            if (activity_duration > 0)
+                duration_valid = true;
+        }
+        catch (NumberFormatException e)
+        {}
+
+        if ( duration_valid
+                && !Helper.isEmpty(this.Title)
                 && !Helper.isEmpty(this.Description)
                 && !Helper.isEmpty(this.DateTime))
         {
             Map<String, Object> activity = new HashMap<>();
 
-            activity.put("title", this.Title.getText().toString());
-            activity.put("description", this.Description.getText().toString());
-            activity.put("timestamp", this.DateTime.getText().toString());
+            activity.put("ActivityID", this.Activity.getActivityID());
+            activity.put("Title", this.Title.getText().toString());
+            activity.put("Description", this.Description.getText().toString());
+            activity.put("Duration", activity_duration);
 
-            FirestoreDB.collection(getString(R.string.collection_plans))
-                       .document(this.Activity.getPlanID())
-                       .collection(getString(R.string.collection_activities))
-                       .document(this.Activity.getActivityID())
-                       .update(activity)
-            .addOnSuccessListener(new OnSuccessListener<Void>()
-            {
-                @Override
-                public void onSuccess(Void aVoid)
-                {
-                    finish();
-                }
-            });
+            FirestoreDB.collection(getString(R.string.collection_activities))
+                    .document(this.Activity.getActivityID())
+                    .update(activity)
+                    .addOnCompleteListener(new OnCompleteListener<Void>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task)
+                        {
+                            if (task.isSuccessful())
+                            {
+                                finish();
+                            }
+                            else
+                            {
+                                Log.d(TAG, "Failed to save");
+                            }
+                        }
+                    });
         }
         else
         {
@@ -124,19 +148,25 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        FirestoreDB.collection(getString(R.string.collection_plans))
-                   .document(this.Activity.getPlanID())
-                   .collection(getString(R.string.collection_activities))
-                   .document(this.Activity.getActivityID())
-                   .delete()
-                   .addOnSuccessListener(new OnSuccessListener<Void>()
-                   {
-                       @Override
-                       public void onSuccess(Void aVoid)
-                       {
-                           finish();
-                       }
-                   });
+        /*FirestoreDB.collection(getString(R.string.collection_activities))
+                .document(this.Activity.getActivityID())
+                .delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful())
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            Log.d(TAG, "Failed to delete");
+                        }
+                    }
+                });*/
+
+        // This should be done in Firebase Functions and not fully dependant on the user side
+        // It's like we have subcollections called plans inside activities.
     }
 
     /************************************************************************
@@ -149,9 +179,14 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     {
         switch (view.getId())
         {
-            case R.id.activitydetail_fab:
+            case R.id.activitydetail_fab_save:
             {
                 this.saveActivity();
+                break;
+            }
+            case R.id.activitydetail_fab_delete:
+            {
+                this.deleteActivity();
                 break;
             }
         }
