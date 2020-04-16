@@ -7,14 +7,22 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.deconstructors.krono.R;
+import com.deconstructors.krono.module.Location;
 import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.module.User;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /************************************************************************
  * Purpose:         Help the project to have cleaner code.
@@ -28,59 +36,10 @@ public class Helper
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public static boolean isEmpty(EditText editText)
-    {
-        return editText.getText().toString().equals("");
-    }
-
+    public static boolean isEmpty(EditText editText) { return editText.getText().toString().equals(""); }
     public static boolean isEmpty(String string)
     {
         return string.equals("");
-    }
-
-    /************************************************************************
-     * Purpose:         Check a list using an input
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    // Change field type to getDocumentID and combine both
-    /*public static Activity getActivity(List<Activity> list, String id)
-    {
-        for (Activity activity : list)
-        {
-            if (activity.getActivityID().equals(id))
-            {
-                return activity;
-            }
-        }
-
-        return null;
-    }*/
-
-    public static Plan getPlan(List<Plan> list, String id)
-    {
-        for (Plan plan : list)
-        {
-            if (plan.getPlanID().equals(id))
-            {
-                return plan;
-            }
-        }
-
-        return null;
-    }
-
-    public static User getFriend(List<User> list, String email)
-    {
-        for (User user : list)
-        {
-            if (user.getEmail().equals(email))
-            {
-                return user;
-            }
-        }
-
-        return null;
     }
 
     /************************************************************************
@@ -89,21 +48,50 @@ public class Helper
      * Postcondition:   .
      ************************************************************************/
     public static final String displayDateFormat = "EEE, MMM d";
-    public static final String firebaseDateFormat = "dd-MM-yyyy HH:mm:ss";
 
-    public static Date getDateFromString(String date)
+    /************************************************************************
+     * Purpose:         Database Document Mappers
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public static  Map<String, Object> mapActivity(Activity instance,
+                                                   DocumentReference ref,
+                                                   String description,
+                                                   Integer duration,
+                                                   Location location,
+                                                   Plan plan,
+                                                   String date,
+                                                   String title)
     {
-        try
-        {
-            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(date);
-        }
-        catch (ParseException e)
-        {
-            return null ;
-        }
+        Map<String, Object> activity = new HashMap<>();
 
+        activity.put(instance.getString(R.string.activities_activityID), ref.getId());
+        activity.put(instance.getString(R.string.activities_description), description);
+        activity.put(instance.getString(R.string.activities_duration), duration);
+        activity.put(instance.getString(R.string.activities_geoAddr), location.getAddress());
+        activity.put(instance.getString(R.string.activities_geoName), location.getName());
+        activity.put(instance.getString(R.string.activities_geoPoint),
+                     new GeoPoint(location.getLatLng().latitude, location.getLatLng().longitude));
+        activity.put(instance.getString(R.string.activities_ownerID), FirebaseAuth.getInstance().getUid());
+        if (plan != null)
+        {
+            activity.put(instance.getString(R.string.collection_planIDs), Collections.singletonList(plan.getPlanID()));
+        }
+        else
+        {
+            activity.put(instance.getString(R.string.collection_planIDs), Collections.emptyList());
+        }
+        activity.put(instance.getString(R.string.activities_timestamp), date);
+        activity.put(instance.getString(R.string.activities_title), title);
+
+        return activity;
     }
 
+    /************************************************************************
+     * Purpose:         Reusable XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     public static void makeSnackbarMessage(View view, String string)
     {
         Snackbar.make(view, string, Snackbar.LENGTH_SHORT).show();

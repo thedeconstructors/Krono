@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import androidx.appcompat.widget.Toolbar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private static final String TAG = "NewActivityPage";
 
     //result constant for extra
-    private androidx.appcompat.widget.Toolbar Toolbar;
+    private Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
     private EditText DateTime;
@@ -123,33 +124,21 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             FirestoreDB.collection(getString(R.string.collection_activities))
                     .document(this.Activity.getActivityID())
                     .update(activity)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    .addOnCompleteListener(new OnCompleteListener<Void>()
+                    {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onComplete(@NonNull Task<Void> task)
+                        {
                             if (task.isSuccessful())
                             {
                                 finish();
                             }
                             else
                             {
-                                Log.d(TAG, "Failed to delete");
+                                Log.d(TAG, "Failed to save");
                             }
                         }
                     });
-
-            /*FirestoreDB.collection(getString(R.string.collection_plans))
-                       .document(this.Activity.getPlanID())
-                       .collection(getString(R.string.collection_activities))
-                       .document(this.Activity.getActivityID())
-                       .update(activity)
-            .addOnSuccessListener(new OnSuccessListener<Void>()
-            {
-                @Override
-                public void onSuccess(Void aVoid)
-                {
-                    finish();
-                }
-            });*/
         }
         else
         {
@@ -159,7 +148,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        FirestoreDB.collection(getString(R.string.collection_activities))
+        /*FirestoreDB.collection(getString(R.string.collection_activities))
                 .document(this.Activity.getActivityID())
                 .delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -174,20 +163,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                             Log.d(TAG, "Failed to delete");
                         }
                     }
-                });
-        /*FirestoreDB.collection(getString(R.string.collection_plans))
-                   .document(this.Activity.getPlanID())
-                   .collection(getString(R.string.collection_activities))
-                   .document(this.Activity.getActivityID())
-                   .delete()
-                   .addOnSuccessListener(new OnSuccessListener<Void>()
-                   {
-                       @Override
-                       public void onSuccess(Void aVoid)
-                       {
-                           finish();
-                       }
-                   });*/
+                });*/
+
+        // This should be done in Firebase Functions and not fully dependant on the user side
+        // It's like we have subcollections called plans inside activities.
     }
 
     /************************************************************************

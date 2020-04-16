@@ -108,7 +108,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     }
 
     /************************************************************************
-     * Purpose:         Database
+     * Purpose:         Database & Query Initialization
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
@@ -116,9 +116,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         this.DBInstance = FirebaseFirestore.getInstance();
         this.ActivityQuery = this.DBInstance
-                .collection(getString(R.string.collection_plans))
-                .document(this.Plan.getPlanID())
-                .collection(getString(R.string.collection_activities));
+                .collection(getString(R.string.collection_activities))
+                .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID());
         this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(this.ActivityQuery, Activity.class)
                 .build();
@@ -141,18 +140,21 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        this.DBInstance
+        /*this.DBInstance
                 .collection(getString(R.string.collection_plans))
                 .document(this.Plan.getPlanID())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>()
-                {
-                    @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        finish();
-                    }
-                });
+                .delete();
+
+        this.DBInstance
+                .collection(getString(R.string.collection_activities))
+                .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID())
+                ...
+
+                delete();*/
+
+        // This should be done in Firebase Functions and not fully dependant on the user side
+        // Not only because we changed the database, it's just the general practice we should've
+        // Implemented before.
     }
 
     /************************************************************************
@@ -167,10 +169,6 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
-
-        // Other Widgets
-        //this.FAB = findViewById(R.id.ActivityPage_FAB);
-        //this.FAB.setOnClickListener(this);
 
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
@@ -197,26 +195,6 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     }
 
     /************************************************************************
-     * Purpose:         Click Listener
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    /*@Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.ActivityPage_FAB:
-            {
-                Intent intent = new Intent(ActivityPage.this, ActivityPage_New_Old.class);
-                intent.putExtra(getString(R.string.intent_plans), this.Plan);
-                startActivity(intent);
-                break;
-            }
-        }
-    }*/
-
-    /************************************************************************
      * Purpose:         Toolbar Menu Selection
      * Precondition:    .
      * Postcondition:   .
@@ -234,6 +212,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             }
             case R.id.activity_menu_sortBy:
             {
+                //
                 break;
             }
             case R.id.activity_menu_editPlan:

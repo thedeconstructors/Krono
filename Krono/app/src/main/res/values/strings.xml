@@ -6,8 +6,21 @@
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>
     <string name="collection_plans">plans</string>
+    <string name="collection_planIDs">planIDs</string>
     <string name="collection_friends">friends</string>>
     <string name="collection_activities">activities</string>
+
+    <!-- 2. Cloud Firestore Document Field Names -->
+    <string name="activities_activityID">activityID</string>
+    <string name="activities_description">description</string>
+    <string name="activities_duration">duration</string>
+    <string name="activities_geoAddr">geoAddr</string>
+    <string name="activities_geoName">geoName</string>
+    <string name="activities_geoPoint">geoPoint</string>
+    <string name="activities_ownerID">ownerID</string>
+    <string name="activities_planIDs">planIDs</string>
+    <string name="activities_timestamp">timestamp</string>
+    <string name="activities_title">title</string>
 
     <!-- 3. Auth -->
     <string name="auth_welcome">Welcome</string>
@@ -62,6 +75,7 @@
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
     </string>
+    <string name="activitymap_notSelected">Location Not Selected</string>
     <string name="activitymap_myloc">My Location</string>
     <string name="activitymap_addloc">Add this Location</string>
 
