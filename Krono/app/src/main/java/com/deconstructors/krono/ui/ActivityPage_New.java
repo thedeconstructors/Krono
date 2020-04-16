@@ -17,6 +17,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Location;
 import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -62,10 +63,18 @@ public class ActivityPage_New implements View.OnClickListener,
     private Location Location;
     private FirebaseFirestore DBInstance;
 
+    public ActivityPage_New(Activity instance)
+    {
+        this.ActivityInstance = instance;
+        this.Location = new Location("", "", new LatLng(0, 0));
+        setContents();
+    }
+
     public ActivityPage_New(Activity instance, Plan plan)
     {
         this.ActivityInstance = instance;
         this.Plan = plan;
+        this.Location = new Location("", "", new LatLng(0, 0));
         setContents();
     }
 
@@ -141,36 +150,15 @@ public class ActivityPage_New implements View.OnClickListener,
                     .collection(this.ActivityInstance.getString(R.string.collection_activities))
                     .document();
 
-            Map<String, Object> activity = new HashMap<>();
-
-            activity.put("activityID", ref.getId());
-            activity.put("description", this.DescText.getText().toString());
-            activity.put("duration", 0);
-            if (this.Location != null)
-            {
-                activity.put("geoAddr", this.Location.getAddress());
-                activity.put("geoName", this.Location.getName());
-                activity.put("geoPoint", new GeoPoint(this.Location.getLatLng().latitude,
-                                                      this.Location.getLatLng().longitude));
-            }
-            else
-            {
-                activity.put("geoAddr", "");
-                activity.put("geoName", "");
-                activity.put("geoPoint", new GeoPoint(0,
-                                                      0));
-            }
-            activity.put("ownerID", FirebaseAuth.getInstance().getUid());
-            if (this.Plan != null)
-            {
-                activity.put(this.ActivityInstance.getString(R.string.collection_planIDs), Collections.singletonList(this.Plan.getPlanID()));
-            }
-            else
-            {
-                activity.put(this.ActivityInstance.getString(R.string.collection_planIDs), Collections.emptyList());
-            }
-            activity.put("timestamp", this.DateButton.getText().toString());
-            activity.put("title", this.TitleText.getText().toString());
+            // Set the document created
+            Map<String, Object> activity = Helper.mapActivity(this.ActivityInstance,
+                                                              ref,
+                                                              this.DescText.getText().toString(),
+                                                              0,
+                                                              this.Location,
+                                                              this.Plan,
+                                                              this.DateButton.getText().toString(),
+                                                              this.TitleText.getText().toString());
 
             ref.set(activity)
                .addOnSuccessListener(new OnSuccessListener<Void>()

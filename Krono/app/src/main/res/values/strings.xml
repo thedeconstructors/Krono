@@ -10,6 +10,18 @@
     <string name="collection_friends">friends</string>>
     <string name="collection_activities">activities</string>
 
+    <!-- 2. Cloud Firestore Document Field Names -->
+    <string name="activities_activityID">activityID</string>
+    <string name="activities_description">description</string>
+    <string name="activities_duration">duration</string>
+    <string name="activities_geoAddr">geoAddr</string>
+    <string name="activities_geoName">geoName</string>
+    <string name="activities_geoPoint">geoPoint</string>
+    <string name="activities_ownerID">ownerID</string>
+    <string name="activities_planIDs">planIDs</string>
+    <string name="activities_timestamp">timestamp</string>
+    <string name="activities_title">title</string>
+
     <!-- 3. Auth -->
     <string name="auth_welcome">Welcome</string>
     <string name="auth_email">Email</string>
