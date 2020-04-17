@@ -2,7 +2,7 @@ DATEBASE MODELS
 
 Activity
 	ActivityID	String
-	PlanIDs		ArrayList<String>
+	PlanIDs		List<String>
 	Title		String
 	Description	String
 	Duration	Integer
@@ -14,4 +14,4 @@ Plan
 	Description	String
 	StartTime	Timestamp
 	OwnerID		String
-	ActivityIDs	ArrayList<String>
+	ActivityIDs	List<String>
