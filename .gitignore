@@ -44,9 +44,9 @@ gen/
 out/
 
 # Gradle files
-KronoUI/build/
-KronoUI/.gradle
-KronoUI/./gradle/
+Krono/build/
+Krono/.gradle
+Krono/./gradle/
 
 # Signing files
 .signing/
@@ -86,28 +86,28 @@ obj/
 /out/
 
 # User-specific configurations
-KronoUI/.ideaL
-KronoUI/.idea/caches/
-KronoUI/.idea/libraries/
-KronoUI/.idea/shelf/
-KronoUI/.idea/workspace.xml
-KronoUI/.idea/tasks.xml
-KronoUI/.idea/.name
-KronoUI/.idea/compiler.xml
-KronoUI/.idea/copyright/profiles_settings.xml
-KronoUI/.idea/encodings.xml
-KronoUI/.idea/misc.xml
-KronoUI/.idea/modules.xml
-KronoUI/.idea/scopes/scope_settings.xml
-KronoUI/.idea/dictionaries
-KronoUI/.idea/vcs.xml
-KronoUI/.idea/jsLibraryMappings.xml
-KronoUI/.idea/datasources.xml
-KronoUI/.idea/dataSources.ids
-KronoUI/.idea/sqlDataSources.xml
-KronoUI/.idea/dynamic.xml
-KronoUI/.idea/uiDesigner.xml
-KronoUI/.idea/assetWizardSettings.xml
+Krono/.idea
+Krono/.idea/caches/
+Krono/.idea/libraries/
+Krono/.idea/shelf/
+Krono/.idea/workspace.xml
+Krono/.idea/tasks.xml
+Krono/.idea/.name
+Krono/.idea/compiler.xml
+Krono/.idea/copyright/profiles_settings.xml
+Krono/.idea/encodings.xml
+Krono/.idea/misc.xml
+Krono/.idea/modules.xml
+Krono/.idea/scopes/scope_settings.xml
+Krono/.idea/dictionaries
+Krono/.idea/vcs.xml
+Krono/.idea/jsLibraryMappings.xml
+Krono/.idea/datasources.xml
+Krono/.idea/dataSources.ids
+Krono/.idea/sqlDataSources.xml
+Krono/.idea/dynamic.xml
+Krono/.idea/uiDesigner.xml
+Krono/.idea/assetWizardSettings.xml
 
 # OS-specific files
 .DS_Store
