@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Krono.iml" filepath="$PROJECT_DIR$/Krono.iml" group="Krono" />
+      <module fileurl="file://$PROJECT_DIR$/Krono-Krono.iml" filepath="$PROJECT_DIR$/Krono-Krono.iml" group="Krono" />
+      <module fileurl="file://$PROJECT_DIR$/app/Krono-app.iml" filepath="$PROJECT_DIR$/app/Krono-app.iml" group="Krono/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Krono/app" />
     </modules>
   </component>

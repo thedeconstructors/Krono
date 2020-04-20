@@ -200,6 +200,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_menu_chat:
             {
+                Intent intent = new Intent(MainPage.this, ChatPage.class);
+                startActivity(intent);
                 break;
             }
             case R.id.ui_main_fab:
