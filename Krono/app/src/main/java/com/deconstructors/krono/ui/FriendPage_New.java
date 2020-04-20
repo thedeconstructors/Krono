@@ -16,8 +16,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FriendPage_New implements View.OnClickListener
 {
@@ -31,6 +39,7 @@ public class FriendPage_New implements View.OnClickListener
 
     // Database
     private FirebaseFirestore DBInstance;
+    private FirebaseAuth AuthInstance;
 
     public FriendPage_New(Activity instance)
     {
@@ -47,6 +56,7 @@ public class FriendPage_New implements View.OnClickListener
     {
         // Database
         this.DBInstance = FirebaseFirestore.getInstance();
+        this.AuthInstance = FirebaseAuth.getInstance();
 
         // Bottom Sheet Interaction
         this.FAB = this.ActivityInstance.findViewById(R.id.FriendPage_FAB);
@@ -120,7 +130,10 @@ public class FriendPage_New implements View.OnClickListener
                         }
                         else
                         {
-                            FriendPage_New.this.addFriend(email);
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                            {
+                                FriendPage_New.this.addFriend(doc.getId());
+                            }
                         }
                     }
                 })
@@ -134,9 +147,25 @@ public class FriendPage_New implements View.OnClickListener
                 });
     }
 
-    private void addFriend(String email)
+    private void addFriend(String docID)
     {
-        this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        Map<String, Object> users = new HashMap<>();
+        Map<String, Object> friends = new HashMap<>();
+        friends.put(docID, true);
+        users.put(this.ActivityInstance.getString(R.string.collection_friends) , friends);
+
+        this.DBInstance
+                .collection(this.ActivityInstance.getString(R.string.collection_users))
+                .document(this.AuthInstance.getCurrentUser().getUid())
+                .update(users)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                    }
+                });
     }
 
     /************************************************************************

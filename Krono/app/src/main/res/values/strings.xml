@@ -7,7 +7,7 @@
     <string name="collection_users">users</string>
     <string name="collection_plans">plans</string>
     <string name="collection_planIDs">planIDs</string>
-    <string name="collection_friends">friends</string>>
+    <string name="collection_friends">friends</string>
     <string name="collection_activities">activities</string>
 
     <!-- 2. Cloud Firestore Document Field Names -->

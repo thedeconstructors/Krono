@@ -151,11 +151,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/module/Location.java</url>
           <line>36</line>
           <option name="timeStamp" value="15" />
@@ -169,6 +164,21 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/ActivityPage_Map.java</url>
           <line>303</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage_New.java</url>
+          <line>132</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/FriendPage_New.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/deconstructors/krono/ui/MainPage.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
