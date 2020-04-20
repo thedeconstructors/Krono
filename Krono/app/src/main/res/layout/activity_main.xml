@@ -24,7 +24,7 @@
             app:expandedTitleGravity="top|center_horizontal"
 
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/profile_toolbar">
+            app:toolbarId="@+id/toolbar">
 
             <TextView
                 android:layout_width="match_parent"
