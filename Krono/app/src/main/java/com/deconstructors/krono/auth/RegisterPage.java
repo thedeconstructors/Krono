@@ -100,7 +100,7 @@ public class RegisterPage implements View.OnClickListener
         else
         {
             Log.d(TAG, "onRegisterClick: attempting to register");
-            Helper.showProgressBar(this.ProgressBar);
+            Helper.showProgressBar(this.ActivityInstance, this.ProgressBar);
             Helper.hideKeyboard(this.ActivityInstance);
 
             this.DBInstance.createUserWithEmailAndPassword(email, password)
@@ -111,7 +111,8 @@ public class RegisterPage implements View.OnClickListener
                                  {
                                      RegisterPage.this.onRegister(authResult, name, email);
                                      Log.d(TAG, "onRegisterClick: success");
-                                     Helper.hideProgressBar(RegisterPage.this.ProgressBar);
+                                     Helper.hideProgressBar(RegisterPage.this.ActivityInstance,
+                                                            RegisterPage.this.ProgressBar);
                                  }
                              })
                              .addOnFailureListener(new OnFailureListener()
@@ -122,7 +123,8 @@ public class RegisterPage implements View.OnClickListener
                                      Log.d(TAG, "onRegisterClick: failed; " + e.toString());
                                      Helper.makeSnackbarMessage(RegisterPage.this.BackgroundLayout,
                                                                 "Error: Register Failed");
-                                     Helper.hideProgressBar(RegisterPage.this.ProgressBar);
+                                     Helper.hideProgressBar(RegisterPage.this.ActivityInstance,
+                                                            RegisterPage.this.ProgressBar);
                                  }
                              });
         }

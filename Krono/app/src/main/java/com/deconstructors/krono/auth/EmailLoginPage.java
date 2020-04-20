@@ -85,7 +85,7 @@ public class EmailLoginPage implements View.OnClickListener
         if(!Helper.isEmpty(email) && !Helper.isEmpty(password))
         {
             Log.d(TAG, "onEmailSignInClick: attempting to authenticate");
-            Helper.showProgressBar(this.ProgressBar);
+            Helper.showProgressBar(this.ActivityInstance, this.ProgressBar);
             Helper.hideKeyboard(this.ActivityInstance);
 
             this.DBInstance
@@ -96,7 +96,8 @@ public class EmailLoginPage implements View.OnClickListener
                         public void onSuccess(AuthResult authResult)
                         {
                             Log.d(TAG, "onEmailSignInClick: success");
-                            Helper.hideProgressBar(EmailLoginPage.this.ProgressBar);
+                            Helper.hideProgressBar(EmailLoginPage.this.ActivityInstance,
+                                                   EmailLoginPage.this.ProgressBar);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener()
@@ -107,7 +108,8 @@ public class EmailLoginPage implements View.OnClickListener
                             Log.d(TAG, "onEmailSignInClick: failed");
                             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
                                                        "Authentication Failed");
-                            Helper.hideProgressBar(EmailLoginPage.this.ProgressBar);
+                            Helper.hideProgressBar(EmailLoginPage.this.ActivityInstance,
+                                                   EmailLoginPage.this.ProgressBar);
                         }
                     });
         }

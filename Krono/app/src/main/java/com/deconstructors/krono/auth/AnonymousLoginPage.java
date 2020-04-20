@@ -69,7 +69,7 @@ public class AnonymousLoginPage implements View.OnClickListener
     private void onAnonymousSignInClick()
     {
         Log.d(TAG, "onAnonymousSignInClick: attempting to authenticate");
-        Helper.showProgressBar(this.ProgressBar);
+        Helper.showProgressBar(this.ActivityInstance, this.ProgressBar);
         Helper.hideKeyboard(this.ActivityInstance);
 
         this.DBInstance.signInAnonymously()
@@ -80,7 +80,8 @@ public class AnonymousLoginPage implements View.OnClickListener
                            {
                                AnonymousLoginPage.this.onRegister(authResult);
                                Log.d(TAG, "onAnonymousSignInClick: success");
-                               Helper.hideProgressBar(AnonymousLoginPage.this.ProgressBar);
+                               Helper.hideProgressBar(AnonymousLoginPage.this.ActivityInstance,
+                                                      AnonymousLoginPage.this.ProgressBar);
                            }
                        })
                        .addOnFailureListener(new OnFailureListener()
@@ -91,7 +92,8 @@ public class AnonymousLoginPage implements View.OnClickListener
                                Log.d(TAG, "onAnonymousSignInClick: failed");
                                Helper.makeSnackbarMessage(AnonymousLoginPage.this.BackgroundLayout,
                                                           "Authentication Failed");
-                               Helper.hideProgressBar(AnonymousLoginPage.this.ProgressBar);
+                               Helper.hideProgressBar(AnonymousLoginPage.this.ActivityInstance,
+                                                      AnonymousLoginPage.this.ProgressBar);
                            }
                        });
     }

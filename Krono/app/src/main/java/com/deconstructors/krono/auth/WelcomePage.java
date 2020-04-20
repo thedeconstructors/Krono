@@ -39,6 +39,10 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private LinearLayout LoginLayout;
     private LinearLayout RegisterLayout;
     private TextView BackButton;
+    private TextView SkipButton;
+
+    // Pages
+    private AnonymousLoginPage AnonymousLoginPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,7 +59,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     {
         // Firebase
         this.DBInstance = FirebaseAuth.getInstance();
-        //this.DBInstance.signOut(); // Debug Purpose Only
+        this.DBInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -63,6 +67,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.LoginLayout = findViewById(R.id.auth_signinLayout);
         this.RegisterLayout = findViewById(R.id.auth_registerLayout);
         this.BackButton = findViewById(R.id.auth_back);
+        this.SkipButton = findViewById(R.id.auth_anonymousSignIn);
 
         // SignIn & Register Pages
         EmailLoginPage EmailLoginPage = new EmailLoginPage(this);
@@ -141,6 +146,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 this.LoginLayout.setVisibility(View.GONE);
                 this.RegisterLayout.setVisibility(View.GONE);
                 this.BackButton.setVisibility(View.GONE);
+                //this.SkipButton.setVisibility(View.VISIBLE);
                 break;
             }
             case R.id.auth_welcome_signIn:
@@ -149,6 +155,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 this.LoginLayout.setVisibility(View.VISIBLE);
                 this.RegisterLayout.setVisibility(View.GONE);
                 this.BackButton.setVisibility(View.VISIBLE);
+                //this.SkipButton.setVisibility(View.GONE);
                 break;
             }
             case R.id.auth_welcome_register:
@@ -157,6 +164,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 this.LoginLayout.setVisibility(View.GONE);
                 this.RegisterLayout.setVisibility(View.VISIBLE);
                 this.BackButton.setVisibility(View.VISIBLE);
+                //this.SkipButton.setVisibility(View.GONE);
                 break;
             }
         }

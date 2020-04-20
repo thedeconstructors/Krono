@@ -3,6 +3,7 @@ package com.deconstructors.krono.utility;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -97,19 +98,24 @@ public class Helper
         Snackbar.make(view, string, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void showProgressBar(ProgressBar progressBar)
+    public static void showProgressBar(Activity instance, ProgressBar progressBar)
     {
         if (progressBar.getVisibility() == View.INVISIBLE)
         {
             progressBar.setVisibility(View.VISIBLE);
+            instance.getWindow()
+                    .setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                              WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
-    public static void hideProgressBar(ProgressBar progressBar)
+    public static void hideProgressBar(Activity instance, ProgressBar progressBar)
     {
         if(progressBar.getVisibility() == View.VISIBLE)
         {
             progressBar.setVisibility(View.INVISIBLE);
+            instance.getWindow()
+                    .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
