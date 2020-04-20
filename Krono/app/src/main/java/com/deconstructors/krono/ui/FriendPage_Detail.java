@@ -52,7 +52,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
      ************************************************************************/
     private void setToolbar()
     {
-        this.Toolbar = findViewById(R.id.profile_Toolbar);
+        this.Toolbar = findViewById(R.id.FriendPageDetail_Toolbar);
         this.Toolbar.setTitle("");
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,13 +75,13 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
      ************************************************************************/
     private void setContents()
     {
-        this.AppBarLayout = findViewById(R.id.profilePage_Appbar);
+        this.AppBarLayout = findViewById(R.id.FriendDetaiPage_Appbar);
         this.AppBarLayout.addOnOffsetChangedListener(this);
 
-        this.Profile = findViewById(R.id.profile_picture);
-        this.DisplayName = findViewById(R.id.profile_DisplayName);
-        this.Email = findViewById(R.id.profile_Email);
-        this.Bio = findViewById(R.id.profile_Bio);
+        this.Profile = findViewById(R.id.FriendPageDetail_Profile);
+        this.DisplayName = findViewById(R.id.FriendPageDetail_DisplayName);
+        this.Email = findViewById(R.id.FriendPageDetail_Email);
+        this.Bio = findViewById(R.id.FriendPageDetail_Bio);
     }
 
     /************************************************************************
