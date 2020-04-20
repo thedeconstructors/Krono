@@ -8,28 +8,28 @@
     android:background="@color/White"
     android:fitsSystemWindows="true"
     tools:context=".ui.FriendPage_Detail"
-    android:id="@+id/ui_friendDetailLayout">
+    android:id="@+id/ui_profileLayout">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/FriendDetaiPage_Appbar"
+        android:id="@+id/profilePage_Appbar"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/frienddetail_coltoolbar"
+            android:id="@+id/profile_coltoolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="top|center_horizontal"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/profile_toolbar">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/FriendPageDetail_Toolbar"
+                android:id="@+id/profile_Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -53,7 +53,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/FriendPageDetail_DisplayName"
+                    android:id="@+id/profile_DisplayName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
@@ -61,7 +61,7 @@
                     android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/FriendPageDetail_Email"
+                    android:id="@+id/profile_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
@@ -69,7 +69,7 @@
                     android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/FriendPageDetail_Bio"
+                    android:id="@+id/profile_Bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
@@ -85,11 +85,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/profile"
-        app:layout_anchor="@id/FriendDetaiPage_Appbar"
+        app:layout_anchor="@id/profilePage_Appbar"
         app:layout_anchorGravity="center|bottom"
         app:civ_border_color="@color/White"
         app:civ_border_width="1dp"
-        android:id="@+id/FriendPageDetail_Profile"/>
+        android:id="@+id/profile_picture"/>
 
 <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

@@ -32,6 +32,8 @@
         <!-- Friends Page -->
         <activity android:name=".ui.FriendPage"/>
         <activity android:name=".ui.FriendPage_Detail"/>
+        <!-- Profile Page -->
+        <activity android:name=".ui.ProfilePage"/>
         <!-- Plan (Menu) Page -->
         <activity android:name=".ui.MainPage_Detail"/>
         <activity android:name=".ui.MainPage_New"/>
