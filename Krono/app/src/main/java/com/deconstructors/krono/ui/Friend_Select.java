@@ -9,10 +9,13 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.FriendAdapter;
+import com.deconstructors.krono.adapter.FriendAdapter_Selectable;
 import com.deconstructors.krono.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -20,30 +23,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import androidx.appcompat.widget.Toolbar;
-
-public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener
-{
+public class Friend_Select extends AppCompatActivity
+                        implements com.deconstructors.krono.adapter.FriendAdapter_Selectable.FriendClickListener {
     // Error Log
     private static final String TAG = "FriendPage";
 
     // XML Widgets
-    private Toolbar Toolbar;
-    private RecyclerView RecyclerView;
-    private FriendPage_New FriendPage_New;
+    private androidx.appcompat.widget.Toolbar Toolbar;
+    private androidx.recyclerview.widget.RecyclerView RecyclerView;
 
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private Query FriendQuery;
     private FirestoreRecyclerOptions<User> FriendOptions;
-    private FriendAdapter FriendAdapter;
+    private com.deconstructors.krono.adapter.FriendAdapter_Selectable FriendAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_main);
+        setContentView(R.layout.friend_select);
 
         this.setToolbar();
         this.setDatabase();
@@ -89,7 +89,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();
-        this.FriendAdapter = new FriendAdapter(this.FriendOptions, this);
+        this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions, this);
     }
 
     @Override
@@ -119,8 +119,6 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         this.RecyclerView.setAdapter(this.FriendAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Bottom Sheet
-        this.FriendPage_New = new FriendPage_New(this);
     }
 
     /************************************************************************
@@ -131,27 +129,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     @Override
     public void onFriendSelected(int position)
     {
-        Intent intent = new Intent(FriendPage.this, FriendPage_Detail.class);
-        intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
-        startActivity(intent);
-    }
-
-    /************************************************************************
-     * Purpose:         BottomSheet BackButton Overrides
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    @Override
-    public void onBackPressed()
-    {
-        if (this.FriendPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
-        {
-            this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else
-        {
-            super.onBackPressed();
-        }
+        //does nothing but multiselect
     }
 
     /************************************************************************

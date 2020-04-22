@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ import com.google.firebase.firestore.Query;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener
+public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
@@ -37,6 +38,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private TextView ToolbarDescription;
     private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
+    private FloatingActionButton FAB_Collaborators;
     private ActivityPage_New ActivityPage_New;
 
     // Database
@@ -170,6 +172,10 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
 
+        //collaborators button
+        this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
+        this.FAB_Collaborators.setOnClickListener(this);
+
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
     }
@@ -192,6 +198,18 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ActivityPage_FAB_Collaborators:
+                Intent intent = new Intent(this, Friend_Select.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     /************************************************************************
