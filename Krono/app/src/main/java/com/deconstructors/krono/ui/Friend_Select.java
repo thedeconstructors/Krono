@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Friend_Select extends AppCompatActivity
                         implements com.deconstructors.krono.adapter.FriendAdapter_Selectable.FriendClickListener {
@@ -130,6 +134,8 @@ public class Friend_Select extends AppCompatActivity
     public void onFriendSelected(int position)
     {
         //does nothing but multiselect
+        CheckBox cb = RecyclerView.getChildAt(position).findViewById(R.id.friendlistitem_checkbox);
+        cb.setChecked(!cb.isChecked());
     }
 
     /************************************************************************
