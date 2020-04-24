@@ -48,4 +48,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB"
+        android:src="@drawable/ui_activity_done"
+        android:id="@+id/FriendSelect_FAB"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

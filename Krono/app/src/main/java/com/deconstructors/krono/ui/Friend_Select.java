@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
@@ -28,9 +29,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Friend_Select extends AppCompatActivity
-                        implements com.deconstructors.krono.adapter.FriendAdapter_Selectable.FriendClickListener {
+                        implements FriendAdapter_Selectable.FriendClickListener,
+                                    View.OnClickListener {
     // Error Log
     private static final String TAG = "FriendPage";
+
+    //activity results
+    final int AR_COLLAB = 5;
+    final String EXTRA_COLLAB = "COLLAB";
+
+    // Collaborators
+    List<String> Collaborators;
 
     // XML Widgets
     private androidx.appcompat.widget.Toolbar Toolbar;
@@ -93,7 +102,20 @@ public class Friend_Select extends AppCompatActivity
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();
-        this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions, this);
+        this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions,
+                this,
+                new FriendAdapter_Selectable.SelectModifer() {
+                    @Override
+                    public void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder) {
+                        for (String id : Collaborators)
+                        {
+                            if (id.compareTo(model.getUid()) == 0)
+                            {
+                                holder.cb.setChecked(true);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -122,7 +144,28 @@ public class Friend_Select extends AppCompatActivity
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setAdapter(this.FriendAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        findViewById(R.id.FriendSelect_FAB).setOnClickListener(this);
 
+        Collaborators = getIntent().getStringArrayListExtra(EXTRA_COLLAB);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        Collaborators = new ArrayList<>();
+        for (int ii = 0; ii < RecyclerView.getChildCount(); ++ii)
+        {
+            View item = RecyclerView.getChildAt(ii);
+            CheckBox cb = item.findViewById(R.id.friendlistitem_checkbox);
+            if (cb.isChecked())
+            {
+                Collaborators.add(FriendAdapter.getItem(ii).getUid());
+            }
+        }
+        Intent data = new Intent();
+        data.putExtra(EXTRA_COLLAB,new ArrayList<String>(Collaborators));
+        setResult(AR_COLLAB, data);
+        finish();
     }
 
     /************************************************************************

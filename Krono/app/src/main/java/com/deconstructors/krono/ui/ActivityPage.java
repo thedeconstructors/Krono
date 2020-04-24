@@ -28,10 +28,20 @@ import com.google.firebase.firestore.Query;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
+
+    //activity results
+    final int AR_COLLAB = 5;
+    final String EXTRA_COLLAB = "COLLAB";
+
+    // Data vars
+    List<String> Collaborators;
 
     // XML Widgets
     private Toolbar Toolbar;
@@ -175,6 +185,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         //collaborators button
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
+        this.Collaborators = new ArrayList<>();
 
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
@@ -207,7 +218,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         {
             case R.id.ActivityPage_FAB_Collaborators:
                 Intent intent = new Intent(this, Friend_Select.class);
-                startActivity(intent);
+                intent.putExtra(EXTRA_COLLAB, new ArrayList<String>(Collaborators));
+                startActivityForResult(intent, AR_COLLAB);
                 break;
         }
     }
@@ -270,5 +282,11 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         super.onActivityResult(requestCode, resultCode, data);
         this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case AR_COLLAB:
+                Collaborators = data.getStringArrayListExtra(EXTRA_COLLAB);
+                break;
+        }
     }
 }

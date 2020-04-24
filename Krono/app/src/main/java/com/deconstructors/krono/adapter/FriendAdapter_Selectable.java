@@ -3,6 +3,7 @@ package com.deconstructors.krono.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, FriendAdapter_Selectable.FriendHolder>
 {
     private FriendAdapter_Selectable.FriendClickListener ClickListener;
+    private SelectModifer modifer;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -23,10 +25,12 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
      * Postcondition:   .
      ************************************************************************/
     public FriendAdapter_Selectable(@NonNull FirestoreRecyclerOptions<User> options,
-                                    FriendAdapter_Selectable.FriendClickListener clickListener)
+                                    FriendAdapter_Selectable.FriendClickListener clickListener,
+                                    SelectModifer modifer)
     {
         super(options);
         this.ClickListener = clickListener;
+        this.modifer = modifer;
     }
 
     /************************************************************************
@@ -57,6 +61,7 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
     {
         holder.displayNameText.setText(model.getDisplayName());
         holder.emailText.setText(model.getEmail());
+        modifer.selectionCheck(model, holder);
     }
 
     /************************************************************************
@@ -68,6 +73,7 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
     {
         TextView displayNameText;
         TextView emailText;
+        public CheckBox cb;
         FriendAdapter_Selectable.FriendClickListener ClickListener;
 
         public FriendHolder(@NonNull View itemView, FriendAdapter_Selectable.FriendClickListener clickListener)
@@ -76,6 +82,7 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
 
             this.displayNameText = (TextView) itemView.findViewById(R.id.friendlist_nameText);
             this.emailText = (TextView) itemView.findViewById(R.id.friendlist_emailText);
+            this.cb = itemView.findViewById(R.id.friendlistitem_checkbox);
             this.ClickListener = clickListener;
 
             itemView.setOnClickListener(this);
@@ -91,5 +98,10 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
     public interface FriendClickListener
     {
         void onFriendSelected(int position);
+    }
+
+    public interface SelectModifer
+    {
+        void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder);
     }
 }
