@@ -19,9 +19,11 @@ import com.deconstructors.krono.adapter.ActivityAdapter;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -29,7 +31,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
@@ -68,6 +74,30 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.checkIntent();
         this.setDatabase();
         this.setContents();
+    }
+
+    private void saveCollaborators()
+    {
+        DocumentReference planDoc = DBInstance.collection(getString(R.string.collection_plans))
+                .document(this.Plan.getPlanID());
+
+        Map<String,Object> planData = new HashMap<>();
+
+        planData.put("collaborators", Collaborators);
+
+        planDoc.update(planData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     /************************************************************************
@@ -186,6 +216,11 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
         this.Collaborators = new ArrayList<>();
+        List<String> planCollabs = this.Plan.getCollaborators();
+        if (planCollabs != null)
+        {
+            this.Collaborators = new ArrayList<>(planCollabs);
+        }
 
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
@@ -286,6 +321,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         {
             case AR_COLLAB:
                 Collaborators = data.getStringArrayListExtra(EXTRA_COLLAB);
+                saveCollaborators();
                 break;
         }
     }
