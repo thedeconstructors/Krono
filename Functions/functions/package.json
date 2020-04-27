@@ -1,4 +1,5 @@
 {
+  "_comment": "file used by Node to describe the project",
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {

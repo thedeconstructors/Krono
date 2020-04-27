@@ -18,14 +18,24 @@ import com.deconstructors.krono.adapter.ActivityAdapter;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.FirebaseFunctionsException;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener
 {
@@ -39,8 +49,11 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private FloatingActionButton FAB;
     private ActivityPage_New ActivityPage_New;
 
-    // Database
+    // Var
     private Plan Plan;
+
+    // Database
+    private FirebaseFunctions DBFunctions;
     private FirebaseFirestore DBInstance;
     private Query ActivityQuery;
     private FirestoreRecyclerOptions<Activity> ActivityOptions;
@@ -115,6 +128,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private void setDatabase()
     {
         this.DBInstance = FirebaseFirestore.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
+
         this.ActivityQuery = this.DBInstance
                 .collection(getString(R.string.collection_activities))
                 .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID());
@@ -154,7 +169,55 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         // This should be done in Firebase Functions and not fully dependant on the user side
         // Not only because we changed the database, it's just the general practice we should've
-        // Implemented before.
+        // Implemented before
+        onDeletePlan(this.Plan.getPlanID())
+                /*.addOnSuccessListener(new OnSuccessListener<String>()
+                {
+                    @Override
+                    public void onSuccess(String s)
+                    {
+                        finish();
+                    }
+                })*/
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        if (e instanceof FirebaseFunctionsException)
+                        {
+                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                            FirebaseFunctionsException.Code code = ffe.getCode();
+                            Object details = ffe.getDetails();
+                        }
+                    }
+                });
+
+        finish();
+    }
+
+    private Task<String> onDeletePlan(String planID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("planID", planID);
+        data.put("push", true);
+
+        return this.DBFunctions
+                .getHttpsCallable("deletePlan")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
+                {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+                    {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 
     /************************************************************************
