@@ -8,6 +8,7 @@ public class Message
     private String m_recipient;
     private String m_text;
     private long m_time;
+    private String m_chatID;
 
     public Message(String sender, String recipient, String text)
     {
@@ -15,6 +16,7 @@ public class Message
         this.m_recipient = recipient;
         this.m_text = text;
         m_time = new Date().getTime();
+        m_chatID = "";
     }
 
     public Message()
@@ -58,5 +60,15 @@ public class Message
     public void SetTime(long time)
     {
         m_time = time;
+    }
+
+    public String GetID()
+    {
+        return m_chatID;
+    }
+
+    public void SetID(String id)
+    {
+        m_chatID = id;
     }
 }

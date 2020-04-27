@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.module.Message;
 import com.deconstructors.krono.module.User;
+import com.deconstructors.krono.utility.Helper;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -23,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatPage extends AppCompatActivity
 {
@@ -42,14 +49,14 @@ public class ChatPage extends AppCompatActivity
     //private FriendAdapter FriendAdapter;
     private FirestoreRecyclerAdapter adapter;
 
-    private EditText message;
+    private EditText messageText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main);
-        message = findViewById(R.id.ChatPage_Message);
+        messageText = findViewById(R.id.ChatPage_Message);
 
         DBInstance = FirebaseFirestore.getInstance();
         RecyclerView = findViewById(R.id.ChatPage_recyclerview);
@@ -108,11 +115,13 @@ public class ChatPage extends AppCompatActivity
     }
 
     public void SendMessageClick(View view) {
+        if (!Helper.isEmpty(this.messageText))
+        {
 
-    }
+        }
+        else
+        {
 
-    public void CreateMessage()
-    {
-
+        }
     }
 }
