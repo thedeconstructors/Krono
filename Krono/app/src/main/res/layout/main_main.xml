@@ -151,4 +151,15 @@
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ui_main_fab"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ui_main_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@android:drawable/ic_popup_reminder" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
