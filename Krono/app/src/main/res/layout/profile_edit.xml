@@ -67,15 +67,14 @@
                 android:maxLines="5" />
 
             <EditText
-                android:id="@+id/profileEdit_dueDateEditText"
+                android:id="@+id/profileEdit_bioEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-                android:clickable="true"
-                android:focusable="true"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:hint="@string/profile_edit_biofield"
                 android:importantForAutofill="no"
-                android:inputType="datetime" />
+                android:inputType="textShortMessage"
+                android:maxLines="5" />
         </LinearLayout>
     </LinearLayout>
 

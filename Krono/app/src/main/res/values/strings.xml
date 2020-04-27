@@ -36,6 +36,7 @@
     <string name="menu_plan">New Plan</string>
     <string name="menu_chat">Chats</string>
     <string name="menu_searchButton">Search Button</string>
+    <string name="menu_settings">Settings</string>
 
     <!-- 4.2 - Profile -->
     <string name="navigation_profileText">Profile</string>

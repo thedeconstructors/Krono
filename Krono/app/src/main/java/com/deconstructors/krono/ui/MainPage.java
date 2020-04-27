@@ -203,6 +203,11 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
+            case R.id.ui_menu_settings: {
+                Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.ui_menu_chat:
             {
                 break;

@@ -36,9 +36,6 @@ public class ProfilePage extends AppCompatActivity {
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private Query PlanQuery;
-    private FirestoreRecyclerOptions<Plan> PlanOptions;
-    private com.deconstructors.krono.adapter.PlanAdapter PlanAdapter;
     private ListenerRegistration UserRegistration;
 
     @Override
