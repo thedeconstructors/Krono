@@ -199,9 +199,9 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private Task<String> onDeletePlan(String planID)
     {
         // Create the arguments to the callable function.
-        Map<String, Object> data = new HashMap<>();
-        data.put("planID", planID);
-        data.put("push", true);
+        Map<String, Object> snap = new HashMap<>();
+        snap.put("planID", planID);
+        snap.put("push", true);
 
         return this.DBFunctions
                 .getHttpsCallable("deletePlan")
