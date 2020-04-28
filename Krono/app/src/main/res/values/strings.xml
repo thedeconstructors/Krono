@@ -45,14 +45,17 @@
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
+    <string name="menu_profile">Profile</string>
     <string name="menu_plan">New Plan</string>
     <string name="menu_chat">Chats</string>
     <string name="menu_searchButton">Search Button</string>
+    <string name="menu_settings">Settings</string>
 
     <!-- 4.2 - Profile -->
     <string name="navigation_profileText">Profile</string>
     <string name="navigation_displayNameText">Display Name</string>
     <string name="navigation_emailFieldText">email@field.com</string>
+    <string name="profile_edit_biofield">Bio</string>
 
     <!-- 4.3 - Plan -->
     <string name="plan_menu">Activity Menu</string>

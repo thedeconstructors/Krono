@@ -28,7 +28,7 @@ Krono provides a simple, visual way to organize localized activities. Create new
 ## Features
 | **Main Menu** | **Bank of Activities** |
 | :---: | :---: |
-| ![Main menu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/Development/Images/device-activitymenu.png) |
+| ![Main menu](https://github.com/thedeconstructors/Krono/blob/master/Images/login_page-v3.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/master/Images/main_screen-v3.png) |
 
 - Geo-local activities
 - Plans saved to the cloud

@@ -93,6 +93,23 @@
                 android:id="@+id/ui_menu_friends"/>
 
             <TextView
+                android:id="@+id/ui_menu_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_menu_profile"
+
+                android:drawablePadding="@dimen/menu_imagePadding"
+                android:focusable="true"
+                android:gravity="start|center"
+                android:onClick="onClick"
+                android:padding="@dimen/menu_layoutPadding"
+                android:text="@string/menu_profile"
+                android:textSize="@dimen/menu_textSize" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
@@ -110,6 +127,23 @@
                 android:gravity="start|center"
                 android:id="@+id/ui_menu_chat"/>
                 <!--android:enabled="false"/>-->
+
+            <TextView
+                android:id="@+id/ui_menu_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_settings_black_24dp"
+
+                android:drawablePadding="@dimen/menu_imagePadding"
+                android:focusable="true"
+                android:gravity="start|center"
+                android:onClick="onClick"
+                android:padding="@dimen/menu_layoutPadding"
+                android:text="@string/menu_settings"
+                android:textSize="@dimen/menu_textSize" />
 
             <include layout="@layout/main_separator"/>
 
