@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.deconstructors.krono.adapter.MessageAdapter;
 import com.deconstructors.krono.module.Message;
 import com.deconstructors.krono.module.User;
 import com.deconstructors.krono.utility.Helper;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,13 +51,20 @@ public class ChatPage extends AppCompatActivity
     //private FriendAdapter FriendAdapter;
     private FirestoreRecyclerAdapter adapter;
 
+    private MessageAdapter messageAdapter;
+
     private EditText messageText;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main);
+
+        this.setToolbar();
+        //this.setDatabase();
+        //this.setContents();
         messageText = findViewById(R.id.ChatPage_Message);
 
         DBInstance = FirebaseFirestore.getInstance();
@@ -75,7 +84,7 @@ public class ChatPage extends AppCompatActivity
 
             @Override
             protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
-                holder.displayName.setText(model.GetRecipient());
+                holder.displayName.setText(model.GetSender());
                 holder.message.setText(model.GetText());
                 holder.time.setText(Long.toString(model.GetTime()));
             }
@@ -100,28 +109,85 @@ public class ChatPage extends AppCompatActivity
         }
     }
 
+    /************************************************************************
+     * Purpose:         Set Toolbar & Inflate Toolbar Menu
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setToolbar()
+    {
+        this.Toolbar = findViewById(R.id.chat_toolbar);
+        this.Toolbar.setTitle(getString(R.string.menu_chat));
+        this.setSupportActionBar(this.Toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    /************************************************************************
+     * Purpose:         Database
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setDatabase()
+    {
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.ChatQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .document(this.user.getDisplayName())
+                .collection(getString(R.string.collection_activities));
+        this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(this.ChatQuery, Message.class)
+                .build();
+        this.messageAdapter = new MessageAdapter(this.ChatOptions);
+    }
+
     @Override
     protected void onStart()
     {
         super.onStart();
-        if (this.adapter != null) { this.adapter.startListening(); }
+        if (this.messageAdapter != null) { this.messageAdapter.startListening(); }
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        if (this.adapter != null) { this.adapter.stopListening(); }
+        if (this.messageAdapter != null) { this.messageAdapter.stopListening(); }
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Recycler View
+        this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
+        //this.RecyclerView = findViewById(R.id.FriendPage_recyclerview);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setAdapter(this.messageAdapter);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Bottom Sheet
+        //this.FriendPage_New = new FriendPage_New(this);
     }
 
     public void SendMessageClick(View view) {
         if (!Helper.isEmpty(this.messageText))
         {
+            Toast.makeText(this, "yes", Toast.LENGTH_SHORT).show();
+            Map<String, Object> message = new HashMap<>();
 
+            Message newMessage = new Message();
+            message.put("sender", "Me");
+            message.put("message", this.messageText.toString());
+            message.put("time", Long.toString(newMessage.GetTime()));
+            DBInstance.collection("chats").document().update(message);
         }
         else
         {
-
+            Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
         }
     }
 }
