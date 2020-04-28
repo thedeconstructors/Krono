@@ -27,6 +27,7 @@
                 android:id="@+id/ui_toolbar">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ui_main_profilepicture"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     app:civ_border_width="1dp"

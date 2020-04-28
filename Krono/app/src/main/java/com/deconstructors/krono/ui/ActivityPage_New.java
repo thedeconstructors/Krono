@@ -17,6 +17,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Location;
 import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -26,9 +27,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -39,6 +43,7 @@ public class ActivityPage_New implements View.OnClickListener,
     // Error Log
     private static final String TAG = "NewActivityPage";
     private static final int MAPACTIVITY_REQUESTCODE = 5002;
+    private static final int LOCATIONSTR_SIZE = 10;
 
     // XML Widgets
     private Activity ActivityInstance; // This is not the activity module
@@ -55,12 +60,21 @@ public class ActivityPage_New implements View.OnClickListener,
 
     // Database
     private Plan Plan;
+    private Location Location;
     private FirebaseFirestore DBInstance;
+
+    public ActivityPage_New(Activity instance)
+    {
+        this.ActivityInstance = instance;
+        this.Location = new Location("", "", new LatLng(0, 0));
+        setContents();
+    }
 
     public ActivityPage_New(Activity instance, Plan plan)
     {
         this.ActivityInstance = instance;
         this.Plan = plan;
+        this.Location = new Location("", "", new LatLng(0, 0));
         setContents();
     }
 
@@ -129,35 +143,32 @@ public class ActivityPage_New implements View.OnClickListener,
      ************************************************************************/
     private void createNewActivity()
     {
-        if (!Helper.isEmpty(this.TitleText)
-                && !Helper.isEmpty(this.DescText)
-                && !this.DateButton.getText().toString().equals(""))
+        if (!Helper.isEmpty(this.TitleText))
         {
             // Set ref first to get the destination document id
-            DocumentReference ref = FirebaseFirestore
-                    .getInstance()
-                    .collection(this.ActivityInstance.getString(R.string.collection_plans))
-                    .document(this.Plan.getPlanID())
+            DocumentReference ref = this.DBInstance
                     .collection(this.ActivityInstance.getString(R.string.collection_activities))
                     .document();
 
-            Map<String, Object> activity = new HashMap<>();
+            // Set the document created
+            Map<String, Object> activity = Helper.mapActivity(this.ActivityInstance,
+                                                              ref,
+                                                              this.DescText.getText().toString(),
+                                                              0,
+                                                              this.Location,
+                                                              this.Plan,
+                                                              this.DateButton.getText().toString(),
+                                                              this.TitleText.getText().toString());
 
-            activity.put("ownerID", FirebaseAuth.getInstance().getUid());
-            activity.put("planID", this.Plan.getPlanID());
-            activity.put("activityID", ref.getId());
-            activity.put("title", this.TitleText.getText().toString());
-            activity.put("description", this.DescText.getText().toString());
-            activity.put("timestamp", this.DateButton.getText().toString());
-
-            ref.set(activity).addOnSuccessListener(new OnSuccessListener<Void>()
-            {
-                @Override
-                public void onSuccess(Void aVoid)
+            ref.set(activity)
+               .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
-                    ActivityPage_New.this.ActivityInstance.finish();
-                }
-            })
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                    }
+                })
                .addOnFailureListener(new OnFailureListener()
                {
                    @Override
@@ -169,7 +180,7 @@ public class ActivityPage_New implements View.OnClickListener,
         }
         else
         {
-            this.makeBottomSheetSnackbarMessage("Must Enter All Text Fields");
+            this.makeBottomSheetSnackbarMessage("Please Enter a Title");
         }
     }
 
@@ -211,15 +222,22 @@ public class ActivityPage_New implements View.OnClickListener,
     /************************************************************************
      * Purpose:         On Google Map Activity Completed
      * Precondition:    .
-     * Postcondition:   .
+     * Postcondition:   Set Returned Location Data To the Button GUI
      ************************************************************************/
     public void ActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         if (requestCode == MAPACTIVITY_REQUESTCODE && resultCode == Activity.RESULT_OK && data != null)
         {
-            String text = this.ActivityInstance.getString(R.string.intent_location);
-            Location location = data.getParcelableExtra(text);
-            this.LocationButton.setText(location.getName());
+            this.Location = data.getParcelableExtra(this.ActivityInstance.getString(R.string.intent_location));
+            if (this.Location.getName().length() > LOCATIONSTR_SIZE)
+            {
+                String substr = this.Location.getName().substring(0, LOCATIONSTR_SIZE) + "...";
+                this.LocationButton.setText(substr);
+            }
+            else
+            {
+                this.LocationButton.setText(this.Location.getName());
+            }
         }
     }
 

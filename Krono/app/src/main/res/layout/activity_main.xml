@@ -75,6 +75,11 @@
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ActivityPage_FAB"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB_Left"
+        android:src="@drawable/baseline_people_black_18dp"
+        android:id="@+id/ActivityPage_FAB_Collaborators"/>
+
     <include layout="@layout/activity_new"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

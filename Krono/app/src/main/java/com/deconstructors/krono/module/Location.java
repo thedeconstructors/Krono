@@ -32,6 +32,13 @@ public class Location implements Parcelable
         this.LatLng = new LatLng(latitude, longitude);
     }
 
+    public Location(Location location)
+    {
+        this.Name = location.getName();
+        this.Address = location.getAddress();
+        this.LatLng = location.getLatLng();
+    }
+
     /************************************************************************
      * Purpose:         Parcelable Override Methods
      * Precondition:    .

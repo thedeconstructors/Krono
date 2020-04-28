@@ -3,12 +3,23 @@ package com.deconstructors.krono.module;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class Plan implements Parcelable
 {
     private String PlanID;
     private String Title;
     private String Description;
     private String OwnerID;
+    private List<String> Collaborators = new ArrayList<>();
+
     //private int ActivitySize;
 
     /************************************************************************
@@ -16,14 +27,16 @@ public class Plan implements Parcelable
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Plan() { }
+    public Plan() {
+    }
 
-    public Plan(String planID, String ownerID, String title, String description)
+    public Plan(String planID, String ownerID, String title, String description, List<String> collaborators)
     {
         this.PlanID = planID;
         this.Title = title;
         this.Description = description;
         this.OwnerID = ownerID;
+        this.Collaborators = new ArrayList<>(collaborators);
         //this.ActivitySize = activitySize;
     }
 
@@ -38,6 +51,7 @@ public class Plan implements Parcelable
         this.Title = in.readString();
         this.Description = in.readString();
         this.OwnerID = in.readString();
+        in.readList(this.Collaborators, null);
         //this.ActivitySize = in.readInt();
     }
 
@@ -48,6 +62,7 @@ public class Plan implements Parcelable
         dest.writeString(this.Title);
         dest.writeString(this.Description);
         dest.writeString(this.OwnerID);
+        dest.writeList(this.Collaborators);
         //dest.writeInt(this.ActivitySize);
     }
 
@@ -79,6 +94,9 @@ public class Plan implements Parcelable
 
     public String getOwnerID() { return OwnerID; }
     public void setOwnerID(String ownerID) { OwnerID = ownerID; }
+
+    public List<String> getCollaborators() { return this.Collaborators; }
+    public void setCollaborators(List<String> collaborators) { this.Collaborators = new ArrayList<>(collaborators); }
 
     //public int getActivitySize() { return ActivitySize; }
     //public void setActivitySize(int activitySize) { ActivitySize = activitySize; }
