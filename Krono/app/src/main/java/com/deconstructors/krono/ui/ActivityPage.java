@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.functions.FirebaseFunctions;
@@ -37,16 +39,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
     // Logcat
     private static final String TAG = "ActivityPage";
+
+    //activity results
+    final int AR_COLLAB = 5;
+    final String EXTRA_COLLAB = "COLLAB";
+
+    // Data vars
+    List<String> Collaborators;
 
     // XML Widgets
     private Toolbar Toolbar;
     private TextView ToolbarDescription;
     private RecyclerView RecyclerView;
     private FloatingActionButton FAB;
+    private FloatingActionButton FAB_Collaborators;
     private ActivityPage_New ActivityPage_New;
 
     // Var
@@ -69,6 +84,30 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.checkIntent();
         this.setDatabase();
         this.setContents();
+    }
+
+    private void saveCollaborators()
+    {
+        DocumentReference planDoc = DBInstance.collection(getString(R.string.collection_plans))
+                .document(this.Plan.getPlanID());
+
+        Map<String,Object> planData = new HashMap<>();
+
+        planData.put("collaborators", Collaborators);
+
+        planDoc.update(planData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     /************************************************************************
@@ -233,6 +272,16 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
 
+        //collaborators button
+        this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
+        this.FAB_Collaborators.setOnClickListener(this);
+        this.Collaborators = new ArrayList<>();
+        List<String> planCollabs = this.Plan.getCollaborators();
+        if (planCollabs != null)
+        {
+            this.Collaborators = new ArrayList<>(planCollabs);
+        }
+
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
     }
@@ -255,6 +304,19 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.ActivityPage_FAB_Collaborators:
+                Intent intent = new Intent(this, Friend_Select.class);
+                intent.putExtra(EXTRA_COLLAB, new ArrayList<String>(Collaborators));
+                startActivityForResult(intent, AR_COLLAB);
+                break;
+        }
     }
 
     /************************************************************************
@@ -315,5 +377,12 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         super.onActivityResult(requestCode, resultCode, data);
         this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case AR_COLLAB:
+                Collaborators = data.getStringArrayListExtra(EXTRA_COLLAB);
+                saveCollaborators();
+                break;
+        }
     }
 }

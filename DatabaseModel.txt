@@ -1,0 +1,17 @@
+DATEBASE MODELS
+
+Activity
+	ActivityID	String
+	PlanIDs		List<String>
+	Title		String
+	Description	String
+	Duration	Integer
+	OwnerID		String
+
+Plan
+	PlanID		String
+	Title		String
+	Description	String
+	StartTime	Timestamp
+	OwnerID		String
+	ActivityIDs	List<String>

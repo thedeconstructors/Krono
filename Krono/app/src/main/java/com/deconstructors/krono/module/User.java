@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class User implements Parcelable
 {
+    private String Uid;
     private String DisplayName;
     private String Email;
     private String ProfileURL;
@@ -17,11 +18,12 @@ public class User implements Parcelable
      ************************************************************************/
     public User(){}
 
-    public User(String displayName, String email, String bio)
+    public User(String displayName, String email, String bio, String uid)
     {
         this.DisplayName = displayName;
         this.Email = email;
         this.Bio = bio;
+        this.Uid = uid;
     }
 
     /************************************************************************
@@ -31,6 +33,7 @@ public class User implements Parcelable
      ************************************************************************/
     protected User(Parcel in)
     {
+        this.Uid = in.readString();
         this.DisplayName = in.readString();
         this.Email = in.readString();
         this.Bio = in.readString();
@@ -61,6 +64,7 @@ public class User implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
+        dest.writeString(this.Uid);
         dest.writeString(this.DisplayName);
         dest.writeString(this.Email);
         dest.writeString(this.Bio);
@@ -72,6 +76,9 @@ public class User implements Parcelable
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
+    public String getUid() { return this.Uid; }
+    public void setUid(String uid) { this.Uid = uid; }
+
     public String getDisplayName() { return this.DisplayName; }
     public void setDisplayName(String displayName) { this.DisplayName = displayName; }
 

@@ -2,11 +2,13 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanAdapter;
+import com.deconstructors.krono.auth.WelcomePage;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -61,6 +64,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
 
+        this.setFirebaseAuth();
         this.setToolbar();
         this.setPlanDB();
         this.setUserDB();
@@ -129,6 +133,24 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                         }
                     }
                 });
+    }
+
+    void setFirebaseAuth()
+    {
+        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener()
+        {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
+            {
+                if (firebaseAuth.getCurrentUser() == null)
+                {
+                    Intent intent = new Intent(MainPage.this, WelcomePage.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -207,6 +229,16 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
+            case R.id.ui_menu_profile: {
+                Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.ui_menu_settings: {
+                Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.ui_menu_chat:
             {
                 break;
@@ -228,6 +260,5 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private void LogOut()
     {
         FirebaseAuth.getInstance().signOut();
-        finish();
     }
 }

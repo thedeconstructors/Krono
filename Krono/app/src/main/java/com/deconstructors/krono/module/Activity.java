@@ -127,6 +127,9 @@ public class Activity implements Parcelable
     public Integer getDuration(){ return this.Duration; }
     public void setDuration(Integer duration) { this.Duration = duration; }
 
+    //public String getOwnerID(){ return this.OwnerID; }
+    //public void setOwnerID(String ownerID) {this.OwnerID = ownerID; }
+
     // address
     public String getGeoAddr(){ return this.Location.getAddress(); }
     public void setGeoAddr(String geoAddr){ this.Location.setAddress(geoAddr); }

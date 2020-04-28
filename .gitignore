@@ -86,6 +86,7 @@ obj/
 /out/
 
 # User-specific configurations
+Krono/.idea/
 Krono/.idea/caches/
 Krono/.idea/libraries/
 Krono/.idea/shelf/
@@ -151,4 +152,3 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.gitignore.io/api/java,androidstudio
-
