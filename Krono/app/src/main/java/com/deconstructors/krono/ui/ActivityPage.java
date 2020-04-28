@@ -205,7 +205,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         return this.DBFunctions
                 .getHttpsCallable("deletePlan")
-                .call(data)
+                .call(snap)
                 .continueWith(new Continuation<HttpsCallableResult, String>()
                 {
                     @Override
