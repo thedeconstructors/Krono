@@ -48,7 +48,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/profileEdit_titleEditText"
+                android:id="@+id/profileEdit_titleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
@@ -57,7 +57,7 @@
                 android:inputType="textShortMessage" />
 
             <EditText
-                android:id="@+id/profileEdit_descriptionText"
+                android:id="@+id/profileEdit_emailText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
@@ -67,7 +67,7 @@
                 android:maxLines="5" />
 
             <EditText
-                android:id="@+id/profileEdit_bioEditText"
+                android:id="@+id/profileEdit_bioText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
@@ -81,5 +81,5 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ui_activity_done"
-        android:id="@+id/activitydetail_fab"/>
+        android:id="@+id/profiledetail_fab"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
