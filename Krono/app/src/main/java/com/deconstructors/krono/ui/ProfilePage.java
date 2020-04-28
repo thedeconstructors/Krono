@@ -1,7 +1,10 @@
 package com.deconstructors.krono.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,9 +36,6 @@ public class ProfilePage extends AppCompatActivity {
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private Query PlanQuery;
-    private FirestoreRecyclerOptions<Plan> PlanOptions;
-    private com.deconstructors.krono.adapter.PlanAdapter PlanAdapter;
     private ListenerRegistration UserRegistration;
 
     @Override
@@ -97,5 +97,9 @@ public class ProfilePage extends AppCompatActivity {
         this.NameTextView = findViewById(R.id.profile_DisplayName);
         this.EmailTextView = findViewById(R.id.profile_Email);
         this.BioTextView = findViewById(R.id.profile_Bio);
+    }
+
+    public void profileEdit(View view) {
+        startActivity(new Intent(ProfilePage.this, ProfilePage_Edit.class));
     }
 }

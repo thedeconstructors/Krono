@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:gravity="center"
+    android:id="@+id/profileEdit_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:id="@+id/profileEdit_toolbar"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+            android:text="@string/menu_profile"
+            android:textAlignment="center"
+            android:textSize="36sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/profileEdit_titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:hint="@string/navigation_displayNameText"
+                android:importantForAutofill="no"
+                android:inputType="textShortMessage" />
+
+            <EditText
+                android:id="@+id/profileEdit_emailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:hint="@string/auth_email"
+                android:importantForAutofill="no"
+                android:inputType="textShortMessage"
+                android:maxLines="5" />
+
+            <EditText
+                android:id="@+id/profileEdit_bioText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:hint="@string/profile_edit_biofield"
+                android:importantForAutofill="no"
+                android:inputType="textShortMessage"
+                android:maxLines="5" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB"
+        android:src="@drawable/ui_activity_done"
+        android:id="@+id/profiledetail_fab"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
