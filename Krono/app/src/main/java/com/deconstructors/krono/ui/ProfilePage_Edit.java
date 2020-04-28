@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +49,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_edit);
-
-
 
         //Load Profile Data
         setToolbar();
@@ -142,5 +141,28 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 break;
             }
         }
+    }
+
+    /************************************************************************
+     * Purpose:         Toolbar Back Button Animation Overrides
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // Back Button Animation Override
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
