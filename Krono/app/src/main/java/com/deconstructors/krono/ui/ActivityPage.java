@@ -284,6 +284,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+        this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     /************************************************************************
@@ -312,10 +313,12 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         switch (view.getId())
         {
             case R.id.ActivityPage_FAB_Collaborators:
+            {
                 Intent intent = new Intent(this, Friend_Select.class);
                 intent.putExtra(EXTRA_COLLAB, new ArrayList<String>(Collaborators));
                 startActivityForResult(intent, AR_COLLAB);
                 break;
+            }
         }
     }
 
