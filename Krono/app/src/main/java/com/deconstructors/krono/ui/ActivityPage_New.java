@@ -50,6 +50,7 @@ public class ActivityPage_New implements View.OnClickListener,
     private LinearLayout BottomSheet;
     private BottomSheetBehavior SheetBehavior;
     private FloatingActionButton FAB;
+    private FloatingActionButton FAB_Collab;
 
     private EditText TitleText;
     private EditText DescText;
@@ -90,6 +91,7 @@ public class ActivityPage_New implements View.OnClickListener,
 
         // XML Contents
         this.FAB = this.ActivityInstance.findViewById(R.id.ActivityPage_FAB);
+        this.FAB_Collab = this.ActivityInstance.findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB.setOnClickListener(this);
         this.TitleText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_TitleText);
         this.DescText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_Description);
@@ -114,6 +116,7 @@ public class ActivityPage_New implements View.OnClickListener,
                     case BottomSheetBehavior.STATE_EXPANDED:
                     {
                         ActivityPage_New.this.FAB.setVisibility(View.GONE);
+                        ActivityPage_New.this.FAB_Collab.setVisibility(View.GONE);
                         ActivityPage_New.this.TitleText.requestFocus();
                         Helper.showKeyboard(ActivityPage_New.this.ActivityInstance);
                         break;
@@ -122,6 +125,7 @@ public class ActivityPage_New implements View.OnClickListener,
                     case BottomSheetBehavior.STATE_HIDDEN:
                     {
                         ActivityPage_New.this.FAB.setVisibility(View.VISIBLE);
+                        ActivityPage_New.this.FAB_Collab.setVisibility(View.VISIBLE);
                         Helper.hideKeyboard(ActivityPage_New.this.ActivityInstance);
                         break;
                     }
@@ -197,6 +201,7 @@ public class ActivityPage_New implements View.OnClickListener,
             case R.id.ActivityPage_FAB:
             {
                 this.FAB.setVisibility(View.GONE);
+                this.FAB_Collab.setVisibility(View.GONE);
                 this.setSheetState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             }
