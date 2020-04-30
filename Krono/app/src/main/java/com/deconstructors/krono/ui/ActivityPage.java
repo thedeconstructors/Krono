@@ -194,70 +194,43 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        /*this.DBInstance
+        this.DBInstance
                 .collection(getString(R.string.collection_plans))
                 .document(this.Plan.getPlanID())
-                .delete();
-
-        this.DBInstance
-                .collection(getString(R.string.collection_activities))
-                .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID())
-                ...
-
-                delete();*/
-
-        // This should be done in Firebase Functions and not fully dependant on the user side
-        // Not only because we changed the database, it's just the general practice we should've
-        // Implemented before
-        onDeletePlan(this.Plan.getPlanID())
-                /*.addOnSuccessListener(new OnSuccessListener<String>()
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
                     @Override
-                    public void onSuccess(String s)
+                    public void onSuccess(Void aVoid)
                     {
                         finish();
                     }
-                })*/
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        if (e instanceof FirebaseFunctionsException)
-                        {
-                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
-                            FirebaseFunctionsException.Code code = ffe.getCode();
-                            Object details = ffe.getDetails();
-                        }
-                    }
-                });
-
-        finish();
-    }
-
-    private Task<String> onDeletePlan(String planID)
-    {
-        // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
-        snap.put("planID", planID);
-        snap.put("push", true);
-
-        return this.DBFunctions
-                .getHttpsCallable("deletePlan")
-                .call(snap)
-                .continueWith(new Continuation<HttpsCallableResult, String>()
-                {
-                    @Override
-                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
-                    {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        String result = (String) task.getResult().getData();
-                        return result;
-                    }
                 });
     }
+
+//    private Task<String> onDeletePlan(String planID)
+//    {
+//        // Create the arguments to the callable function.
+//        Map<String, Object> snap = new HashMap<>();
+//        snap.put("planID", planID);
+//        snap.put("push", true);
+//
+//        return this.DBFunctions
+//                .getHttpsCallable("deletePlan")
+//                .call(snap)
+//                .continueWith(new Continuation<HttpsCallableResult, String>()
+//                {
+//                    @Override
+//                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+//                    {
+//                        // This continuation runs on either success or failure, but if the task
+//                        // has failed then getResult() will throw an Exception which will be
+//                        // propagated down.
+//                        String result = (String) task.getResult().getData();
+//                        return result;
+//                    }
+//                });
+//    }
 
     /************************************************************************
      * Purpose:         XML Contents
