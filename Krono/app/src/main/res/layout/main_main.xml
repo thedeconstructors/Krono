@@ -53,6 +53,7 @@
                         android:text="@string/navigation_emailFieldText"
                         android:id="@+id/ui_main_email"/>
                 </LinearLayout>
+
             </androidx.appcompat.widget.Toolbar>
 
             <include layout="@layout/main_separator"/>

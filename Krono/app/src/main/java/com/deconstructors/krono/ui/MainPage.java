@@ -2,9 +2,9 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,14 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -93,6 +89,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         inflater.inflate(R.menu.menu_plan_main, menu);
 
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.activity_toolbar_settingsButton:
+                Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /************************************************************************
@@ -252,7 +259,4 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         FirebaseAuth.getInstance().signOut();
     }
-
-    //Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
-    //startActivity(intent);
 }
