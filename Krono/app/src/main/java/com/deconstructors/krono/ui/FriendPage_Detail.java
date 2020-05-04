@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -16,9 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.User;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                    AppBarLayout.OnOffsetChangedListener
+                                                                    AppBarLayout.OnOffsetChangedListener,
+                                                                    TabLayout.OnTabSelectedListener
 {
     // Error Log
     private static final String TAG = "FriendDetailPage";
@@ -30,6 +33,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private TextView DisplayName;
     private TextView Email;
     private TextView Bio;
+    private TabLayout Tabs;
 
     // Vars
     private User Friend;
@@ -82,6 +86,9 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.DisplayName = findViewById(R.id.FriendPageDetail_DisplayName);
         this.Email = findViewById(R.id.FriendPageDetail_Email);
         this.Bio = findViewById(R.id.FriendPageDetail_Bio);
+
+        this.Tabs = findViewById(R.id.friend_detail_tablayout);
+        Tabs.addOnTabSelectedListener(this);
     }
 
     /************************************************************************
@@ -151,5 +158,28 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         float percentage = (appBarLayout.getTotalScrollRange() - (float)Math.abs(verticalOffset))
                 /appBarLayout.getTotalScrollRange();
         this.Profile.setAlpha(percentage);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch(tab.getPosition())
+        {
+            case 0:
+                Toast.makeText(this, "Here are PUBLIC plans", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "Here are SHARED plans", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        //nothing
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        //nothing
     }
 }
