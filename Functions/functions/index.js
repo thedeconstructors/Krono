@@ -9,34 +9,11 @@ admin.initializeApp();
 const database = admin.firestore();
 
 /************************************************************************
- * Purpose:         Activity Page - Delete Plan
- * Type:            HTTPS Callable function
- * Precondition:    Call from the app directly
- *                  snap = Plan ID
- * Postcondition:   Go to Activity Details or Plan Edit page
- ************************************************************************/
-exports.deletePlan = functions.https.onCall((snap, context) => 
-{
-    const planID = snap.planID;
-    console.log("deletePlan Debug: ");
-
-    return database
-        .collection('plans')
-        .doc(planID)
-        .delete()
-        .catch(error => 
-        {
-            console.log(error);
-            return false; 
-        });
-});
-
-/************************************************************************
- * Purpose:         Activity Page - onDelete Plan
+ * Purpose:         Delete Activities on Plan Deletion
  * Type:            Trigger function
  * Precondition:    A plan document is deleted
  *                  snap = Deleted document data
- * Postcondition:   Go to Activity Details or Plan Edit page
+ * Postcondition:   Delete Activities
  ************************************************************************/
 exports.deleteActivities = functions.firestore
     .document('plans/{doc-id}')
@@ -69,4 +46,55 @@ exports.deleteActivities = functions.firestore
             console.log(error);
             return false; 
         });
+});
+
+/************************************************************************
+ * Purpose:         Delete FriendsList on User Deletion
+ * Type:            Trigger function
+ * Precondition:    A user document is deleted
+ *                  snap = Deleted document data
+ * Postcondition:   Delete FriendsList
+ ************************************************************************/
+exports.deleteUser = functions.firestore
+    .document('user/{user-id}')
+    .onDelete((snap, context) => 
+{
+    const userID = snap.ownerIDs;
+
+    const friendRef = database
+        .collection('user')
+        .where('ownerIDs.' + userID, '==', userID);
+
+    var promises = [];
+    
+    return friendRef
+        .get()
+        .then(querySnapshot => 
+        {
+            querySnapshot.forEach(docSnapshot => 
+            {
+                promises.push(docSnapshot.ref.delete());
+            });
+
+            return Promise.all(promises);
+        })
+        .catch(error => 
+        {
+            console.log(error);
+            return false; 
+        });
+});
+
+/************************************************************************
+ * Purpose:         Delete User Auth on User Deletion
+ * Type:            Trigger function
+ * Precondition:    A user document is deleted
+ *                  snap = Deleted document data
+ * Postcondition:   Delete User Auth
+ ************************************************************************/
+exports.deleteAuth = functions.firestore
+    .document('user/{user-id}')
+    .onDelete((snap, context) => 
+{
+    //
 });
