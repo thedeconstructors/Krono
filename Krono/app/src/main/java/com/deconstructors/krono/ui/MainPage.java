@@ -161,7 +161,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
-        this.notificationsFAB = findViewById(R.id.ui_main_notifications);
+        this.notificationsFAB = findViewById(R.id.ui_main_fab_notifications);
         this.notificationsFAB.setOnClickListener(this);
     }
 
@@ -215,7 +215,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_notifications:
+            case R.id.ui_main_fab_notifications:
             {
                 Intent intent = new Intent(MainPage.this, NotificationsPage.class);
                 startActivity(intent);
