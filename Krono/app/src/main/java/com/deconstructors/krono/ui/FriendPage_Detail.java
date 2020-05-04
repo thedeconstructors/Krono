@@ -109,6 +109,20 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.PublicPlansAdapter = new PlanAdapter(this.PublicPlanOptions, this);
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (this.PublicPlansAdapter != null) { this.PublicPlansAdapter.startListening(); }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.PublicPlansAdapter != null) { this.PublicPlansAdapter.stopListening(); }
+    }
+
     /************************************************************************
      * Purpose:         XML Contents
      * Precondition:    .
