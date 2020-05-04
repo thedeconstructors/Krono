@@ -13,15 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.adapter.PlanAdapter;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.module.User;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
                                                                     AppBarLayout.OnOffsetChangedListener,
-                                                                    TabLayout.OnTabSelectedListener
+                                                                    TabLayout.OnTabSelectedListener,
+                                                                    PlanAdapter.PlanClickListener
 {
     // Error Log
     private static final String TAG = "FriendDetailPage";
@@ -35,6 +44,14 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private TextView Bio;
     private TabLayout Tabs;
 
+    private FirebaseFirestore DBInstance;
+    private Query PublicPlanQuery;
+    private FirestoreRecyclerOptions PublicPlanOptions;
+
+    private RecyclerView PlansRecycler;
+    private PlanAdapter PublicPlansAdapter;
+    private PlanAdapter SharedPlansAdapter;
+
     // Vars
     private User Friend;
 
@@ -45,8 +62,9 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.friend_detail);
 
         this.setToolbar();
-        this.setContents();
         this.getFriendIntent();
+        this.setPlansDB();
+        this.setContents();
     }
 
     /************************************************************************
@@ -73,6 +91,25 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     }
 
     /************************************************************************
+     * Purpose:         Sets database interaction
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setPlansDB()
+    {
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.PublicPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID", this.Friend.getUid())
+                //.whereEqualTo("public",true);
+                ;
+        this.PublicPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.PublicPlanQuery, Plan.class)
+                .build();
+        this.PublicPlansAdapter = new PlanAdapter(this.PublicPlanOptions, this);
+    }
+
+    /************************************************************************
      * Purpose:         XML Contents
      * Precondition:    .
      * Postcondition:   .
@@ -87,8 +124,19 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.Email = findViewById(R.id.FriendPageDetail_Email);
         this.Bio = findViewById(R.id.FriendPageDetail_Bio);
 
+        this.getSupportActionBar().setTitle(this.Friend.getDisplayName());
+
+        this.DisplayName.setText(this.Friend.getDisplayName());
+        this.Email.setText(this.Friend.getEmail());
+        this.Bio.setText(this.Friend.getBio());
+
         this.Tabs = findViewById(R.id.friend_detail_tablayout);
         Tabs.addOnTabSelectedListener(this);
+
+        this.PlansRecycler = findViewById(R.id.friend_detail_plans);
+        this.PlansRecycler.setHasFixedSize(true);
+        this.PlansRecycler.setLayoutManager(new LinearLayoutManager(this));
+        this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
     }
 
     /************************************************************************
@@ -101,11 +149,11 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         if(getIntent().hasExtra(getString(R.string.intent_friend)))
         {
             this.Friend = getIntent().getParcelableExtra(getString(R.string.intent_friend));
-            this.getSupportActionBar().setTitle(this.Friend.getDisplayName());
 
-            this.DisplayName.setText(this.Friend.getDisplayName());
-            this.Email.setText(this.Friend.getEmail());
-            this.Bio.setText(this.Friend.getBio());
+        }
+        else
+        {
+            finish();
         }
     }
 
@@ -165,7 +213,11 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         switch(tab.getPosition())
         {
             case 0:
-                Toast.makeText(this, "Here are PUBLIC plans", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Here are PUBLIC plans", Toast.LENGTH_SHORT).show();
+                this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
+                Toast.makeText(this,
+                        "Found " + this.PublicPlansAdapter.getItemCount() + " item(s) for id " + Friend.getUid(),
+                            Toast.LENGTH_SHORT).show();
                 break;
             case 1:
                 Toast.makeText(this, "Here are SHARED plans", Toast.LENGTH_SHORT).show();
@@ -181,5 +233,10 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         //nothing
+    }
+
+    @Override
+    public void onPlanSelected(int position) {
+        //nothing (for now)
     }
 }
