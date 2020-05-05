@@ -45,8 +45,11 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private TabLayout Tabs;
 
     private FirebaseFirestore DBInstance;
+
     private Query PublicPlanQuery;
     private FirestoreRecyclerOptions PublicPlanOptions;
+    private Query SharedPlanQuery;
+    private FirestoreRecyclerOptions SharedPlanOptions;
 
     private RecyclerView PlansRecycler;
     private PlanAdapter PublicPlansAdapter;
@@ -98,29 +101,23 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private void setPlansDB()
     {
         this.DBInstance = FirebaseFirestore.getInstance();
+
         this.PublicPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
                 .whereEqualTo("ownerID", this.Friend.getUid())
-                //.whereEqualTo("public",true);
-                ;
+                .whereEqualTo("public",true);
         this.PublicPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.PublicPlanQuery, Plan.class)
                 .build();
         this.PublicPlansAdapter = new PlanAdapter(this.PublicPlanOptions, this);
-    }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        if (this.PublicPlansAdapter != null) { this.PublicPlansAdapter.startListening(); }
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        if (this.PublicPlansAdapter != null) { this.PublicPlansAdapter.stopListening(); }
+        this.SharedPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereArrayContains("collaborators",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        this.SharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.SharedPlanQuery, Plan.class)
+                .build();
+        this.SharedPlansAdapter = new PlanAdapter(this.SharedPlanOptions, this);
     }
 
     /************************************************************************
@@ -150,7 +147,8 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.PlansRecycler = findViewById(R.id.friend_detail_plans);
         this.PlansRecycler.setHasFixedSize(true);
         this.PlansRecycler.setLayoutManager(new LinearLayoutManager(this));
-        this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
+
+        this.Tabs.selectTab(Tabs.getTabAt(0));
     }
 
     /************************************************************************
@@ -163,7 +161,6 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         if(getIntent().hasExtra(getString(R.string.intent_friend)))
         {
             this.Friend = getIntent().getParcelableExtra(getString(R.string.intent_friend));
-
         }
         else
         {
@@ -227,14 +224,14 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         switch(tab.getPosition())
         {
             case 0:
-                //Toast.makeText(this, "Here are PUBLIC plans", Toast.LENGTH_SHORT).show();
                 this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
-                Toast.makeText(this,
-                        "Found " + this.PublicPlansAdapter.getItemCount() + " item(s) for id " + Friend.getUid(),
-                            Toast.LENGTH_SHORT).show();
+                this.PublicPlansAdapter.startListening();
+                this.SharedPlansAdapter.stopListening();
                 break;
             case 1:
-                Toast.makeText(this, "Here are SHARED plans", Toast.LENGTH_SHORT).show();
+                this.PlansRecycler.setAdapter(this.SharedPlansAdapter);
+                this.SharedPlansAdapter.startListening();
+                this.PublicPlansAdapter.stopListening();
                 break;
         }
     }
@@ -246,7 +243,19 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-        //nothing
+        switch(tab.getPosition())
+        {
+            case 0:
+                this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
+                this.PublicPlansAdapter.startListening();
+                this.SharedPlansAdapter.stopListening();
+                break;
+            case 1:
+                this.PlansRecycler.setAdapter(this.SharedPlansAdapter);
+                this.SharedPlansAdapter.startListening();
+                this.PublicPlansAdapter.stopListening();
+                break;
+        }
     }
 
     @Override

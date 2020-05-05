@@ -44,62 +44,62 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingTop="70dp"
+        android:paddingRight="30dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/FriendPageDetail_DisplayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+            android:hint="@string/navigation_displayNameText"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/FriendPageDetail_DisplayName"
-                android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/FriendPageDetail_Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+            android:hint="@string/navigation_emailFieldText"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/FriendPageDetail_Bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+            android:hint="@string/friend_bio"
+            android:importantForAutofill="no"
+            android:textSize="20sp" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/friend_detail_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                android:hint="@string/navigation_displayNameText"
-                android:textSize="20sp" />
+                android:text="@string/friend_public" />
 
-            <TextView
-                android:id="@+id/FriendPageDetail_Email"
-                android:layout_width="match_parent"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                android:hint="@string/navigation_emailFieldText"
-                android:textSize="20sp" />
+                android:text="@string/friend_Shared" />
+        </com.google.android.material.tabs.TabLayout>
 
-            <TextView
-                android:id="@+id/FriendPageDetail_Bio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-                android:hint="@string/friend_bio"
-                android:importantForAutofill="no"
-                android:textSize="20sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/friend_detail_plans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/friend_detail_tablayout">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/friend_public" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/friend_Shared" />
-            </com.google.android.material.tabs.TabLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/friend_detail_plans"/>
-
-        </LinearLayout>
+    </LinearLayout>
 
     <!--</androidx.core.widget.NestedScrollView>-->
 
