@@ -200,36 +200,34 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        if (Editable == EditMode.OWNER) {
-            // This should be done in Firebase Functions and not fully dependant on the user side
-            // Not only because we changed the database, it's just the general practice we should've
-            // Implemented before
-            onDeletePlan(this.Plan.getPlanID())
-                    /*.addOnSuccessListener(new OnSuccessListener<String>()
+        if (Editable == EditMode.PUBLIC) {
+            Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // This should be done in Firebase Functions and not fully dependant on the user side
+        // Not only because we changed the database, it's just the general practice we should've
+        // Implemented before
+        onDeletePlan(this.Plan.getPlanID())
+                /*.addOnSuccessListener(new OnSuccessListener<String>()
+                {
+                    @Override
+                    public void onSuccess(String s)
                     {
-                        @Override
-                        public void onSuccess(String s)
-                        {
-                            finish();
+                        finish();
+                    }
+                })*/
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseFunctionsException) {
+                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                            FirebaseFunctionsException.Code code = ffe.getCode();
+                            Object details = ffe.getDetails();
                         }
-                    })*/
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            if (e instanceof FirebaseFunctionsException) {
-                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
-                                FirebaseFunctionsException.Code code = ffe.getCode();
-                                Object details = ffe.getDetails();
-                            }
-                        }
-                    });
+                    }
+                });
 
-            finish();
-        }
-        else
-        {
-            Toast.makeText(this,"This plan is not editable", Toast.LENGTH_SHORT).show();
-        }
+        finish();
     }
 
     private Task<String> onDeletePlan(String planID)
@@ -310,11 +308,17 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
+        intent.putExtra(getString(R.string.intent_editable),Editable);
         startActivity(intent);
     }
 
     private void editPlan()
     {
+        if (Editable == EditMode.PUBLIC)
+        {
+            Toast.makeText(this,"This plan is not editable", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);

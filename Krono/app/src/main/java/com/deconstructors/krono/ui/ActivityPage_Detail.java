@@ -7,6 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +41,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     // Vars
     private Activity Activity;
+    private ActivityPage.EditMode Editable;
 
     // Database
     private FirebaseFirestore FirestoreDB;
@@ -51,6 +54,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
         this.setContents();
         this.getActivityIntent();
+        this.checkPermissions();
     }
 
     private void setContents()
@@ -77,9 +81,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void getActivityIntent()
     {
-        if(getIntent().hasExtra(getString(R.string.intent_activity)))
+        if(getIntent().hasExtra(getString(R.string.intent_activity)) && getIntent().hasExtra(getString(R.string.intent_editable)))
         {
             this.Activity = getIntent().getParcelableExtra(getString(R.string.intent_activity));
+            this.Editable = (ActivityPage.EditMode) getIntent().getSerializableExtra(getString(R.string.intent_editable));
             this.getSupportActionBar().setTitle(this.Activity.getTitle());
 
             this.Title.setText(this.Activity.getTitle());
@@ -88,6 +93,28 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             {
                 this.DateTime.setText(this.Activity.getDuration().toString());
             }
+        }
+        else
+        {
+            finish();
+        }
+    }
+
+    private void checkPermissions()
+    {
+        if (Editable == ActivityPage.EditMode.PUBLIC)
+        {
+            //disable textboxes
+            this.Title.setEnabled(false);
+            this.Description.setEnabled(false);
+            this.DateTime.setEnabled(false);
+
+            //hide buttons
+            this.FAB_Save.setVisibility(View.GONE);
+            this.FAB_Delete.setVisibility(View.GONE);
+
+            //change title
+            ((TextView)findViewById(R.id.activitydetail_editActivityHeader)).setText(getString(R.string.activitydetail_headerViewOnly));
         }
     }
 
@@ -98,6 +125,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
      ************************************************************************/
     private void saveActivity()
     {
+        if (Editable == ActivityPage.EditMode.PUBLIC)
+            return;
+
         boolean duration_valid = false;
         Integer activity_duration = 0;
         try
@@ -148,23 +178,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        /*FirestoreDB.collection(getString(R.string.collection_activities))
-                .document(this.Activity.getActivityID())
-                .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful())
-                        {
-                            finish();
-                        }
-                        else
-                        {
-                            Log.d(TAG, "Failed to delete");
-                        }
-                    }
-                });*/
-
+        if (Editable == ActivityPage.EditMode.PUBLIC) {
+            Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
+            return;
+        }
         // This should be done in Firebase Functions and not fully dependant on the user side
         // It's like we have subcollections called plans inside activities.
     }

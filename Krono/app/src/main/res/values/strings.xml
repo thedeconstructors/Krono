@@ -75,6 +75,7 @@
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>
     <string name="activitydetail_header">Edit Activity</string>
+    <string name="activitydetail_headerViewOnly">View Activity</string>
     <string name="permission_denied">
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
