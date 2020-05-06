@@ -113,6 +113,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
 
         this.SharedPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID",this.Friend.getUid())
                 .whereArrayContains("collaborators",FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.SharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.SharedPlanQuery, Plan.class)
