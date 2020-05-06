@@ -84,7 +84,10 @@
 
     <!-- 4.5 Friend -->
     <string name="friendnew_hint">Search By Email</string>
-    <string name="friendnew_done">Search</string>]
+    <string name="friendnew_done">Search</string>
+    <string name="friend_bio">Bio</string>
+    <string name="friend_public">Public</string>
+    <string name="friend_Shared">Shared</string>
 
     <!-- 4.6 - Menu -->
     <string name="menu_activity">Activity Menu</string>

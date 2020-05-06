@@ -98,7 +98,8 @@ public class Friend_Select extends AppCompatActivity
         this.DBInstance = FirebaseFirestore.getInstance();
         this.FriendQuery = this.DBInstance
                 .collection(getString(R.string.collection_users))
-                .whereArrayContains("friends", this.AuthInstance.getCurrentUser().getUid());
+                .whereEqualTo(getString(R.string.collection_friends) + "." + this.AuthInstance.getCurrentUser().getUid(),
+                        true);
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();

@@ -7,18 +7,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.adapter.PlanAdapter;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.module.User;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                    AppBarLayout.OnOffsetChangedListener
+                                                                    AppBarLayout.OnOffsetChangedListener,
+                                                                    TabLayout.OnTabSelectedListener,
+                                                                    PlanAdapter.PlanClickListener
 {
     // Error Log
     private static final String TAG = "FriendDetailPage";
@@ -30,6 +42,18 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private TextView DisplayName;
     private TextView Email;
     private TextView Bio;
+    private TabLayout Tabs;
+
+    private FirebaseFirestore DBInstance;
+
+    private Query PublicPlanQuery;
+    private FirestoreRecyclerOptions PublicPlanOptions;
+    private Query SharedPlanQuery;
+    private FirestoreRecyclerOptions SharedPlanOptions;
+
+    private RecyclerView PlansRecycler;
+    private PlanAdapter PublicPlansAdapter;
+    private PlanAdapter SharedPlansAdapter;
 
     // Vars
     private User Friend;
@@ -41,8 +65,9 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.friend_detail);
 
         this.setToolbar();
-        this.setContents();
         this.getFriendIntent();
+        this.setPlansDB();
+        this.setContents();
     }
 
     /************************************************************************
@@ -69,6 +94,34 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     }
 
     /************************************************************************
+     * Purpose:         Sets database interaction
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setPlansDB()
+    {
+        this.DBInstance = FirebaseFirestore.getInstance();
+
+        this.PublicPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID", this.Friend.getUid())
+                .whereEqualTo("public",true);
+        this.PublicPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.PublicPlanQuery, Plan.class)
+                .build();
+        this.PublicPlansAdapter = new PlanAdapter(this.PublicPlanOptions, this);
+
+        this.SharedPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID",this.Friend.getUid())
+                .whereArrayContains("collaborators",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        this.SharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.SharedPlanQuery, Plan.class)
+                .build();
+        this.SharedPlansAdapter = new PlanAdapter(this.SharedPlanOptions, this);
+    }
+
+    /************************************************************************
      * Purpose:         XML Contents
      * Precondition:    .
      * Postcondition:   .
@@ -82,6 +135,21 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.DisplayName = findViewById(R.id.FriendPageDetail_DisplayName);
         this.Email = findViewById(R.id.FriendPageDetail_Email);
         this.Bio = findViewById(R.id.FriendPageDetail_Bio);
+
+        this.getSupportActionBar().setTitle(this.Friend.getDisplayName());
+
+        this.DisplayName.setText(this.Friend.getDisplayName());
+        this.Email.setText(this.Friend.getEmail());
+        this.Bio.setText(this.Friend.getBio());
+
+        this.Tabs = findViewById(R.id.friend_detail_tablayout);
+        Tabs.addOnTabSelectedListener(this);
+
+        this.PlansRecycler = findViewById(R.id.friend_detail_plans);
+        this.PlansRecycler.setHasFixedSize(true);
+        this.PlansRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        this.Tabs.selectTab(Tabs.getTabAt(0));
     }
 
     /************************************************************************
@@ -94,11 +162,10 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         if(getIntent().hasExtra(getString(R.string.intent_friend)))
         {
             this.Friend = getIntent().getParcelableExtra(getString(R.string.intent_friend));
-            this.getSupportActionBar().setTitle(this.Friend.getDisplayName());
-
-            this.DisplayName.setText(this.Friend.getDisplayName());
-            this.Email.setText(this.Friend.getEmail());
-            this.Bio.setText(this.Friend.getBio());
+        }
+        else
+        {
+            finish();
         }
     }
 
@@ -151,5 +218,49 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         float percentage = (appBarLayout.getTotalScrollRange() - (float)Math.abs(verticalOffset))
                 /appBarLayout.getTotalScrollRange();
         this.Profile.setAlpha(percentage);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch(tab.getPosition())
+        {
+            case 0:
+                this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
+                this.PublicPlansAdapter.startListening();
+                this.SharedPlansAdapter.stopListening();
+                break;
+            case 1:
+                this.PlansRecycler.setAdapter(this.SharedPlansAdapter);
+                this.SharedPlansAdapter.startListening();
+                this.PublicPlansAdapter.stopListening();
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        //nothing
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        switch(tab.getPosition())
+        {
+            case 0:
+                this.PlansRecycler.setAdapter(this.PublicPlansAdapter);
+                this.PublicPlansAdapter.startListening();
+                this.SharedPlansAdapter.stopListening();
+                break;
+            case 1:
+                this.PlansRecycler.setAdapter(this.SharedPlansAdapter);
+                this.SharedPlansAdapter.startListening();
+                this.PublicPlansAdapter.stopListening();
+                break;
+        }
+    }
+
+    @Override
+    public void onPlanSelected(int position) {
+        //nothing (for now)
     }
 }
