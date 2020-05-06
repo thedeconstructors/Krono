@@ -107,7 +107,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.DBInstance = FirebaseFirestore.getInstance();
         this.PlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());;
+                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());
         this.PlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.PlanQuery, Plan.class)
                 .build();
@@ -204,6 +204,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
         intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
+        intent.putExtra(getString(R.string.intent_editable),true);
         startActivity(intent);
     }
 

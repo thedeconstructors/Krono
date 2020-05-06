@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -66,6 +68,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     // Var
     private Plan Plan;
+    private Boolean Editable;
 
     // Database
     private FirebaseFunctions DBFunctions;
@@ -140,11 +143,12 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
      ************************************************************************/
     private void checkIntent()
     {
-        if(getIntent().hasExtra(getString(R.string.intent_plans)))
+        if(getIntent().hasExtra(getString(R.string.intent_plans)) && getIntent().hasExtra(getString(R.string.intent_editable)))
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
             this.ToolbarDescription.setText(this.Plan.getDescription());
+            this.Editable = getIntent().getBooleanExtra(getString(R.string.intent_editable),false);
         }
         else
         {
@@ -194,45 +198,36 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        /*this.DBInstance
-                .collection(getString(R.string.collection_plans))
-                .document(this.Plan.getPlanID())
-                .delete();
-
-        this.DBInstance
-                .collection(getString(R.string.collection_activities))
-                .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID())
-                ...
-
-                delete();*/
-
-        // This should be done in Firebase Functions and not fully dependant on the user side
-        // Not only because we changed the database, it's just the general practice we should've
-        // Implemented before
-        onDeletePlan(this.Plan.getPlanID())
-                /*.addOnSuccessListener(new OnSuccessListener<String>()
-                {
-                    @Override
-                    public void onSuccess(String s)
+        if (Editable) {
+            // This should be done in Firebase Functions and not fully dependant on the user side
+            // Not only because we changed the database, it's just the general practice we should've
+            // Implemented before
+            onDeletePlan(this.Plan.getPlanID())
+                    /*.addOnSuccessListener(new OnSuccessListener<String>()
                     {
-                        finish();
-                    }
-                })*/
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        if (e instanceof FirebaseFunctionsException)
+                        @Override
+                        public void onSuccess(String s)
                         {
-                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
-                            FirebaseFunctionsException.Code code = ffe.getCode();
-                            Object details = ffe.getDetails();
+                            finish();
                         }
-                    }
-                });
+                    })*/
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (e instanceof FirebaseFunctionsException) {
+                                FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                                FirebaseFunctionsException.Code code = ffe.getCode();
+                                Object details = ffe.getDetails();
+                            }
+                        }
+                    });
 
-        finish();
+            finish();
+        }
+        else
+        {
+            Toast.makeText(this,"This plan is not editable", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Task<String> onDeletePlan(String planID)
@@ -272,19 +267,28 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
 
-        //collaborators button
+        //buttons
+        this.FAB = findViewById(R.id.ActivityPage_FAB);
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
-        this.Collaborators = new ArrayList<>();
-        List<String> planCollabs = this.Plan.getCollaborators();
-        if (planCollabs != null)
-        {
-            this.Collaborators = new ArrayList<>(planCollabs);
-        }
 
-        // Bottom Sheet
-        this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
-        this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+
+        //Bottom Sheet and Collaborators
+        if (Editable) {
+            this.Collaborators = new ArrayList<>();
+            List<String> planCollabs = this.Plan.getCollaborators();
+            if (planCollabs != null)
+            {
+                this.Collaborators = new ArrayList<>(planCollabs);
+            }
+            this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+            this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            FAB.setVisibility(View.GONE);
+            FAB_Collaborators.setVisibility(View.GONE);
+        }
     }
 
     /************************************************************************
@@ -365,7 +369,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     @Override
     public void onBackPressed()
     {
-        if (this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        if (Editable && this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
         {
             this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         }
@@ -379,7 +383,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        if (Editable)
+            this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
         switch (resultCode)
         {
             case AR_COLLAB:
