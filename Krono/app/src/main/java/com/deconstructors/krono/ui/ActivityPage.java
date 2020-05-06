@@ -48,6 +48,8 @@ import java.util.Set;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
+    //static
+    static public enum EditMode { OWNER, COLLAB, PUBLIC }
     // Logcat
     private static final String TAG = "ActivityPage";
 
@@ -68,7 +70,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     // Var
     private Plan Plan;
-    private Boolean Editable;
+    private EditMode Editable;
 
     // Database
     private FirebaseFunctions DBFunctions;
@@ -148,7 +150,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
             this.ToolbarDescription.setText(this.Plan.getDescription());
-            this.Editable = getIntent().getBooleanExtra(getString(R.string.intent_editable),false);
+            this.Editable = (EditMode)getIntent().getSerializableExtra(getString(R.string.intent_editable));
         }
         else
         {
@@ -198,7 +200,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        if (Editable) {
+        if (Editable == EditMode.OWNER) {
             // This should be done in Firebase Functions and not fully dependant on the user side
             // Not only because we changed the database, it's just the general practice we should've
             // Implemented before
@@ -274,7 +276,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
 
         //Bottom Sheet and Collaborators
-        if (Editable) {
+        if (Editable == EditMode.OWNER) {
             this.Collaborators = new ArrayList<>();
             List<String> planCollabs = this.Plan.getCollaborators();
             if (planCollabs != null)
@@ -284,10 +286,17 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
             this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         }
+        else if (Editable == EditMode.COLLAB)
+        {
+            this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+            this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+            FAB_Collaborators.setVisibility(View.GONE);
+        }
         else
         {
             FAB.setVisibility(View.GONE);
             FAB_Collaborators.setVisibility(View.GONE);
+            findViewById(R.id.ActivityPageNew_BottomSheet).setVisibility(View.GONE);
         }
     }
 
@@ -369,7 +378,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     @Override
     public void onBackPressed()
     {
-        if (Editable && this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        if ((Editable != EditMode.PUBLIC)
+                && this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
         {
             this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         }
@@ -383,7 +393,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (Editable)
+        if (Editable != EditMode.PUBLIC)
             this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
         switch (resultCode)
         {

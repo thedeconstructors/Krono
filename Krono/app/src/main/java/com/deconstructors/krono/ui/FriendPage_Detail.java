@@ -265,15 +265,15 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         Intent intent = new Intent(this, ActivityPage.class);
 
         PlanAdapter chosenRecycler;
-        Boolean canEdit;
+        ActivityPage.EditMode canEdit;
 
         if (PlansRecycler.getAdapter() == PublicPlansAdapter) {
             chosenRecycler = PublicPlansAdapter;
-            canEdit = false;
+            canEdit = ActivityPage.EditMode.PUBLIC;
         }
         else {
             chosenRecycler = SharedPlansAdapter;
-            canEdit = true;
+            canEdit = ActivityPage.EditMode.COLLAB;
         }
 
         intent.putExtra(getString(R.string.intent_plans), chosenRecycler.getItem(position));

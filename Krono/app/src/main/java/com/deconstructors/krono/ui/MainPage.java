@@ -204,7 +204,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
         intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
-        intent.putExtra(getString(R.string.intent_editable),true);
+        intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
         startActivity(intent);
     }
 
