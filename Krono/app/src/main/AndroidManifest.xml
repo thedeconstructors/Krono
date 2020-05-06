@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.deconstructors.krono">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/krono_logo_round"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/krono_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <!-- Auth -->
+        <activity android:name=".auth.WelcomePage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Main Menu -->
+        <activity android:name=".ui.MainPage"/>
+        <!-- All Activities Page -->
+        <activity android:name=".ui.ActivityPage_All"/>
+        <!-- Friends Page -->
+        <activity android:name=".ui.FriendPage"/>
+        <activity android:name=".ui.FriendPage_Detail"/>
+        <activity android:name=".ui.Friend_Select"/>
+        <!-- Profile Page -->
+        <activity android:name=".ui.ProfilePage"/>
+        <activity android:name=".ui.ProfilePage_Edit"/>
+        <!-- Settings Page -->
+        <activity android:name=".ui.SettingsPage_Main"/>
+        <!-- Plan (Menu) Page -->
+        <activity android:name=".ui.MainPage_Detail"/>
+        <activity android:name=".ui.MainPage_New"/>
+        <!-- Activity Page -->
+        <activity android:name=".ui.ActivityPage"/>
+        <activity android:name=".ui.ActivityPage_Detail"/>
+        <activity android:name=".ui.ActivityPage_Map"/>
+    </application>
+</manifest>

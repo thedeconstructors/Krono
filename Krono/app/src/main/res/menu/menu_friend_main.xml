@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/menu_friend"
+        app:showAsAction="always"
+        android:icon="@drawable/menu_menu">
+        <menu>
+            <item android:id="@+id/friend_menu_sortBy"
+                android:title="@string/menu_sortBy"
+                app:showAsAction="never"
+                android:icon="@drawable/menu_sort"/>
+        </menu>
+    </item>
+</menu>

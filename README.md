@@ -1,7 +1,17 @@
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/thedeconstructors) [![Coverage Status](http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square)](https://coveralls.io/r/badges/thedeconstructors) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
+<p align=center>
+  <img src="https://github.com/thedeconstructors/Krono/blob/Development/Images/logo.png" alt="" width="200" height="200"></p>
 
-# Krono
-Krono is an android app to manage and organize localized activities with friends or colleagues.
+<h1 align="center">Krono</h1>
+
+<p align=center> 
+  <a href="https://travis-ci.org/badges/thedeconstructors" rel="nofollow"><img src="http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square" alt="Build Status"></a>
+  <a href="https://coveralls.io/r/badges/thedeconstructors" rel="nofollow"><img src="http://img.shields.io/coveralls/badges/badgerbadgerbadger.svg?style=flat-square" alt="Coverage Status"></a>
+    <!-- <a href="http://badges.mit-license.org" rel="nofollow"><img src="http://img.shields.io/:license-mit-blue.svg?style=flat-square" alt="License"></a> -->
+</p>
+
+## About the App
+
+Krono provides a simple, visual way to organize localized activities. Create new plans, group activities, and organize them on your calendar or Google map. Share your plans and chat to easily collaborate with your friends.
 
 ## Table of Contents
 
@@ -18,7 +28,7 @@ Krono is an android app to manage and organize localized activities with friends
 ## Features
 | **Main Menu** | **Bank of Activities** |
 | :---: | :---: |
-| ![Main menu](https://github.com/thedeconstructors/Krono/blob/Development/Images/device_mainmenu.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/Development/Images/device-activitymenu.png) |
+| ![Main menu](https://github.com/thedeconstructors/Krono/blob/master/Images/login_page-v3.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/master/Images/main_screen-v3.png) |
 
 - Geo-local activities
 - Plans saved to the cloud

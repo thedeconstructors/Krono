@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <PreferenceCategory
+        android:title="Most Used">
+
+        <Preference
+            android:key="preference"
+            android:title="Most Used 1"
+            android:summary="This setting is most used"/>
+
+        <Preference
+            android:key="stylized"
+            android:title="Most Used 2"
+            android:summary="Setting is 2nd most used"/>
+
+        <Preference
+            android:key="icon"
+            android:title="Most Used 3"
+            android:summary="Setting is 3rd most used"
+            android:icon="@android:drawable/ic_menu_camera"/>
+
+        <Preference
+            android:key="single_line_title"
+            android:title="Most Used 4"
+            android:summary="Setting is 4th most used"
+            android:singleLineTitle="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Map Settings">
+
+        <CheckBoxPreference
+            android:key="checkbox"
+            android:title="Privacy"
+            android:summary="People can see you on the map"/>
+
+        <SwitchPreferenceCompat
+            android:key="switch"
+            android:title="Setting 2"
+            android:summary="Another Setting"/>
+
+        <SeekBarPreference
+            android:key="seekbar"
+            android:title="Seek that preference"
+            android:max="10"
+            android:defaultValue="5"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
