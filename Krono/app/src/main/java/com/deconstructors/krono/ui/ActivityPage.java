@@ -198,8 +198,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
     }
 
-    private void deletePlan()
-    {
+    private void deletePlan() {
         if (Editable == EditMode.PUBLIC) {
             Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
             return;
@@ -207,7 +206,9 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         // This should be done in Firebase Functions and not fully dependant on the user side
         // Not only because we changed the database, it's just the general practice we should've
         // Implemented before
-        onDeletePlan(this.Plan.getPlanID())
+
+        // I accidentally botched this comment /:
+        /*onDeletePlan(this.Plan.getPlanID()) {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -218,6 +219,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
                         }
                     }
                 });
+                */
     }
 
 //    private Task<String> onDeletePlan(String planID)
