@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
@@ -63,7 +62,7 @@
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:hint="@string/auth_email"
                 android:importantForAutofill="no"
-                android:inputType="textShortMessage"
+                android:inputType="textWebEmailAddress"
                 android:maxLines="5" />
 
             <EditText
@@ -75,6 +74,32 @@
                 android:importantForAutofill="no"
                 android:inputType="textShortMessage"
                 android:maxLines="5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/profile_picture_edit_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/profile_picture_text" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#A9A9A9"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_picture_text"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

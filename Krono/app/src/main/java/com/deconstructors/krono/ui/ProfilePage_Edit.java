@@ -1,8 +1,15 @@
 package com.deconstructors.krono.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,29 +25,30 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
 public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickListener {
 
-    private androidx.appcompat.widget.Toolbar _toolbar;
+    //Defines
+    public static final int GET_FROM_GALLERY = 3;
 
+    // UI
     private TextView NameTextView;
     private TextView EmailTextView;
     private TextView BioTextView;
+    private ImageButton imageButtonElement;
+
+    //Profile Picture
+    private Bitmap data_bitmap = null;
 
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private ListenerRegistration UserRegistration;
-
-    private FloatingActionButton FAB;
-
-    // Database
-    private FirebaseFirestore FirestoreDB;
 
     //Profile Data
     Map<String, Object> profile = new HashMap<>();
@@ -50,16 +58,68 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_edit);
 
+        //Attach the listener for the profile picture editing
+        imageButtonElement = findViewById(R.id.profile_picture_edit_button);
+
+        //Listen for clicks
+        imageButtonElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                        GET_FROM_GALLERY);
+            }
+        });
+
         //Load Profile Data
         setToolbar();
         setUserDB();
         setContents();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+
+            try {
+                data_bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
+                        selectedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //Bitmap to be stored into firebase
+            data_bitmap = Bitmap.createScaledBitmap(data_bitmap, 250, 250,
+                    true);
+
+            //Display the bitmap to the clicked button
+            ViewTreeObserver vto = imageButtonElement.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+
+                    imageButtonElement.setImageBitmap(
+                            Bitmap.createScaledBitmap(data_bitmap,
+                                    imageButtonElement.getWidth(),
+                                    imageButtonElement.getHeight(), true)
+                    );
+
+                    //Remove the listener for protection against multiple calls
+                    ViewTreeObserver obs = imageButtonElement.getViewTreeObserver();
+                    obs.removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
+    }
+
     private void setToolbar() {
-        this._toolbar = findViewById(R.id.profileEdit_toolbar);
-        this.setSupportActionBar(this._toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        androidx.appcompat.widget.Toolbar _toolbar = findViewById(R.id.profileEdit_toolbar);
+        this.setSupportActionBar(_toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -70,9 +130,8 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
 
-        this.UserRegistration = this.DBInstance
-                .collection(getString(R.string.collection_users))
-                .document(this.AuthInstance.getCurrentUser().getUid())
+        this.DBInstance.collection(getString(R.string.collection_users))
+                .document(Objects.requireNonNull(this.AuthInstance.getCurrentUser()).getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>()
                 {
                     @Override
@@ -81,9 +140,9 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                     {
                         if (documentSnapshot != null)
                         {
-                            NameTextView.setText(documentSnapshot.get("displayName").toString());
-                            EmailTextView.setText(documentSnapshot.get("email").toString());
-                            BioTextView.setText(documentSnapshot.get("bio").toString());
+                            NameTextView.setText(Objects.requireNonNull(documentSnapshot.get("displayName")).toString());
+                            EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
+                            BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
                         }
                     }
                 });
@@ -101,7 +160,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         profile.put("bio", this.BioTextView.getText().toString());
 
         this.DBInstance.collection(getString(R.string.collection_users))
-                .document(this.AuthInstance.getCurrentUser().getUid())
+                .document(Objects.requireNonNull(this.AuthInstance.getCurrentUser()).getUid())
                 .update(profile)
                 .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
@@ -127,19 +186,14 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         this.EmailTextView = findViewById(R.id.profileEdit_emailText);
         this.BioTextView = findViewById(R.id.profileEdit_bioText);
 
-        this.FAB = findViewById(R.id.profiledetail_fab);
-        this.FAB.setOnClickListener(this);
+        FloatingActionButton FAB = findViewById(R.id.profiledetail_fab);
+        FAB.setOnClickListener(this);
     }
 
     public void onClick(View view)
     {
-        switch (view.getId())
-        {
-            case R.id.profiledetail_fab:
-            {
-                this.saveProfile();
-                break;
-            }
+        if (view.getId() == R.id.profiledetail_fab) {
+            this.saveProfile();
         }
     }
 
@@ -150,12 +204,9 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
      ************************************************************************/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            // Back Button Animation Override
-            case android.R.id.home: {
-                finish();
-                break;
-            }
+        // Back Button Animation Override
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return true;
     }

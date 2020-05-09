@@ -14,22 +14,15 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 public class ProfilePage extends AppCompatActivity {
 
-    // Error Log
-    private static final String TAG = "ProfilePage";
-
-    // XML Widgets
-    private androidx.appcompat.widget.Toolbar _toolbar;
     private TextView NameTextView;
     private TextView EmailTextView;
     private TextView BioTextView;
-
-    // Database
-    private FirebaseAuth AuthInstance;
-    private FirebaseFirestore DBInstance;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,9 +35,10 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        this._toolbar = findViewById(R.id.profile_Toolbar);
-        this.setSupportActionBar(this._toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // XML Widgets
+        androidx.appcompat.widget.Toolbar _toolbar = findViewById(R.id.profile_Toolbar);
+        this.setSupportActionBar(_toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -58,11 +52,12 @@ public class ProfilePage extends AppCompatActivity {
     private void setUserDB()
     {
         // User
-        this.AuthInstance = FirebaseAuth.getInstance();
-        this.DBInstance = FirebaseFirestore.getInstance();
+        // Database
+        FirebaseAuth authInstance = FirebaseAuth.getInstance();
+        FirebaseFirestore DBInstance = FirebaseFirestore.getInstance();
 
-        this.DBInstance.collection(getString(R.string.collection_users))
-                .document(this.AuthInstance.getCurrentUser().getUid())
+        DBInstance.collection(getString(R.string.collection_users))
+                .document(Objects.requireNonNull(authInstance.getCurrentUser()).getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>()
                 {
                     @Override
@@ -71,9 +66,9 @@ public class ProfilePage extends AppCompatActivity {
                     {
                         if (documentSnapshot != null)
                         {
-                            NameTextView.setText(documentSnapshot.get("displayName").toString());
-                            EmailTextView.setText(documentSnapshot.get("email").toString());
-                            BioTextView.setText(documentSnapshot.get("bio").toString());
+                            NameTextView.setText(Objects.requireNonNull(documentSnapshot.get("displayName")).toString());
+                            EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
+                            BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
                         }
                     }
                 });
@@ -94,4 +89,6 @@ public class ProfilePage extends AppCompatActivity {
     public void profileEdit(View view) {
         startActivity(new Intent(ProfilePage.this, ProfilePage_Edit.class));
     }
+
+
 }

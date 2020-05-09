@@ -37,20 +37,23 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.google.android.material:material:1.2.0-alpha06'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha02'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
 
     // Firebase
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.firebaseui:firebase-ui-firestore:6.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
+    implementation 'com.google.firebase:firebase-functions:19.0.2'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
 
     // Google SDKs
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils:1.0.2'
-    implementation 'com.google.firebase:firebase-functions:19.0.2'
-    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    
+    //Picture third party
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Java language implementation of preferences
     implementation "androidx.preference:preference:$preference_version"
