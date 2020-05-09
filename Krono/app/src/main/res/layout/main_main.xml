@@ -8,14 +8,14 @@
     android:background="@color/White"
     tools:context=".ui.MainPage">
 
-    <androidx.core.widget.NestedScrollView
+    <!--androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!-- Toolbar -->
@@ -115,6 +115,23 @@
             <include layout="@layout/main_separator"/>
 
             <!-- Plan Menu Items -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/main_tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_myplans" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu_shared" />
+
+            </com.google.android.material.tabs.TabLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -124,7 +141,7 @@
             <include layout="@layout/main_separator"/>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    <!--/androidx.core.widget.NestedScrollView-->
 
     <!-- Hidden Progress Bar -->
     <ProgressBar
