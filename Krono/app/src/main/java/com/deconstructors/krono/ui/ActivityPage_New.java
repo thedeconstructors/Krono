@@ -170,7 +170,12 @@ public class ActivityPage_New implements View.OnClickListener,
                     @Override
                     public void onSuccess(Void aVoid)
                     {
+
                         ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                        ActivityPage_New.this.TitleText.setText("");
+                        ActivityPage_New.this.DescText.setText("");
+                        ActivityPage_New.this.DateButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_timestamp));
+                        ActivityPage_New.this.LocationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_location));
                     }
                 })
                .addOnFailureListener(new OnFailureListener()

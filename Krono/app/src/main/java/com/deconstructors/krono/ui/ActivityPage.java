@@ -208,14 +208,6 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         // Not only because we changed the database, it's just the general practice we should've
         // Implemented before
         onDeletePlan(this.Plan.getPlanID())
-                /*.addOnSuccessListener(new OnSuccessListener<String>()
-                {
-                    @Override
-                    public void onSuccess(String s)
-                    {
-                        finish();
-                    }
-                })*/
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -226,33 +218,31 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
                         }
                     }
                 });
-
-        finish();
     }
 
-    private Task<String> onDeletePlan(String planID)
-    {
-        // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
-        snap.put("planID", planID);
-        snap.put("push", true);
-
-        return this.DBFunctions
-                .getHttpsCallable("deletePlan")
-                .call(snap)
-                .continueWith(new Continuation<HttpsCallableResult, String>()
-                {
-                    @Override
-                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
-                    {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        String result = (String) task.getResult().getData();
-                        return result;
-                    }
-                });
-    }
+//    private Task<String> onDeletePlan(String planID)
+//    {
+//        // Create the arguments to the callable function.
+//        Map<String, Object> snap = new HashMap<>();
+//        snap.put("planID", planID);
+//        snap.put("push", true);
+//
+//        return this.DBFunctions
+//                .getHttpsCallable("deletePlan")
+//                .call(snap)
+//                .continueWith(new Continuation<HttpsCallableResult, String>()
+//                {
+//                    @Override
+//                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+//                    {
+//                        // This continuation runs on either success or failure, but if the task
+//                        // has failed then getResult() will throw an Exception which will be
+//                        // propagated down.
+//                        String result = (String) task.getResult().getData();
+//                        return result;
+//                    }
+//                });
+//    }
 
     /************************************************************************
      * Purpose:         XML Contents
