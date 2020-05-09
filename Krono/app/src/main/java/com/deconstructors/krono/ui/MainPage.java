@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +37,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener,
-                                                            TabLayout.OnTabSelectedListener
+                                                            TabLayout.OnTabSelectedListener,
+                                                            SearchView.OnQueryTextListener
 {
     // Error Log
     private static final String TAG = "MainActivity";
@@ -48,6 +51,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private TextView EmailTextView;
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
+    private SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -55,6 +59,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private ListenerRegistration UserRegistration;
 
     //Plan stuff
+    Filterable CurrentFilterAdapter = null;
+
     private Query MyPlanQuery;
     private FirestoreRecyclerOptions<Plan> MyPlanOptions;
     private PlanAdapter MyPlanAdapter;
@@ -96,6 +102,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_plan_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
+        Search = (SearchView) searchItem.getActionView();
+        this.Search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -227,6 +237,18 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.Tabs.selectTab(Tabs.getTabAt(0));
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (CurrentFilterAdapter != null)
+            CurrentFilterAdapter.getFilter().filter(newText);
+        return true;
+    }
+
     /************************************************************************
      * Purpose:         Parcelable Plan Interaction
      * Precondition:    .
@@ -239,12 +261,13 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         if (Tabs.getSelectedTabPosition() == 0) {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
+            MyPlanAdapter.clearFilteredList();
         }
         else {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
+            SharedPlanAdapter.clearFilteredList();
         }
-
         startActivity(intent);
     }
 
@@ -301,6 +324,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             //My Plans
             case 0:
                 this.RecyclerView.setAdapter(this.MyPlanAdapter);
+                this.CurrentFilterAdapter = this.MyPlanAdapter;
                 this.MyPlanAdapter.startListening();
                 this.SharedPlanAdapter.stopListening();
                 this.FAB.setVisibility(View.VISIBLE);
@@ -308,6 +332,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             //Shared Plans
             case 1:
                 this.RecyclerView.setAdapter(this.SharedPlanAdapter);
+                this.CurrentFilterAdapter = this.SharedPlanAdapter;
                 this.SharedPlanAdapter.startListening();
                 this.MyPlanAdapter.stopListening();
                 this.FAB.setVisibility(View.GONE);
@@ -324,6 +349,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     public void onTabUnselected(TabLayout.Tab tab) {
         //nothing
     }
+
 
 
 }
