@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -46,6 +48,8 @@ import java.util.Set;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
 {
+    //static
+    static public enum EditMode { OWNER, COLLAB, PUBLIC }
     // Logcat
     private static final String TAG = "ActivityPage";
 
@@ -66,6 +70,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     // Var
     private Plan Plan;
+    private EditMode Editable;
 
     // Database
     private FirebaseFunctions DBFunctions;
@@ -140,11 +145,12 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
      ************************************************************************/
     private void checkIntent()
     {
-        if(getIntent().hasExtra(getString(R.string.intent_plans)))
+        if(getIntent().hasExtra(getString(R.string.intent_plans)) && getIntent().hasExtra(getString(R.string.intent_editable)))
         {
             this.Plan = getIntent().getParcelableExtra(getString(R.string.intent_plans));
             this.getSupportActionBar().setTitle(this.Plan.getTitle());
             this.ToolbarDescription.setText(this.Plan.getDescription());
+            this.Editable = (EditMode)getIntent().getSerializableExtra(getString(R.string.intent_editable));
         }
         else
         {
@@ -194,16 +200,22 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        this.DBInstance
-                .collection(getString(R.string.collection_plans))
-                .document(this.Plan.getPlanID())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>()
-                {
+        if (Editable == EditMode.PUBLIC) {
+            Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // This should be done in Firebase Functions and not fully dependant on the user side
+        // Not only because we changed the database, it's just the general practice we should've
+        // Implemented before
+        onDeletePlan(this.Plan.getPlanID())
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        finish();
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseFunctionsException) {
+                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
+                            FirebaseFunctionsException.Code code = ffe.getCode();
+                            Object details = ffe.getDetails();
+                        }
                     }
                 });
     }
@@ -245,19 +257,35 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
 
-        //collaborators button
+        //buttons
+        this.FAB = findViewById(R.id.ActivityPage_FAB);
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
-        this.Collaborators = new ArrayList<>();
-        List<String> planCollabs = this.Plan.getCollaborators();
-        if (planCollabs != null)
-        {
-            this.Collaborators = new ArrayList<>(planCollabs);
-        }
 
-        // Bottom Sheet
-        this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
-        this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+
+        //Bottom Sheet and Collaborators
+        if (Editable == EditMode.OWNER) {
+            this.Collaborators = new ArrayList<>();
+            List<String> planCollabs = this.Plan.getCollaborators();
+            if (planCollabs != null)
+            {
+                this.Collaborators = new ArrayList<>(planCollabs);
+            }
+            this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+            this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else if (Editable == EditMode.COLLAB)
+        {
+            this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+            this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+            FAB_Collaborators.setVisibility(View.GONE);
+        }
+        else
+        {
+            FAB.setVisibility(View.GONE);
+            FAB_Collaborators.setVisibility(View.GONE);
+            findViewById(R.id.ActivityPageNew_BottomSheet).setVisibility(View.GONE);
+        }
     }
 
     /************************************************************************
@@ -270,11 +298,17 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         Intent intent = new Intent(ActivityPage.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
+        intent.putExtra(getString(R.string.intent_editable),Editable);
         startActivity(intent);
     }
 
     private void editPlan()
     {
+        if (Editable == EditMode.PUBLIC)
+        {
+            Toast.makeText(this,"This plan is not editable", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);
         intent.putExtra(getString(R.string.intent_plans), this.Plan);
         startActivity(intent);
@@ -338,7 +372,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     @Override
     public void onBackPressed()
     {
-        if (this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        if ((Editable != EditMode.PUBLIC)
+                && this.ActivityPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
         {
             this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         }
@@ -352,7 +387,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        if (Editable != EditMode.PUBLIC)
+            this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
         switch (resultCode)
         {
             case AR_COLLAB:

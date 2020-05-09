@@ -37,10 +37,10 @@ public class Helper
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public static boolean isEmpty(EditText editText) { return editText.getText().toString().equals(""); }
+    public static boolean isEmpty(EditText editText) { return editText.getText().toString().trim().equals(""); }
     public static boolean isEmpty(String string)
     {
-        return string.equals("");
+        return string.trim().equals("");
     }
 
     /************************************************************************

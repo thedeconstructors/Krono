@@ -1,5 +1,6 @@
 package com.deconstructors.krono.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -261,6 +262,23 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onPlanSelected(int position) {
-        //nothing (for now)
+        Intent intent = new Intent(this, ActivityPage.class);
+
+        PlanAdapter chosenRecycler;
+        ActivityPage.EditMode canEdit;
+
+        if (PlansRecycler.getAdapter() == PublicPlansAdapter) {
+            chosenRecycler = PublicPlansAdapter;
+            canEdit = ActivityPage.EditMode.PUBLIC;
+        }
+        else {
+            chosenRecycler = SharedPlansAdapter;
+            canEdit = ActivityPage.EditMode.COLLAB;
+        }
+
+        intent.putExtra(getString(R.string.intent_plans), chosenRecycler.getItem(position));
+        intent.putExtra(getString(R.string.intent_editable),canEdit);
+
+        startActivity(intent);
     }
 }
