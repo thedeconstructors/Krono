@@ -205,7 +205,7 @@ public class FriendPage_New implements View.OnClickListener
                 public void onFailure(@NonNull Exception e)
                 {
                     Log.d(TAG, "getAddFriendFunctions: " + e.getMessage());
-                    makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());
+                    /*makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());*/
                 }
             });
     }
@@ -213,7 +213,7 @@ public class FriendPage_New implements View.OnClickListener
     private Task<String> getAddFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
+        HashMap<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 

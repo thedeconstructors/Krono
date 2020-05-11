@@ -56,6 +56,7 @@ exports.deleteActivityOnDeletePlan = functions.firestore
 exports.addFriend = functions.https.onCall((data, context) => 
 {
     const friendID = data.friendID;
+    //const friendID = "p5VzvIBM0jYdOlCxrSS728wkKZh2";
     const uid = context.auth.uid.toString();
 
     return database
@@ -63,13 +64,14 @@ exports.addFriend = functions.https.onCall((data, context) =>
         .doc(friendID)
         .set(
         {
-            friends : 
+            friends: 
             {
-                [uid] : true
+                [uid]: true
+                //"p5VzvIBM0jYdOlCxrSS728wkKZh2" : true
             }
         },
         {
-            merge : true
+            merge: true
         })
         .catch(error => 
         {
@@ -88,8 +90,8 @@ exports.deleteFriend = functions.https.onCall((data, context) =>
 {
     const friendID = data.friendID;
     const uid = context.auth.uid.toString();
-    console.log(friendID);
-    console.log(uid);
+    //console.log(friendID);
+    //console.log(uid);
 
     return database
         .collection(users)

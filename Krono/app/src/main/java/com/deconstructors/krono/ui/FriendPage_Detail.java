@@ -266,8 +266,8 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                 public void onFailure(@NonNull Exception e)
                 {
                     Log.d(TAG, "getDeleteFriendFunctions: " + e.getMessage());
-                    Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
-                                               "Friend Delete Error: " + e.getMessage());
+                    /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                               "Friend Delete Error: " + e.getMessage());*/
                 }
             });
     }
@@ -275,7 +275,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private Task<String> getDeleteFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
+        HashMap<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 
