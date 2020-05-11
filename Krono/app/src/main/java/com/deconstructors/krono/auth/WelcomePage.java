@@ -14,11 +14,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.ui.MainPage;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WelcomePage extends AppCompatActivity implements View.OnClickListener
 {

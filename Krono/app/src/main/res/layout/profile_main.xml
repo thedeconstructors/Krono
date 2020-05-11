@@ -183,4 +183,5 @@
         app:civ_border_color="@color/White"
         app:civ_border_width="1dp"
         android:id="@+id/profile_picture"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
