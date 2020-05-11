@@ -198,53 +198,28 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
     }
 
-    private void deletePlan() {
-        if (Editable == EditMode.PUBLIC) {
+    private void deletePlan()
+    {
+        if (Editable == EditMode.PUBLIC) 
+        {
             Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
             return;
         }
-        // This should be done in Firebase Functions and not fully dependant on the user side
-        // Not only because we changed the database, it's just the general practice we should've
-        // Implemented before
-
-        // I accidentally botched this comment /:
-        /*onDeletePlan(this.Plan.getPlanID()) {
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (e instanceof FirebaseFunctionsException) {
-                            FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
-                            FirebaseFunctionsException.Code code = ffe.getCode();
-                            Object details = ffe.getDetails();
-                        }
-                    }
-                });
-                */
-    }
-
-//    private Task<String> onDeletePlan(String planID)
-//    {
-//        // Create the arguments to the callable function.
-//        Map<String, Object> snap = new HashMap<>();
-//        snap.put("planID", planID);
-//        snap.put("push", true);
-//
-//        return this.DBFunctions
-//                .getHttpsCallable("deletePlan")
-//                .call(snap)
-//                .continueWith(new Continuation<HttpsCallableResult, String>()
-//                {
-//                    @Override
-//                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
-//                    {
-//                        // This continuation runs on either success or failure, but if the task
-//                        // has failed then getResult() will throw an Exception which will be
-//                        // propagated down.
-//                        String result = (String) task.getResult().getData();
-//                        return result;
-//                    }
-//                });
-//    }
+        else
+        {
+            this.DBInstance
+            .collection(getString(R.string.collection_plans))
+            .document(this.Plan.getPlanID())
+            .delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    finish();
+                }
+            });
+        }
 
     /************************************************************************
      * Purpose:         XML Contents
@@ -288,6 +263,9 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             FAB_Collaborators.setVisibility(View.GONE);
             findViewById(R.id.ActivityPageNew_BottomSheet).setVisibility(View.GONE);
         }
+        // Bottom Sheet
+        this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
+        this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     /************************************************************************
