@@ -17,6 +17,7 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -178,12 +179,26 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     private void deleteActivity()
     {
-        if (Editable == ActivityPage.EditMode.PUBLIC) {
+        if (Editable == ActivityPage.EditMode.PUBLIC)
+        {
             Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
             return;
         }
-        // This should be done in Firebase Functions and not fully dependant on the user side
-        // It's like we have subcollections called plans inside activities.
+        else
+        {
+            this.FirestoreDB
+                    .collection(getString(R.string.collection_activities))
+                    .document(this.Activity.getActivityID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>()
+                    {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            finish();
+                        }
+                    });
+        }
     }
 
     /************************************************************************

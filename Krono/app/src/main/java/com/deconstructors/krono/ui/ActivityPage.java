@@ -46,7 +46,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener, View.OnClickListener
+public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener,
+                                                               View.OnClickListener
 {
     //static
     static public enum EditMode { OWNER, COLLAB, PUBLIC }
@@ -200,7 +201,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
     private void deletePlan()
     {
-        if (Editable == EditMode.PUBLIC) 
+        if (Editable == EditMode.PUBLIC)
         {
             Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
             return;
@@ -208,18 +209,19 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         else
         {
             this.DBInstance
-            .collection(getString(R.string.collection_plans))
-            .document(this.Plan.getPlanID())
-            .delete()
-            .addOnSuccessListener(new OnSuccessListener<Void>()
-            {
-                @Override
-                public void onSuccess(Void aVoid)
-                {
-                    finish();
-                }
-            });
+                    .collection(getString(R.string.collection_plans))
+                    .document(this.Plan.getPlanID())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>()
+                    {
+                        @Override
+                        public void onSuccess(Void aVoid)
+                        {
+                            finish();
+                        }
+                    });
         }
+    }
 
     /************************************************************************
      * Purpose:         XML Contents
@@ -241,7 +243,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
 
         //Bottom Sheet and Collaborators
-        if (Editable == EditMode.OWNER) {
+        if (Editable == EditMode.OWNER)
+        {
             this.Collaborators = new ArrayList<>();
             List<String> planCollabs = this.Plan.getCollaborators();
             if (planCollabs != null)
@@ -263,6 +266,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             FAB_Collaborators.setVisibility(View.GONE);
             findViewById(R.id.ActivityPageNew_BottomSheet).setVisibility(View.GONE);
         }
+
         // Bottom Sheet
         this.ActivityPage_New = new ActivityPage_New(this, this.Plan);
         this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
