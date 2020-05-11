@@ -27,8 +27,8 @@
         <Preference
             android:key="single_line_title"
             android:title="Most Used 4"
-            android:summary="Setting is 4th most used"
-            android:singleLineTitle="true"/>
+            android:summary="Setting is 4th most used" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -45,7 +45,7 @@
             android:summary="Another Setting"/>
 
         <SeekBarPreference
-            android:key="seekbar"
+            android:key="seekBar"
             android:title="Seek that preference"
             android:max="10"
             android:defaultValue="5"/>

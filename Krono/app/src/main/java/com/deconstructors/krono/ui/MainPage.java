@@ -2,9 +2,9 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,22 +22,20 @@ import com.deconstructors.krono.auth.WelcomePage;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
-                                                           View.OnClickListener
+                                                           View.OnClickListener,
+                                                            TabLayout.OnTabSelectedListener
 {
     // Error Log
     private static final String TAG = "MainActivity";
@@ -49,14 +47,21 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private TextView NameTextView;
     private TextView EmailTextView;
     private CircleImageView ProfilePicture;
+    private TabLayout Tabs;
 
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private Query PlanQuery;
-    private FirestoreRecyclerOptions<Plan> PlanOptions;
-    private PlanAdapter PlanAdapter;
     private ListenerRegistration UserRegistration;
+
+    //Plan stuff
+    private Query MyPlanQuery;
+    private FirestoreRecyclerOptions<Plan> MyPlanOptions;
+    private PlanAdapter MyPlanAdapter;
+
+    private Query SharedPlanQuery;
+    private FirestoreRecyclerOptions<Plan> SharedPlanOptions;
+    private PlanAdapter SharedPlanAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -95,6 +100,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.activity_toolbar_settingsButton:
+                Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /************************************************************************
      * Purpose:         Database
      * Precondition:    .
@@ -105,13 +121,24 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         // Plan
         this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
-        this.PlanQuery = this.DBInstance
+
+        //My plans
+        this.MyPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());;
-        this.PlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
-                .setQuery(this.PlanQuery, Plan.class)
+                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());
+        this.MyPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.MyPlanQuery, Plan.class)
                 .build();
-        this.PlanAdapter = new PlanAdapter(this.PlanOptions, this);
+        this.MyPlanAdapter = new PlanAdapter(this.MyPlanOptions, this);
+
+        //Shared plans
+        this.SharedPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereArrayContains("collaborators", this.AuthInstance.getCurrentUser().getUid());
+        this.SharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(this.SharedPlanQuery, Plan.class)
+                .build();
+        this.SharedPlanAdapter = new PlanAdapter(this.SharedPlanOptions, this);
     }
 
     private void setUserDB()
@@ -157,14 +184,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     protected void onStart()
     {
         super.onStart();
-        if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
+        onTabSelected(Tabs.getTabAt(Tabs.getSelectedTabPosition()));
+        //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
+        this.MyPlanAdapter.stopListening();
+        this.SharedPlanAdapter.stopListening();
+        //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
     }
 
     @Override
@@ -185,13 +215,16 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.RecyclerView = findViewById(R.id.MainActivity_RecyclerView);
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        this.RecyclerView.setAdapter(this.PlanAdapter);
 
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
         this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
         this.ProfilePicture.setOnClickListener(this);
+        this.Tabs = findViewById(R.id.main_tabLayout);
+        this.Tabs.addOnTabSelectedListener(this);
+
+        this.Tabs.selectTab(Tabs.getTabAt(0));
     }
 
     /************************************************************************
@@ -203,7 +236,15 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     public void onPlanSelected(int position)
     {
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
+        if (Tabs.getSelectedTabPosition() == 0) {
+            intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
+            intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
+        }
+        else {
+            intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
+            intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
+        }
+
         startActivity(intent);
     }
 
@@ -229,16 +270,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_menu_profile: {
-                Intent intent = new Intent(MainPage.this, ProfilePage.class);
-                startActivity(intent);
-                break;
-            }
-            case R.id.ui_menu_settings: {
-                Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
-                startActivity(intent);
-                break;
-            }
             case R.id.ui_menu_chat:
             {
                 break;
@@ -251,7 +282,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_main_profilepicture:
             {
-                LogOut();
+                Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                startActivity(intent);
                 break;
             }
         }
@@ -261,4 +293,37 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         FirebaseAuth.getInstance().signOut();
     }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition())
+        {
+            //My Plans
+            case 0:
+                this.RecyclerView.setAdapter(this.MyPlanAdapter);
+                this.MyPlanAdapter.startListening();
+                this.SharedPlanAdapter.stopListening();
+                this.FAB.setVisibility(View.VISIBLE);
+                break;
+            //Shared Plans
+            case 1:
+                this.RecyclerView.setAdapter(this.SharedPlanAdapter);
+                this.SharedPlanAdapter.startListening();
+                this.MyPlanAdapter.stopListening();
+                this.FAB.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        onTabSelected(tab);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        //nothing
+    }
+
+
 }

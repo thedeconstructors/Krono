@@ -29,7 +29,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/activitydetail_editActivityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/auth_buttonStartEndPadding"

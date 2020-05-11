@@ -4,21 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.module.Plan;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +30,6 @@ public class ProfilePage extends AppCompatActivity {
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-    private ListenerRegistration UserRegistration;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,8 +61,7 @@ public class ProfilePage extends AppCompatActivity {
         this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
 
-        this.UserRegistration = this.DBInstance
-                .collection(getString(R.string.collection_users))
+        this.DBInstance.collection(getString(R.string.collection_users))
                 .document(this.AuthInstance.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>()
                 {

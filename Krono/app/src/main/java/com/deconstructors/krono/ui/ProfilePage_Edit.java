@@ -96,7 +96,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
      ************************************************************************/
     private void saveProfile()
     {
-        profile.put("name", this.NameTextView.getText().toString());
+        profile.put("displayName", this.NameTextView.getText().toString());
         profile.put("email", this.EmailTextView.getText().toString());
         profile.put("bio", this.BioTextView.getText().toString());
 
