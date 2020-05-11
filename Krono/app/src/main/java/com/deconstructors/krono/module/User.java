@@ -18,12 +18,12 @@ public class User implements Parcelable
      ************************************************************************/
     public User(){}
 
-    public User(String displayName, String email, String bio, String uid)
+    public User(String uid, String displayName, String email, String bio)
     {
+        this.Uid = uid;
         this.DisplayName = displayName;
         this.Email = email;
         this.Bio = bio;
-        this.Uid = uid;
     }
 
     /************************************************************************

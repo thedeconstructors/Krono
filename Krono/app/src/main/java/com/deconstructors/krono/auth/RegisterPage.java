@@ -147,6 +147,7 @@ public class RegisterPage implements View.OnClickListener
         user.put("email", email);
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
+        user.put("uid", authResult.getUser().getUid());
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {

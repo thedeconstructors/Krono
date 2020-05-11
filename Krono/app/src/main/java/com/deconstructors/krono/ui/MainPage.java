@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Filterable;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +22,7 @@ import com.deconstructors.krono.auth.WelcomePage;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -34,20 +37,30 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
-                                                           View.OnClickListener
+                                                           View.OnClickListener,
+                                                            TabLayout.OnTabSelectedListener,
+                                                            SearchView.OnQueryTextListener
 {
-    // Error Log
-    //private static final String TAG = "MainActivity";
-
+    //Xml Widgets
+    androidx.recyclerview.widget.RecyclerView recyclerView;
     private TextView NameTextView;
     private TextView EmailTextView;
     private CircleImageView ProfilePicture;
+    private TabLayout Tabs;
+    private FloatingActionButton FAB;
 
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private PlanAdapter PlanAdapter;
     private ListenerRegistration UserRegistration;
+
+    //Plan stuff
+    Filterable CurrentFilterAdapter = null;
+
+    private PlanAdapter MyPlanAdapter;
+
+    private PlanAdapter SharedPlanAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,6 +97,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_plan_main, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
+        SearchView search = (SearchView) searchItem.getActionView();
+        search.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -116,6 +133,24 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 .setQuery(planQuery, Plan.class)
                 .build();
         this.PlanAdapter = new PlanAdapter(planOptions, this);
+
+        //My plans
+        Query myPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());
+        FirestoreRecyclerOptions<Plan> myPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(myPlanQuery, Plan.class)
+                .build();
+        this.MyPlanAdapter = new PlanAdapter(myPlanOptions, this);
+
+        //Shared plans
+        Query sharedPlanQuery = this.DBInstance
+                .collection(getString(R.string.collection_plans))
+                .whereArrayContains("collaborators", this.AuthInstance.getCurrentUser().getUid());
+        FirestoreRecyclerOptions<Plan> sharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
+                .setQuery(sharedPlanQuery, Plan.class)
+                .build();
+        this.SharedPlanAdapter = new PlanAdapter(sharedPlanOptions, this);
     }
 
     private void setUserDB()
@@ -172,14 +207,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     protected void onStart()
     {
         super.onStart();
-        if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
+        onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
+        //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
+        this.MyPlanAdapter.stopListening();
+        this.SharedPlanAdapter.stopListening();
+        //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
     }
 
     @Override
@@ -197,16 +235,32 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private void setContents()
     {
         // Recycler View
-        androidx.recyclerview.widget.RecyclerView recyclerView = findViewById(R.id.MainActivity_RecyclerView);
+        recyclerView = findViewById(R.id.MainActivity_RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.PlanAdapter);
 
         // Other XML Widgets
-        FloatingActionButton FAB = findViewById(R.id.ui_main_fab);
-        FAB.setOnClickListener(this);
+        this.FAB = findViewById(R.id.ui_main_fab);
+        this.FAB.setOnClickListener(this);
         this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
         this.ProfilePicture.setOnClickListener(this);
+        this.Tabs = findViewById(R.id.main_tabLayout);
+        this.Tabs.addOnTabSelectedListener(this);
+
+        this.Tabs.selectTab(Tabs.getTabAt(0));
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (CurrentFilterAdapter != null)
+            CurrentFilterAdapter.getFilter().filter(newText);
+        return true;
     }
 
     /************************************************************************
@@ -218,7 +272,16 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     public void onPlanSelected(int position)
     {
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
-        intent.putExtra(getString(R.string.intent_plans), this.PlanAdapter.getItem(position));
+        if (Tabs.getSelectedTabPosition() == 0) {
+            intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
+            intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
+            MyPlanAdapter.clearFilteredList();
+        }
+        else {
+            intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
+            intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
+            SharedPlanAdapter.clearFilteredList();
+        }
         startActivity(intent);
     }
 
@@ -261,5 +324,38 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 break;
             }
         }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition())
+        {
+            //My Plans
+            case 0:
+                this.recyclerView.setAdapter(this.MyPlanAdapter);
+                this.CurrentFilterAdapter = this.MyPlanAdapter;
+                this.MyPlanAdapter.startListening();
+                this.SharedPlanAdapter.stopListening();
+                this.FAB.setVisibility(View.VISIBLE);
+                break;
+            //Shared Plans
+            case 1:
+                this.recyclerView.setAdapter(this.SharedPlanAdapter);
+                this.CurrentFilterAdapter = this.SharedPlanAdapter;
+                this.SharedPlanAdapter.startListening();
+                this.MyPlanAdapter.stopListening();
+                this.FAB.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        onTabSelected(tab);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        //nothing
     }
 }

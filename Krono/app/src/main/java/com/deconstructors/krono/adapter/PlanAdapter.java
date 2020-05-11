@@ -3,6 +3,8 @@ package com.deconstructors.krono.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +15,18 @@ import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /************************************************************************
  * Class:           PlansListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder>
+public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder> implements Filterable
 {
     private PlanClickListener ClickListener;
+    private List<Plan> FilteredList;
+    public boolean filtering = false;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -31,6 +38,61 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
     {
         super(options);
         this.ClickListener = clickListener;
+        this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    public void clearFilteredList()
+    {
+        FilteredList = new ArrayList<>();
+    }
+
+    @Override
+    public void onDataChanged()
+    {
+        super.onDataChanged();
+        if (!filtering)
+            this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    @Override
+    public int getItemCount()
+    {
+        onDataChanged();
+        return FilteredList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String pattern = constraint.toString().toLowerCase();
+                if(pattern.isEmpty()){
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    filtering = false;
+                } else {
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    List<Plan> filteredList = new ArrayList<>();
+                    filtering = true;
+                    for(Plan plan: FilteredList){
+                        if(plan.getTitle().toLowerCase().contains(pattern)) {
+                            filteredList.add(plan);
+                        }
+                    }
+                    FilteredList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = FilteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                FilteredList = (ArrayList<Plan>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     /************************************************************************
@@ -59,7 +121,8 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
                                     int position,
                                     @NonNull Plan model)
     {
-        holder.Title.setText(model.getTitle());
+        //holder.Title.setText(model.getTitle());
+        holder.Title.setText(FilteredList.get(position).getTitle());
     }
 
     /************************************************************************
