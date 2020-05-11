@@ -125,6 +125,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
 
         // Bottom Sheet
         this.FriendPage_New = new FriendPage_New(this);
+        this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     /************************************************************************
