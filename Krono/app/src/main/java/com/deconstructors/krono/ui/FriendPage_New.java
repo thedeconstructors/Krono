@@ -177,6 +177,7 @@ public class FriendPage_New implements View.OnClickListener
                 public void onSuccess(Void aVoid)
                 {
                     FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                    FriendPage_New.this.SearchText.setText("");
                 }
             })
             .addOnFailureListener(new OnFailureListener()
