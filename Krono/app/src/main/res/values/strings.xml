@@ -10,6 +10,10 @@
     <string name="collection_friends">friends</string>
     <string name="collection_activities">activities</string>
 
+    <!-- Cloud FireStorage Paths -->
+    <string name="fs_profile_picture_path">profilepictures/</string>
+    <string name="png_extension">.png</string>
+
     <!-- 2. Cloud Firestore Document Field Names -->
     <string name="activities_activityID">activityID</string>
     <string name="activities_description">description</string>

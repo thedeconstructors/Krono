@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RegisterPage implements View.OnClickListener
 {
@@ -37,7 +40,6 @@ public class RegisterPage implements View.OnClickListener
     private EditText RegisterEmail;
     private EditText RegisterPassword;
     private EditText RegisterConfirm;
-    private Button RegisterButton;
 
     // Database
     private FirebaseAuth DBInstance;
@@ -47,7 +49,7 @@ public class RegisterPage implements View.OnClickListener
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public RegisterPage(Activity instance)
+    RegisterPage(Activity instance)
     {
         this.ActivityInstance = instance;
         this.setContents();
@@ -72,8 +74,8 @@ public class RegisterPage implements View.OnClickListener
         this.RegisterEmail = this.ActivityInstance.findViewById(R.id.auth_register_emailEditText);
         this.RegisterPassword = this.ActivityInstance.findViewById(R.id.auth_register_passwordEditText);
         this.RegisterConfirm = this.ActivityInstance.findViewById(R.id.auth_register_confirmEditText);
-        this.RegisterButton = this.ActivityInstance.findViewById(R.id.auth_registerButton);
-        this.RegisterButton.setOnClickListener(this); // Manually Added for Readability
+        Button registerButton = this.ActivityInstance.findViewById(R.id.auth_registerButton);
+        registerButton.setOnClickListener(this); // Manually Added for Readability
     }
 
     /************************************************************************
@@ -137,7 +139,7 @@ public class RegisterPage implements View.OnClickListener
         DocumentReference ref = FirebaseFirestore
                 .getInstance()
                 .collection(this.ActivityInstance.getString(R.string.collection_users))
-                .document(authResult.getUser().getUid());
+                .document(Objects.requireNonNull(authResult.getUser()).getUid());
 
         Map<String, Object> user = new HashMap<>();
 
@@ -165,13 +167,8 @@ public class RegisterPage implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
-        {
-            case R.id.auth_registerButton:
-            {
-                this.onRegisterClick();
-                break;
-            }
+        if (v.getId() == R.id.auth_registerButton) {
+            this.onRegisterClick();
         }
     }
 }

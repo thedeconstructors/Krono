@@ -11,21 +11,26 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,11 +52,12 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
     //Profile Picture
     private Bitmap data_bitmap = null;
 
+    //FireStorage
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+
+    //FireStore
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
-
-    //Profile Data
-    Map<String, Object> profile = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,9 +146,12 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                     {
                         if (documentSnapshot != null)
                         {
-                            NameTextView.setText(Objects.requireNonNull(documentSnapshot.get("displayName")).toString());
-                            EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
-                            BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
+                            NameTextView.setText(Objects.requireNonNull(
+                                    documentSnapshot.get("displayName")).toString());
+                            EmailTextView.setText(Objects.requireNonNull(
+                                    documentSnapshot.get("email")).toString());
+                            BioTextView.setText(Objects.requireNonNull(
+                                    documentSnapshot.get("bio")).toString());
                         }
                     }
                 });
@@ -155,27 +164,77 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
      ************************************************************************/
     private void saveProfile()
     {
-        profile.put("displayName", this.NameTextView.getText().toString());
-        profile.put("email", this.EmailTextView.getText().toString());
-        profile.put("bio", this.BioTextView.getText().toString());
+        //Creating an uploadable byte array for upload to Google's Firebase FireStorage service
+        ByteArrayOutputStream boas = new ByteArrayOutputStream();
+        data_bitmap.compress(Bitmap.CompressFormat.PNG, 100, boas);
+        byte[] data = boas.toByteArray();
 
-        this.DBInstance.collection(getString(R.string.collection_users))
-                .document(Objects.requireNonNull(this.AuthInstance.getCurrentUser()).getUid())
-                .update(profile)
-                .addOnSuccessListener(new OnSuccessListener<Void>()
-                {
+        //Path for a unique profile picture
+        String path = getString(R.string.fs_profile_picture_path) +
+                AuthInstance.getUid() + getString(R.string.png_extension);
+
+        //Storage Hook
+        final StorageReference fireRef = storage.getReference(path);
+
+        //Upload the file to FireStorage
+        UploadTask uploadTask = fireRef.putBytes(data);
+        uploadTask.addOnCompleteListener(ProfilePage_Edit.this,
+                new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid)
-                    {
-                        finish();
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        //TODO Progress Bar
                     }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
+                });
+
+        Task<Uri> getDownloadUriTask = uploadTask.continueWithTask(
+                new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        Toast.makeText(ProfilePage_Edit.this, "Edit Failed", Toast.LENGTH_SHORT).show();
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task)
+                            throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw Objects.requireNonNull(task.getException());
+                                }
+                                return fireRef.getDownloadUrl();
+                            }
+                        }
+                    );
+
+        getDownloadUriTask.addOnCompleteListener(ProfilePage_Edit.this,
+                new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+
+                        //Profile Data
+                        Map<String, Object> profile = new HashMap<>();
+
+                        profile.put("displayName", NameTextView.getText().toString());
+                        profile.put("email", EmailTextView.getText().toString());
+                        profile.put("bio", BioTextView.getText().toString());
+
+                        if (task.isSuccessful()) {
+                            profile.put("picture",
+                                    Objects.requireNonNull(task.getResult()).toString());
+
+                        } else {
+                            //TODO Default Picture
+                            profile.put("picture",
+                                    "Error");
+                        }
+
+                        setDataBase(profile);
+                    }
+                });
+    }
+
+    private void setDataBase(Map<String, Object> profile) {
+        DBInstance.collection(getString(R.string.collection_users))
+                .document(Objects.requireNonNull(
+                        AuthInstance.getCurrentUser()).getUid())
+                .update(profile)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        finish();
                     }
                 });
     }
