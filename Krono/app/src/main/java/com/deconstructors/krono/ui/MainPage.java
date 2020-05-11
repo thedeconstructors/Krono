@@ -41,13 +41,19 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                                                             TabLayout.OnTabSelectedListener,
                                                             SearchView.OnQueryTextListener
 {
+
     //Xml Widgets
     androidx.recyclerview.widget.RecyclerView recyclerView;
+
+    // Error Log
+    private static final String TAG = "MainActivity";
+
+    // XML Widgets
     private TextView NameTextView;
     private TextView EmailTextView;
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
-    private FloatingActionButton FAB;
+    private FloatingActionButton FAB, notificationsFAB;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -243,6 +249,9 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
+        this.notificationsFAB = findViewById(R.id.ui_main_fab_notifications);
+        this.notificationsFAB.setOnClickListener(this);
+
         this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
         this.ProfilePicture.setOnClickListener(this);
         this.Tabs = findViewById(R.id.main_tabLayout);
@@ -317,9 +326,13 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_profilepicture:
-            {
+            case R.id.ui_main_profilepicture: {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                break;
+            }
+            case R.id.ui_main_fab_notifications:
+            {
+                Intent intent = new Intent(MainPage.this, NotificationsPage.class);
                 startActivity(intent);
                 break;
             }
