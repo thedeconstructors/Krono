@@ -30,6 +30,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,8 @@ public class ChatPage extends AppCompatActivity
     private EditText messageText;
     private User user;
 
+    private DocumentReference documentReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -63,50 +67,8 @@ public class ChatPage extends AppCompatActivity
         setContentView(R.layout.chat_main);
 
         this.setToolbar();
-        //this.setDatabase();
-        //this.setContents();
-        messageText = findViewById(R.id.ChatPage_Message);
-
-        DBInstance = FirebaseFirestore.getInstance();
-        RecyclerView = findViewById(R.id.ChatPage_recyclerview);
-
-        ChatQuery = DBInstance.collection("chats");
-        ChatOptions = new FirestoreRecyclerOptions.Builder<Message>().setQuery(ChatQuery, Message.class)
-        .build();
-
-        adapter = new FirestoreRecyclerAdapter<Message, MessageViewHolder>(ChatOptions) {
-            @NonNull
-            @Override
-            public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_listitem, parent, false);
-                return new MessageViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
-                holder.displayName.setText(model.GetSender());
-                holder.message.setText(model.GetText());
-                holder.time.setText(Long.toString(model.GetTime()));
-            }
-        };
-
-        RecyclerView.setHasFixedSize(true);
-        RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.setAdapter(adapter);
-    }
-
-    private class MessageViewHolder extends RecyclerView.ViewHolder
-    {
-        private TextView displayName;
-        private TextView message;
-        private TextView time;
-        public MessageViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            displayName = itemView.findViewById(R.id.chatlist_nameText);
-            message = itemView.findViewById(R.id.chatlist_messageText);
-            time = itemView.findViewById(R.id.chatlist_time);
-        }
+        this.setDatabase();
+        this.setContents();
     }
 
     /************************************************************************
@@ -130,13 +92,14 @@ public class ChatPage extends AppCompatActivity
      ************************************************************************/
     private void setDatabase()
     {
+        //this.AuthInstance = FirebaseAuth.getInstance();
         this.DBInstance = FirebaseFirestore.getInstance();
         this.ChatQuery = this.DBInstance
-                .collection(getString(R.string.collection_plans))
-                .document(this.user.getDisplayName())
-                .collection(getString(R.string.collection_activities));
+                .collection("chats")
+                .whereEqualTo("recipient", "Me")
+                .orderBy("time");
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(this.ChatQuery, Message.class)
+                .setQuery(ChatQuery, Message.class)
                 .build();
         this.messageAdapter = new MessageAdapter(this.ChatOptions);
     }
@@ -164,13 +127,11 @@ public class ChatPage extends AppCompatActivity
     {
         // Recycler View
         this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
-        //this.RecyclerView = findViewById(R.id.FriendPage_recyclerview);
         this.RecyclerView.setHasFixedSize(true);
-        this.RecyclerView.setAdapter(this.messageAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.RecyclerView.setAdapter(this.messageAdapter);
 
-        // Bottom Sheet
-        //this.FriendPage_New = new FriendPage_New(this);
+        this.messageText = findViewById(R.id.ChatPage_Message);
     }
 
     public void SendMessageClick(View view) {
@@ -181,9 +142,12 @@ public class ChatPage extends AppCompatActivity
 
             Message newMessage = new Message();
             message.put("sender", "Me");
-            message.put("message", this.messageText.toString());
-            message.put("time", Long.toString(newMessage.GetTime()));
-            DBInstance.collection("chats").document().update(message);
+            message.put("recipient", "Me");
+            message.put("message", this.messageText.getText().toString());
+            message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
+            DBInstance.collection("chats")
+                    .document(this.AuthInstance.getUid())
+                    .set(message);
         }
         else
         {

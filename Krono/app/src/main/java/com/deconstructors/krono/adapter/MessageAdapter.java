@@ -15,7 +15,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
 {
-    private MessageClickListener ClickListener;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -25,7 +24,6 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options)
     {
         super(options);
-        //this.ClickListener = clickListener;
     }
 
     /************************************************************************
@@ -41,8 +39,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     {
         int res = R.layout.chat_listitem;
         View view = LayoutInflater.from(parent.getContext()).inflate(res, parent, false);
-
-        return new MessageHolder(view, this.ClickListener);
+        return new MessageHolder(view);
     }
 
     /************************************************************************
@@ -55,8 +52,10 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
                                     int position,
                                     @NonNull Message model)
     {
-        holder.displayNameText.setText(model.GetSender());
-        holder.emailText.setText(model.GetSender());
+        holder.nameText.setText(model.getSender());
+        holder.recipientText.setText(model.getRecipient());
+        holder.messageText.setText(model.getText());
+        holder.timeText.setText(model.getTime());
     }
 
     /************************************************************************
@@ -64,32 +63,20 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
      * Precondition:    .
      * Postcondition:   Archive the element from the single list item
      ************************************************************************/
-    public class MessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public class MessageHolder extends RecyclerView.ViewHolder
     {
-        TextView displayNameText;
-        TextView emailText;
-        MessageClickListener ClickListener;
+        TextView nameText;
+        TextView messageText;
+        TextView timeText;
+        TextView recipientText;
 
-        public MessageHolder(@NonNull View itemView, MessageClickListener clickListener)
+        public MessageHolder(@NonNull View itemView)
         {
             super(itemView);
 
-            this.displayNameText = (TextView) itemView.findViewById(R.id.friendlist_nameText);
-            this.emailText = (TextView) itemView.findViewById(R.id.friendlist_emailText);
-            this.ClickListener = clickListener;
-
-            itemView.setOnClickListener(this);
+            this.nameText = (TextView) itemView.findViewById(R.id.chatlist_nameText);
+            this.messageText = (TextView) itemView.findViewById(R.id.chatlist_messageText);
+            this.timeText = (TextView) itemView.findViewById(R.id.chatlist_time);
         }
-
-        @Override
-        public void onClick(View v)
-        {
-            this.ClickListener.onMessageSelected(getAdapterPosition());
-        }
-    }
-
-    public interface MessageClickListener
-    {
-        void onMessageSelected(int position);
     }
 }
