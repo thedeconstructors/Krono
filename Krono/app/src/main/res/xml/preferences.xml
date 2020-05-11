@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -49,6 +48,17 @@
             android:title="Seek that preference"
             android:max="10"
             android:defaultValue="5"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Sign Out">
+
+        <Preference
+            android:key="sign_out_button"
+            android:title="Sign Out"
+            android:summary="Sign out from the application"
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
