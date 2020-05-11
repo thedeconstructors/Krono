@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,18 +31,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                    AppBarLayout.OnOffsetChangedListener,
+public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
                                                                     TabLayout.OnTabSelectedListener,
                                                                     PlanAdapter.PlanClickListener
 {
@@ -59,6 +62,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private TabLayout Tabs;
 
     private FirebaseFirestore DBInstance;
+    private FirebaseAuth AuthInstance;
 
     private Query PublicPlanQuery;
     private FirestoreRecyclerOptions PublicPlanOptions;
@@ -117,6 +121,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     {
         this.DBInstance = FirebaseFirestore.getInstance();
         this.DBFunctions = FirebaseFunctions.getInstance();
+        this.AuthInstance = FirebaseAuth.getInstance();
 
         this.PublicPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
@@ -187,21 +192,27 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     }
 
     /************************************************************************
-     * Purpose:         Click Listener
+     * Purpose:         Toolbar Back Button Animation Overrides
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
     @Override
-    public void onClick(View v)
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        switch (v.getId())
+        switch (item.getItemId())
         {
+            case android.R.id.home:
+            {
+                finish();
+                break;
+            }
             case R.id.Menu_FriendPageDetail_DeleteFriend:
             {
                 this.deleteFriend();
                 break;
             }
         }
+        return true;
     }
 
     /************************************************************************
@@ -211,6 +222,38 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
      ************************************************************************/
     private void deleteFriend()
     {
+        /*Map<String, Object> friends = new HashMap<>();
+        Map<String, Object> users = new HashMap<>();
+        friends.put(this.Friend.getUid(), FieldValue.delete());
+        users.put(getString(R.string.collection_friends), friends);*/
+
+        Map<String, Object> users = new HashMap<>();
+        users.put(getString(R.string.collection_friends) + "." + this.Friend.getUid(), FieldValue.delete());
+        Log.d(TAG, "Detail: " + getString(R.string.collection_friends) + "." + this.Friend.getUid());
+
+        // Delete Friend from the Owner's Document
+        this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .document(this.AuthInstance.getCurrentUser().getUid())
+                .update(users)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                                   "Error: Friend Delete Failed");
+                    }
+                });
+
         this.getDeleteFriendFunctions(this.Friend.getUid())
             .addOnSuccessListener(new OnSuccessListener<String>()
             {
@@ -232,15 +275,15 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
             });
     }
 
-    private Task<String> getDeleteFriendFunctions(String userID)
+    private Task<String> getDeleteFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
         Map<String, Object> snap = new HashMap<>();
-        snap.put("userID", userID);
+        snap.put("friendID", friendID);
         snap.put("push", true);
 
         return this.DBFunctions
-                .getHttpsCallable("deletePlan")
+                .getHttpsCallable("deleteFriend")
                 .call(snap)
                 .continueWith(new Continuation<HttpsCallableResult, String>()
                 {
@@ -251,23 +294,6 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
                         return result;
                     }
                 });
-    }
-
-    /************************************************************************
-     * Purpose:         Toolbar Back Button Animation Overrides
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
     }
 
     /************************************************************************

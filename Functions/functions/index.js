@@ -84,34 +84,32 @@ exports.addFriend = functions.https.onCall((data, context) =>
  * Precondition:    When a client deletes a plan document
  * Postcondition:   Delete activity documents in small batches
  ************************************************************************/
-// exports.deleteFriendOnDeletePlan = functions.firestore
-//     .document('plans/{planID}')
-//     .onDelete((snap, context) => 
-// {
-//     const planID = snap.id;
-//     const promises = [];
+exports.deleteFriend = functions.https.onCall((data, context) => 
+{
+    const friendID = data.friendID;
+    const uid = context.auth.uid.toString();
+    console.log(friendID);
+    console.log(uid);
 
-//     const activityRef = database
-//         .collection(activities)
-//         .where('planIDs', 'array-contains', planID);
-    
-//     return activityRef
-//         .get()
-//         .then(querySnapshot => 
-//         {
-//             querySnapshot.forEach(docSnapshot => 
-//             {
-//                 promises.push(deleteActivityPromise(docSnapshot));
-//             });
-
-//             return Promise.all(promises);
-//         })
-//         .catch(error => 
-//         {
-//             console.log(error);
-//             return false; 
-//         });
-// });
+    return database
+        .collection(users)
+        .doc(friendID)
+        .set(
+        {
+            friends : 
+            {
+                [uid] : admin.firestore.FieldValue.delete()
+            }
+        },
+        {
+            merge : true
+        })
+        .catch(error => 
+        {
+            console.log(error);
+            return false; 
+        });
+});
 
 /************************************************************************
  * Purpose:         Delete & Modify Related Documents on User Deletion

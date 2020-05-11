@@ -55,7 +55,7 @@ public class FriendPage_New implements View.OnClickListener
     public FriendPage_New(Activity instance)
     {
         this.ActivityInstance = instance;
-        setContents();
+        this.setContents();
     }
 
     /************************************************************************
@@ -161,8 +161,8 @@ public class FriendPage_New implements View.OnClickListener
 
     private void addFriend(String friendID)
     {
-        Map<String, Object> users = new HashMap<>();
         Map<String, Object> friends = new HashMap<>();
+        Map<String, Object> users = new HashMap<>();
         friends.put(friendID, true);
         users.put(this.ActivityInstance.getString(R.string.collection_friends) , friends);
 
