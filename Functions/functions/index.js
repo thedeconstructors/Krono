@@ -5,30 +5,27 @@ const admin = require('firebase-admin');
 // Firebase Admin Initialize
 admin.initializeApp();
 
-// Global Variables
+// Global Variable
 const database = admin.firestore();
+const activities = 'activities';
+const plans = 'plans';
 
 /************************************************************************
  * Purpose:         Delete Activities on Plan Deletion
  * Type:            Trigger function
- * Precondition:    A plan document is deleted
- *                  snap = Deleted document data
- * Postcondition:   Delete Activities
+ * Precondition:    When a client deletes a plan document
+ * Postcondition:   Delete activity documents in small batches
  ************************************************************************/
-exports.deleteActivities = functions.firestore
-    .document('plans/{doc-id}')
+exports.deleteActivityOnDeletePlan = functions.firestore
+    .document('plans/{planID}')
     .onDelete((snap, context) => 
 {
-    const planID = snap.planID;
+    const planID = snap.id;
+    const promises = [];
 
     const activityRef = database
-        .collection('activities')
+        .collection(activities)
         .where('planIDs', 'array-contains', planID);
-
-    // Promise.all() returns a single Promise that resolves when
-    // all of the promises in the iterable argument have resolved
-    // or when the iterable argument contains no promises.
-    var promises = [];
     
     return activityRef
         .get()
@@ -36,7 +33,7 @@ exports.deleteActivities = functions.firestore
         {
             querySnapshot.forEach(docSnapshot => 
             {
-                promises.push(docSnapshot.ref.delete());
+                promises.push(deleteActivityPromise(docSnapshot));
             });
 
             return Promise.all(promises);
@@ -49,31 +46,93 @@ exports.deleteActivities = functions.firestore
 });
 
 /************************************************************************
- * Purpose:         Delete FriendsList on User Deletion
+ * Purpose:         Delete Friend Relationship on Plan Deletion
  * Type:            Trigger function
- * Precondition:    A user document is deleted
- *                  snap = Deleted document data
- * Postcondition:   Delete FriendsList
+ * Precondition:    When a client deletes a plan document
+ * Postcondition:   Delete activity documents in small batches
  ************************************************************************/
-exports.deleteUser = functions.firestore
-    .document('user/{user-id}')
+// exports.deleteFriendOnDeletePlan = functions.firestore
+//     .document('plans/{planID}')
+//     .onDelete((snap, context) => 
+// {
+//     const planID = snap.id;
+//     const promises = [];
+
+//     const activityRef = database
+//         .collection(activities)
+//         .where('planIDs', 'array-contains', planID);
+    
+//     return activityRef
+//         .get()
+//         .then(querySnapshot => 
+//         {
+//             querySnapshot.forEach(docSnapshot => 
+//             {
+//                 promises.push(deleteActivityPromise(docSnapshot));
+//             });
+
+//             return Promise.all(promises);
+//         })
+//         .catch(error => 
+//         {
+//             console.log(error);
+//             return false; 
+//         });
+// });
+
+/************************************************************************
+ * Purpose:         Delete & Modify Related Documents on User Deletion
+ * Type:            Trigger function
+ * Precondition:    When a client deletes it's own user document
+ * Postcondition:   Delete and modify documents in small batches
+ ************************************************************************/
+exports.deleteActivityOnDeleteUser = functions.firestore
+    .document('users/{userID}')
     .onDelete((snap, context) => 
 {
-    const userID = snap.ownerIDs;
+    const userID = snap.id;
+    const promises = [];
 
-    const friendRef = database
-        .collection('user')
-        .where('ownerIDs.' + userID, '==', userID);
-
-    var promises = [];
+    const activityRef = database
+        .collection(activities)
+        .where('ownerID', '==', userID);
     
-    return friendRef
+    return activityRef
         .get()
         .then(querySnapshot => 
         {
             querySnapshot.forEach(docSnapshot => 
             {
-                promises.push(docSnapshot.ref.delete());
+                promises.push(deleteActivityPromise(docSnapshot));
+            });
+
+            return Promise.all(promises);
+        })
+        .catch(error => 
+        {
+            console.log(error);
+            return false; 
+        });
+});
+
+exports.deletePlanOnDeleteUser = functions.firestore
+    .document('users/{userID}')
+    .onDelete((snap, context) => 
+{
+    const userID = snap.id;
+    const promises = [];
+
+    const planRef = database
+        .collection(plans)
+        .where('ownerID', '==', userID);
+    
+    return planRef
+        .get()
+        .then(querySnapshot => 
+        {
+            querySnapshot.forEach(docSnapshot => 
+            {
+                promises.push(deletePlanPromise(docSnapshot));
             });
 
             return Promise.all(promises);
@@ -86,15 +145,29 @@ exports.deleteUser = functions.firestore
 });
 
 /************************************************************************
- * Purpose:         Delete User Auth on User Deletion
- * Type:            Trigger function
- * Precondition:    A user document is deleted
- *                  snap = Deleted document data
- * Postcondition:   Delete User Auth
+ * Purpose:         Delete an activity
+ * Type:            Manual function
+ * Precondition:    Pass a document reference
+ * Postcondition:   Delete an activity with the document id
  ************************************************************************/
-exports.deleteAuth = functions.firestore
-    .document('user/{user-id}')
-    .onDelete((snap, context) => 
+function deleteActivityPromise(document) 
 {
-    //
-});
+    return database
+        .collection(activities)
+        .doc(document.id)
+        .delete();   
+}
+
+/************************************************************************
+ * Purpose:         Delete an plan
+ * Type:            Manual function
+ * Precondition:    Pass a document reference
+ * Postcondition:   Delete an plan with the document id
+ ************************************************************************/
+function deletePlanPromise(document) 
+{
+    return database
+        .collection(plans)
+        .doc(document.id)
+        .delete();   
+}
