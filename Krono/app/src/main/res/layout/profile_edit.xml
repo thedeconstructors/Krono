@@ -103,6 +103,13 @@
         </LinearLayout>
     </LinearLayout>
 
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/storage_progress"
+        android:layout_margin="20dp"
+        android:visibility="invisible"
+        android:layout_gravity="bottom|start"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ui_activity_done"

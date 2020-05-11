@@ -3,6 +3,7 @@ package com.deconstructors.krono.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -69,6 +71,13 @@ public class ProfilePage extends AppCompatActivity {
                             NameTextView.setText(Objects.requireNonNull(documentSnapshot.get("displayName")).toString());
                             EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
                             BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
+
+                            //Load the users current profile picture
+                            Picasso.get().load(
+                                    Objects.requireNonNull(
+                                            documentSnapshot.get("picture")
+                                    ).toString()
+                            ).into((ImageView)findViewById(R.id.profile_picture));
                         }
                     }
                 });

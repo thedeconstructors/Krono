@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,9 +31,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -88,7 +92,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if(requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
 
             try {
@@ -152,6 +156,12 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                                     documentSnapshot.get("email")).toString());
                             BioTextView.setText(Objects.requireNonNull(
                                     documentSnapshot.get("bio")).toString());
+                            //Load the users current profile picture
+                            Picasso.get().load(
+                                    Objects.requireNonNull(
+                                            documentSnapshot.get("picture")
+                                    ).toString()
+                            ).into(imageButtonElement);
                         }
                     }
                 });
@@ -164,6 +174,11 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
      ************************************************************************/
     private void saveProfile()
     {
+        //Disable the fab
+        findViewById(R.id.profiledetail_fab).setEnabled(false);
+        //Display the loading spinner
+        findViewById(R.id.storage_progress).setVisibility(View.VISIBLE);
+
         //Creating an uploadable byte array for upload to Google's Firebase FireStorage service
         ByteArrayOutputStream boas = new ByteArrayOutputStream();
         data_bitmap.compress(Bitmap.CompressFormat.PNG, 100, boas);
@@ -182,7 +197,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        //TODO Progress Bar
+                        //TODO Possible Feedback
                     }
                 });
 
@@ -234,9 +249,22 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        findViewById(R.id.storage_progress).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.profiledetail_fab).setEnabled(true); //Clean up
+
                         finish();
                     }
-                });
+                }).addOnFailureListener(ProfilePage_Edit.this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),
+                        "There was an error processing the profile data",
+                        Toast.LENGTH_SHORT).show();
+
+                findViewById(R.id.profiledetail_fab).setEnabled(true);
+                findViewById(R.id.storage_progress).setVisibility(View.INVISIBLE); //Clean up
+            }
+        });
     }
 
     private void setContents()

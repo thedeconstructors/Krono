@@ -29,6 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -137,6 +140,13 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                         {
                             NameTextView.setText(documentSnapshot.get("displayName").toString());
                             EmailTextView.setText(documentSnapshot.get("email").toString());
+
+                            //Load the users current profile picture
+                            Picasso.get().load(
+                                    Objects.requireNonNull(
+                                            documentSnapshot.get("picture")
+                                    ).toString()
+                            ).into(ProfilePicture);
                         }
                     }
                 });
