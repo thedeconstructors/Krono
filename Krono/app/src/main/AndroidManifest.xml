@@ -45,5 +45,7 @@
         <activity android:name=".ui.ActivityPage"/>
         <activity android:name=".ui.ActivityPage_Detail"/>
         <activity android:name=".ui.ActivityPage_Map"/>
+        <!-- Notifications Page -->
+        <activity android:name=".ui.NotificationsPage"/>
     </application>
 </manifest>
