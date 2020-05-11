@@ -9,6 +9,8 @@ admin.initializeApp();
 const database = admin.firestore();
 const activities = 'activities';
 const plans = 'plans';
+const users = 'users';
+const friends = 'friends';
 
 /************************************************************************
  * Purpose:         Delete Activities on Plan Deletion
@@ -37,6 +39,37 @@ exports.deleteActivityOnDeletePlan = functions.firestore
             });
 
             return Promise.all(promises);
+        })
+        .catch(error => 
+        {
+            console.log(error);
+            return false; 
+        });
+});
+
+/************************************************************************
+ * Purpose:         Add Friend Relationship to Friend's Document
+ * Type:            Trigger function
+ * Precondition:    When a client add a new friend
+ * Postcondition:   Add friend to the map
+ ************************************************************************/
+exports.addFriend = functions.https.onCall((data, context) => 
+{
+    const friendID = data.friendID;
+    const uid = context.auth.uid.toString();
+
+    return database
+        .collection(users)
+        .doc(friendID)
+        .set(
+        {
+            friends : 
+            {
+                [uid] : true
+            }
+        },
+        {
+            merge : true
         })
         .catch(error => 
         {
@@ -86,63 +119,63 @@ exports.deleteActivityOnDeletePlan = functions.firestore
  * Precondition:    When a client deletes it's own user document
  * Postcondition:   Delete and modify documents in small batches
  ************************************************************************/
-exports.deleteActivityOnDeleteUser = functions.firestore
-    .document('users/{userID}')
-    .onDelete((snap, context) => 
-{
-    const userID = snap.id;
-    const promises = [];
+// exports.deleteActivityOnDeleteUser = functions.firestore
+//     .document('users/{userID}')
+//     .onDelete((snap, context) => 
+// {
+//     const userID = snap.id;
+//     const promises = [];
 
-    const activityRef = database
-        .collection(activities)
-        .where('ownerID', '==', userID);
+//     const activityRef = database
+//         .collection(activities)
+//         .where('ownerID', '==', userID);
     
-    return activityRef
-        .get()
-        .then(querySnapshot => 
-        {
-            querySnapshot.forEach(docSnapshot => 
-            {
-                promises.push(deleteActivityPromise(docSnapshot));
-            });
+//     return activityRef
+//         .get()
+//         .then(querySnapshot => 
+//         {
+//             querySnapshot.forEach(docSnapshot => 
+//             {
+//                 promises.push(deleteActivityPromise(docSnapshot));
+//             });
 
-            return Promise.all(promises);
-        })
-        .catch(error => 
-        {
-            console.log(error);
-            return false; 
-        });
-});
+//             return Promise.all(promises);
+//         })
+//         .catch(error => 
+//         {
+//             console.log(error);
+//             return false; 
+//         });
+// });
 
-exports.deletePlanOnDeleteUser = functions.firestore
-    .document('users/{userID}')
-    .onDelete((snap, context) => 
-{
-    const userID = snap.id;
-    const promises = [];
+// exports.deletePlanOnDeleteUser = functions.firestore
+//     .document('users/{userID}')
+//     .onDelete((snap, context) => 
+// {
+//     const userID = snap.id;
+//     const promises = [];
 
-    const planRef = database
-        .collection(plans)
-        .where('ownerID', '==', userID);
+//     const planRef = database
+//         .collection(plans)
+//         .where('ownerID', '==', userID);
     
-    return planRef
-        .get()
-        .then(querySnapshot => 
-        {
-            querySnapshot.forEach(docSnapshot => 
-            {
-                promises.push(deletePlanPromise(docSnapshot));
-            });
+//     return planRef
+//         .get()
+//         .then(querySnapshot => 
+//         {
+//             querySnapshot.forEach(docSnapshot => 
+//             {
+//                 promises.push(deletePlanPromise(docSnapshot));
+//             });
 
-            return Promise.all(promises);
-        })
-        .catch(error => 
-        {
-            console.log(error);
-            return false; 
-        });
-});
+//             return Promise.all(promises);
+//         })
+//         .catch(error => 
+//         {
+//             console.log(error);
+//             return false; 
+//         });
+// });
 
 /************************************************************************
  * Purpose:         Delete an activity

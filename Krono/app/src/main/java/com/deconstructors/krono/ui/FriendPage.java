@@ -85,7 +85,9 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         this.DBInstance = FirebaseFirestore.getInstance();
         this.FriendQuery = this.DBInstance
                 .collection(getString(R.string.collection_users))
-                .whereEqualTo(getString(R.string.collection_friends) + "." + this.AuthInstance.getCurrentUser().getUid(),
+                .whereEqualTo(getString(R.string.collection_friends)
+                                      + "."
+                                      + this.AuthInstance.getCurrentUser().getUid(),
                               true);
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)

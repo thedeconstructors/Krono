@@ -14,19 +14,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanAdapter;
+import com.deconstructors.krono.auth.RegisterPage;
 import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.module.User;
+import com.deconstructors.krono.utility.Helper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FriendPage_Detail extends AppCompatActivity implements View.OnClickListener,
                                                                     AppBarLayout.OnOffsetChangedListener,
@@ -37,6 +49,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private static final String TAG = "FriendDetailPage";
 
     //result constant for extra
+    private CoordinatorLayout Background;
     private Toolbar Toolbar;
     private AppBarLayout AppBarLayout;
     private ImageView Profile;
@@ -51,6 +64,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private FirestoreRecyclerOptions PublicPlanOptions;
     private Query SharedPlanQuery;
     private FirestoreRecyclerOptions SharedPlanOptions;
+    private FirebaseFunctions DBFunctions;
 
     private RecyclerView PlansRecycler;
     private PlanAdapter PublicPlansAdapter;
@@ -102,6 +116,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     private void setPlansDB()
     {
         this.DBInstance = FirebaseFirestore.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
 
         this.PublicPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
@@ -151,6 +166,7 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
         this.PlansRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         this.Tabs.selectTab(Tabs.getTabAt(0));
+        this.Background = findViewById(R.id.ui_friendDetailLayout);
     }
 
     /************************************************************************
@@ -171,16 +187,6 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     }
 
     /************************************************************************
-     * Purpose:         Database
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void deleteFriend()
-    {
-
-    }
-
-    /************************************************************************
      * Purpose:         Click Listener
      * Precondition:    .
      * Postcondition:   .
@@ -188,7 +194,63 @@ public class FriendPage_Detail extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v)
     {
+        switch (v.getId())
+        {
+            case R.id.Menu_FriendPageDetail_DeleteFriend:
+            {
+                this.deleteFriend();
+                break;
+            }
+        }
+    }
 
+    /************************************************************************
+     * Purpose:         Database
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void deleteFriend()
+    {
+        this.getDeleteFriendFunctions(this.Friend.getUid())
+            .addOnSuccessListener(new OnSuccessListener<String>()
+            {
+                @Override
+                public void onSuccess(String s)
+                {
+                    Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                               "Friend Delete Success");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                               "Error: Friend Delete Failed");
+                }
+            });
+    }
+
+    private Task<String> getDeleteFriendFunctions(String userID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> snap = new HashMap<>();
+        snap.put("userID", userID);
+        snap.put("push", true);
+
+        return this.DBFunctions
+                .getHttpsCallable("deletePlan")
+                .call(snap)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
+                {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+                    {
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 
     /************************************************************************

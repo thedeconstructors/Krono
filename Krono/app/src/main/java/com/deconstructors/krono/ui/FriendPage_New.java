@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,9 +10,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.auth.RegisterPage;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -21,6 +25,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import org.w3c.dom.Document;
 
@@ -29,6 +36,9 @@ import java.util.Map;
 
 public class FriendPage_New implements View.OnClickListener
 {
+    // Error Log
+    private static final String TAG = "FriendPage_New";
+
     // XML Widgets
     private Activity ActivityInstance; // This is not the activity module
     private LinearLayout BottomSheet;
@@ -40,6 +50,7 @@ public class FriendPage_New implements View.OnClickListener
     // Database
     private FirebaseFirestore DBInstance;
     private FirebaseAuth AuthInstance;
+    private FirebaseFunctions DBFunctions;
 
     public FriendPage_New(Activity instance)
     {
@@ -57,6 +68,7 @@ public class FriendPage_New implements View.OnClickListener
         // Database
         this.DBInstance = FirebaseFirestore.getInstance();
         this.AuthInstance = FirebaseAuth.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
 
         // Bottom Sheet Interaction
         this.FAB = this.ActivityInstance.findViewById(R.id.FriendPage_FAB);
@@ -147,23 +159,73 @@ public class FriendPage_New implements View.OnClickListener
                 });
     }
 
-    private void addFriend(String docID)
+    private void addFriend(String friendID)
     {
         Map<String, Object> users = new HashMap<>();
         Map<String, Object> friends = new HashMap<>();
-        friends.put(docID, true);
+        friends.put(friendID, true);
         users.put(this.ActivityInstance.getString(R.string.collection_friends) , friends);
 
+        // Add Friend to the Owner's Document
         this.DBInstance
-                .collection(this.ActivityInstance.getString(R.string.collection_users))
-                .document(this.AuthInstance.getCurrentUser().getUid())
-                .update(users)
-                .addOnSuccessListener(new OnSuccessListener<Void>()
+            .collection(this.ActivityInstance.getString(R.string.collection_users))
+            .document(this.AuthInstance.getCurrentUser().getUid())
+            .set(users, SetOptions.merge())
+            .addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    makeBottomSheetSnackbarMessage("Error: Adding Friend Failed 1");
+                }
+            });
+
+        // Add Friend to the Friend's Document using Firebase Functions
+        this.getAddFriendFunctions(friendID)
+            .addOnSuccessListener(new OnSuccessListener<String>()
+            {
+                @Override
+                public void onSuccess(String s)
+                {
+                    FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    Log.d(TAG, "getAddFriendFunctions: " + e.getMessage());
+                    makeBottomSheetSnackbarMessage("Error: " + e.getMessage());
+                }
+            });
+    }
+
+    private Task<String> getAddFriendFunctions(String friendID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> snap = new HashMap<>();
+        snap.put("friendID", friendID);
+        snap.put("push", true);
+
+        return this.DBFunctions
+                .getHttpsCallable("addFriend")
+                .call(snap)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
                 {
                     @Override
-                    public void onSuccess(Void aVoid)
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
                     {
-                        FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                        String result = (String) task.getResult().getData();
+                        return result;
                     }
                 });
     }
