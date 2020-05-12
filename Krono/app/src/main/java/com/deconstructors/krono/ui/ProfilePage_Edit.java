@@ -217,7 +217,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-
                         //Profile Data
                         Map<String, Object> profile = new HashMap<>();
 
@@ -234,7 +233,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                             profile.put("picture",
                                     "Error");
                         }
-
                         setDataBase(profile);
                     }
                 });
