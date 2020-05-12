@@ -73,8 +73,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
-
-        this.setFirebaseAuth();
+        
         this.setToolbar();
         this.setPlanDB();
         this.setUserDB();
@@ -189,24 +188,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                         }
                     }
                 });
-    }
-
-    void setFirebaseAuth()
-    {
-        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                if (firebaseAuth.getCurrentUser() == null)
-                {
-                    Intent intent = new Intent(MainPage.this, WelcomePage.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
     }
 
     @Override

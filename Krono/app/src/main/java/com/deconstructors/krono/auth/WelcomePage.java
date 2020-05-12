@@ -24,7 +24,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private static final String TAG = "WelcomePage";
 
     // Firebase
-    private FirebaseAuth DBInstance;
+    private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
     //private GoogleSignInClient GoogleSignInClient;
 
@@ -56,8 +56,8 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private void setContents()
     {
         // Firebase
-        this.DBInstance = FirebaseAuth.getInstance();
-        //this.DBInstance.signOut(); // Debug Purpose Only
+        this.AuthInstance = FirebaseAuth.getInstance();
+        this.AuthInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -116,7 +116,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     public void onStart()
     {
         super.onStart();
-        this.DBInstance.addAuthStateListener(FirebaseAuthListener);
+        this.AuthInstance.addAuthStateListener(FirebaseAuthListener);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         super.onStop();
         if (FirebaseAuthListener != null)
         {
-            this.DBInstance.removeAuthStateListener(FirebaseAuthListener);
+            this.AuthInstance.removeAuthStateListener(FirebaseAuthListener);
         }
     }
 
