@@ -41,7 +41,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                                                             TabLayout.OnTabSelectedListener,
                                                             SearchView.OnQueryTextListener
 {
-
     //Xml Widgets
     androidx.recyclerview.widget.RecyclerView recyclerView;
 
@@ -73,7 +72,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
-        
+
         this.setToolbar();
         this.setPlanDB();
         this.setUserDB();

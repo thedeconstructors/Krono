@@ -13,12 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="@dimen/menu_layoutPadding">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="@dimen/menu_imagePadding"
             app:civ_border_width="1dp"
             app:civ_border_color="@color/Black"
             android:src="@drawable/ui_friend_emptyprofile"/>
@@ -36,7 +36,7 @@
                 android:text="Display Name"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/friendlist_emailText"
@@ -46,7 +46,7 @@
                 android:text="Email@field.com"
                 android:maxLines="3"
                 android:textColor="@android:color/secondary_text_dark"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
