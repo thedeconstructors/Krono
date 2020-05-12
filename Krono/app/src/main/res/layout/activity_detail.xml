@@ -3,81 +3,104 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    android:gravity="center"
     android:id="@+id/activitydetail_background">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:id="@+id/activitydetail_toolbar"/>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <TextView
-            android:id="@+id/activitydetail_editActivityHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/auth_buttonStartEndPadding"
-            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-            android:text="@string/activitydetail_header"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:textSize="36sp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_gravity="center"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/activitydetail_titleEditText"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                android:hint="@string/newactivity_title"
-                android:inputType="textShortMessage"
-                android:importantForAutofill="no" />
+                android:theme="@style/AppTheme.AppBarOverlay">
 
-            <EditText
-                android:id="@+id/activitydetail_descriptionText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                android:hint="@string/newactivity_description"
-                android:inputType="textShortMessage"
-                android:maxLines="5"
-                android:importantForAutofill="no" />
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    android:id="@+id/activitydetail_toolbar"/>
+            </com.google.android.material.appbar.AppBarLayout>
 
-            <EditText
-                android:id="@+id/activitydetail_dueDateEditText"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/activitydetail_editActivityHeader"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/auth_buttonStartEndPadding"
                 android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-                android:hint="@string/newactivity_timestamp"
-                android:clickable="true"
-                android:focusable="true"
-                android:inputType="datetime"
-                android:importantForAutofill="no" />
+                android:text="@string/activitydetail_header"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textSize="36sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/activitydetail_titleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:hint="@string/newactivity_title"
+                    android:inputType="textShortMessage"
+                    android:importantForAutofill="no" />
+
+                <EditText
+                    android:id="@+id/activitydetail_descriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:hint="@string/newactivity_description"
+                    android:inputType="textShortMessage"
+                    android:maxLines="5"
+                    android:importantForAutofill="no" />
+
+                <Button
+                    android:id="@+id/activitydetail_dueDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:hint="@string/newactivity_timestamp"
+                    android:drawableStart="@drawable/activity_calendar"
+                    android:drawablePadding="@dimen/menu_imagePadding"
+                    android:textAlignment="textStart"/>
+
+                <EditText
+                    android:id="@+id/activitydetail_durationEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:hint="@string/newactivity_timestamp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:inputType="datetime"
+                    android:importantForAutofill="no" />
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"

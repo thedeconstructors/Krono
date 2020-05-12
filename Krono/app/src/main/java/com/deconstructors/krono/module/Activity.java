@@ -142,6 +142,9 @@ public class Activity implements Parcelable
     public void setGeoPoint(GeoPoint geoPoint){ this.Location.setLatLng(new LatLng(geoPoint.getLatitude(),
                                                                                    geoPoint.getLongitude())); }
 
+    public Location getLocation(){ return this.Location; }
+    public void setLocation(Location location){ this.Location = location; }
+
     //
     public List<String> getPlanIDs(){ return this.PlanIDs; }
     public void setPlanIDs(List<String> planIDs){ this.PlanIDs = new ArrayList<>(this.PlanIDs);; }

@@ -56,7 +56,7 @@ public class Helper
      * Postcondition:   .
      ************************************************************************/
     public static  Map<String, Object> mapActivity(Activity instance,
-                                                   DocumentReference ref,
+                                                   String id,
                                                    String description,
                                                    Integer duration,
                                                    Location location,
@@ -66,7 +66,7 @@ public class Helper
     {
         Map<String, Object> activity = new HashMap<>();
 
-        activity.put(instance.getString(R.string.activities_activityID), ref.getId());
+        activity.put(instance.getString(R.string.activities_activityID), id);
         activity.put(instance.getString(R.string.activities_description), description);
         activity.put(instance.getString(R.string.activities_duration), duration);
         activity.put(instance.getString(R.string.activities_geoAddr), location.getAddress());

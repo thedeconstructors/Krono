@@ -1,11 +1,14 @@
 package com.deconstructors.krono.ui;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,32 +18,53 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
+import com.deconstructors.krono.module.Location;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.widget.Toolbar;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener
+public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener,
+                                                                      DatePickerDialog.OnDateSetListener, OnMapReadyCallback
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
+    public final float MAP_DEFAULT_ZOOM = 15.0F;
+    public final int CAMERA_DEFAULT_SPEED = 1000;
 
     //result constant for extra
     private Toolbar Toolbar;
     private EditText Title;
     private EditText Description;
-    private EditText DateTime;
+    private Button DateTime;
+    private EditText Duration;
     private FloatingActionButton FAB_Save;
     private FloatingActionButton FAB_Delete;
 
     // Vars
+    private Calendar CalendarInstance;
+    private Location Location;
+    private GoogleMap Map;
     private Activity Activity;
     private ActivityPage.EditMode Editable;
 
@@ -71,6 +95,11 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.Title = findViewById(R.id.activitydetail_titleEditText);
         this.Description = findViewById(R.id.activitydetail_descriptionText);
         this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
+        this.DateTime.setOnClickListener(this);
+        this.CalendarInstance = Calendar.getInstance();
+        this.Duration = findViewById(R.id.activitydetail_durationEditText);
+        this.Location = new Location("", "", new LatLng(0, 0));
+
         this.FAB_Save = findViewById(R.id.activitydetail_fab_save);
         this.FAB_Save.setOnClickListener(this);
         this.FAB_Delete = findViewById(R.id.activitydetail_fab_delete);
@@ -78,6 +107,11 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
+
+        // Google Map
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 
     private void getActivityIntent()
@@ -90,9 +124,17 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
             this.Title.setText(this.Activity.getTitle());
             this.Description.setText(this.Activity.getDescription());
+            if (this.Activity.getTimestamp() != null)
+            {
+                this.DateTime.setText(this.Activity.getTimestamp());
+            }
             if (this.Activity.getDuration() != null)
             {
-                this.DateTime.setText(this.Activity.getDuration().toString());
+                this.Duration.setText(this.Activity.getDuration().toString());
+            }
+            if (this.Activity.getLocation() != null)
+            {
+                this.Location = this.Activity.getLocation();
             }
         }
         else
@@ -127,30 +169,34 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private void saveActivity()
     {
         if (Editable == ActivityPage.EditMode.PUBLIC)
+        {
+            makeSnackbarMessage("This is not an editable activity.");
             return;
+        }
 
-        boolean duration_valid = false;
+        // Check Duration Field
         Integer activity_duration = 0;
         try
         {
-            activity_duration = Integer.parseInt(this.DateTime.getText().toString());
-            if (activity_duration > 0)
-                duration_valid = true;
+            activity_duration = Integer.parseInt(this.Duration.getText().toString());
         }
         catch (NumberFormatException e)
-        {}
-
-        if ( duration_valid
-                && !Helper.isEmpty(this.Title)
-                && !Helper.isEmpty(this.Description)
-                && !Helper.isEmpty(this.DateTime))
         {
-            Map<String, Object> activity = new HashMap<>();
+            makeSnackbarMessage("Invalid duration format. Please enter an integer.");
+            return;
+        }
 
-            activity.put("ActivityID", this.Activity.getActivityID());
-            activity.put("Title", this.Title.getText().toString());
-            activity.put("Description", this.Description.getText().toString());
-            activity.put("Duration", activity_duration);
+        // Check Fields
+        if (!Helper.isEmpty(this.Title))
+        {
+            Map<String, Object> activity = Helper.mapActivity(this,
+                                                              this.Activity.getActivityID(),
+                                                              this.Description.getText().toString(),
+                                                              activity_duration,
+                                                              this.Location,
+                                                              null,
+                                                              this.DateTime.getText().toString(),
+                                                              this.Title.getText().toString());
 
             FirestoreDB.collection(getString(R.string.collection_activities))
                     .document(this.Activity.getActivityID())
@@ -221,6 +267,72 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                 this.deleteActivity();
                 break;
             }
+            case R.id.activitydetail_dueDateEditText:
+            {
+                this.showDatePicker();
+                break;
+            }
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         Date Picker
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void showDatePicker()
+    {
+        DatePickerDialog dpd = new DatePickerDialog(
+                this,
+                this,
+                this.CalendarInstance.get(Calendar.YEAR),
+                this.CalendarInstance.get(Calendar.MONTH),
+                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
+        );
+
+        dpd.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
+        this.CalendarInstance.set(year, month, dayOfMonth);
+        String dateString = sdf.format(this.CalendarInstance.getTime());
+        this.DateTime.setText(dateString);
+    }
+
+    /************************************************************************
+     * Purpose:         Map Loaded
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        this.Map = googleMap;
+        this.Map.setMyLocationEnabled(false);
+        this.Map.getUiSettings().setMyLocationButtonEnabled(false);
+        this.setMarkerPosition();
+    }
+
+    /************************************************************************
+     * Purpose:         Utility
+     * Precondition:    .
+     * Postcondition:   Change Google Map's marker position
+     ************************************************************************/
+    public void setMarkerPosition()
+    {
+        if (this.Location != null)
+        {
+            MarkerOptions options = new MarkerOptions().position(this.Location.getLatLng())
+                                                       .title(this.Location.getName());
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(this.Location.getLatLng(),
+                                                                    MAP_DEFAULT_ZOOM);
+
+            this.Map.clear();
+            this.Map.addMarker(options);
+            this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
         }
     }
 

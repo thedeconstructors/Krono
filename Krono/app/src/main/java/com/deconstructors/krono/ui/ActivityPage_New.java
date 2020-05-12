@@ -156,7 +156,7 @@ public class ActivityPage_New implements View.OnClickListener,
 
             // Set the document created
             Map<String, Object> activity = Helper.mapActivity(this.ActivityInstance,
-                                                              ref,
+                                                              ref.getId(),
                                                               this.DescText.getText().toString(),
                                                               0,
                                                               this.Location,
