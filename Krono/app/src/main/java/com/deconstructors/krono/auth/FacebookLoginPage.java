@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.utility.Helper;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,6 +38,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
 
     // XML Widgets
     private LoginButton FacebookLogIn;
+    private ProgressBar ProgressBar;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -64,6 +67,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
         // Base Widgets
         this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
         this.FacebookLogIn.setOnClickListener(this);
+        this.ProgressBar = findViewById(R.id.auth_progressBar);
     }
 
     /************************************************************************
@@ -74,6 +78,8 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     public void FacebookLogIn()
     {
         // Initialize Facebook Login button
+        Helper.showProgressBar(this, this.ProgressBar);
+
         this.FBCBManager = CallbackManager.Factory.create();
 
         final String EMAIL = "email";
@@ -92,6 +98,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
             public void onCancel()
             {
                 Log.d(TAG, "facebook:onCancel");
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -102,6 +109,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
             public void onError(FacebookException error)
             {
                 Log.d(TAG, "facebook:onError", error);
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -132,6 +140,8 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                  {
                                      // Sign in success, update UI with the signed-in user's information
                                      Log.d(TAG, "signInWithCredential:success");
+                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+
                                      Intent returnIntent = new Intent();
                                      setResult(Activity.RESULT_OK, returnIntent);
                                      finish();
@@ -140,6 +150,8 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                  {
                                      // If sign in fails, display a message to the user.
                                      Log.w(TAG, "signInWithCredential:failure", task.getException());
+                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+
                                      Intent returnIntent = new Intent();
                                      setResult(Activity.RESULT_CANCELED, returnIntent);
                                      finish();

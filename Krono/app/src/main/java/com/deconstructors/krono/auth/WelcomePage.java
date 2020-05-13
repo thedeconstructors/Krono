@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,6 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     // Firebase
     private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
-    //GoogleLoginPage GoogleLoginPage;
 
     // Background
     private static final int FADE_DURATION = 4000;
@@ -55,6 +55,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private TextView SkipButton;
     private SignInButton GoogleLogIn;
     private LoginButton FacebookLogIn;
+    private ProgressBar ProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,7 +70,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setFirebaseAuth();
     }
 
-    private void getHashKey()
+    /*private void getHashKey()
     {
         try
         {
@@ -91,7 +92,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         {
 
         }
-    }
+    }*/
 
     private void setContents()
     {
@@ -106,6 +107,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.RegisterLayout = findViewById(R.id.auth_registerLayout);
         this.BackButton = findViewById(R.id.auth_back);
         this.SkipButton = findViewById(R.id.auth_anonymousSignIn);
+        this.ProgressBar = findViewById(R.id.auth_progressBar);
 
         // SignIn & Register Pages
         EmailLoginPage EmailLoginPage = new EmailLoginPage(this);
@@ -116,8 +118,8 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
         this.GoogleLogIn.setOnClickListener(this);
 
-        /*this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
-        this.FacebookLogIn.setOnClickListener(this);*/
+        this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
+        this.FacebookLogIn.setOnClickListener(this);
     }
 
     private void startBGAnimation()
@@ -214,29 +216,36 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             }
             case R.id.auth_googleLogIn:
             {
+                Helper.showProgressBar(this, this.ProgressBar);
                 Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
                 startActivityForResult(intent, LOGIN_ACTIVITY);
+                break;
             }
             case R.id.auth_facebookLogIn:
             {
+                Helper.showProgressBar(this, this.ProgressBar);
                 Intent intent = new Intent(WelcomePage.this, FacebookLoginPage.class);
                 startActivityForResult(intent, LOGIN_ACTIVITY);
+                break;
             }
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == LOGIN_ACTIVITY)
         {
             if(resultCode == RESULT_OK)
             {
+                Helper.hideProgressBar(this, this.ProgressBar);
                 // => Firebase Auth
             }
             if (resultCode == RESULT_CANCELED)
             {
+                Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,
                                            "Authentication Failed");
             }

@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,6 +34,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
 
     // XML Widgets
     private SignInButton GoogleLogIn;
+    private ProgressBar ProgressBar;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -65,6 +68,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
         // Base Widgets
         this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
         this.GoogleLogIn.setOnClickListener(this);
+        this.ProgressBar = findViewById(R.id.auth_progressBar);
     }
 
     /************************************************************************
@@ -74,6 +78,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
      ************************************************************************/
     public void GoogleLogIn()
     {
+        Helper.showProgressBar(this, this.ProgressBar);
         Intent GoogleLogInIntent = this.GoogleClient.getSignInIntent();
         startActivityForResult(GoogleLogInIntent, RC_SIGN_IN);
         // -> onActivityResult
@@ -101,6 +106,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
             catch (ApiException e)
             {
                 Log.w(TAG, "Google sign in failed", e);
+                Helper.hideProgressBar(this, this.ProgressBar);
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -125,12 +131,16 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                          {
                              if (task.isSuccessful())
                              {
+                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
+
                                  Intent returnIntent = new Intent();
                                  setResult(Activity.RESULT_OK, returnIntent);
                                  finish();
                              }
                              else
                              {
+                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
+
                                  Intent returnIntent = new Intent();
                                  setResult(Activity.RESULT_CANCELED, returnIntent);
                                  finish();
