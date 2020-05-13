@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,9 +22,15 @@ import com.deconstructors.krono.adapter.PlanAdapter;
 import com.deconstructors.krono.auth.WelcomePage;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -77,7 +84,42 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.setPlanDB();
         this.setUserDB();
         this.setContents();
+
+        // this.linkProviders();
     }
+
+    /************************************************************************
+     * Purpose:         DEBUG CODE For Linking Different Account Providers
+     * Precondition:    .
+     * Postcondition:   Merge Google and Email Provider
+     ************************************************************************/
+    /*private void linkProviders()
+    {
+        //String googleIdToken = "AIzaSyCIk1hIJcRq3rV3ojPtdqJ3oxfy2zMOktU";
+        //AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
+
+        AuthCredential credential = EmailAuthProvider.getCredential("suptdeconstructors@gmail.com",
+                                                                    "Destruct3d!");
+
+        this.AuthInstance.getCurrentUser()
+                         .linkWithCredential(credential)
+                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                         {
+                             @Override
+                             public void onComplete(@NonNull Task<AuthResult> task)
+                             {
+                                 if (task.isSuccessful())
+                                 {
+                                     Log.d(TAG, "linkWithCredential: success");
+                                 }
+                                 else
+                                 {
+                                     Log.w(TAG, "linkWithCredential: failure", task.getException());
+                                 }
+                             }
+                         });
+
+    }*/
 
     /************************************************************************
      * Purpose:         Set Toolbar & Inflate Toolbar Menu
