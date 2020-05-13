@@ -78,6 +78,8 @@ public class RegisterPage implements View.OnClickListener
         registerButton.setOnClickListener(this); // Manually Added for Readability
     }
 
+
+
     /************************************************************************
      * Purpose:         Database
      * Precondition:    .
@@ -148,8 +150,8 @@ public class RegisterPage implements View.OnClickListener
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
         user.put("uid", authResult.getUser().getUid());
-        //TODO MAKE THIS NICER
-        user.put("picture", "https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc-e666-4aa5-ad3a-1682759b8e42");
+        //TODO MAKE THIS NICER (TEMPORARILY MOVED TO STRING.XML)
+        user.put("picture", this.ActivityInstance.getString(R.string.profile_picture_url));
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {

@@ -64,6 +64,7 @@
     <string name="navigation_emailFieldText">email@field.com</string>
     <string name="profile_edit_biofield">Bio</string>
     <string name="profile_picture_text">Profile Picture</string>
+    <string name="profile_picture_url"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc–e666-4aa5-ad3a-1682759b8e42]]></string>
 
     <!-- 4.3 - Plan -->
     <string name="plan_menu">Activity Menu</string>

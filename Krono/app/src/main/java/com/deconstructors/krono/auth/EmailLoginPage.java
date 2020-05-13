@@ -22,6 +22,7 @@ public class EmailLoginPage implements View.OnClickListener
     // Error Log
     private static final String TAG = "LoginPage";
 
+    // TODO DO NOT FORGET TO REMOVE THIS BECAUSE I DEFINITELY WILL
     // Debug
     private final String devEmail = "suptdeconstructors@gmail.com";
     private final String devPassword = "Destruct3d!";

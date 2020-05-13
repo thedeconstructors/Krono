@@ -97,6 +97,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
         this.DateTime.setOnClickListener(this);
         this.CalendarInstance = Calendar.getInstance();
+        //TODO Create Duration Number Picker Dialog
         this.Duration = findViewById(R.id.activitydetail_durationEditText);
         this.Location = new Location("", "", new LatLng(0, 0));
 
@@ -108,6 +109,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         // Firebase
         this.FirestoreDB = FirebaseFirestore.getInstance();
 
+        //TODO Connect The Google Map with The Map Picker Page
         // Google Map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

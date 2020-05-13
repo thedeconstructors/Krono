@@ -5,15 +5,18 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.ui.MainPage;
+import com.deconstructors.krono.utility.Helper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,11 +25,12 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
 {
     // Error Log
     private static final String TAG = "WelcomePage";
+    private static int LOGIN_ACTIVITY = 7001;
 
     // Firebase
     private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
-    //private GoogleSignInClient GoogleSignInClient;
+    //GoogleLoginPage GoogleLoginPage;
 
     // Background
     private static final int FADE_DURATION = 4000;
@@ -38,9 +42,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private LinearLayout RegisterLayout;
     private TextView BackButton;
     private TextView SkipButton;
-
-    // Pages
-    private AnonymousLoginPage AnonymousLoginPage;
+    private Button GoogleLogIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,7 +59,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     {
         // Firebase
         this.AuthInstance = FirebaseAuth.getInstance();
-        //this.AuthInstance.signOut(); // Debug Purpose Only
+        this.AuthInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -71,6 +73,10 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         EmailLoginPage EmailLoginPage = new EmailLoginPage(this);
         RegisterPage RegisterPage = new RegisterPage(this);
         AnonymousLoginPage AnonymousLoginPage = new AnonymousLoginPage(this);
+
+        //
+        this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
+        this.GoogleLogIn.setOnClickListener(this);
     }
 
     private void startBGAnimation()
@@ -165,8 +171,32 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 //this.SkipButton.setVisibility(View.GONE);
                 break;
             }
+            case R.id.auth_googleLogIn:
+            {
+                Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
+                startActivityForResult(intent, LOGIN_ACTIVITY);
+            }
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LOGIN_ACTIVITY)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                /*Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                           "Authentication Failed");*/
+            }
+            if (resultCode == RESULT_CANCELED)
+            {
+                Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                           "Authentication Failed");
+            }
+        }
+    }//onActivityResult
 
     @Override
     public void onBackPressed()
