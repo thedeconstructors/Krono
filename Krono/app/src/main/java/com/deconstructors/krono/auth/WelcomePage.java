@@ -187,8 +187,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         {
             if(resultCode == RESULT_OK)
             {
-                /*Helper.makeSnackbarMessage(this.BackgroundLayout,
-                                           "Authentication Failed");*/
+                // => Firebase Auth
             }
             if (resultCode == RESULT_CANCELED)
             {
@@ -196,7 +195,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                                            "Authentication Failed");
             }
         }
-    }//onActivityResult
+    }
 
     @Override
     public void onBackPressed()

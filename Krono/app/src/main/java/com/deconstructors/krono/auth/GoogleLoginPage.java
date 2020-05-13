@@ -1,4 +1,5 @@
 package com.deconstructors.krono.auth;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +9,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,22 +21,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class GoogleLoginPage extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
     private static final String TAG = "WelcomePage";
+    private static final int RC_SIGN_IN = 9001;
 
     // XML Widgets
-    private CoordinatorLayout BackgroundLayout;
     private Button GoogleLogIn;
 
     // Database
     private FirebaseAuth AuthInstance;
     private GoogleSignInClient GoogleClient;
-    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,11 +62,27 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
         this.GoogleClient = GoogleSignIn.getClient(this, gso);
 
         // Base Widgets
-        this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
         this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
         this.GoogleLogIn.setOnClickListener(this);
     }
 
+    /************************************************************************
+     * Purpose:         Initiate Google Log In Intent
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void GoogleLogIn()
+    {
+        Intent GoogleLogInIntent = this.GoogleClient.getSignInIntent();
+        startActivityForResult(GoogleLogInIntent, RC_SIGN_IN);
+        // -> onActivityResult
+    }
+
+    /************************************************************************
+     * Purpose:         On Google Log In Result
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -95,6 +108,11 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /************************************************************************
+     * Purpose:         Google Log In -> Firebase Auth
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void firebaseAuthWithGoogle(String idToken)
     {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -106,16 +124,12 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                          {
                              if (task.isSuccessful())
                              {
-                                 FirebaseUser user = AuthInstance.getCurrentUser();
-
                                  Intent returnIntent = new Intent();
                                  setResult(Activity.RESULT_OK, returnIntent);
                                  finish();
                              }
                              else
                              {
-                                 /*Helper.makeSnackbarMessage(GoogleLoginPage.this.BackgroundLayout,
-                                                            "Authentication Failed");*/
                                  Intent returnIntent = new Intent();
                                  setResult(Activity.RESULT_CANCELED, returnIntent);
                                  finish();
@@ -124,12 +138,11 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                      });
     }
 
-    public void GoogleLogIn()
-    {
-        Intent GoogleLogInIntent = this.GoogleClient.getSignInIntent();
-        startActivityForResult(GoogleLogInIntent, RC_SIGN_IN);
-    }
-
+    /************************************************************************
+     * Purpose:         Button Click Listener
+     * Precondition:    This is necessary
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public void onClick(View v)
     {
@@ -137,8 +150,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
         {
             case R.id.auth_googleLogIn:
             {
-                /*Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
-                startActivity(intent);*/
+
             }
         }
     }
