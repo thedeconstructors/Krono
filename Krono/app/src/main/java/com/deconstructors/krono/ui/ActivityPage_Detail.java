@@ -198,6 +198,8 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                               this.DateTime.getText().toString(),
                                                               this.Title.getText().toString());
 
+            activity.remove(getString(R.string.collection_planIDs));
+
             FirestoreDB.collection(getString(R.string.collection_activities))
                     .document(this.Activity.getActivityID())
                     .update(activity)
