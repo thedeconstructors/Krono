@@ -1,8 +1,12 @@
 package com.deconstructors.krono.auth;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +21,16 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.ui.MainPage;
 import com.deconstructors.krono.utility.Helper;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class WelcomePage extends AppCompatActivity implements View.OnClickListener
 {
@@ -42,17 +53,44 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private LinearLayout RegisterLayout;
     private TextView BackButton;
     private TextView SkipButton;
-    private Button GoogleLogIn;
+    private SignInButton GoogleLogIn;
+    private LoginButton FacebookLogIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.auth_welcome);
 
         this.setContents();
         this.startBGAnimation();
         this.setFirebaseAuth();
+    }
+
+    private void getHashKey()
+    {
+        try
+        {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.deconstructors.krono",
+                    PackageManager.GET_SIGNATURES);
+
+            for (Signature signature : info.signatures)
+            {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e)
+        {
+
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+
+        }
     }
 
     private void setContents()
@@ -74,9 +112,12 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         RegisterPage RegisterPage = new RegisterPage(this);
         AnonymousLoginPage AnonymousLoginPage = new AnonymousLoginPage(this);
 
-        //
+        // Google Log In
         this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
         this.GoogleLogIn.setOnClickListener(this);
+
+        /*this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
+        this.FacebookLogIn.setOnClickListener(this);*/
     }
 
     private void startBGAnimation()
@@ -174,6 +215,11 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             case R.id.auth_googleLogIn:
             {
                 Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
+                startActivityForResult(intent, LOGIN_ACTIVITY);
+            }
+            case R.id.auth_facebookLogIn:
+            {
+                Intent intent = new Intent(WelcomePage.this, FacebookLoginPage.class);
                 startActivityForResult(intent, LOGIN_ACTIVITY);
             }
         }

@@ -2,6 +2,7 @@
 <resources>
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
+    <string name="facebook_app_id">249681212769545</string>
 
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>
