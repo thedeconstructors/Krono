@@ -4,7 +4,6 @@ public class Notification
 {
     private String Header;
     private String Description;
-    private String Timestamp;
 
     /************************************************************************
      * Purpose:         Default Constructor
@@ -19,11 +18,10 @@ public class Notification
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public Notification(String header, String description, String timestamp)
+    public Notification(String header, String description)
     {
         this.Header = header;
         this.Description = description;
-        this.Timestamp = timestamp;
     }
 
     /************************************************************************
@@ -33,9 +31,7 @@ public class Notification
      ************************************************************************/
     public String getHeader() { return Header; }
     public String getDescription() { return Description; }
-    public String getTimestamp() { return Timestamp; }
 
     public void setHeader(String header) { this.Header = header; }
     public void setDescription(String description) { this.Description = description; }
-    public void setTimestamp(String timestamp) { this.Timestamp = timestamp; }
 }

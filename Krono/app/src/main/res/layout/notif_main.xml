@@ -16,7 +16,7 @@
             android:id="@+id/appbar"
 
             android:layout_width="match_parent"
-            android:layout_height="192dp">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
@@ -47,12 +47,6 @@
             android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <Button
-            android:id="@+id/btn_notifTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Test" />
 
     </LinearLayout>
 
