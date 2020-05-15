@@ -206,6 +206,10 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
             Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
             return;
         }
+        else if (Editable == EditMode.COLLAB)
+        {
+            Toast.makeText(this, "You cannot delete this plan", Toast.LENGTH_SHORT).show();
+        }
         else
         {
             this.DBInstance

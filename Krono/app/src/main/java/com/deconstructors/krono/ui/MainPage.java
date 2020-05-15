@@ -181,11 +181,11 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                                     documentSnapshot.get("email")).toString());
 
                             //Load the users current profile picture
-                            Picasso.get().load(
+                            /*Picasso.get().load(
                                     Objects.requireNonNull(
                                             documentSnapshot.get("picture")
                                     ).toString()
-                            ).into(ProfilePicture);
+                            ).into(ProfilePicture);*/
                         }
                     }
                 });
