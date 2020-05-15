@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,8 @@ import com.google.firebase.firestore.Query;
 
 import androidx.appcompat.widget.Toolbar;
 
-public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener
+public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener,
+                                                    SearchView.OnQueryTextListener
 {
     // Error Log
     private static final String TAG = "FriendPage";
@@ -70,6 +72,11 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_friend_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
+        SearchView search = (SearchView) searchItem.getActionView();
+        search.setQueryHint("Enter name...");
+        search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -126,6 +133,18 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         // Bottom Sheet
         this.FriendPage_New = new FriendPage_New(this);
         this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (this.FriendAdapter != null)
+            this.FriendAdapter.getFilter().filter(newText);
+        return true;
     }
 
     /************************************************************************

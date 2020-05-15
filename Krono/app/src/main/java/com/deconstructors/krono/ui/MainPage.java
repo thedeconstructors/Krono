@@ -105,6 +105,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
         MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
         SearchView search = (SearchView) searchItem.getActionView();
+        search.setQueryHint("Enter title...");
+        search.setIconified(true);
         search.setOnQueryTextListener(this);
 
         return true;
