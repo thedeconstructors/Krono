@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,7 +46,10 @@ public class NotificationsPage extends AppCompatActivity
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
 
+    //Data Members
     Context context;
+    ArrayList<String> FriendRequestIds;
+    ArrayList<String> FriendRequestNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,8 +62,18 @@ public class NotificationsPage extends AppCompatActivity
         this.RecyclerView = findViewById(R.id.notif_recyclerview);
         context = this;
 
+        FriendRequestIds = new ArrayList<>();
+        FriendRequestNames = new ArrayList<>();
+
         setToolbar();
         SearchFriendRequestIds();
+        ShowData(FriendRequestIds);
+        SearchFriendRequestNames();
+        ShowData(FriendRequestNames);
+
+        Adapter = new NotificationAdapter(FriendRequestNames, FRIEND_REQUEST);
+        RecyclerView.setAdapter(Adapter);
+        RecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
     private void setToolbar()
@@ -73,8 +87,6 @@ public class NotificationsPage extends AppCompatActivity
 
     private void SearchFriendRequestIds()
     {
-        final ArrayList<String> friendRequestIds = new ArrayList<>();
-
         this.DBInstance
                 .collection("users")
                 .whereEqualTo("uid", this.AuthInstance.getCurrentUser().getUid())
@@ -84,21 +96,11 @@ public class NotificationsPage extends AppCompatActivity
             @Override
             public void onSuccess (QuerySnapshot queryDocumentSnapshots)
             {
-                if (queryDocumentSnapshots.isEmpty())
-                {
-                    Context context = getApplicationContext();
-                    String text = "queryDocumentSnapshots.isEmpty() returned true";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-                else
+                if (!queryDocumentSnapshots.isEmpty())
                 {
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
                     {
-                        Map<Object, Boolean> friendMap = new HashMap<>();
-                        friendMap = (Map<Object, Boolean>)doc.get("friends");
+                        Map<Object, Boolean> friendMap = (Map<Object, Boolean>)doc.get("friends");
 
                         for (Map.Entry<Object, Boolean> entry : friendMap.entrySet())
                         {
@@ -107,67 +109,44 @@ public class NotificationsPage extends AppCompatActivity
 
                             if (value == true)
                             {
-                                friendRequestIds.add(key.toString());
+                                FriendRequestIds.add(key.toString());
                             }
                         }
                     }
-
-                    //ShowData(friendRequestIds);
-                    SearchFriendRequestNames(friendRequestIds);
-                    /*Adapter = new NotificationAdapter(friendRequestIds, FRIEND_REQUEST);
-                    RecyclerView.setAdapter(Adapter);
-                    RecyclerView.setLayoutManager(new LinearLayoutManager(context));*/
                 }
             }
         });
     }
 
-    private void SearchFriendRequestNames(ArrayList<String> Ids)
+    private void SearchFriendRequestNames()
     {
-        final ArrayList<String> friendRequestNames = new ArrayList<>();
-
-        for (int i = 0; i < Ids.size(); i++)
+        for (int i = 0; i < FriendRequestIds.size(); i++)
         {
             this.DBInstance
                     .collection("users")
-                    .whereEqualTo("uid", Ids.get(i))
+                    .whereEqualTo("uid", FriendRequestIds.get(i))
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                    friendRequestNames.add((String)doc.get("displayName"));
+                                    FriendRequestNames.add((String)doc.get("displayName"));
                                 }
-
-                                ShowData(friendRequestNames);
-                                Adapter = new NotificationAdapter(friendRequestNames, FRIEND_REQUEST);
-                                RecyclerView.setAdapter(Adapter);
-                                RecyclerView.setLayoutManager(new LinearLayoutManager(context));
                             }
                         }
                     });
         }
     }
 
-    private void ShowData(ArrayList<String> Ids)
+    private void ShowData(ArrayList<String> list)
     {
         System.out.println("Entering ShowData");
-        /*Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        int size = Ids.size();
-        String text = Integer.toString(size);
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();*/
+        System.out.println(list.size());
 
-        System.out.println(Ids.size());
-        for (int i = 0; i < Ids.size(); i++)
+        for (int i = 0; i < list.size(); i++)
         {
-            /*text = Ids.get(i);
-            toast = Toast.makeText(context, text, duration);
-            toast.show();*/
-            String text = Ids.get(i);
-            System.out.println(text);
+            System.out.println(list.get(i));
         }
 
     }
