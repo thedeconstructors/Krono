@@ -101,7 +101,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
-                android:enabled="false"
 
                 android:padding="@dimen/menu_layoutPadding"
                 android:drawableStart="@drawable/ic_menu_chats"
@@ -153,4 +152,16 @@
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ui_main_fab"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ui_main_fab_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClick"
+        app:srcCompat="@android:drawable/ic_popup_reminder" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

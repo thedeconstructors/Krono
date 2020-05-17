@@ -222,16 +222,11 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
      ************************************************************************/
     private void deleteFriend()
     {
-        /*Map<String, Object> friends = new HashMap<>();
-        Map<String, Object> users = new HashMap<>();
-        friends.put(this.Friend.getUid(), FieldValue.delete());
-        users.put(getString(R.string.collection_friends), friends);*/
-
         Map<String, Object> users = new HashMap<>();
         users.put(getString(R.string.collection_friends) + "." + this.Friend.getUid(), FieldValue.delete());
         Log.d(TAG, "Detail: " + getString(R.string.collection_friends) + "." + this.Friend.getUid());
 
-        // Delete Friend from the Owner's Document
+        // Delete the friend relationship from the Owner's Document
         this.DBInstance
                 .collection(getString(R.string.collection_users))
                 .document(this.AuthInstance.getCurrentUser().getUid())
@@ -250,18 +245,19 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     public void onFailure(@NonNull Exception e)
                     {
                         Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
-                                                   "Error: Friend Delete Failed");
+                                                   "Friend Delete Error: " + e.getMessage());
                     }
                 });
 
+        // Delete the friend relationship from the Friend's Document
         this.getDeleteFriendFunctions(this.Friend.getUid())
             .addOnSuccessListener(new OnSuccessListener<String>()
             {
                 @Override
                 public void onSuccess(String s)
                 {
-                    Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
-                                               "Friend Delete Success");
+                    /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                               "Friend Delete Success");*/
                 }
             })
             .addOnFailureListener(new OnFailureListener()
@@ -269,8 +265,9 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
-                                               "Error: Friend Delete Failed");
+                    Log.d(TAG, "getDeleteFriendFunctions: " + e.getMessage());
+                    /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
+                                               "Friend Delete Error: " + e.getMessage());*/
                 }
             });
     }
@@ -278,7 +275,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private Task<String> getDeleteFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
+        HashMap<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 

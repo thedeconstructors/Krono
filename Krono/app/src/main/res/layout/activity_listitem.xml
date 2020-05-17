@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="@dimen/menu_layoutPadding">
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="@dimen/menu_imagePadding"
             android:buttonTint="@color/colorPrimaryDark"/>
 
         <LinearLayout
@@ -33,7 +33,7 @@
                 android:text="Title"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/activitylist_description_text"
@@ -43,7 +43,7 @@
                 android:text="Description"
                 android:maxLines="3"
                 android:textColor="@android:color/secondary_text_dark"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -3,19 +3,28 @@ package com.deconstructors.krono.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.FriendHolder>
+                            implements Filterable
 {
     private FriendClickListener ClickListener;
+    private List<User> FilteredList;
+    public boolean filtering = false;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -27,6 +36,64 @@ public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.
     {
         super(options);
         this.ClickListener = clickListener;
+        this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    @Override
+    public void onDataChanged()
+    {
+        super.onDataChanged();
+        if (!filtering)
+            this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    @Override
+    public int getItemCount()
+    {
+        onDataChanged();
+        return FilteredList.size();
+    }
+
+    @NonNull
+    @Override
+    public User getItem(int position) {
+        if (filtering)
+            return FilteredList.get(position);
+        return super.getItem(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String pattern = constraint.toString().toLowerCase();
+                if(pattern.isEmpty()){
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    filtering = false;
+                } else {
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    List<User> filteredList = new ArrayList<>();
+                    filtering = true;
+                    for(User friend: FilteredList){
+                        if(friend.getDisplayName().toLowerCase().contains(pattern)) {
+                            filteredList.add(friend);
+                        }
+                    }
+                    FilteredList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = FilteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                FilteredList = (ArrayList<User>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     /************************************************************************
@@ -55,8 +122,8 @@ public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.
                                     int position,
                                     @NonNull User model)
     {
-        holder.displayNameText.setText(model.getDisplayName());
-        holder.emailText.setText(model.getEmail());
+        holder.displayNameText.setText(FilteredList.get(position).getDisplayName());
+        holder.emailText.setText(FilteredList.get(position).getEmail());
     }
 
     /************************************************************************

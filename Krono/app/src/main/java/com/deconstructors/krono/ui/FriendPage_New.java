@@ -177,6 +177,7 @@ public class FriendPage_New implements View.OnClickListener
                 public void onSuccess(Void aVoid)
                 {
                     FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                    FriendPage_New.this.SearchText.setText("");
                 }
             })
             .addOnFailureListener(new OnFailureListener()
@@ -184,7 +185,7 @@ public class FriendPage_New implements View.OnClickListener
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    makeBottomSheetSnackbarMessage("Error: Adding Friend Failed 1");
+                    makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());
                 }
             });
 
@@ -195,7 +196,7 @@ public class FriendPage_New implements View.OnClickListener
                 @Override
                 public void onSuccess(String s)
                 {
-                    FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+                    /*FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);*/
                 }
             })
             .addOnFailureListener(new OnFailureListener()
@@ -204,7 +205,7 @@ public class FriendPage_New implements View.OnClickListener
                 public void onFailure(@NonNull Exception e)
                 {
                     Log.d(TAG, "getAddFriendFunctions: " + e.getMessage());
-                    makeBottomSheetSnackbarMessage("Error: " + e.getMessage());
+                    /*makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());*/
                 }
             });
     }
@@ -212,7 +213,7 @@ public class FriendPage_New implements View.OnClickListener
     private Task<String> getAddFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        Map<String, Object> snap = new HashMap<>();
+        HashMap<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 
