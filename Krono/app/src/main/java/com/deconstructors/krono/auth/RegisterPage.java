@@ -148,6 +148,7 @@ public class RegisterPage implements View.OnClickListener
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
         user.put("uid", authResult.getUser().getUid());
+        user.put("picture", this.ActivityInstance.getString(R.string.default_picture));
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {

@@ -35,7 +35,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -218,7 +217,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 new OnCompleteListener<Uri>() {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
-
                         //Profile Data
                         Map<String, Object> profile = new HashMap<>();
 
@@ -235,7 +233,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                             profile.put("picture",
                                     "Error");
                         }
-
                         setDataBase(profile);
                     }
                 });

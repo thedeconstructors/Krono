@@ -41,7 +41,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                                                             TabLayout.OnTabSelectedListener,
                                                             SearchView.OnQueryTextListener
 {
-
     //Xml Widgets
     androidx.recyclerview.widget.RecyclerView recyclerView;
 
@@ -75,7 +74,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
 
-        this.setFirebaseAuth();
         this.setToolbar();
         this.setPlanDB();
         this.setUserDB();
@@ -183,33 +181,15 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                             EmailTextView.setText(Objects.requireNonNull(
                                     documentSnapshot.get("email")).toString());
 
-                            //Load the users current profile picture
-                            /*Picasso.get().load(
-                                    Objects.requireNonNull(
-                                            documentSnapshot.get("picture")
-                                    ).toString()
-                            ).into(ProfilePicture);*/
+                            Object pic_url;
+                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                                pic_url = getString(R.string.default_picture);
+                            }
+
+                            Picasso.get().load(pic_url.toString()).into(ProfilePicture);
                         }
                     }
                 });
-    }
-
-    void setFirebaseAuth()
-    {
-        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                if (firebaseAuth.getCurrentUser() == null)
-                {
-                    Intent intent = new Intent(MainPage.this, WelcomePage.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
     }
 
     @Override
