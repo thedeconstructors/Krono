@@ -42,6 +42,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     // Firebase
     private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
+    private RegisterPage RegisterPage;
 
     // Background
     private static final int FADE_DURATION = 4000;
@@ -111,7 +112,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
 
         // SignIn & Register Pages
         EmailLoginPage EmailLoginPage = new EmailLoginPage(this);
-        RegisterPage RegisterPage = new RegisterPage(this);
+        this.RegisterPage = new RegisterPage(this);
         AnonymousLoginPage AnonymousLoginPage = new AnonymousLoginPage(this);
 
         // Google Log In
@@ -165,16 +166,16 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     public void onStart()
     {
         super.onStart();
-        this.AuthInstance.addAuthStateListener(FirebaseAuthListener);
+        this.AuthInstance.addAuthStateListener(this.FirebaseAuthListener);
     }
 
     @Override
     public void onStop()
     {
         super.onStop();
-        if (FirebaseAuthListener != null)
+        if (this.FirebaseAuthListener != null)
         {
-            this.AuthInstance.removeAuthStateListener(FirebaseAuthListener);
+            this.AuthInstance.removeAuthStateListener(this.FirebaseAuthListener);
         }
     }
 
@@ -214,6 +215,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 //this.SkipButton.setVisibility(View.GONE);
                 break;
             }
+            // Clicks
             case R.id.auth_googleLogIn:
             {
                 Helper.showProgressBar(this, this.ProgressBar);
@@ -243,7 +245,12 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 Helper.hideProgressBar(this, this.ProgressBar);
                 // => Firebase Auth
             }
-            if (resultCode == RESULT_CANCELED)
+            else if (resultCode == RESULT_FIRST_USER)
+            {
+                FirebaseUser user = this.AuthInstance.getCurrentUser();
+                this.RegisterPage.onRegister(user.getUid(), user.getDisplayName(), user.getEmail());
+            }
+            else if (resultCode == RESULT_CANCELED)
             {
                 Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.utility.Helper;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,16 +21,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class GoogleLoginPage extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
-    private static final String TAG = "WelcomePage";
+    private static final String TAG = "GoogleLoginPage";
     private static final int RC_SIGN_IN = 9001;
 
     // XML Widgets
@@ -132,9 +136,17 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                              if (task.isSuccessful())
                              {
                                  Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
-
                                  Intent returnIntent = new Intent();
-                                 setResult(Activity.RESULT_OK, returnIntent);
+
+                                 if(task.getResult().getAdditionalUserInfo().isNewUser())
+                                 {
+                                     setResult(Activity.RESULT_FIRST_USER, returnIntent);
+                                 }
+                                 else
+                                 {
+                                     setResult(Activity.RESULT_OK, returnIntent);
+                                 }
+
                                  finish();
                              }
                              else

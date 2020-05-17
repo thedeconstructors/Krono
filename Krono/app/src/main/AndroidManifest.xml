@@ -20,6 +20,10 @@
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
+        <!--<meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="false"/>
+        <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled"
+            android:value="false"/>-->
 
         <!-- Auth -->
         <activity android:name=".auth.WelcomePage">
@@ -28,10 +32,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.GoogleLoginPage"
+        <activity
+            android:name=".auth.GoogleLoginPage"
             android:theme="@style/NoAnimTheme"/>
-        <activity android:name=".auth.FacebookLoginPage"
-            android:theme="@style/NoAnimTheme"/>
+        <activity
+            android:name=".auth.FacebookLoginPage"
+            android:theme="@style/NoAnimTheme"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"/>
 
         <!-- Main Menu -->
         <activity android:name=".ui.MainPage"/>

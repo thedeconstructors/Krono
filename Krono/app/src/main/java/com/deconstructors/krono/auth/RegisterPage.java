@@ -113,7 +113,9 @@ public class RegisterPage implements View.OnClickListener
                                  @Override
                                  public void onSuccess(AuthResult authResult)
                                  {
-                                     RegisterPage.this.onRegister(authResult, name, email);
+                                     RegisterPage.this.onRegister(authResult.getUser().getUid(),
+                                                                  name,
+                                                                  email);
                                      Log.d(TAG, "onRegisterClick: success");
                                      Helper.hideProgressBar(RegisterPage.this.ActivityInstance,
                                                             RegisterPage.this.ProgressBar);
@@ -134,14 +136,14 @@ public class RegisterPage implements View.OnClickListener
         }
     }
 
-    private void onRegister(AuthResult authResult, String name, String email)
+    public void onRegister(String uid, String name, String email)
     {
         Log.d(TAG, "onRegister: creating a new user document");
 
         DocumentReference ref = FirebaseFirestore
                 .getInstance()
                 .collection(this.ActivityInstance.getString(R.string.collection_users))
-                .document(Objects.requireNonNull(authResult.getUser()).getUid());
+                .document(uid);
 
         Map<String, Object> user = new HashMap<>();
 
@@ -149,7 +151,7 @@ public class RegisterPage implements View.OnClickListener
         user.put("email", email);
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
-        user.put("uid", authResult.getUser().getUid());
+        user.put("uid", uid);
         //TODO MAKE THIS NICER (TEMPORARILY MOVED TO STRING.XML)
         user.put("picture", this.ActivityInstance.getString(R.string.profile_picture_url));
 
