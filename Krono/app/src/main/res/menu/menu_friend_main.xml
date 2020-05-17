@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/friend_menu_searchbutton"
+        android:icon="@drawable/toolbar_searchbutton_white"
+        android:title="@string/menu_searchButton"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.SearchView"/>
+
     <item
         android:title="@string/menu_friend"
         app:showAsAction="always"

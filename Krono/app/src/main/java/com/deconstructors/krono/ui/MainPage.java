@@ -43,11 +43,17 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 {
     //Xml Widgets
     androidx.recyclerview.widget.RecyclerView recyclerView;
+
+    // Error Log
+    private static final String TAG = "MainActivity";
+
+    // XML Widgets
     private TextView NameTextView;
     private TextView EmailTextView;
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
-    private FloatingActionButton FAB;
+    private FloatingActionButton FAB, notificationsFAB;
+    SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -56,7 +62,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private ListenerRegistration UserRegistration;
 
     //Plan stuff
-    Filterable CurrentFilterAdapter = null;
+    PlanAdapter CurrentFilterAdapter = null;
 
     private PlanAdapter MyPlanAdapter;
 
@@ -68,7 +74,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_main);
 
-        this.setFirebaseAuth();
         this.setToolbar();
         this.setPlanDB();
         this.setUserDB();
@@ -98,8 +103,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         inflater.inflate(R.menu.menu_plan_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
-        SearchView search = (SearchView) searchItem.getActionView();
-        search.setOnQueryTextListener(this);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter title...");
+        Search.setIconified(true);
+        Search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -185,29 +192,14 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 });
     }
 
-    void setFirebaseAuth()
-    {
-        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
-            {
-                if (firebaseAuth.getCurrentUser() == null)
-                {
-                    Intent intent = new Intent(MainPage.this, WelcomePage.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-    }
-
     @Override
     protected void onStart()
     {
         super.onStart();
-        onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
+        if (CurrentFilterAdapter != null)
+            CurrentFilterAdapter.clearFilteredList();
+        if (this.Tabs != null)
+            onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
         //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
@@ -218,6 +210,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.MyPlanAdapter.stopListening();
         this.SharedPlanAdapter.stopListening();
         //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     @Override
@@ -243,6 +237,9 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
         this.FAB.setOnClickListener(this);
+        this.notificationsFAB = findViewById(R.id.ui_main_fab_notifications);
+        this.notificationsFAB.setOnClickListener(this);
+
         this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
         this.ProfilePicture.setOnClickListener(this);
         this.Tabs = findViewById(R.id.main_tabLayout);
@@ -275,12 +272,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         if (Tabs.getSelectedTabPosition() == 0) {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
-            MyPlanAdapter.clearFilteredList();
         }
         else {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
-            SharedPlanAdapter.clearFilteredList();
         }
         startActivity(intent);
     }
@@ -317,9 +312,13 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_profilepicture:
-            {
+            case R.id.ui_main_profilepicture: {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                break;
+            }
+            case R.id.ui_main_fab_notifications:
+            {
+                Intent intent = new Intent(MainPage.this, NotificationsPage.class);
                 startActivity(intent);
                 break;
             }

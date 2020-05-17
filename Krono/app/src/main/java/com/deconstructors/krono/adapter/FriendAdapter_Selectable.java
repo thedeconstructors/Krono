@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,10 +16,16 @@ import com.deconstructors.krono.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, FriendAdapter_Selectable.FriendHolder>
+                                        implements Filterable
 {
     private FriendAdapter_Selectable.FriendClickListener ClickListener;
-    private SelectModifer modifer;
+    private SelectModifier modifier;
+    private List<User> FilteredList;
+    public boolean filtering = false;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -26,11 +34,69 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
      ************************************************************************/
     public FriendAdapter_Selectable(@NonNull FirestoreRecyclerOptions<User> options,
                                     FriendAdapter_Selectable.FriendClickListener clickListener,
-                                    SelectModifer modifer)
+                                    SelectModifier modifier)
     {
         super(options);
         this.ClickListener = clickListener;
-        this.modifer = modifer;
+        this.modifier = modifier;
+        this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    @Override
+    public void onDataChanged()
+    {
+        super.onDataChanged();
+        if (!filtering)
+            this.FilteredList = new ArrayList<>(getSnapshots());
+    }
+
+    @Override
+    public int getItemCount()
+    {
+        onDataChanged();
+        return FilteredList.size();
+    }
+
+    @NonNull
+    @Override
+    public User getItem(int position) {
+        if (filtering)
+            return FilteredList.get(position);
+        return super.getItem(position);
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String pattern = constraint.toString().toLowerCase();
+                if(pattern.isEmpty()){
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    filtering = false;
+                } else {
+                    FilteredList = new ArrayList<>(getSnapshots());
+                    List<User> filteredList = new ArrayList<>();
+                    filtering = true;
+                    for(User friend: FilteredList){
+                        if(friend.getDisplayName().toLowerCase().contains(pattern)) {
+                            filteredList.add(friend);
+                        }
+                    }
+                    FilteredList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = FilteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                FilteredList = (ArrayList<User>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     /************************************************************************
@@ -59,9 +125,9 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
                                     int position,
                                     @NonNull User model)
     {
-        holder.displayNameText.setText(model.getDisplayName());
-        holder.emailText.setText(model.getEmail());
-        modifer.selectionCheck(model, holder);
+        holder.displayNameText.setText(FilteredList.get(position).getDisplayName());
+        holder.emailText.setText(FilteredList.get(position).getEmail());
+        modifier.selectionCheck(FilteredList.get(position), holder);
     }
 
     /************************************************************************
@@ -100,7 +166,7 @@ public class FriendAdapter_Selectable extends FirestoreRecyclerAdapter<User, Fri
         void onFriendSelected(int position);
     }
 
-    public interface SelectModifer
+    public interface SelectModifier
     {
         void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder);
     }
