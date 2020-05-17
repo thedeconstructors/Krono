@@ -34,6 +34,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     private Toolbar Toolbar;
     private RecyclerView RecyclerView;
     private FriendPage_New FriendPage_New;
+    private SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -74,9 +75,9 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         inflater.inflate(R.menu.menu_friend_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
-        SearchView search = (SearchView) searchItem.getActionView();
-        search.setQueryHint("Enter name...");
-        search.setOnQueryTextListener(this);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter name...");
+        Search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -158,6 +159,9 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         Intent intent = new Intent(FriendPage.this, FriendPage_Detail.class);
         intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
         startActivity(intent);
+        this.Search.setQuery("",false);
+        Search.setIconified(true);
+        this.FriendAdapter.clearFilteredList();
     }
 
     /************************************************************************
