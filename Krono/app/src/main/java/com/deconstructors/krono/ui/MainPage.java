@@ -53,6 +53,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
     private FloatingActionButton FAB, notificationsFAB;
+    SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -61,7 +62,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private ListenerRegistration UserRegistration;
 
     //Plan stuff
-    Filterable CurrentFilterAdapter = null;
+    PlanAdapter CurrentFilterAdapter = null;
 
     private PlanAdapter MyPlanAdapter;
 
@@ -102,8 +103,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         inflater.inflate(R.menu.menu_plan_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
-        SearchView search = (SearchView) searchItem.getActionView();
-        search.setOnQueryTextListener(this);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter title...");
+        Search.setIconified(true);
+        Search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -179,11 +182,11 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                                     documentSnapshot.get("email")).toString());
 
                             //Load the users current profile picture
-                            Picasso.get().load(
+                            /*Picasso.get().load(
                                     Objects.requireNonNull(
                                             documentSnapshot.get("picture")
                                     ).toString()
-                            ).into(ProfilePicture);
+                            ).into(ProfilePicture);*/
                         }
                     }
                 });
@@ -193,7 +196,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     protected void onStart()
     {
         super.onStart();
-        onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
+        if (CurrentFilterAdapter != null)
+            CurrentFilterAdapter.clearFilteredList();
+        if (this.Tabs != null)
+            onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
         //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
@@ -204,6 +210,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.MyPlanAdapter.stopListening();
         this.SharedPlanAdapter.stopListening();
         //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     @Override
@@ -264,12 +272,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         if (Tabs.getSelectedTabPosition() == 0) {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
-            MyPlanAdapter.clearFilteredList();
         }
         else {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
-            SharedPlanAdapter.clearFilteredList();
         }
         startActivity(intent);
     }

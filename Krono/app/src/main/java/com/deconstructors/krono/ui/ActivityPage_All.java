@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ActivityPage_All extends AppCompatActivity
-        implements ActivityAdapter.ActivityClickListener
+        implements ActivityAdapter.ActivityClickListener,
+                SearchView.OnQueryTextListener
 {
     // Error Log
     private static final String TAG = "MainActivity";
@@ -36,6 +38,7 @@ public class ActivityPage_All extends AppCompatActivity
     // XML Widgets
     private Toolbar Toolbar;
     private RecyclerView RecyclerView;
+    private SearchView Search;
 
     // Database
     private FirebaseFirestore DBInstance;
@@ -100,6 +103,8 @@ public class ActivityPage_All extends AppCompatActivity
     {
         super.onStop();
         if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     /************************************************************************
@@ -114,6 +119,18 @@ public class ActivityPage_All extends AppCompatActivity
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.RecyclerView.setAdapter(this.ActivityAdapter);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (this.ActivityAdapter != null)
+            this.ActivityAdapter.getFilter().filter(newText);
+        return true;
     }
 
     /************************************************************************
@@ -158,6 +175,11 @@ public class ActivityPage_All extends AppCompatActivity
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_all, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.activity_all_menu_searchbutton);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter title...");
+        Search.setOnQueryTextListener(this);
 
         return true;
     }

@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,9 @@ import java.util.List;
 
 public class Friend_Select extends AppCompatActivity
                         implements FriendAdapter_Selectable.FriendClickListener,
-                                    View.OnClickListener {
+                                    View.OnClickListener,
+                                    SearchView.OnQueryTextListener
+{
     // Error Log
     private static final String TAG = "FriendPage";
 
@@ -44,6 +47,7 @@ public class Friend_Select extends AppCompatActivity
     // XML Widgets
     private androidx.appcompat.widget.Toolbar Toolbar;
     private androidx.recyclerview.widget.RecyclerView RecyclerView;
+    private SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -83,6 +87,11 @@ public class Friend_Select extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_friend_main, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter name...");
+        Search.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -107,7 +116,7 @@ public class Friend_Select extends AppCompatActivity
                 .build();
         this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions,
                 this,
-                new FriendAdapter_Selectable.SelectModifer() {
+                new FriendAdapter_Selectable.SelectModifier() {
                     @Override
                     public void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder) {
                         for (String id : Collaborators)
@@ -115,6 +124,10 @@ public class Friend_Select extends AppCompatActivity
                             if (id.compareTo(model.getUid()) == 0)
                             {
                                 holder.cb.setChecked(true);
+                            }
+                            else
+                            {
+                                holder.cb.setChecked(false);
                             }
                         }
                     }
@@ -133,6 +146,8 @@ public class Friend_Select extends AppCompatActivity
     {
         super.onStop();
         if (this.FriendAdapter != null) { this.FriendAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     /************************************************************************
@@ -153,9 +168,21 @@ public class Friend_Select extends AppCompatActivity
     }
 
     @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (this.FriendAdapter != null)
+            this.FriendAdapter.getFilter().filter(newText);
+        return true;
+    }
+
+    @Override
     public void onClick(View view)
     {
-        Collaborators = new ArrayList<>();
+        /*Collaborators = new ArrayList<>();
         for (int ii = 0; ii < RecyclerView.getChildCount(); ++ii)
         {
             View item = RecyclerView.getChildAt(ii);
@@ -164,7 +191,7 @@ public class Friend_Select extends AppCompatActivity
             {
                 Collaborators.add(FriendAdapter.getItem(ii).getUid());
             }
-        }
+        }*/
         Intent data = new Intent();
         data.putExtra(EXTRA_COLLAB,new ArrayList<String>(Collaborators));
         setResult(AR_COLLAB, data);
@@ -182,6 +209,11 @@ public class Friend_Select extends AppCompatActivity
         //does nothing but multiselect
         CheckBox cb = RecyclerView.getChildAt(position).findViewById(R.id.friendlistitem_checkbox);
         cb.setChecked(!cb.isChecked());
+        String id = this.FriendAdapter.getItem(position).getUid();
+        if (Collaborators.contains(id))
+            Collaborators.remove(id);
+        else
+            Collaborators.add(id);
     }
 
     /************************************************************************
