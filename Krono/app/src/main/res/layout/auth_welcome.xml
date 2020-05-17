@@ -114,7 +114,7 @@
         android:visibility="gone"
         android:id="@+id/auth_back"/>
 
-    <!-- Skip Button -->
+    <!-- This is no longer viable in the current environment-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,7 +131,10 @@
         android:textSize="16sp"
         android:textColor="@color/lightGrey"
         android:layout_gravity="end|bottom"
-        android:id="@+id/auth_anonymousSignIn"/>
+        android:id="@+id/auth_anonymousSignIn"
+
+        android:visibility="invisible"
+        />
 
     <!-- Hidden Progress Bar -->
     <ProgressBar

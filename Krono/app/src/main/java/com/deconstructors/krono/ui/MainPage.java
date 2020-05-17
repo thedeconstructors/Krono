@@ -174,12 +174,12 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                             EmailTextView.setText(Objects.requireNonNull(
                                     documentSnapshot.get("email")).toString());
 
-                            //Load the users current profile picture
-                            Picasso.get().load(
-                                    Objects.requireNonNull(
-                                            documentSnapshot.get("picture")
-                                    ).toString()
-                            ).into(ProfilePicture);
+                            Object pic_url;
+                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                                pic_url = getString(R.string.default_picture);
+                            }
+
+                            Picasso.get().load(pic_url.toString()).into(ProfilePicture);
                         }
                     }
                 });

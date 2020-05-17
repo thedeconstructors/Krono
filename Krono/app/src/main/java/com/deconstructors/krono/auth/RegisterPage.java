@@ -148,8 +148,7 @@ public class RegisterPage implements View.OnClickListener
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
         user.put("uid", authResult.getUser().getUid());
-        //TODO MAKE THIS NICER
-        user.put("picture", "https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc-e666-4aa5-ad3a-1682759b8e42");
+        user.put("picture", this.ActivityInstance.getString(R.string.default_picture));
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {
