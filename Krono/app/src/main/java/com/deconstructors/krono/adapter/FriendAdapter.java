@@ -39,11 +39,6 @@ public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.
         this.FilteredList = new ArrayList<>(getSnapshots());
     }
 
-    public void clearFilteredList()
-    {
-        FilteredList = new ArrayList<>();
-    }
-
     @Override
     public void onDataChanged()
     {
