@@ -1,5 +1,5 @@
 <p align=center>
-  <img src="https://github.com/thedeconstructors/Krono/blob/Development/Images/logo.png" alt="" width="200" height="200"></p>
+  <img src="https://github.com/thedeconstructors/Krono/blob/master/Images/logo.png" alt="" width="200" height="200"></p>
 
 <h1 align="center">Krono</h1>
 
