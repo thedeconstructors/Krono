@@ -314,6 +314,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_main_profilepicture: {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                startActivity(intent);
                 break;
             }
             case R.id.ui_main_fab_notifications:
