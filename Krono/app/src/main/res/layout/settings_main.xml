@@ -10,10 +10,20 @@
     tools:context=".ui.FriendPage_Detail"
     android:id="@+id/ui_Settings">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/White"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/settings_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
     </androidx.fragment.app.FragmentContainerView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

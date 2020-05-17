@@ -26,7 +26,7 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
 {
     private PlanClickListener ClickListener;
     private List<Plan> FilteredList;
-    public boolean filtering = false;
+    private boolean filtering = false;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor

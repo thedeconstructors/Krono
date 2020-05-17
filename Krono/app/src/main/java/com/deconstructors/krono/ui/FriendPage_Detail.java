@@ -362,7 +362,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         }
 
         intent.putExtra(getString(R.string.intent_plans), chosenRecycler.getItem(position));
-        intent.putExtra(getString(R.string.intent_editable),canEdit);
+        intent.putExtra(getString(R.string.intent_editable), canEdit);
 
         startActivity(intent);
     }
