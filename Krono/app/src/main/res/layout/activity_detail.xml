@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                    android:hint="@string/newactivity_timestamp"
+                    android:hint="@string/newactivity_duration"
                     android:clickable="true"
                     android:focusable="true"
                     android:inputType="datetime"

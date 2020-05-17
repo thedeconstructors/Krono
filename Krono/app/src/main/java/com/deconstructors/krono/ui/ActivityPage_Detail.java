@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
@@ -45,12 +47,15 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                      DatePickerDialog.OnDateSetListener, OnMapReadyCallback
+                                                                      DatePickerDialog.OnDateSetListener,
+                                                                      OnMapReadyCallback, GoogleMap.OnMapClickListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
     public final float MAP_DEFAULT_ZOOM = 15.0F;
     public final int CAMERA_DEFAULT_SPEED = 1000;
+    private static final int MAPACTIVITY_REQUESTCODE = 5002;
+    private static final int LOCATIONSTR_SIZE = 10;
 
     //result constant for extra
     private Toolbar Toolbar;
@@ -67,6 +72,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private GoogleMap Map;
     private Activity Activity;
     private ActivityPage.EditMode Editable;
+    private SupportMapFragment MapFragment;
 
     // Database
     private FirebaseFirestore FirestoreDB;
@@ -111,9 +117,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
         //TODO Connect The Google Map with The Map Picker Page
         // Google Map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        this.MapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        this.MapFragment.getMapAsync(this);
     }
 
     private void getActivityIntent()
@@ -202,7 +208,8 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
             activity.remove(getString(R.string.collection_planIDs));
 
-            FirestoreDB.collection(getString(R.string.collection_activities))
+            this.FirestoreDB
+                    .collection(getString(R.string.collection_activities))
                     .document(this.Activity.getActivityID())
                     .update(activity)
                     .addOnCompleteListener(new OnCompleteListener<Void>()
@@ -223,7 +230,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         }
         else
         {
-            makeSnackbarMessage("Please fill in all the fields");
+            this.makeSnackbarMessage("Please fill in all the fields");
         }
     }
 
@@ -315,9 +322,37 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     public void onMapReady(GoogleMap googleMap)
     {
         this.Map = googleMap;
+        this.Map.setOnMapClickListener(this);
         this.Map.setMyLocationEnabled(false);
         this.Map.getUiSettings().setMyLocationButtonEnabled(false);
         this.setMarkerPosition();
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng)
+    {
+        Intent intent = new Intent(this, ActivityPage_Map.class);
+        startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
+    }
+
+
+    /************************************************************************
+     * Purpose:         On Google Map Activity Completed
+     * Precondition:    .
+     * Postcondition:   Set Returned Location Data To the Button GUI
+     ************************************************************************/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAPACTIVITY_REQUESTCODE
+                && resultCode == android.app.Activity.RESULT_OK
+                && data != null)
+        {
+            this.Location = data.getParcelableExtra(getString(R.string.intent_location));
+            this.setMarkerPosition();
+        }
     }
 
     /************************************************************************

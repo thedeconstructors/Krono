@@ -80,6 +80,7 @@
     <string name="newactivity_title">Title</string>
     <string name="newactivity_description">Description</string>
     <string name="newactivity_timestamp">Pick a date</string>
+    <string name="newactivity_duration">Duration</string>
     <string name="newactivity_location">Add Location</string>
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>

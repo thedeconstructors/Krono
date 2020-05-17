@@ -152,13 +152,13 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                      {
                                          setResult(Activity.RESULT_OK, returnIntent);
                                      }
-                                     
+
                                      finish();
                                  }
                                  else
                                  {
                                      // If sign in fails, display a message to the user.
-                                     Log.w(TAG, "signInWithCredential: failure", task.getException());
+                                     Log.w(TAG, "signInWithFacebookCredential: ", task.getException());
                                      Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
 
                                      Intent returnIntent = new Intent();

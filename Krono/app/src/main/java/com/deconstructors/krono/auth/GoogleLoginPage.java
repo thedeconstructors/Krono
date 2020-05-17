@@ -109,7 +109,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
             }
             catch (ApiException e)
             {
-                Log.w(TAG, "Google sign in failed", e);
+                Log.w(TAG, "Google sign in failed: ", e);
                 Helper.hideProgressBar(this, this.ProgressBar);
 
                 Intent returnIntent = new Intent();
@@ -151,6 +151,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                              }
                              else
                              {
+                                 Log.w(TAG, "firebaseAuthWithGoogle: ", task.getException());
                                  Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
 
                                  Intent returnIntent = new Intent();

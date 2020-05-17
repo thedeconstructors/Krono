@@ -183,7 +183,8 @@ public class ActivityPage_New implements View.OnClickListener,
                    @Override
                    public void onFailure(@NonNull Exception e)
                    {
-                       ActivityPage_New.this.makeBottomSheetSnackbarMessage("Error: Could Not Add Activity");
+                       ActivityPage_New.this.makeBottomSheetSnackbarMessage(
+                               "Error: Could Not Add Activity");
                    }
                });
         }
