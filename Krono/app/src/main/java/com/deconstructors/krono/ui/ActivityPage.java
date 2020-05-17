@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener,
-                                                               View.OnClickListener
+                                                               View.OnClickListener,
+                                                                SearchView.OnQueryTextListener
 {
     //static
     static public enum EditMode { OWNER, COLLAB, PUBLIC }
@@ -68,6 +70,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     private FloatingActionButton FAB;
     private FloatingActionButton FAB_Collaborators;
     private ActivityPage_New ActivityPage_New;
+    private SearchView Search;
 
     // Var
     private Plan Plan;
@@ -136,6 +139,11 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_main, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.activity_menu_searchbutton);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter title...");
+        Search.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -197,6 +205,8 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         super.onStop();
         if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     private void deletePlan()
@@ -276,6 +286,18 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.ActivityPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (this.ActivityAdapter != null)
+            this.ActivityAdapter.getFilter().filter(newText);
+        return true;
+    }
+
     /************************************************************************
      * Purpose:         Parcelable Plan & Activity Interaction
      * Precondition:    .
@@ -288,6 +310,9 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
         intent.putExtra(getString(R.string.intent_editable),Editable);
         startActivity(intent);
+        this.Search.setQuery("",false);
+        Search.setIconified(true);
+        this.ActivityAdapter.clearFilteredList();
     }
 
     private void editPlan()

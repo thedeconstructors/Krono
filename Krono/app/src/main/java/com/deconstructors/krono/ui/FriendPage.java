@@ -116,6 +116,8 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     {
         super.onStop();
         if (this.FriendAdapter != null) { this.FriendAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("", false);
     }
 
     /************************************************************************
@@ -159,9 +161,6 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         Intent intent = new Intent(FriendPage.this, FriendPage_Detail.class);
         intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
         startActivity(intent);
-        this.Search.setQuery("",false);
-        Search.setIconified(true);
-        this.FriendAdapter.clearFilteredList();
     }
 
     /************************************************************************

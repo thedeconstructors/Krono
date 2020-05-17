@@ -59,6 +59,14 @@ public class FriendAdapter extends FirestoreRecyclerAdapter<User, FriendAdapter.
         return FilteredList.size();
     }
 
+    @NonNull
+    @Override
+    public User getItem(int position) {
+        if (filtering)
+            return FilteredList.get(position);
+        return super.getItem(position);
+    }
+
     @Override
     public Filter getFilter() {
         return new Filter() {
