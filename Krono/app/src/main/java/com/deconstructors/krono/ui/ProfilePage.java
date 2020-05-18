@@ -72,12 +72,14 @@ public class ProfilePage extends AppCompatActivity {
                             EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
                             BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
 
-                            //Load the users current profile picture
-                            Picasso.get().load(
-                                    Objects.requireNonNull(
-                                            documentSnapshot.get("picture")
-                                    ).toString()
-                            ).into((ImageView)findViewById(R.id.profile_picture));
+                            Object pic_url;
+                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                                pic_url = getString(R.string.default_picture);
+                            }
+
+                            Picasso.get().load(pic_url.toString()).into(
+                                    (ImageView)findViewById(R.id.profile_picture)
+                            );
                         }
                     }
                 });

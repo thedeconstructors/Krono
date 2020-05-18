@@ -26,7 +26,7 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
 {
     private PlanClickListener ClickListener;
     private List<Plan> FilteredList;
-    public boolean filtering = false;
+    private boolean filtering = false;
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -58,7 +58,17 @@ public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.Plan
     public int getItemCount()
     {
         onDataChanged();
-        return FilteredList.size();
+        if (filtering)
+            return FilteredList.size();
+        return super.getItemCount();
+    }
+
+    @NonNull
+    @Override
+    public Plan getItem(int position) {
+        if (filtering)
+            return FilteredList.get(position);
+        return super.getItem(position);
     }
 
     @Override

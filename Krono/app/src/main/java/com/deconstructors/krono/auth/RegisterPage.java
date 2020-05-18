@@ -151,9 +151,9 @@ public class RegisterPage implements View.OnClickListener
         user.put("email", email);
         user.put("bio", "");
         user.put("friends", new ArrayList<>());
+
         user.put("uid", uid);
-        //TODO MAKE THIS NICER (TEMPORARILY MOVED TO STRING.XML)
-        user.put("picture", this.ActivityInstance.getString(R.string.profile_picture_url));
+        user.put("picture", this.ActivityInstance.getString(R.string.default_picture));
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {

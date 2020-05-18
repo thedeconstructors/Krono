@@ -39,6 +39,7 @@
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
+    <string name="default_picture"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc-e666-4aa5-ad3a-1682759b8e42]]></string>
 
     <!-- 4. User Interface -->
     <string name="intent_plans">intent_plans</string>

@@ -1,5 +1,5 @@
 <p align=center>
-  <img src="https://github.com/thedeconstructors/Krono/blob/Development/Images/logo.png" alt="" width="200" height="200"></p>
+  <img src="https://github.com/thedeconstructors/Krono/blob/master/Images/logo.png" alt="" width="200" height="200"></p>
 
 <h1 align="center">Krono</h1>
 
@@ -59,6 +59,7 @@ The libraries and tools used include:
 - <a href="https://firebase.google.com/docs/auth" target="_blank">Firebase Authentication</a>
 - <a href="https://firebase.google.com/docs/analytics" target="_blank">Firebase Analytics</a>
 - <a href="https://junit.org/junit4/" target="_blank">JUnit 4</a>
+- <a href="https://square.github.io/picasso/" target="_blank">Picasso</a>
 
 ## Requirements
 

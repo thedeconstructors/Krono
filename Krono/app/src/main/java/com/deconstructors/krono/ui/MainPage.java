@@ -62,6 +62,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private TabLayout Tabs;
     private FloatingActionButton FAB, notificationsFAB;
     private MainPage_New MainPage_New;
+    SearchView Search;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -70,7 +71,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private ListenerRegistration UserRegistration;
 
     //Plan stuff
-    Filterable CurrentFilterAdapter = null;
+    PlanAdapter CurrentFilterAdapter = null;
+
     private PlanAdapter MyPlanAdapter;
     private PlanAdapter SharedPlanAdapter;
 
@@ -144,8 +146,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         inflater.inflate(R.menu.menu_plan_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
-        SearchView search = (SearchView) searchItem.getActionView();
-        search.setOnQueryTextListener(this);
+        Search = (SearchView) searchItem.getActionView();
+        Search.setQueryHint("Enter title...");
+        Search.setIconified(true);
+        Search.setOnQueryTextListener(this);
 
         return true;
     }
@@ -220,12 +224,12 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                             EmailTextView.setText(Objects.requireNonNull(
                                     documentSnapshot.get("email")).toString());
 
-                            //Load the users current profile picture
-                            Picasso.get().load(
-                                    Objects.requireNonNull(
-                                            documentSnapshot.get("picture")
-                                    ).toString()
-                            ).into(ProfilePicture);
+                            Object pic_url;
+                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                                pic_url = getString(R.string.default_picture);
+                            }
+
+                            Picasso.get().load(pic_url.toString()).into(ProfilePicture);
                         }
                     }
                 });
@@ -235,7 +239,11 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     protected void onStart()
     {
         super.onStart();
-        onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
+        if (CurrentFilterAdapter != null)
+            CurrentFilterAdapter.clearFilteredList();
+        if (this.Tabs != null)
+            onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
+        //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
     @Override
@@ -244,6 +252,9 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         super.onStop();
         this.MyPlanAdapter.stopListening();
         this.SharedPlanAdapter.stopListening();
+        //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
+        if (Search != null)
+            Search.setQuery("",false);
     }
 
     @Override
@@ -314,13 +325,11 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
-            MyPlanAdapter.clearFilteredList();
         }
         else
         {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
-            SharedPlanAdapter.clearFilteredList();
         }
         startActivity(intent);
     }
@@ -362,6 +371,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             case R.id.ui_main_profilepicture:
             {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
+                startActivity(intent);
                 break;
             }
             case R.id.ui_main_fab_notifications:
