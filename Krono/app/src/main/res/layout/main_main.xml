@@ -108,8 +108,7 @@
                 android:text="@string/menu_chat"
                 android:textSize="@dimen/menu_textSize"
                 android:gravity="start|center"
-                android:id="@+id/ui_menu_chat"
-                android:visibility="gone"/>
+                android:id="@+id/ui_menu_chat"/>
                 <!--android:enabled="false"/>-->
 
             <include layout="@layout/main_separator"/>

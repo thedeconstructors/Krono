@@ -120,7 +120,7 @@ public class ChatPage extends AppCompatActivity
                 .build();
         this.messageAdapter = new MessageAdapter(this.ChatOptions);
         //messageAdapter.updateOptions(ChatOptions);
-        messageAdapter.notifyDataSetChanged();
+        this.messageAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -174,7 +174,8 @@ public class ChatPage extends AppCompatActivity
             message.put("text", this.messageText.getText().toString());
             message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
             DBInstance.collection("chats")
-                    .add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                      .add(message)
+                      .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     documentReference.update("messageID", documentReference.getId());
