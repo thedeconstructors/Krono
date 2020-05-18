@@ -1,6 +1,6 @@
 package com.deconstructors.krono.ui;
 
-import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.module.Location;
-import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,19 +34,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                      DatePickerDialog.OnDateSetListener,
                                                                       OnMapReadyCallback, GoogleMap.OnMapClickListener
 {
     // Error Log
@@ -59,15 +53,14 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
     //result constant for extra
     private Toolbar Toolbar;
-    private EditText Title;
-    private EditText Description;
-    private Button DateTime;
-    private EditText Duration;
+    private EditText TitleText;
+    private EditText DescriptionText;
+    private EditText DurationText;
     private FloatingActionButton FAB_Save;
     private FloatingActionButton FAB_Delete;
 
     // Vars
-    private Calendar CalendarInstance;
+    private Integer Duration;
     private Location Location;
     private GoogleMap Map;
     private Activity Activity;
@@ -98,13 +91,11 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Other Widgets
-        this.Title = findViewById(R.id.activitydetail_titleEditText);
-        this.Description = findViewById(R.id.activitydetail_descriptionText);
-        this.DateTime = findViewById(R.id.activitydetail_dueDateEditText);
-        this.DateTime.setOnClickListener(this);
-        this.CalendarInstance = Calendar.getInstance();
+        this.TitleText = findViewById(R.id.activitydetail_titleEditText);
+        this.DescriptionText = findViewById(R.id.activitydetail_descriptionText);
         //TODO Create Duration Number Picker Dialog
-        this.Duration = findViewById(R.id.activitydetail_durationEditText);
+        this.DurationText = findViewById(R.id.activitydetail_durationEditText);
+        this.DurationText.setOnClickListener(this);
         this.Location = new Location("", "", new LatLng(0, 0));
 
         this.FAB_Save = findViewById(R.id.activitydetail_fab_save);
@@ -130,15 +121,13 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             this.Editable = (ActivityPage.EditMode) getIntent().getSerializableExtra(getString(R.string.intent_editable));
             this.getSupportActionBar().setTitle(this.Activity.getTitle());
 
-            this.Title.setText(this.Activity.getTitle());
-            this.Description.setText(this.Activity.getDescription());
-            if (this.Activity.getTimestamp() != null)
-            {
-                this.DateTime.setText(this.Activity.getTimestamp());
-            }
+            this.TitleText.setText(this.Activity.getTitle());
+            this.DescriptionText.setText(this.Activity.getDescription());
             if (this.Activity.getDuration() != null)
             {
-                this.Duration.setText(this.Activity.getDuration().toString());
+                this.Duration = this.Activity.getDuration();
+                String tempDuration = this.Activity.getDuration().toString() + " Hours";
+                this.DurationText.setText(tempDuration);
             }
             if (this.Activity.getLocation() != null)
             {
@@ -156,9 +145,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         if (Editable == ActivityPage.EditMode.PUBLIC)
         {
             //disable textboxes
-            this.Title.setEnabled(false);
-            this.Description.setEnabled(false);
-            this.DateTime.setEnabled(false);
+            this.TitleText.setEnabled(false);
+            this.DescriptionText.setEnabled(false);
+            this.DurationText.setEnabled(false);
 
             //hide buttons
             this.FAB_Save.setVisibility(View.GONE);
@@ -183,27 +172,27 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         }
 
         // Check Duration Field
-        Integer activity_duration = 0;
+        /*Integer activity_duration = 0;
         try
         {
-            activity_duration = Integer.parseInt(this.Duration.getText().toString());
+            activity_duration = Integer.parseInt(this.DurationText.getText().toString());
         }
         catch (NumberFormatException e)
         {
             makeSnackbarMessage("Invalid duration format. Please enter an integer.");
             return;
-        }
+        }*/
 
         // Check Fields
-        if (!Helper.isEmpty(this.Title))
+        if (!Helper.isEmpty(this.TitleText))
         {
             Map<String, Object> activity = Helper.mapActivity(this,
                                                               this.Activity.getActivityID(),
-                                                              this.Description.getText().toString(),
-                                                              Integer.parseInt(this.Duration.getText().toString()),
+                                                              this.DescriptionText.getText().toString(),
+                                                              this.Duration,
                                                               this.Location,
                                                               null,
-                                                              this.Title.getText().toString());
+                                                              this.TitleText.getText().toString());
 
             activity.remove(getString(R.string.collection_planIDs));
 
@@ -277,40 +266,55 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                 this.deleteActivity();
                 break;
             }
-            case R.id.activitydetail_dueDateEditText:
+            case R.id.activitydetail_durationEditText:
             {
-                this.showDatePicker();
+                this.showNumberPicker();
                 break;
             }
         }
     }
 
     /************************************************************************
-     * Purpose:         Date Picker
+     * Purpose:         Number Picker
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void showDatePicker()
+    private void showNumberPicker()
     {
-        DatePickerDialog dpd = new DatePickerDialog(
-                this,
-                this,
-                this.CalendarInstance.get(Calendar.YEAR),
-                this.CalendarInstance.get(Calendar.MONTH),
-                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
-        );
+        final Dialog npd = new Dialog(this);
+        npd.setTitle("Select Activity Duration");
+        npd.setContentView(R.layout.activity_npd);
 
-        dpd.show();
+        final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
+        np.setMaxValue(24);
+        np.setMinValue(1);
+        np.setWrapSelectorWheel(false);
+
+        Button done = npd.findViewById(R.id.NPD_Done);
+        done.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Duration = np.getValue();
+                String durationtext = np.getValue() + " Hours";
+                DurationText.setText(durationtext);
+                npd.dismiss();
+            }
+        });
+        Button cancel = npd.findViewById(R.id.NPD_Cancel);
+        cancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                npd.dismiss();
+            }
+        });
+
+        npd.show();
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
-        this.CalendarInstance.set(year, month, dayOfMonth);
-        String dateString = sdf.format(this.CalendarInstance.getTime());
-        this.DateTime.setText(dateString);
-    }
 
     /************************************************************************
      * Purpose:         Map Loaded

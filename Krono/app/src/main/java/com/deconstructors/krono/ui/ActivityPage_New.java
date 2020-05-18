@@ -46,10 +46,8 @@ public class ActivityPage_New implements View.OnClickListener
 
     private EditText TitleText;
     private EditText DescText;
-    private Calendar CalendarInstance;
     private Button DurationButton;
     private Button LocationButton;
-    private ImageView AddButton;
 
     // Database
     private Plan Plan;
@@ -88,7 +86,6 @@ public class ActivityPage_New implements View.OnClickListener
         this.FAB.setOnClickListener(this);
         this.TitleText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_TitleText);
         this.DescText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_Description);
-        this.CalendarInstance = Calendar.getInstance();
         this.DurationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DurationButton);
         this.DurationButton.setOnClickListener(this);
         this.LocationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_LocationButton);
@@ -166,7 +163,8 @@ public class ActivityPage_New implements View.OnClickListener
                         ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                         ActivityPage_New.this.TitleText.setText("");
                         ActivityPage_New.this.DescText.setText("");
-                        ActivityPage_New.this.DurationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_timestamp));
+                        ActivityPage_New.this.Duration = 0;
+                        ActivityPage_New.this.DurationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_duration));
                         ActivityPage_New.this.LocationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_location));
                     }
                 })
@@ -245,7 +243,7 @@ public class ActivityPage_New implements View.OnClickListener
     }
 
     /************************************************************************
-     * Purpose:         Date Picker
+     * Purpose:         Number Picker
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/

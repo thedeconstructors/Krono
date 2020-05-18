@@ -70,26 +70,14 @@
                     android:maxLines="5"
                     android:importantForAutofill="no" />
 
-                <Button
-                    android:id="@+id/activitydetail_dueDateEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:hint="@string/newactivity_timestamp"
-                    android:drawableStart="@drawable/activity_calendar"
-                    android:drawablePadding="@dimen/menu_imagePadding"
-                    android:textAlignment="textStart"/>
-
                 <EditText
                     android:id="@+id/activitydetail_durationEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                     android:hint="@string/newactivity_duration"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:inputType="datetime"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:importantForAutofill="no" />
 
                 <fragment
