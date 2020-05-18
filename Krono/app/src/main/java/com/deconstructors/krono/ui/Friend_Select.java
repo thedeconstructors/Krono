@@ -116,18 +116,16 @@ public class Friend_Select extends AppCompatActivity
                 .build();
         this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions,
                 this,
-                new FriendAdapter_Selectable.SelectModifier() {
+                new FriendAdapter_Selectable.SelectModifier()
+                {
                     @Override
-                    public void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder) {
+                    public void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder)
+                    {
                         for (String id : Collaborators)
                         {
-                            if (id.compareTo(model.getUid()) == 0)
+                            if (id.equals(model.getUid()))
                             {
                                 holder.cb.setChecked(true);
-                            }
-                            else
-                            {
-                                holder.cb.setChecked(false);
                             }
                         }
                     }
@@ -193,7 +191,7 @@ public class Friend_Select extends AppCompatActivity
             }
         }*/
         Intent data = new Intent();
-        data.putExtra(EXTRA_COLLAB,new ArrayList<String>(Collaborators));
+        data.putExtra(EXTRA_COLLAB, new ArrayList<String>(Collaborators));
         setResult(AR_COLLAB, data);
         finish();
     }

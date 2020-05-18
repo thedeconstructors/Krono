@@ -105,15 +105,19 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         planData.put("collaborators", Collaborators);
 
         planDoc.update(planData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
                     @Override
-                    public void onSuccess(Void aVoid) {
+                    public void onSuccess(Void aVoid)
+                    {
 
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
+                .addOnFailureListener(new OnFailureListener()
+                {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure(@NonNull Exception e)
+                    {
 
                     }
                 });
@@ -400,7 +404,10 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         super.onActivityResult(requestCode, resultCode, data);
         if (Editable != EditMode.PUBLIC)
+        {
             this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        }
+
         switch (resultCode)
         {
             case AR_COLLAB:

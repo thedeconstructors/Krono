@@ -62,7 +62,6 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.auth_welcome);
 
@@ -71,6 +70,11 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setFirebaseAuth();
     }
 
+    /************************************************************************
+     * Purpose:         DEBUG_CODE Manually Getting Hash Key For Facebook Dev
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     /*private void getHashKey()
     {
         try
@@ -95,11 +99,30 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         }
     }*/
 
+    /************************************************************************
+     * Purpose:         DEBUG_CODE Logout
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void Logout()
+    {
+        if (this.AuthInstance == null)
+        {
+            this.AuthInstance = FirebaseAuth.getInstance();
+        }
+
+        this.AuthInstance.signOut();
+    }
+
+    /************************************************************************
+     * Purpose:         Set Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void setContents()
     {
         // Firebase
         this.AuthInstance = FirebaseAuth.getInstance();
-        //this.AuthInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -123,6 +146,11 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.FacebookLogIn.setOnClickListener(this);
     }
 
+    /************************************************************************
+     * Purpose:         Background Animation
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void startBGAnimation()
     {
         AnimationDrawable animationDrawable = (AnimationDrawable) this.BackgroundLayout.getBackground();

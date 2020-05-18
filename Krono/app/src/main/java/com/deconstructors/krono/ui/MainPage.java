@@ -92,7 +92,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
     /************************************************************************
      * Purpose:         DEBUG CODE For Linking Different Account Providers
-     * Precondition:    .
+     * Precondition:    Account Incorrectly Merged After Provider Login
      * Postcondition:   Merge Google and Email Provider
      ************************************************************************/
     /*private void linkProviders()
@@ -272,10 +272,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private void setContents()
     {
         // Recycler View
-        recyclerView = findViewById(R.id.MainActivity_RecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(this.PlanAdapter);
+        this.recyclerView = findViewById(R.id.MainActivity_RecyclerView);
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.recyclerView.setAdapter(this.PlanAdapter);
 
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
