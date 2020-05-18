@@ -47,5 +47,8 @@
         <activity android:name=".ui.ActivityPage_Map"/>
         <!-- Notifications Page -->
         <activity android:name=".ui.NotificationsPage"/>
+        <!-- Chat Page -->
+        <activity android:name=".ui.ChatFriendPage"/>
+        <activity android:name=".ui.ChatPage"/>
     </application>
 </manifest>
