@@ -41,7 +41,7 @@ public class ActivityPage_New implements View.OnClickListener,
                                          DatePickerDialog.OnDateSetListener
 {
     // Error Log
-    private static final String TAG = "NewActivityPage";
+    private static final String TAG = "ActivityPage_New";
     private static final int MAPACTIVITY_REQUESTCODE = 5002;
     private static final int LOCATIONSTR_SIZE = 10;
 

@@ -99,7 +99,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     {
         // Firebase
         this.AuthInstance = FirebaseAuth.getInstance();
-        this.AuthInstance.signOut(); // Debug Purpose Only
+        //this.AuthInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);

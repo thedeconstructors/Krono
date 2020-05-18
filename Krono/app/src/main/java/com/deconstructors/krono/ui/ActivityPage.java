@@ -241,7 +241,6 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
 
-
         //Bottom Sheet and Collaborators
         if (Editable == EditMode.OWNER)
         {

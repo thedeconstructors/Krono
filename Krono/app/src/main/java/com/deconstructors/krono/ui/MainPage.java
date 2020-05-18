@@ -24,6 +24,7 @@ import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthCredential;
@@ -60,6 +61,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
     private FloatingActionButton FAB, notificationsFAB;
+    private MainPage_New MainPage_New;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -69,9 +71,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
     //Plan stuff
     Filterable CurrentFilterAdapter = null;
-
     private PlanAdapter MyPlanAdapter;
-
     private PlanAdapter SharedPlanAdapter;
 
     @Override
@@ -236,7 +236,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     {
         super.onStart();
         onTabSelected(Objects.requireNonNull(Tabs.getTabAt(Tabs.getSelectedTabPosition())));
-        //if (this.PlanAdapter != null) { this.PlanAdapter.startListening(); }
     }
 
     @Override
@@ -245,7 +244,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         super.onStop();
         this.MyPlanAdapter.stopListening();
         this.SharedPlanAdapter.stopListening();
-        //if (this.PlanAdapter != null) { this.PlanAdapter.stopListening(); }
     }
 
     @Override
@@ -280,17 +278,25 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.Tabs.addOnTabSelectedListener(this);
 
         this.Tabs.selectTab(Tabs.getTabAt(0));
+
+        this.MainPage_New = new MainPage_New(this);
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
+    public boolean onQueryTextSubmit(String query)
+    {
         return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(String newText)
+    {
         if (CurrentFilterAdapter != null)
+        {
             CurrentFilterAdapter.getFilter().filter(newText);
+        }
+
         return true;
     }
 
@@ -302,13 +308,16 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     public void onPlanSelected(int position)
     {
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
-        if (Tabs.getSelectedTabPosition() == 0) {
+        if (Tabs.getSelectedTabPosition() == 0)
+        {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
             MyPlanAdapter.clearFilteredList();
         }
-        else {
+        else
+        {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
             SharedPlanAdapter.clearFilteredList();
@@ -324,6 +333,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     public void onClick(View view)
     {
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+
         switch (view.getId())
         {
             case R.id.ui_menu_allActivities:
@@ -348,7 +359,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_profilepicture: {
+            case R.id.ui_main_profilepicture:
+            {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
                 break;
             }
@@ -362,11 +374,32 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     }
 
     @Override
-    public void onTabSelected(TabLayout.Tab tab) {
+    public void onBackPressed()
+    {
+        if (this.MainPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        {
+            this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        //this.MainPage_New.ActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab)
+    {
         switch (tab.getPosition())
         {
             //My Plans
             case 0:
+                //this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                 this.recyclerView.setAdapter(this.MyPlanAdapter);
                 this.CurrentFilterAdapter = this.MyPlanAdapter;
                 this.MyPlanAdapter.startListening();
@@ -375,6 +408,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 break;
             //Shared Plans
             case 1:
+                //this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                 this.recyclerView.setAdapter(this.SharedPlanAdapter);
                 this.CurrentFilterAdapter = this.SharedPlanAdapter;
                 this.SharedPlanAdapter.startListening();
@@ -385,12 +419,14 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     }
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
+    public void onTabReselected(TabLayout.Tab tab)
+    {
         onTabSelected(tab);
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
+    public void onTabUnselected(TabLayout.Tab tab)
+    {
         //nothing
     }
 }

@@ -43,6 +43,11 @@
 
         <!-- Main Menu -->
         <activity android:name=".ui.MainPage"/>
+        <!--<activity
+            android:name=".ui.MainPage_New"
+            android:theme="@style/NoAnimTheme"/>-->
+        <!-- Plan (Menu) Page -->
+        <activity android:name=".ui.MainPage_Detail"/>
         <!-- All Activities Page -->
         <activity android:name=".ui.ActivityPage_All"/>
         <!-- Friends Page -->
@@ -54,9 +59,6 @@
         <activity android:name=".ui.ProfilePage_Edit"/>
         <!-- Settings Page -->
         <activity android:name=".ui.SettingsPage_Main"/>
-        <!-- Plan (Menu) Page -->
-        <activity android:name=".ui.MainPage_Detail"/>
-        <activity android:name=".ui.MainPage_New"/>
         <!-- Activity Page -->
         <activity android:name=".ui.ActivityPage"/>
         <activity android:name=".ui.ActivityPage_Detail"/>
