@@ -287,7 +287,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
         final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
         np.setMaxValue(24);
-        np.setMinValue(1);
+        np.setMinValue(0);
         np.setWrapSelectorWheel(false);
 
         Button done = npd.findViewById(R.id.NPD_Done);
