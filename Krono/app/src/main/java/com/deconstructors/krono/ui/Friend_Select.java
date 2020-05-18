@@ -75,7 +75,7 @@ public class Friend_Select extends AppCompatActivity
     private void setToolbar()
     {
         this.Toolbar = findViewById(R.id.friend_toolbar);
-        this.Toolbar.setTitle(getString(R.string.menu_friends));
+        this.Toolbar.setTitle(getString(R.string.menu_collaborators));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -52,6 +52,7 @@
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
+    <string name="menu_collaborators">Collaborators</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_plan">New Plan</string>
     <string name="menu_chat">Chats</string>
