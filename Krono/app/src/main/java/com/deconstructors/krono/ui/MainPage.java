@@ -6,11 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Filterable;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanAdapter;
-import com.deconstructors.krono.auth.WelcomePage;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
