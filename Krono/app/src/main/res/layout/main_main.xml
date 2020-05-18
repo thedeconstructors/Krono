@@ -108,7 +108,8 @@
                 android:text="@string/menu_chat"
                 android:textSize="@dimen/menu_textSize"
                 android:gravity="start|center"
-                android:id="@+id/ui_menu_chat"/>
+                android:id="@+id/ui_menu_chat"
+                android:visibility="gone"/>
                 <!--android:enabled="false"/>-->
 
             <include layout="@layout/main_separator"/>
@@ -135,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/MainActivity_RecyclerView"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never" />
 
             <include layout="@layout/main_separator"/>
 
@@ -165,6 +166,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClick"
-        app:srcCompat="@android:drawable/ic_popup_reminder" />
+        app:srcCompat="@android:drawable/ic_popup_reminder"
+        android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

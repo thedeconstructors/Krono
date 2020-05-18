@@ -102,7 +102,7 @@ public class MainPage_New implements View.OnClickListener,
                     case BottomSheetBehavior.STATE_EXPANDED:
                     {
                         MainPage_New.this.FAB.setVisibility(View.GONE);
-                        MainPage_New.this.NotificationsFAB.setVisibility(View.GONE);
+                        //MainPage_New.this.NotificationsFAB.setVisibility(View.GONE);
                         MainPage_New.this.TitleText.requestFocus();
                         Helper.showKeyboard(MainPage_New.this.ActivityInstance);
                         break;
@@ -111,7 +111,7 @@ public class MainPage_New implements View.OnClickListener,
                     case BottomSheetBehavior.STATE_HIDDEN:
                     {
                         MainPage_New.this.FAB.setVisibility(View.VISIBLE);
-                        MainPage_New.this.NotificationsFAB.setVisibility(View.VISIBLE);
+                        //MainPage_New.this.NotificationsFAB.setVisibility(View.VISIBLE);
                         Helper.hideKeyboard(MainPage_New.this.ActivityInstance);
                         break;
                     }
