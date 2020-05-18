@@ -200,10 +200,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             Map<String, Object> activity = Helper.mapActivity(this,
                                                               this.Activity.getActivityID(),
                                                               this.Description.getText().toString(),
-                                                              activity_duration,
+                                                              Integer.parseInt(this.Duration.getText().toString()),
                                                               this.Location,
                                                               null,
-                                                              this.DateTime.getText().toString(),
                                                               this.Title.getText().toString());
 
             activity.remove(getString(R.string.collection_planIDs));

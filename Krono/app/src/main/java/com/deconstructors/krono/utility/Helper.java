@@ -61,7 +61,6 @@ public class Helper
                                                    Integer duration,
                                                    Location location,
                                                    Plan plan,
-                                                   String date,
                                                    String title)
     {
         Map<String, Object> activity = new HashMap<>();
@@ -82,7 +81,6 @@ public class Helper
         {
             activity.put(instance.getString(R.string.collection_planIDs), Collections.emptyList());
         }
-        activity.put(instance.getString(R.string.activities_timestamp), date);
         activity.put(instance.getString(R.string.activities_title), title);
 
         return activity;

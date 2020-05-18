@@ -81,8 +81,8 @@
                 android:paddingEnd="10dp"
                 android:drawableStart="@drawable/activity_calendar"
                 android:drawablePadding="10dp"
-                android:text="@string/newactivity_timestamp"
-                android:id="@+id/ActivityPageNew_DateButton"/>
+                android:text="@string/newactivity_duration"
+                android:id="@+id/ActivityPageNew_DurationButton"/>
 
             <Button
                 android:layout_width="wrap_content"

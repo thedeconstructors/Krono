@@ -226,7 +226,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
                             Object pic_url;
                             if ((pic_url = documentSnapshot.get("picture")) == null) {
-                                pic_url = getString(R.string.default_picture);
+                                pic_url = getString(R.string.profile_picture_url);
                             }
 
                             Picasso.get().load(pic_url.toString()).into(ProfilePicture);
