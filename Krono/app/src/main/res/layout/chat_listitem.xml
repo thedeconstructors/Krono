@@ -15,13 +15,6 @@
         android:orientation="horizontal"
         android:padding="15dp">
 
-        <CheckBox
-            android:id="@+id/friendlistitem_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"/>
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="match_parent"
@@ -31,29 +24,44 @@
             android:src="@drawable/ui_friend_emptyprofile"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/friendlist_nameText"
+            <!-- <TextView
+                android:id="@+id/chatlist_nameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Display Name"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp" /> -->
 
             <TextView
-                android:id="@+id/friendlist_emailText"
+                android:id="@+id/chatlist_messageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:singleLine="false"
+                android:inputType="textMultiLine"
+                android:fontFamily="sans-serif"
+                android:text="Message text"
+                android:background="@drawable/background_left"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/chatlist_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Email@field.com"
-                android:maxLines="3"
-                android:textColor="@android:color/secondary_text_dark"
-                android:textSize="18sp" />
+                android:text="Time"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textSize="10sp"
+                android:textAlignment="textEnd"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

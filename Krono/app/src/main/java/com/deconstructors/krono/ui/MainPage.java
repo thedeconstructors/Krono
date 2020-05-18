@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,9 +19,16 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanAdapter;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,6 +58,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private CircleImageView ProfilePicture;
     private TabLayout Tabs;
     private FloatingActionButton FAB, notificationsFAB;
+    private MainPage_New MainPage_New;
     SearchView Search;
 
     // Database
@@ -62,7 +71,6 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     PlanAdapter CurrentFilterAdapter = null;
 
     private PlanAdapter MyPlanAdapter;
-
     private PlanAdapter SharedPlanAdapter;
 
     @Override
@@ -75,7 +83,42 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.setPlanDB();
         this.setUserDB();
         this.setContents();
+
+        // this.linkProviders();
     }
+
+    /************************************************************************
+     * Purpose:         DEBUG CODE For Linking Different Account Providers
+     * Precondition:    Account Incorrectly Merged After Provider Login
+     * Postcondition:   Merge Google and Email Provider
+     ************************************************************************/
+    /*private void linkProviders()
+    {
+        //String googleIdToken = "AIzaSyCIk1hIJcRq3rV3ojPtdqJ3oxfy2zMOktU";
+        //AuthCredential credential = GoogleAuthProvider.getCredential(googleIdToken, null);
+
+        AuthCredential credential = EmailAuthProvider.getCredential("suptdeconstructors@gmail.com",
+                                                                    "Destruct3d!");
+
+        this.AuthInstance.getCurrentUser()
+                         .linkWithCredential(credential)
+                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                         {
+                             @Override
+                             public void onComplete(@NonNull Task<AuthResult> task)
+                             {
+                                 if (task.isSuccessful())
+                                 {
+                                     Log.d(TAG, "linkWithCredential: success");
+                                 }
+                                 else
+                                 {
+                                     Log.w(TAG, "linkWithCredential: failure", task.getException());
+                                 }
+                             }
+                         });
+
+    }*/
 
     /************************************************************************
      * Purpose:         Set Toolbar & Inflate Toolbar Menu
@@ -180,7 +223,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
                             Object pic_url;
                             if ((pic_url = documentSnapshot.get("picture")) == null) {
-                                pic_url = getString(R.string.default_picture);
+                                pic_url = getString(R.string.profile_picture_url);
                             }
 
                             Picasso.get().load(pic_url.toString()).into(ProfilePicture);
@@ -226,10 +269,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private void setContents()
     {
         // Recycler View
-        recyclerView = findViewById(R.id.MainActivity_RecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(this.PlanAdapter);
+        this.recyclerView = findViewById(R.id.MainActivity_RecyclerView);
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.recyclerView.setAdapter(this.PlanAdapter);
 
         // Other XML Widgets
         this.FAB = findViewById(R.id.ui_main_fab);
@@ -243,17 +286,25 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.Tabs.addOnTabSelectedListener(this);
 
         this.Tabs.selectTab(Tabs.getTabAt(0));
+
+        this.MainPage_New = new MainPage_New(this);
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
+    public boolean onQueryTextSubmit(String query)
+    {
         return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(String newText)
+    {
         if (CurrentFilterAdapter != null)
+        {
             CurrentFilterAdapter.getFilter().filter(newText);
+        }
+
         return true;
     }
 
@@ -265,12 +316,15 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     public void onPlanSelected(int position)
     {
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
         Intent intent = new Intent(MainPage.this, ActivityPage.class);
-        if (Tabs.getSelectedTabPosition() == 0) {
+        if (Tabs.getSelectedTabPosition() == 0)
+        {
             intent.putExtra(getString(R.string.intent_plans), this.MyPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.OWNER);
         }
-        else {
+        else
+        {
             intent.putExtra(getString(R.string.intent_plans), this.SharedPlanAdapter.getItem(position));
             intent.putExtra(getString(R.string.intent_editable),ActivityPage.EditMode.COLLAB);
         }
@@ -285,6 +339,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     @Override
     public void onClick(View view)
     {
+        this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+
         switch (view.getId())
         {
             case R.id.ui_menu_allActivities:
@@ -301,6 +357,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_menu_chat:
             {
+                Intent intent = new Intent(MainPage.this, ChatPage.class);
+                startActivity(intent);
                 break;
             }
             case R.id.ui_main_fab:
@@ -309,7 +367,8 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_profilepicture: {
+            case R.id.ui_main_profilepicture:
+            {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
                 startActivity(intent);
                 break;
@@ -324,11 +383,32 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     }
 
     @Override
-    public void onTabSelected(TabLayout.Tab tab) {
+    public void onBackPressed()
+    {
+        if (this.MainPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        {
+            this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        //this.MainPage_New.ActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab)
+    {
         switch (tab.getPosition())
         {
             //My Plans
             case 0:
+                //this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                 this.recyclerView.setAdapter(this.MyPlanAdapter);
                 this.CurrentFilterAdapter = this.MyPlanAdapter;
                 this.MyPlanAdapter.startListening();
@@ -337,6 +417,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 break;
             //Shared Plans
             case 1:
+                //this.MainPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                 this.recyclerView.setAdapter(this.SharedPlanAdapter);
                 this.CurrentFilterAdapter = this.SharedPlanAdapter;
                 this.SharedPlanAdapter.startListening();
@@ -347,12 +428,14 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     }
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
+    public void onTabReselected(TabLayout.Tab tab)
+    {
         onTabSelected(tab);
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
+    public void onTabUnselected(TabLayout.Tab tab)
+    {
         //nothing
     }
 }

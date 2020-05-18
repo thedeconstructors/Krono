@@ -103,8 +103,7 @@ public class ActivityPage_All extends AppCompatActivity
     {
         super.onStop();
         if (this.ActivityAdapter != null) { this.ActivityAdapter.stopListening(); }
-        if (Search != null)
-            Search.setQuery("",false);
+        if (Search != null) { Search.setQuery("",false); }
     }
 
     /************************************************************************
@@ -122,14 +121,19 @@ public class ActivityPage_All extends AppCompatActivity
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
+    public boolean onQueryTextSubmit(String query)
+    {
         return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(String newText)
+    {
         if (this.ActivityAdapter != null)
+        {
             this.ActivityAdapter.getFilter().filter(newText);
+        }
+
         return true;
     }
 
@@ -141,8 +145,11 @@ public class ActivityPage_All extends AppCompatActivity
     @Override
     public void onActivitySelected(int position)
     {
+        ActivityPage.EditMode canEdit = ActivityPage.EditMode.PUBLIC;
+
         Intent intent = new Intent(ActivityPage_All.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
+        intent.putExtra(getString(R.string.intent_editable), canEdit);
         startActivity(intent);
     }
 

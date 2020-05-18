@@ -275,7 +275,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private Task<String> getDeleteFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        HashMap<String, Object> snap = new HashMap<>();
+        Map<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 

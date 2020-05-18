@@ -2,23 +2,19 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.FriendAdapter;
-import com.deconstructors.krono.adapter.FriendAdapter_Selectable;
 import com.deconstructors.krono.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -26,27 +22,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.widget.Toolbar;
 
-public class Friend_Select extends AppCompatActivity
-                        implements FriendAdapter_Selectable.FriendClickListener,
-                                    View.OnClickListener,
-                                    SearchView.OnQueryTextListener
+public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener,
+        SearchView.OnQueryTextListener
 {
     // Error Log
-    private static final String TAG = "FriendPage";
-
-    //activity results
-    final int AR_COLLAB = 5;
-    final String EXTRA_COLLAB = "COLLAB";
-
-    // Collaborators
-    List<String> Collaborators;
+    private static final String TAG = "ChatFriendPage";
 
     // XML Widgets
-    private androidx.appcompat.widget.Toolbar Toolbar;
-    private androidx.recyclerview.widget.RecyclerView RecyclerView;
+    private Toolbar Toolbar;
+    private RecyclerView RecyclerView;
+    private ChatFriendPage ChatFriendPage;
     private SearchView Search;
 
     // Database
@@ -54,13 +41,13 @@ public class Friend_Select extends AppCompatActivity
     private FirebaseFirestore DBInstance;
     private Query FriendQuery;
     private FirestoreRecyclerOptions<User> FriendOptions;
-    private com.deconstructors.krono.adapter.FriendAdapter_Selectable FriendAdapter;
+    private FriendAdapter FriendAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_select);
+        setContentView(R.layout.friend_main);
 
         this.setToolbar();
         this.setDatabase();
@@ -75,7 +62,7 @@ public class Friend_Select extends AppCompatActivity
     private void setToolbar()
     {
         this.Toolbar = findViewById(R.id.friend_toolbar);
-        this.Toolbar.setTitle(getString(R.string.menu_collaborators));
+        this.Toolbar.setTitle(getString(R.string.menu_friends));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -108,28 +95,13 @@ public class Friend_Select extends AppCompatActivity
         this.FriendQuery = this.DBInstance
                 .collection(getString(R.string.collection_users))
                 .whereEqualTo(getString(R.string.collection_friends)
-                                      + "."
-                                      + this.AuthInstance.getCurrentUser().getUid(),
+                                + "."
+                                + this.AuthInstance.getCurrentUser().getUid(),
                         true);
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();
-        this.FriendAdapter = new FriendAdapter_Selectable(this.FriendOptions,
-                this,
-                new FriendAdapter_Selectable.SelectModifier()
-                {
-                    @Override
-                    public void selectionCheck(User model, FriendAdapter_Selectable.FriendHolder holder)
-                    {
-                        for (String id : Collaborators)
-                        {
-                            if (id.equals(model.getUid()))
-                            {
-                                holder.cb.setChecked(true);
-                            }
-                        }
-                    }
-                });
+        this.FriendAdapter = new FriendAdapter(this.FriendOptions, this);
     }
 
     @Override
@@ -145,7 +117,7 @@ public class Friend_Select extends AppCompatActivity
         super.onStop();
         if (this.FriendAdapter != null) { this.FriendAdapter.stopListening(); }
         if (Search != null)
-            Search.setQuery("",false);
+            Search.setQuery("", false);
     }
 
     /************************************************************************
@@ -156,13 +128,14 @@ public class Friend_Select extends AppCompatActivity
     private void setContents()
     {
         // Recycler View
-        this.RecyclerView = findViewById(R.id.FriendPage_recyclerview);
+        this.RecyclerView = findViewById(R.id.ChatFriendPage_recyclerview);
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setAdapter(this.FriendAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        findViewById(R.id.FriendSelect_FAB).setOnClickListener(this);
 
-        Collaborators = getIntent().getStringArrayListExtra(EXTRA_COLLAB);
+        // Bottom Sheet
+        //this.ChatFriendPage = new FriendPage_New(this);
+        //this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
@@ -177,25 +150,6 @@ public class Friend_Select extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onClick(View view)
-    {
-        /*Collaborators = new ArrayList<>();
-        for (int ii = 0; ii < RecyclerView.getChildCount(); ++ii)
-        {
-            View item = RecyclerView.getChildAt(ii);
-            CheckBox cb = item.findViewById(R.id.friendlistitem_checkbox);
-            if (cb.isChecked())
-            {
-                Collaborators.add(FriendAdapter.getItem(ii).getUid());
-            }
-        }*/
-        Intent data = new Intent();
-        data.putExtra(EXTRA_COLLAB, new ArrayList<String>(Collaborators));
-        setResult(AR_COLLAB, data);
-        finish();
-    }
-
     /************************************************************************
      * Purpose:         Parcelable Friend Interaction
      * Precondition:    .
@@ -204,15 +158,28 @@ public class Friend_Select extends AppCompatActivity
     @Override
     public void onFriendSelected(int position)
     {
-        //does nothing but multiselect
-        CheckBox cb = RecyclerView.getChildAt(position).findViewById(R.id.friendlistitem_checkbox);
-        cb.setChecked(!cb.isChecked());
-        String id = this.FriendAdapter.getItem(position).getUid();
-        if (Collaborators.contains(id))
-            Collaborators.remove(id);
-        else
-            Collaborators.add(id);
+        Intent intent = new Intent(ChatFriendPage.this, ChatPage.class);
+        intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
+        startActivity(intent);
     }
+
+    /************************************************************************
+     * Purpose:         BottomSheet BackButton Overrides
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    /*@Override
+    public void onBackPressed()
+    {
+        if (this.FriendPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
+        {
+            this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }*/
 
     /************************************************************************
      * Purpose:         Toolbar Back Button Animation Overrides

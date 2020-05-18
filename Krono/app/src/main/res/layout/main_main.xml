@@ -135,12 +135,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/MainActivity_RecyclerView"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never" />
 
             <include layout="@layout/main_separator"/>
 
         </LinearLayout>
     <!--/androidx.core.widget.NestedScrollView-->
+
+    <include layout="@layout/main_new"/>
 
     <!-- Hidden Progress Bar -->
     <ProgressBar
@@ -153,6 +155,7 @@
         android:src="@drawable/ic_menu_addbutton"
         android:id="@+id/ui_main_fab"/>
 
+    <!-- Floating Action Button (Notification) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ui_main_fab_notifications"
         android:layout_width="wrap_content"
@@ -162,6 +165,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClick"
-        app:srcCompat="@android:drawable/ic_popup_reminder" />
+        app:srcCompat="@android:drawable/ic_popup_reminder"
+        android:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
