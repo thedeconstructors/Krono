@@ -16,7 +16,7 @@
         android:padding="15dp">
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -24,26 +24,26 @@
                 android:id="@+id/chatlist_messageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:typeface="monospace"
-                android:singleLine="false"
-                android:inputType="textMultiLine"
-                android:fontFamily="sans-serif"
-                android:text="Message text"
+                android:layout_gravity="end"
                 android:background="@drawable/background_right"
+                android:fontFamily="sans-serif"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:singleLine="false"
+                android:text="Message text"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
-                android:padding="5dp"
-                android:layout_gravity="end"/>
+                android:typeface="monospace" />
 
             <TextView
                 android:id="@+id/chatlist_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Time"
                 android:maxLines="1"
+                android:text="Time"
                 android:textColor="@android:color/black"
-                android:textSize="10sp"/>
+                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
