@@ -102,9 +102,6 @@
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
                 android:layout_marginEnd="@dimen/auth_buttonBetweenPadding"
-
-                android:background="@drawable/auth_buttonborder"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="onClick"
                 android:id="@+id/auth_googleLogIn"/>
 
@@ -122,6 +119,7 @@
                 android:background="@drawable/auth_buttonborder"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="onClick"
+                android:enabled="false"
                 android:id="@+id/auth_facebookLogIn"/>
         </LinearLayout>
     </LinearLayout>
