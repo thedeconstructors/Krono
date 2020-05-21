@@ -26,9 +26,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     //Can add more notification types here later if/when we expand notifications
     private final int FRIEND_REQUEST = 0;
 
-    //Database
-    private FirebaseFirestore DBInstance;
-
     //Data Members
     private String HeaderText;
     private String DescriptionText;
@@ -36,7 +33,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public NotificationAdapter(ArrayList<String> Names, int NotificationType)
     {
-        this.DBInstance = FirebaseFirestore.getInstance();
         this.friendRequestNames = Names;
 
         switch(NotificationType)
