@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,10 +15,18 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.NotificationAdapter;
 import com.deconstructors.krono.module.Friend;
 import com.deconstructors.krono.module.Notification;
+import com.deconstructors.krono.module.User;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
@@ -27,6 +36,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class NotificationsPage extends AppCompatActivity
 {
@@ -45,6 +55,7 @@ public class NotificationsPage extends AppCompatActivity
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
+    private NotificationAdapter NotifAdapter;
 
     //Data Members
     Context context;
@@ -66,14 +77,86 @@ public class NotificationsPage extends AppCompatActivity
         FriendRequestNames = new ArrayList<>();
 
         setToolbar();
-        SearchFriendRequestIds();
-        ShowData(FriendRequestIds);
-        SearchFriendRequestNames();
-        ShowData(FriendRequestNames);
+        //SearchFriendRequestIds();
+        this.DBInstance
+                .collection("users")
+                .whereEqualTo("uid", this.AuthInstance.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onSuccess (QuerySnapshot queryDocumentSnapshots)
+                    {
+                        if (!queryDocumentSnapshots.isEmpty())
+                        {
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                            {
+                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>)doc.get("friends");
 
-        Adapter = new NotificationAdapter(FriendRequestNames, FRIEND_REQUEST);
-        RecyclerView.setAdapter(Adapter);
-        RecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                                for (Map.Entry<Object, Boolean> entry : friendMap.entrySet())
+                                {
+                                    Object key = entry.getKey();
+                                    Boolean value = entry.getValue();
+
+                                    if (value == false)
+                                    {
+                                        FriendRequestIds.add(key.toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+                .continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
+                    @Override
+                    public Task<QuerySnapshot> then(@NonNull Task<QuerySnapshot> task) throws Exception {
+                        if (task.isSuccessful())
+                        {
+                            return FirebaseFirestore.getInstance()
+                                    .collection(getString(R.string.collection_users))
+                                    .whereIn("uid", FriendRequestIds)
+                                    .get();
+                        }
+                        return null;
+                    }
+                })
+                .continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
+                    @Override
+                    public Task<List<DocumentSnapshot>> then(@NonNull Task<QuerySnapshot> task) throws Exception {
+                        if (task.isSuccessful())
+                        {
+                            List<Task<DocumentSnapshot>> getNames = new ArrayList<>();
+
+                            for (DocumentSnapshot doc : task.getResult().getDocuments())
+                            {
+                                getNames.add(FirebaseFirestore.getInstance()
+                                    .collection(getString(R.string.collection_users))
+                                    .document(doc.getId()).get());
+                            }
+
+                            return Tasks.whenAllSuccess(getNames);
+                        }
+                        return null;
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<List<DocumentSnapshot>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<DocumentSnapshot>> task) {
+                        if (task.isSuccessful())
+                        {
+                            List<DocumentSnapshot> friendTasks = task.getResult();
+                            for (DocumentSnapshot doc : friendTasks)
+                            {
+                                FriendRequestNames.add((String)doc.get("displayName"));
+                            }
+
+                            RecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                        }
+                    }
+                });
+
+        this.NotifAdapter = new NotificationAdapter(FriendRequestNames);
+        this.RecyclerView.setAdapter(this.NotifAdapter);
     }
 
     private void setToolbar()

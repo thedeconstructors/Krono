@@ -8,9 +8,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.module.Notification;
+import com.deconstructors.krono.module.User;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -18,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -26,30 +32,29 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     //Can add more notification types here later if/when we expand notifications
     private final int FRIEND_REQUEST = 0;
 
+    //Database
+    private FirebaseFirestore DBInstance;
+
+    List<String> names;
+
     //Data Members
     private String HeaderText;
     private String DescriptionText;
-    private ArrayList<String> friendRequestNames;
 
-    public NotificationAdapter(ArrayList<String> Names, int NotificationType)
+    /*public NotificationAdapter(@NonNull FirestoreRecyclerOptions<User> options)
     {
         this.friendRequestNames = Names;
+        super(options);
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.HeaderText = "Friend Request";
+        this.DescriptionText = "You have a new friend request from ";
+    }*/
 
-        switch(NotificationType)
-        {
-            case FRIEND_REQUEST:
-            {
-                this.HeaderText = "Friend Request";
-                this.DescriptionText = "You have a new friend request from ";
-                break;
-            }
-            default:
-            {
-                this.HeaderText = "";
-                this.DescriptionText = "";
-                break;
-            }
-        }
+    public NotificationAdapter(List<String> _names)
+    {
+        names = _names;
+        this.HeaderText = "Friend Request";
+        this.DescriptionText = "You have a new friend request from ";
     }
 
     @NonNull
@@ -63,18 +68,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
-    public void onBindViewHolder(NotificationAdapter.NotificationHolder NotifHolder, int position)
-    {
-        String CurrentDescriptionText = DescriptionText + friendRequestNames.get(position);
+    public void onBindViewHolder(@NonNull NotificationHolder holder, int position) {
+        String CurrentDescriptionText = DescriptionText + names.get(position);
 
-        NotifHolder.HeaderTextView.setText(HeaderText);
-        NotifHolder.DescriptionTextView.setText(CurrentDescriptionText);
+        holder.HeaderTextView.setText(HeaderText);
+        holder.DescriptionTextView.setText(CurrentDescriptionText);
     }
 
     @Override
-    public int getItemCount()
-    {
-        return friendRequestNames.size();
+    public int getItemCount() {
+        return names.size();
     }
 
     public class NotificationHolder extends RecyclerView.ViewHolder
