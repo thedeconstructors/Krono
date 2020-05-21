@@ -67,10 +67,9 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_edit);
 
-        //Attach the listener for the profile picture editing
         imageButtonElement = findViewById(R.id.profile_picture_edit_button);
 
-        //Listen for clicks
+        //Attach the listener for profile picture editing
         imageButtonElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +195,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                 new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        //TODO Possible Feedback
+                        //TODO Possible lock refactor
                     }
                 });
 
@@ -229,10 +228,9 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                                     Objects.requireNonNull(task.getResult()).toString());
 
                         } else {
-                            //TODO Default Picture
-                            profile.put("picture",
-                                    "Error");
+                            profile.put("picture", getString(R.string.default_picture));
                         }
+
                         setDataBase(profile);
                     }
                 });

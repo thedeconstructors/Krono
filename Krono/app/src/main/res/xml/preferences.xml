@@ -7,27 +7,10 @@
     <PreferenceCategory
         android:title="Most Used">
 
-        <Preference
-            android:key="preference"
-            android:title="Most Used 1"
-            android:summary="This setting is most used"/>
-
-        <Preference
-            android:key="stylized"
-            android:title="Most Used 2"
-            android:summary="Setting is 2nd most used"/>
-
-        <Preference
-            android:key="icon"
-            android:title="Most Used 3"
-            android:summary="Setting is 3rd most used"
-            android:icon="@android:drawable/ic_menu_camera"/>
-
-        <Preference
-            android:key="single_line_title"
-            android:title="Most Used 4"
-            android:summary="Setting is 4th most used" />
-
+        <SeekBarPreference
+            android:key="volume"
+            android:title="Volume"
+            android:summary="Increase or Decrease the volume of the application."/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -36,18 +19,8 @@
         <CheckBoxPreference
             android:key="checkbox"
             android:title="Privacy"
-            android:summary="People can see you on the map"/>
-
-        <SwitchPreferenceCompat
-            android:key="switch"
-            android:title="Setting 2"
-            android:summary="Another Setting"/>
-
-        <SeekBarPreference
-            android:key="seekBar"
-            android:title="Seek that preference"
-            android:max="10"
-            android:defaultValue="5"/>
+            android:summary="People other than friends can see you on the map."
+            android:icon="@drawable/ui_friend_emptyprofile"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -56,9 +29,7 @@
         <Preference
             android:key="sign_out_button"
             android:title="Sign Out"
-            android:summary="Sign out from the application"
-            />
-
+            android:summary="Sign out of the application."
+            android:icon="@android:drawable/ic_lock_power_off"/>
     </PreferenceCategory>
-
 </PreferenceScreen>
