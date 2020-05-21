@@ -3,19 +3,25 @@ package com.deconstructors.krono.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deconstructors.krono.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.Nullable;
@@ -25,6 +31,8 @@ public class ProfilePage extends AppCompatActivity {
     private TextView NameTextView;
     private TextView EmailTextView;
     private TextView BioTextView;
+    private TextView NumberOfPlans;
+    private TextView NumberOfFriends;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +61,7 @@ public class ProfilePage extends AppCompatActivity {
 
     private void setUserDB()
     {
-        // User
-        // Database
+        // User Database
         FirebaseAuth authInstance = FirebaseAuth.getInstance();
         FirebaseFirestore DBInstance = FirebaseFirestore.getInstance();
 
@@ -72,6 +79,13 @@ public class ProfilePage extends AppCompatActivity {
                             EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
                             BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
 
+                            Map<String, Boolean> friendMap = 
+                                    (Map<String, Boolean>)documentSnapshot.get("friends");
+
+                            if (friendMap != null) {
+                                NumberOfFriends.setText(String.valueOf(friendMap.size()));
+                            }
+
                             Object pic_url;
                             if ((pic_url = documentSnapshot.get("picture")) == null) {
                                 pic_url = getString(R.string.default_picture);
@@ -83,6 +97,18 @@ public class ProfilePage extends AppCompatActivity {
                         }
                     }
                 });
+
+        DBInstance.collection(getString(R.string.collection_plans))
+                .whereEqualTo("ownerID", authInstance.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    NumberOfPlans.setText(String.valueOf(Objects.requireNonNull(
+                            task.getResult()).size()));
+                }
+            }
+        });
     }
 
     /************************************************************************
@@ -95,6 +121,8 @@ public class ProfilePage extends AppCompatActivity {
         this.NameTextView = findViewById(R.id.profile_DisplayName);
         this.EmailTextView = findViewById(R.id.profile_Email);
         this.BioTextView = findViewById(R.id.profile_Bio);
+        this.NumberOfFriends = findViewById(R.id.friends_num);
+        this.NumberOfPlans = findViewById(R.id.plan_number);
     }
 
     public void profileEdit(android.view.View view) {

@@ -105,7 +105,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/followers"
+                        android:id="@+id/plan_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -135,7 +135,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv2"
+                        android:id="@+id/friends_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
