@@ -47,7 +47,7 @@ public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.F
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friend_main);
+        setContentView(R.layout.chat_friends);
 
         this.setToolbar();
         this.setDatabase();
@@ -61,7 +61,7 @@ public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.F
      ************************************************************************/
     private void setToolbar()
     {
-        this.Toolbar = findViewById(R.id.friend_toolbar);
+        this.Toolbar = findViewById(R.id.chatfriend_toolbar);
         this.Toolbar.setTitle(getString(R.string.menu_friends));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,10 +132,6 @@ public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.F
         this.RecyclerView.setHasFixedSize(true);
         this.RecyclerView.setAdapter(this.FriendAdapter);
         this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Bottom Sheet
-        //this.ChatFriendPage = new FriendPage_New(this);
-        //this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Override
@@ -162,24 +158,6 @@ public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.F
         intent.putExtra(getString(R.string.intent_friend), this.FriendAdapter.getItem(position));
         startActivity(intent);
     }
-
-    /************************************************************************
-     * Purpose:         BottomSheet BackButton Overrides
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    /*@Override
-    public void onBackPressed()
-    {
-        if (this.FriendPage_New.getSheetState() != BottomSheetBehavior.STATE_HIDDEN)
-        {
-            this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
-        }
-        else
-        {
-            super.onBackPressed();
-        }
-    }*/
 
     /************************************************************************
      * Purpose:         Toolbar Back Button Animation Overrides
