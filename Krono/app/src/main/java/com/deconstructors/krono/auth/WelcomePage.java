@@ -1,32 +1,48 @@
 package com.deconstructors.krono.auth;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.ui.MainPage;
+import com.deconstructors.krono.utility.Helper;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class WelcomePage extends AppCompatActivity implements View.OnClickListener
 {
     // Error Log
     private static final String TAG = "WelcomePage";
+    private static int LOGIN_ACTIVITY = 7001;
 
     // Firebase
     private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
-    //private GoogleSignInClient GoogleSignInClient;
+    private RegisterPage RegisterPage;
 
     // Background
     private static final int FADE_DURATION = 4000;
@@ -38,14 +54,15 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private LinearLayout RegisterLayout;
     private TextView BackButton;
     private TextView SkipButton;
-
-    // Pages
-    private AnonymousLoginPage AnonymousLoginPage;
+    private SignInButton GoogleLogIn;
+    private LoginButton FacebookLogIn;
+    private ProgressBar ProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.auth_welcome);
 
         this.setContents();
@@ -53,11 +70,59 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setFirebaseAuth();
     }
 
+    /************************************************************************
+     * Purpose:         DEBUG_CODE Manually Getting Hash Key For Facebook Dev
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    /*private void getHashKey()
+    {
+        try
+        {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.deconstructors.krono",
+                    PackageManager.GET_SIGNATURES);
+
+            for (Signature signature : info.signatures)
+            {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e)
+        {
+
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+
+        }
+    }*/
+
+    /************************************************************************
+     * Purpose:         DEBUG_CODE Logout
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void Logout()
+    {
+        if (this.AuthInstance == null)
+        {
+            this.AuthInstance = FirebaseAuth.getInstance();
+        }
+
+        this.AuthInstance.signOut();
+    }
+
+    /************************************************************************
+     * Purpose:         Set Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void setContents()
     {
         // Firebase
         this.AuthInstance = FirebaseAuth.getInstance();
-        this.AuthInstance.signOut(); // Debug Purpose Only
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -66,13 +131,26 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.RegisterLayout = findViewById(R.id.auth_registerLayout);
         this.BackButton = findViewById(R.id.auth_back);
         this.SkipButton = findViewById(R.id.auth_anonymousSignIn);
+        this.ProgressBar = findViewById(R.id.auth_progressBar);
 
         // SignIn & Register Pages
         EmailLoginPage EmailLoginPage = new EmailLoginPage(this);
-        RegisterPage RegisterPage = new RegisterPage(this);
+        this.RegisterPage = new RegisterPage(this);
         AnonymousLoginPage AnonymousLoginPage = new AnonymousLoginPage(this);
+
+        // Google Log In
+        this.GoogleLogIn = findViewById(R.id.auth_googleLogIn);
+        this.GoogleLogIn.setOnClickListener(this);
+
+        this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
+        this.FacebookLogIn.setOnClickListener(this);
     }
 
+    /************************************************************************
+     * Purpose:         Background Animation
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void startBGAnimation()
     {
         AnimationDrawable animationDrawable = (AnimationDrawable) this.BackgroundLayout.getBackground();
@@ -116,16 +194,16 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     public void onStart()
     {
         super.onStart();
-        this.AuthInstance.addAuthStateListener(FirebaseAuthListener);
+        this.AuthInstance.addAuthStateListener(this.FirebaseAuthListener);
     }
 
     @Override
     public void onStop()
     {
         super.onStop();
-        if (FirebaseAuthListener != null)
+        if (this.FirebaseAuthListener != null)
         {
-            this.AuthInstance.removeAuthStateListener(FirebaseAuthListener);
+            this.AuthInstance.removeAuthStateListener(this.FirebaseAuthListener);
         }
     }
 
@@ -164,6 +242,47 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 this.BackButton.setVisibility(View.VISIBLE);
                 //this.SkipButton.setVisibility(View.GONE);
                 break;
+            }
+            // Clicks
+            case R.id.auth_googleLogIn:
+            {
+                Helper.showProgressBar(this, this.ProgressBar);
+                Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
+                startActivityForResult(intent, LOGIN_ACTIVITY);
+                break;
+            }
+            case R.id.auth_facebookLogIn:
+            {
+                Helper.showProgressBar(this, this.ProgressBar);
+                Intent intent = new Intent(WelcomePage.this, FacebookLoginPage.class);
+                startActivityForResult(intent, LOGIN_ACTIVITY);
+                break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == LOGIN_ACTIVITY)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Helper.hideProgressBar(this, this.ProgressBar);
+                // => Firebase Auth
+            }
+            else if (resultCode == RESULT_FIRST_USER)
+            {
+                FirebaseUser user = this.AuthInstance.getCurrentUser();
+                this.RegisterPage.onRegister(user.getUid(), user.getDisplayName(), user.getEmail());
+            }
+            else if (resultCode == RESULT_CANCELED)
+            {
+                Helper.hideProgressBar(this, this.ProgressBar);
+                Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                           "Authentication Failed");
             }
         }
     }

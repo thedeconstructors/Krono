@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -80,8 +81,8 @@
                 android:paddingEnd="10dp"
                 android:drawableStart="@drawable/activity_calendar"
                 android:drawablePadding="10dp"
-                android:text="@string/newactivity_timestamp"
-                android:id="@+id/ActivityPageNew_DateButton"/>
+                android:text="@string/newactivity_duration"
+                android:id="@+id/ActivityPageNew_DurationButton"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -103,6 +104,7 @@
                 android:drawableStart="@drawable/activity_repeat"
                 android:drawablePadding="10dp"
                 android:text="@string/newactivity_repeat"
+                android:enabled="false"
                 android:id="@+id/ActivityPageNew_Repeat"/>
         </LinearLayout>
     </HorizontalScrollView>

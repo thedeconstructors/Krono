@@ -1,14 +1,14 @@
 package com.deconstructors.krono.ui;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,24 +24,16 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-public class ActivityPage_New implements View.OnClickListener,
-                                         DatePickerDialog.OnDateSetListener
+public class ActivityPage_New implements View.OnClickListener
 {
     // Error Log
-    private static final String TAG = "NewActivityPage";
+    private static final String TAG = "ActivityPage_New";
     private static final int MAPACTIVITY_REQUESTCODE = 5002;
     private static final int LOCATIONSTR_SIZE = 10;
 
@@ -54,14 +46,13 @@ public class ActivityPage_New implements View.OnClickListener,
 
     private EditText TitleText;
     private EditText DescText;
-    private Calendar CalendarInstance;
-    private Button DateButton;
+    private Button DurationButton;
     private Button LocationButton;
-    private ImageView AddButton;
 
     // Database
     private Plan Plan;
     private Location Location;
+    private Integer Duration;
     private FirebaseFirestore DBInstance;
 
     public ActivityPage_New(Activity instance)
@@ -95,9 +86,8 @@ public class ActivityPage_New implements View.OnClickListener,
         this.FAB.setOnClickListener(this);
         this.TitleText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_TitleText);
         this.DescText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_Description);
-        this.CalendarInstance = Calendar.getInstance();
-        this.DateButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DateButton);
-        this.DateButton.setOnClickListener(this);
+        this.DurationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DurationButton);
+        this.DurationButton.setOnClickListener(this);
         this.LocationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_LocationButton);
         this.LocationButton.setOnClickListener(this);
         ImageView completeButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DoneButton);
@@ -156,12 +146,11 @@ public class ActivityPage_New implements View.OnClickListener,
 
             // Set the document created
             Map<String, Object> activity = Helper.mapActivity(this.ActivityInstance,
-                                                              ref,
+                                                              ref.getId(),
                                                               this.DescText.getText().toString(),
-                                                              0,
+                                                              this.Duration,
                                                               this.Location,
                                                               this.Plan,
-                                                              this.DateButton.getText().toString(),
                                                               this.TitleText.getText().toString());
 
             ref.set(activity)
@@ -174,7 +163,8 @@ public class ActivityPage_New implements View.OnClickListener,
                         ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                         ActivityPage_New.this.TitleText.setText("");
                         ActivityPage_New.this.DescText.setText("");
-                        ActivityPage_New.this.DateButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_timestamp));
+                        ActivityPage_New.this.Duration = 0;
+                        ActivityPage_New.this.DurationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_duration));
                         ActivityPage_New.this.LocationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_location));
                     }
                 })
@@ -183,7 +173,8 @@ public class ActivityPage_New implements View.OnClickListener,
                    @Override
                    public void onFailure(@NonNull Exception e)
                    {
-                       ActivityPage_New.this.makeBottomSheetSnackbarMessage("Error: Could Not Add Activity");
+                       ActivityPage_New.this.makeBottomSheetSnackbarMessage(
+                               "Error: Could Not Add Activity");
                    }
                });
         }
@@ -215,9 +206,9 @@ public class ActivityPage_New implements View.OnClickListener,
                 this.createNewActivity();
                 break;
             }
-            case R.id.ActivityPageNew_DateButton:
+            case R.id.ActivityPageNew_DurationButton:
             {
-                this.showDatePicker();
+                this.showNumberPicker();
                 break;
             }
             case R.id.ActivityPageNew_LocationButton:
@@ -252,30 +243,44 @@ public class ActivityPage_New implements View.OnClickListener,
     }
 
     /************************************************************************
-     * Purpose:         Date Picker
+     * Purpose:         Number Picker
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void showDatePicker()
+    private void showNumberPicker()
     {
-        DatePickerDialog dpd = new DatePickerDialog(
-                this.ActivityInstance,
-                this,
-                this.CalendarInstance.get(Calendar.YEAR),
-                this.CalendarInstance.get(Calendar.MONTH),
-                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
-        );
+        final Dialog npd = new Dialog(this.ActivityInstance);
+        npd.setTitle("Select Activity Duration");
+        npd.setContentView(R.layout.activity_npd);
 
-        dpd.show();
-    }
+        final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
+        np.setMaxValue(24);
+        np.setMinValue(0);
+        np.setWrapSelectorWheel(false);
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
-        this.CalendarInstance.set(year, month, dayOfMonth);
-        String dateString = sdf.format(this.CalendarInstance.getTime());
-        this.DateButton.setText(dateString);
+        Button done = npd.findViewById(R.id.NPD_Done);
+        done.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                ActivityPage_New.this.Duration = np.getValue();
+                String durationtext = np.getValue() + " Hours";
+                ActivityPage_New.this.DurationButton.setText(durationtext);
+                npd.dismiss();
+            }
+        });
+        Button cancel = npd.findViewById(R.id.NPD_Cancel);
+        cancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                npd.dismiss();
+            }
+        });
+
+        npd.show();
     }
 
     /************************************************************************

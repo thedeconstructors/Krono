@@ -50,11 +50,13 @@ dependencies {
     // Google SDKs
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.maps.android:android-maps-utils:1.0.2'
+    implementation 'com.google.maps.android:android-maps-utils:1.2.1'
     
     //Picture third party
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Java language implementation of preferences
     implementation "androidx.preference:preference:$preference_version"
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 }
