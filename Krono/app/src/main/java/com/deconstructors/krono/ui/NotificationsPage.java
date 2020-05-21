@@ -3,6 +3,7 @@ package com.deconstructors.krono.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -38,8 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class NotificationsPage extends AppCompatActivity
-{
+public class NotificationsPage extends AppCompatActivity implements View.OnClickListener{
     //Notification Types (can add more later)
     private final int FRIEND_REQUEST = 0;
 
@@ -63,8 +64,7 @@ public class NotificationsPage extends AppCompatActivity
     ArrayList<String> FriendRequestNames;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.notif_main);
@@ -75,31 +75,26 @@ public class NotificationsPage extends AppCompatActivity
 
         FriendRequestIds = new ArrayList<>();
         FriendRequestNames = new ArrayList<>();
+        Map<String, String> FriendIdToNameMap = new HashMap<>();
 
         setToolbar();
-        //SearchFriendRequestIds();
+
         this.DBInstance
                 .collection("users")
                 .whereEqualTo("uid", this.AuthInstance.getCurrentUser().getUid())
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-                {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess (QuerySnapshot queryDocumentSnapshots)
-                    {
-                        if (!queryDocumentSnapshots.isEmpty())
-                        {
-                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                            {
-                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>)doc.get("friends");
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>) doc.get("friends");
 
-                                for (Map.Entry<Object, Boolean> entry : friendMap.entrySet())
-                                {
+                                for (Map.Entry<Object, Boolean> entry : friendMap.entrySet()) {
                                     Object key = entry.getKey();
                                     Boolean value = entry.getValue();
 
-                                    if (value == false)
-                                    {
+                                    if (value == false) {
                                         FriendRequestIds.add(key.toString());
                                     }
                                 }
@@ -110,8 +105,7 @@ public class NotificationsPage extends AppCompatActivity
                 .continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
                     @Override
                     public Task<QuerySnapshot> then(@NonNull Task<QuerySnapshot> task) throws Exception {
-                        if (task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
                             return FirebaseFirestore.getInstance()
                                     .collection(getString(R.string.collection_users))
                                     .whereIn("uid", FriendRequestIds)
@@ -123,15 +117,13 @@ public class NotificationsPage extends AppCompatActivity
                 .continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
                     @Override
                     public Task<List<DocumentSnapshot>> then(@NonNull Task<QuerySnapshot> task) throws Exception {
-                        if (task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
                             List<Task<DocumentSnapshot>> getNames = new ArrayList<>();
 
-                            for (DocumentSnapshot doc : task.getResult().getDocuments())
-                            {
+                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                                 getNames.add(FirebaseFirestore.getInstance()
-                                    .collection(getString(R.string.collection_users))
-                                    .document(doc.getId()).get());
+                                        .collection(getString(R.string.collection_users))
+                                        .document(doc.getId()).get());
                             }
 
                             return Tasks.whenAllSuccess(getNames);
@@ -142,12 +134,10 @@ public class NotificationsPage extends AppCompatActivity
                 .addOnCompleteListener(new OnCompleteListener<List<DocumentSnapshot>>() {
                     @Override
                     public void onComplete(@NonNull Task<List<DocumentSnapshot>> task) {
-                        if (task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
                             List<DocumentSnapshot> friendTasks = task.getResult();
-                            for (DocumentSnapshot doc : friendTasks)
-                            {
-                                FriendRequestNames.add((String)doc.get("displayName"));
+                            for (DocumentSnapshot doc : friendTasks) {
+                                FriendRequestNames.add((String) doc.get("displayName"));
                             }
 
                             RecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -159,8 +149,7 @@ public class NotificationsPage extends AppCompatActivity
         this.RecyclerView.setAdapter(this.NotifAdapter);
     }
 
-    private void setToolbar()
-    {
+    private void setToolbar() {
         this.Toolbar = findViewById(R.id.notif_toolbar);
         this.Toolbar.setTitle("Notifications");
         this.setSupportActionBar(this.Toolbar);
@@ -168,69 +157,92 @@ public class NotificationsPage extends AppCompatActivity
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void SearchFriendRequestIds()
+    @Override
+    public void onClick(View view)
     {
-        this.DBInstance
-                .collection("users")
-                .whereEqualTo("uid", this.AuthInstance.getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+        switch(view.getId())
         {
-            @Override
-            public void onSuccess (QuerySnapshot queryDocumentSnapshots)
+            case R.id.notif_listitem_accept:
             {
-                if (!queryDocumentSnapshots.isEmpty())
+                System.out.println("in OnClick. Case: R.id.notif_listitem_accept");
+
+                CharSequence charSeqDesc = ((TextView) findViewById(R.id.notif_Description)).getText();
+                String desc = (String) charSeqDesc;
+
+                for (int i = 0; i < FriendRequestNames.size(); i++)
                 {
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                    if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
                     {
-                        Map<Object, Boolean> friendMap = (Map<Object, Boolean>)doc.get("friends");
+                        final String[] FriendId = new String[1];
+                        DBInstance.collection("users")
+                                .whereEqualTo("displayName", FriendRequestNames.get(i))
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+                                {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+                                    {
+                                        if (!queryDocumentSnapshots.isEmpty())
+                                        {
+                                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                                            {
+                                                FriendId[0] = doc.getId();
+                                            }
+                                            System.out.println(FriendId[0]);
 
-                        for (Map.Entry<Object, Boolean> entry : friendMap.entrySet())
-                        {
-                            Object key = entry.getKey();
-                            Boolean value = entry.getValue();
+                                            String updateString = "friends." + FriendId[0];
 
-                            if (value == true)
-                            {
-                                FriendRequestIds.add(key.toString());
-                            }
-                        }
+                                            DBInstance.collection("users")
+                                                    .document(AuthInstance.getCurrentUser().getUid())
+                                                    .update(updateString, true);
+                                        }
+                                    }
+                                });
+                    }
+                }
+                break;
+            }
+            case R.id.notif_listitem_reject:
+            {
+                System.out.println("in OnClick. Case: R.id.notif_listitem_reject");
+
+                CharSequence charSeqDesc = ((TextView) findViewById(R.id.notif_Description)).getText();
+                String desc = (String) charSeqDesc;
+
+                for (int i = 0; i < FriendRequestNames.size(); i++)
+                {
+                    if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
+                    {
+                        final String[] FriendId = new String[1];
+                        DBInstance.collection("users")
+                                .whereEqualTo("displayName", FriendRequestNames.get(i))
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+                                {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+                                    {
+                                        if (!queryDocumentSnapshots.isEmpty())
+                                        {
+                                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
+                                            {
+                                                FriendId[0] = doc.getId();
+                                            }
+                                            System.out.println(FriendId[0]);
+
+                                            String removeString = "friends." + FriendId[0];
+
+                                            DocumentReference docRef = DBInstance.collection("users").document(AuthInstance.getCurrentUser().getUid());
+                                            Map<String,Object> updates = new HashMap<>();
+                                            updates.put(removeString, FieldValue.delete());
+
+                                            docRef.update(updates);
+                                        }
+                                    }
+                                });
                     }
                 }
             }
-        });
-    }
-
-    private void SearchFriendRequestNames()
-    {
-        for (int i = 0; i < FriendRequestIds.size(); i++)
-        {
-            this.DBInstance
-                    .collection("users")
-                    .whereEqualTo("uid", FriendRequestIds.get(i))
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                    FriendRequestNames.add((String)doc.get("displayName"));
-                                }
-                            }
-                        }
-                    });
         }
-    }
-
-    private void ShowData(ArrayList<String> list)
-    {
-        System.out.println("Entering ShowData");
-        System.out.println(list.size());
-
-        for (int i = 0; i < list.size(); i++)
-        {
-            System.out.println(list.get(i));
-        }
-
     }
 }

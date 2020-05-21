@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/LightRed"
+            android:onClick="onClick"
             android:text="@string/notif_listitem_reject"
             android:textColor="@color/White" />
 
@@ -64,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/LightBlue"
+            android:onClick="onClick"
             android:text="@string/notif_listitem_accept"
             android:textColor="@color/White" />
     </LinearLayout>
