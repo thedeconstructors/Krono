@@ -50,7 +50,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         int res = 0;
-        if (getViewHolder(parent.getChildCount()) == 1)
+        if (getViewHolder(parent.getChildCount()) == 0)
             res = R.layout.chat_listitem;
         else
             res = R.layout.chat_listitem_self;
@@ -61,18 +61,13 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     private int getViewHolder(int index)
     {
         int type = 0;
-        if (this.getItem(index).getSender().contains(this.friend.getUid()))
+        this.Auth = FirebaseAuth.getInstance();
+        if (this.getItem(index).getSender().contains(this.Auth.getUid()))
         {
             type = 1;
         }
 
         return type;
-        //if (FirebaseAuth.getInstance().getUid().contains())
-        /*if (count == 0)
-            ++count;
-        else
-            --count;
-        return count;*/
     }
 
     /************************************************************************
@@ -85,8 +80,6 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
                                     int position,
                                     @NonNull Message model)
     {
-        //holder.nameText.setText(model.getSender());
-        //holder.recipientText.setText(model.getRecipient());
         holder.messageText.setText(model.getText());
         holder.timeText.setText(model.getTime());
     }
@@ -98,16 +91,13 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
      ************************************************************************/
     public class MessageHolder extends RecyclerView.ViewHolder
     {
-        TextView nameText;
         TextView messageText;
         TextView timeText;
-        TextView recipientText;
 
         public MessageHolder(@NonNull View itemView)
         {
             super(itemView);
 
-            //this.nameText = (TextView) itemView.findViewById(R.id.chatlist_nameText);
             this.messageText = (TextView) itemView.findViewById(R.id.chatlist_messageText);
             this.timeText = (TextView) itemView.findViewById(R.id.chatlist_time);
         }

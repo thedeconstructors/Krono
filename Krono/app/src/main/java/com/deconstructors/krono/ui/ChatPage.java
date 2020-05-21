@@ -134,21 +134,12 @@ public class ChatPage extends AppCompatActivity
         this.ChatQuery = this.DBInstance
                 .collection("chats")
                 .whereIn("sender", ids)
-                //.whereArrayContainsAny("people", ids)
                 .whereArrayContains("people", this.AuthInstance.getUid())
-                //.whereArrayContains("people", this.friend.getUid())
-                //.whereEqualTo("recipient", this.AuthInstance.getUid())
-                //.whereEqualTo("recipient", this.friend.getUid())
                 .orderBy("time");
-        //this.ChatQuery = this.DBInstance
-        //        .collection("chats")
-        //        .whereEqualTo("recipient", "Me")
-        //        .orderBy("time");
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(ChatQuery, Message.class)
                 .build();
         this.messageAdapter = new MessageAdapter(this.ChatOptions, this.friend);
-        //messageAdapter.updateOptions(ChatOptions);
         messageAdapter.notifyDataSetChanged();
     }
 
@@ -177,27 +168,18 @@ public class ChatPage extends AppCompatActivity
         this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
         this.RecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        //layoutManager.removeAllViews();
         layoutManager.setStackFromEnd(true);
-        //layoutManager.setReverseLayout(true);
-        //this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //this.RecyclerView.setLayoutManager(null);
-        //this.RecyclerView.setAdapter(null);
         this.RecyclerView.setLayoutManager(layoutManager);
         this.RecyclerView.setAdapter(this.messageAdapter);
-        //this.RecyclerView.scrollToPosition(this.RecyclerView.getChildCount() - 1);
 
         this.messageText = findViewById(R.id.ChatPage_Message);
     }
 
     public void SendMessageClick(View view) {
-        //ResetAdapter();
-        //messageAdapter.getCount();
         if (!Helper.isEmpty(this.messageText))
         {
             Map<String, Object> message = new HashMap<>();
 
-            Message newMessage = new Message();
             message.put("sender", this.AuthInstance.getUid());
             message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
@@ -214,14 +196,7 @@ public class ChatPage extends AppCompatActivity
 
             this.messageText.setText("");
             CloseKeyboard();
-            //this.messageAdapter.notifyItemChanged(messageAdapter.getCount() - 1);
-            //this.messageAdapter.getItem(0);
-            //messageAdapter.notifyDataSetChanged();
             this.messageAdapter.updateOptions(ChatOptions);
-            //DeleteMessage();
-            //ResetAdapter();
-            //messageAdapter.notifyDataSetChanged();
-            messageAdapter.updateOptions(ChatOptions);
 
         }
         else
@@ -261,13 +236,4 @@ public class ChatPage extends AppCompatActivity
             this.RecyclerView.removeViewAt(0);
         }
     }*/
-
-    private void ReadMessages()
-    {
-        messages = new ArrayList<>();
-
-        CollectionReference reference = DBInstance.collection("chats");
-
-
-    }
 }
