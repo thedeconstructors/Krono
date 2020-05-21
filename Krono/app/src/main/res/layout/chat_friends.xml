@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ChatFriendPage"
+    android:id="@+id/FriendPage_Background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:id="@+id/chatfriend_toolbar"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ChatFriendPage_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <!-- Hidden Progress Bar -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/friend_progressBar"/>
+
+    <!-- Floating Action Button (Add Friend) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/WhiteFAB"
+        android:src="@drawable/ic_menu_addbutton"
+        android:id="@+id/FriendPage_FAB"/>
+
+    <!-- Bottom Sheet New Friend-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/FriendPage_Snackbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

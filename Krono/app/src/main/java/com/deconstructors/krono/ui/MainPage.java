@@ -351,7 +351,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
             }
             case R.id.ui_menu_chat:
             {
-                Intent intent = new Intent(MainPage.this, ChatPage.class);
+                Intent intent = new Intent(MainPage.this, ChatFriendPage.class);
                 startActivity(intent);
                 break;
             }
