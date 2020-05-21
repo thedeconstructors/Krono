@@ -29,6 +29,7 @@ import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -159,6 +160,7 @@ public class ChatPage extends AppCompatActivity
         //this.RecyclerView.scrollToPosition(this.RecyclerView.getChildCount() - 1);
 
         this.messageText = findViewById(R.id.ChatPage_Message);
+
     }
 
     public void SendMessageClick(View view) {
@@ -232,4 +234,24 @@ public class ChatPage extends AppCompatActivity
             this.RecyclerView.removeViewAt(0);
         }
     }*/
+
+    /************************************************************************
+     * Purpose:         Toolbar Back Button Animation Overrides
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            // Back Button Animation Override
+            case android.R.id.home:
+            {
+                finish();
+                break;
+            }
+        }
+        return true;
+    }
 }

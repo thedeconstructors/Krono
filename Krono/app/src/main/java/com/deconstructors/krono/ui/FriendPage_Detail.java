@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private TextView Email;
     private TextView Bio;
     private TabLayout Tabs;
+    private android.widget.ProgressBar ProgressBar;
 
     private FirebaseFirestore DBInstance;
     private FirebaseAuth AuthInstance;
@@ -196,6 +198,9 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
 
         this.Tabs.selectTab(Tabs.getTabAt(0));
         this.Background = findViewById(R.id.ui_friendDetailLayout);
+
+        // Other XML
+        this.ProgressBar = findViewById(R.id.friend_detail_progressBar);
     }
 
     /************************************************************************
@@ -249,6 +254,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         Map<String, Object> users = new HashMap<>();
         users.put(getString(R.string.collection_friends) + "." + this.Friend.getUid(), FieldValue.delete());
         Log.d(TAG, "Detail: " + getString(R.string.collection_friends) + "." + this.Friend.getUid());
+        Helper.showProgressBar(this, ProgressBar);
 
         // Delete the friend relationship from the Owner's Document
         this.DBInstance
@@ -260,7 +266,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     @Override
                     public void onSuccess(Void aVoid)
                     {
-                        finish();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -282,6 +288,8 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                 {
                     /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
                                                "Friend Delete Success");*/
+                    Helper.hideProgressBar(FriendPage_Detail.this, ProgressBar);
+                    finish();
                 }
             })
             .addOnFailureListener(new OnFailureListener()
@@ -292,6 +300,8 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     Log.d(TAG, "getDeleteFriendFunctions: " + e.getMessage());
                     /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
                                                "Friend Delete Error: " + e.getMessage());*/
+                    Helper.hideProgressBar(FriendPage_Detail.this, ProgressBar);
+                    finish();
                 }
             });
     }

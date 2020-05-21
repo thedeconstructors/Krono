@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
@@ -46,6 +47,7 @@ public class FriendPage_New implements View.OnClickListener
     private FloatingActionButton FAB;
     private EditText SearchText;
     private ImageView SearchButton;
+    private ProgressBar ProgressBar;
 
     // Database
     private FirebaseFirestore DBInstance;
@@ -110,6 +112,9 @@ public class FriendPage_New implements View.OnClickListener
 
             }
         });
+
+        // Other XML
+        this.ProgressBar = this.ActivityInstance.findViewById(R.id.friend_progressBar);
     }
 
     /************************************************************************
@@ -142,6 +147,7 @@ public class FriendPage_New implements View.OnClickListener
                         }
                         else
                         {
+                            Helper.showProgressBar(ActivityInstance, ProgressBar);
                             for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
                             {
                                 FriendPage_New.this.addFriend(doc.getId());
@@ -196,6 +202,7 @@ public class FriendPage_New implements View.OnClickListener
                 @Override
                 public void onSuccess(String s)
                 {
+                    Helper.hideProgressBar(ActivityInstance, ProgressBar);
                     /*FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);*/
                 }
             })
@@ -204,6 +211,7 @@ public class FriendPage_New implements View.OnClickListener
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
+                    Helper.hideProgressBar(ActivityInstance, ProgressBar);
                     Log.d(TAG, "getAddFriendFunctions: " + e.getMessage());
                     /*makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());*/
                 }

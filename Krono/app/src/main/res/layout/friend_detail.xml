@@ -105,6 +105,10 @@
 
     <!-- Profile Image -->
 
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/friend_detail_progressBar"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
