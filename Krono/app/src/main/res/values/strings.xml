@@ -1,5 +1,5 @@
 <!-- Eng Lang -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
     <string name="facebook_app_id">249681212769545</string>
@@ -39,7 +39,7 @@
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
-    <string name="default_picture"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc-e666-4aa5-ad3a-1682759b8e42]]></string>
+    <string name="default_picture" tools:ignore="TypographyDashes">https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&amp;token=b9b5addc-e666-4aa5-ad3a-1682759b8e42</string>
 
     <!-- 4. User Interface -->
     <string name="intent_plans">intent_plans</string>
@@ -115,5 +115,10 @@
     <string name="menu_activitydetail_sortBy">Sort By</string>
     <string name="menu_activitydetail_deletePlan">Delete Activity</string>
     <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
+    <string name="total_plans">Total Plans</string>
+    <string name="default_total_plans">0</string>
+    <string name="bio_hint">Bio</string>
+    <string name="friend_default_value">0</string>
+    <string name="friends">Friends</string>
 
 </resources>

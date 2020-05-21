@@ -97,9 +97,7 @@ public class ProfilePage extends AppCompatActivity {
         this.BioTextView = findViewById(R.id.profile_Bio);
     }
 
-    public void profileEdit(View view) {
+    public void profileEdit(android.view.View view) {
         startActivity(new Intent(ProfilePage.this, ProfilePage_Edit.class));
     }
-
-
 }
