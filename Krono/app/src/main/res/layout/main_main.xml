@@ -165,7 +165,6 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClick"
-        app:srcCompat="@android:drawable/ic_popup_reminder"
-        android:visibility="gone"/>
+        app:srcCompat="@android:drawable/ic_popup_reminder" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
