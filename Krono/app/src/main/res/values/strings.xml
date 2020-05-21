@@ -49,6 +49,10 @@
     <string name="intent_friendList">intent_friendList</string>
     <string name="intent_location">location</string>
 
+    <!-- Notifications -->
+    <string name="notif_listitem_accept">ACCEPT</string>
+    <string name="notif_listitem_reject">REJECT</string>
+
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
