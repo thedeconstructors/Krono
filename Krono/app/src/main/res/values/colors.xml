@@ -26,4 +26,7 @@
     <color name="transparentGrey">#8f737373</color>
     <color name="DarkGrey">#737373</color>
     <color name="Black">#000000</color>
+
+    <color name="LightBlue">#3691e0</color>
+    <color name="LightRed">#e04436</color>
 </resources>
