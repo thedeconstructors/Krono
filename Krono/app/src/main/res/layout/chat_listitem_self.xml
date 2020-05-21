@@ -6,20 +6,18 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
     android:foreground="?attr/selectableItemBackground"
-    app:cardElevation="0dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp">
+    app:cardElevation="0dp"
+    app:cardMaxElevation="0dp"
+    app:cardUseCompatPadding="false">
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:layout_marginLeft="45dp"
+            android:layout_gravity="end">
 
             <TextView
                 android:id="@+id/chatlist_messageText"
@@ -44,7 +42,7 @@
                 android:text="Time"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:textSize="10sp"/>
+                android:textSize="10sp"
+                android:textAlignment="textEnd"/>
         </LinearLayout>
-    </LinearLayout>
 </androidx.cardview.widget.CardView>

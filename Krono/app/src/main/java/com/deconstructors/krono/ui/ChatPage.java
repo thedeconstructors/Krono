@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +67,9 @@ public class ChatPage extends AppCompatActivity
     private MessageAdapter messageAdapter;
 
     private EditText messageText;
-    private User user;
+    private User friend;
+    private List<Message> messages;
+    private List<String> ids;
 
     private DocumentReference documentReference;
 
@@ -75,6 +79,7 @@ public class ChatPage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_main);
 
+        this.getFriendIntent();
         this.setToolbar();
         this.setDatabase();
         this.setContents();
@@ -87,14 +92,32 @@ public class ChatPage extends AppCompatActivity
      ************************************************************************/
     private void setToolbar()
     {
+        this.AuthInstance = FirebaseAuth.getInstance();
         this.Toolbar = findViewById(R.id.chat_toolbar);
-        //if (this.AuthInstance.getUid().contains(this.AuthInstance.getUid()))
-        this.Toolbar.setTitle("Me");
-        //else
-        //this.Toolbar.setTitle(this.AuthInstance.getCurrentUser().getDisplayName());
+        if (this.friend.getUid().contains(this.AuthInstance.getUid()))
+            this.Toolbar.setTitle("Me");
+        else
+            this.Toolbar.setTitle(this.friend.getDisplayName());
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Friend Interaction
+     * Precondition:    .
+     * Postcondition:   Get Plan Intent from MainActivity
+     ************************************************************************/
+    private void getFriendIntent()
+    {
+        if(getIntent().hasExtra(getString(R.string.intent_friend)))
+        {
+            this.friend = getIntent().getParcelableExtra(getString(R.string.intent_friend));
+        }
+        else
+        {
+            finish();
+        }
     }
 
     /************************************************************************
@@ -104,12 +127,18 @@ public class ChatPage extends AppCompatActivity
      ************************************************************************/
     private void setDatabase()
     {
-        this.AuthInstance = FirebaseAuth.getInstance();
+        ids = new ArrayList<>();
+        ids.add(this.AuthInstance.getUid());
+        ids.add(this.friend.getUid());
         this.DBInstance = FirebaseFirestore.getInstance();
         this.ChatQuery = this.DBInstance
                 .collection("chats")
-                .whereEqualTo("sender", this.AuthInstance.getUid())
-                .whereEqualTo("recipient", this.AuthInstance.getUid())
+                .whereIn("sender", ids)
+                //.whereArrayContainsAny("people", ids)
+                .whereArrayContains("people", this.AuthInstance.getUid())
+                //.whereArrayContains("people", this.friend.getUid())
+                //.whereEqualTo("recipient", this.AuthInstance.getUid())
+                //.whereEqualTo("recipient", this.friend.getUid())
                 .orderBy("time");
         //this.ChatQuery = this.DBInstance
         //        .collection("chats")
@@ -118,7 +147,7 @@ public class ChatPage extends AppCompatActivity
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(ChatQuery, Message.class)
                 .build();
-        this.messageAdapter = new MessageAdapter(this.ChatOptions);
+        this.messageAdapter = new MessageAdapter(this.ChatOptions, this.friend);
         //messageAdapter.updateOptions(ChatOptions);
         messageAdapter.notifyDataSetChanged();
     }
@@ -170,9 +199,10 @@ public class ChatPage extends AppCompatActivity
 
             Message newMessage = new Message();
             message.put("sender", this.AuthInstance.getUid());
-            message.put("recipient", this.AuthInstance.getUid());
+            message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
             message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
+            message.put("people", ids);
             DBInstance.collection("chats")
                     .add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -231,4 +261,13 @@ public class ChatPage extends AppCompatActivity
             this.RecyclerView.removeViewAt(0);
         }
     }*/
+
+    private void ReadMessages()
+    {
+        messages = new ArrayList<>();
+
+        CollectionReference reference = DBInstance.collection("chats");
+
+
+    }
 }

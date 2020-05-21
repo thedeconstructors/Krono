@@ -10,21 +10,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Message;
+import com.deconstructors.krono.module.User;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
 {
     private int count = 0;
+    private FirebaseAuth Auth;
+    private User friend;
+    private List<Message> messages;
+    private String fid;
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options)
+    //public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, List<Message> messages, User friend)
+    public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, User friend)
     {
         super(options);
+        this.friend = friend;
+        this.messages = new ArrayList<>(getSnapshots());
     }
 
     /************************************************************************
@@ -39,7 +50,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         int res = 0;
-        if (getViewHolder() == 0)
+        if (getViewHolder(parent.getChildCount()) == 1)
             res = R.layout.chat_listitem;
         else
             res = R.layout.chat_listitem_self;
@@ -47,14 +58,21 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
         return new MessageHolder(view);
     }
 
-    private int getViewHolder()
+    private int getViewHolder(int index)
     {
+        int type = 0;
+        if (this.getItem(index).getSender().contains(this.friend.getUid()))
+        {
+            type = 1;
+        }
+
+        return type;
         //if (FirebaseAuth.getInstance().getUid().contains())
-        if (count == 0)
+        /*if (count == 0)
             ++count;
         else
             --count;
-        return count;
+        return count;*/
     }
 
     /************************************************************************
