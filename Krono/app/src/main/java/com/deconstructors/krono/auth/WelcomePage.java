@@ -1,5 +1,6 @@
 package com.deconstructors.krono.auth;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -25,6 +26,8 @@ import com.deconstructors.krono.utility.Helper;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
@@ -46,6 +49,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
 
     // Background
     private static final int FADE_DURATION = 4000;
+    public static final int ERROR_DIALOG_REQUEST = 9001;
     private CoordinatorLayout BackgroundLayout;
 
     // Layout Widgets
@@ -68,6 +72,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setContents();
         this.startBGAnimation();
         this.setFirebaseAuth();
+        this.Logout();
     }
 
     /************************************************************************
@@ -246,9 +251,12 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             // Clicks
             case R.id.auth_googleLogIn:
             {
-                Helper.showProgressBar(this, this.ProgressBar);
-                Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
-                startActivityForResult(intent, LOGIN_ACTIVITY);
+                if (checkGoogleService())
+                {
+                    Helper.showProgressBar(this, this.ProgressBar);
+                    Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
+                    startActivityForResult(intent, LOGIN_ACTIVITY);
+                }
                 break;
             }
             case R.id.auth_facebookLogIn:
@@ -259,6 +267,34 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 break;
             }
         }
+    }
+
+    public boolean checkGoogleService()
+    {
+        Log.d(TAG, "checkGoogleService: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+
+        if(available == ConnectionResult.SUCCESS)
+        {
+            Log.d(TAG, "checkGoogleService: SUCCESS");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available))
+        {
+            Log.d(TAG, "checkGoogleService: user resolvable error");
+            Dialog dialog = GoogleApiAvailability
+                    .getInstance()
+                    .getErrorDialog(this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }
+        else
+        {
+            Log.d(TAG, "checkGoogleService: failed");
+            Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                       "You can't make map requests");
+        }
+        return false;
     }
 
     @Override
