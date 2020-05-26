@@ -75,7 +75,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setContents();
         this.startBGAnimation();
         this.setFirebaseAuth();
-        this.Logout();
+        //this.Logout();
     }
 
     /************************************************************************
@@ -353,7 +353,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             {
                 Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,
-                                           "Authentication Failed. Check Google Play services.");
+                                           "Authentication Failed. Please check your internet connection.");
             }
         }
     }
