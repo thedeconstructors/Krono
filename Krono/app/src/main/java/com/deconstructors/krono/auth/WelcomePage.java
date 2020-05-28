@@ -1,9 +1,11 @@
 package com.deconstructors.krono.auth;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.ImageDecoder;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Base64;
@@ -25,7 +27,10 @@ import com.deconstructors.krono.utility.Helper;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,9 +48,11 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth AuthInstance;
     private AuthStateListener FirebaseAuthListener;
     private RegisterPage RegisterPage;
+    private FirebaseAnalytics Analytics;
 
     // Background
     private static final int FADE_DURATION = 4000;
+    public static final int ERROR_DIALOG_REQUEST = 9001;
     private CoordinatorLayout BackgroundLayout;
 
     // Layout Widgets
@@ -68,6 +75,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.setContents();
         this.startBGAnimation();
         this.setFirebaseAuth();
+        //this.Logout();
     }
 
     /************************************************************************
@@ -123,6 +131,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     {
         // Firebase
         this.AuthInstance = FirebaseAuth.getInstance();
+        this.Analytics = FirebaseAnalytics.getInstance(this);
 
         // Background & Layout Widgets
         this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
@@ -145,6 +154,33 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
         this.FacebookLogIn.setOnClickListener(this);
     }
+
+    /*private String getCurrentImageTitle()
+    {
+        int position = mViewPager.getCurrentItem();
+        ImageDecoder.ImageInfo info = IMAGE_INFOS[position];
+        return getString(info.title);
+    }
+
+    private String getCurrentImageId()
+    {
+        int position = mViewPager.getCurrentItem();
+        ImageDecoder.ImageInfo info = IMAGE_INFOS[position];
+        return getString(info.id);
+    }
+
+    private void recordImageView()
+    {
+        String id = getCurrentImageId();
+        String name = getCurrentImageTitle();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        this.Analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }*/
+
 
     /************************************************************************
      * Purpose:         Background Animation
@@ -246,9 +282,12 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             // Clicks
             case R.id.auth_googleLogIn:
             {
-                Helper.showProgressBar(this, this.ProgressBar);
-                Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
-                startActivityForResult(intent, LOGIN_ACTIVITY);
+                if (checkGoogleService())
+                {
+                    Helper.showProgressBar(this, this.ProgressBar);
+                    Intent intent = new Intent(WelcomePage.this, GoogleLoginPage.class);
+                    startActivityForResult(intent, LOGIN_ACTIVITY);
+                }
                 break;
             }
             case R.id.auth_facebookLogIn:
@@ -259,6 +298,38 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
                 break;
             }
         }
+    }
+
+    public boolean checkGoogleService()
+    {
+        Log.d(TAG, "checkGoogleService: checking google services version");
+
+        int available = GoogleApiAvailability
+                .getInstance()
+                .isGooglePlayServicesAvailable(this);
+
+        if(available == ConnectionResult.SUCCESS)
+        {
+            Log.d(TAG, "checkGoogleService: SUCCESS");
+            return true;
+        }
+        else if(GoogleApiAvailability
+                .getInstance()
+                .isUserResolvableError(available))
+        {
+            Log.d(TAG, "checkGoogleService: user resolvable error");
+            Dialog dialog = GoogleApiAvailability
+                    .getInstance()
+                    .getErrorDialog(this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }
+        else
+        {
+            Log.d(TAG, "checkGoogleService: failed");
+            Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                       "You can't make map requests");
+        }
+        return false;
     }
 
     @Override
@@ -282,7 +353,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             {
                 Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,
-                                           "Authentication Failed");
+                                           "Authentication Failed. Please check your internet connection.");
             }
         }
     }

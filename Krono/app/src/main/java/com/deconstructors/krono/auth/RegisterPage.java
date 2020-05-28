@@ -150,7 +150,7 @@ public class RegisterPage implements View.OnClickListener
         user.put("displayName", name);
         user.put("email", email);
         user.put("bio", "");
-        user.put("friends", new ArrayList<>());
+        user.put("friends", new HashMap<>());
 
         user.put("uid", uid);
         user.put("picture", this.ActivityInstance.getString(R.string.default_picture));
