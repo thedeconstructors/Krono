@@ -83,7 +83,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
 
         this.FBCBManager = CallbackManager.Factory.create();
 
-        this.FacebookLogIn.setPermissions(Arrays.asList("email", "public_profile"));
+        this.FacebookLogIn.setPermissions(Arrays.asList(getString(R.string.users_email), "public_profile"));
         this.FacebookLogIn.registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
         {
             @Override

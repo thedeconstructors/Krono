@@ -211,12 +211,12 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                         if (documentSnapshot != null)
                         {
                             NameTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("displayName")).toString());
+                                    documentSnapshot.get(getString(R.string.users_displayname))).toString());
                             EmailTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("email")).toString());
+                                    documentSnapshot.get(getString(R.string.users_email))).toString());
 
                             Object pic_url;
-                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                            if ((pic_url = documentSnapshot.get(getString(R.string.profilepicture))) == null) {
                                 pic_url = getString(R.string.profile_picture_url);
                             }
 

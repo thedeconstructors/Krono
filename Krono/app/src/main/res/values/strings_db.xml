@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <!-- 1. Authentication -->
+    <string name="facebook_app_id">249681212769545</string>
+
+    <!-- 2. Cloud Firestore Collection Names -->
+    <string name="collection_users">users</string>
+    <string name="collection_plans">plans</string>
+    <string name="collection_friends">friends</string>
+    <string name="collection_activities">activities</string>
+
+    <!-- Cloud FireStorage Paths -->
+    <string name="profilepicture">picture</string>
+    <string name="fs_profile_picture_path">profilepictures/</string>
+    <string name="png_extension">.png</string>
+    <string name="default_picture"
+        tools:ignore="TypographyDashes">
+        https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&amp;token=b9b5addc-e666-4aa5-ad3a-1682759b8e42
+    </string>
+    <string name="profile_picture_url">
+        <![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc–e666-4aa5-ad3a-1682759b8e42]]>
+    </string>
+
+    <!-- 2. Cloud Firestore Document Field Names -->
+    <string name="activities_activityID">activityID</string>
+    <string name="activities_description">description</string>
+    <string name="activities_duration">duration</string>
+    <string name="activities_geoAddr">geoAddr</string>
+    <string name="activities_geoName">geoName</string>
+    <string name="activities_geoPoint">geoPoint</string>
+    <string name="activities_ownerID">ownerID</string>
+    <string name="activities_planIDs">planIDs</string>
+    <string name="activities_timestamp">timestamp</string>
+    <string name="activities_title">title</string>
+
+    <string name="users_displayname">displayName</string>
+    <string name="users_bio">bio</string>
+    <string name="users_email">email</string>
+
+    <string name="plans_planIDs">planIDs</string>
+    <string name="plans_planID">planID</string>
+    <string name="plans_colab">collaborators</string>
+    <string name="plans_public">public</string>
+
+    <!-- 3. Notification field names -->
+    <string name="notification_uid">uid</string>
+    <string name="notification_displayname">displayName</string>
+
+    <!-- 4. User Interface Intents -->
+    <string name="intent_plans">intent_plans</string>
+    <string name="intent_editable">intent_editable</string>
+    <string name="intent_activity">intent_activity</string>
+    <string name="intent_friend">intent_friend</string>
+    <string name="intent_friendList">intent_friendList</string>
+    <string name="intent_location">location</string>
+
+    <!-- 5. Friends -->
+    <string name="default_total_plans">0</string>
+    <string name="friend_default_value">0</string>
+    <string name="friend_friendID">friendID</string>
+
+    <!-- 5. Functions -->
+    <string name="functions_push">push</string>
+    <string name="functions_deletefriend">deleteFriend</string>
+
+</resources>

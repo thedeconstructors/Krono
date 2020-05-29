@@ -2,11 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -14,14 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.module.Location;
-import com.deconstructors.krono.module.Plan;
 import com.deconstructors.krono.utility.Helper;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -143,16 +134,16 @@ public class MainPage_New implements View.OnClickListener,
 
             Map<String, Object> activity = new HashMap<>();
 
-            activity.put("ownerID", FirebaseAuth.getInstance().getUid());
-            activity.put("planID", ref.getId());
-            activity.put("title", this.TitleText.getText().toString());
+            activity.put(this.ActivityInstance.getString(R.string.activities_ownerID), FirebaseAuth.getInstance().getUid());
+            activity.put(this.ActivityInstance.getString(R.string.plans_planID), ref.getId());
+            activity.put(this.ActivityInstance.getString(R.string.activities_title), this.TitleText.getText().toString());
             if (!Helper.isEmpty(this.DescriptionText))
             {
-                activity.put("description", this.DescriptionText.getText().toString());
+                activity.put(this.ActivityInstance.getString(R.string.activities_description), this.DescriptionText.getText().toString());
             }
             else
             {
-                activity.put("description", "");
+                activity.put(this.ActivityInstance.getString(R.string.activities_description), "");
             }
             if (!this.DateButton.getText().toString().equals(this.ActivityInstance.getString(R.string.newactivity_timestamp)))
             {
@@ -179,13 +170,13 @@ public class MainPage_New implements View.OnClickListener,
                    @Override
                    public void onFailure(@NonNull Exception e)
                    {
-                       makeSnackbarMessage("Error: Could Not Add Activity");
+                       makeSnackbarMessage(MainPage_New.this.ActivityInstance.getString(R.string.error_newactivity_add));
                    }
                });
         }
         else
         {
-            makeSnackbarMessage("Must Enter All Text Fields");
+            makeSnackbarMessage(this.ActivityInstance.getString(R.string.error_newactivity_no_input));
         }
     }
 

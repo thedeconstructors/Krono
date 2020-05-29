@@ -38,7 +38,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.Calendar;
 import java.util.Map;
 
 public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener,
@@ -194,7 +193,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                               null,
                                                               this.TitleText.getText().toString());
 
-            activity.remove(getString(R.string.collection_planIDs));
+            activity.remove(getString(R.string.plans_planIDs));
 
             this.FirestoreDB
                     .collection(getString(R.string.collection_activities))

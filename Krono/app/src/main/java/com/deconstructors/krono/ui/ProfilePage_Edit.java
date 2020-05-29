@@ -149,15 +149,15 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                         if (documentSnapshot != null)
                         {
                             NameTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("displayName")).toString());
+                                    documentSnapshot.get(getString(R.string.users_displayname))).toString());
                             EmailTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("email")).toString());
+                                    documentSnapshot.get(getString(R.string.users_email))).toString());
                             BioTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("bio")).toString());
+                                    documentSnapshot.get(getString(R.string.users_bio))).toString());
                             //Load the users current profile picture
                             Picasso.get().load(
                                     Objects.requireNonNull(
-                                            documentSnapshot.get("picture")
+                                            documentSnapshot.get(getString(R.string.profilepicture))
                                     ).toString()
                             ).into(imageButtonElement);
                         }
@@ -219,16 +219,16 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
                         //Profile Data
                         Map<String, Object> profile = new HashMap<>();
 
-                        profile.put("displayName", NameTextView.getText().toString());
-                        profile.put("email", EmailTextView.getText().toString());
-                        profile.put("bio", BioTextView.getText().toString());
+                        profile.put(getString(R.string.users_displayname), NameTextView.getText().toString());
+                        profile.put(getString(R.string.users_email), EmailTextView.getText().toString());
+                        profile.put(getString(R.string.users_bio), BioTextView.getText().toString());
 
                         if (task.isSuccessful()) {
-                            profile.put("picture",
+                            profile.put(getString(R.string.profilepicture),
                                     Objects.requireNonNull(task.getResult()).toString());
 
                         } else {
-                            profile.put("picture", getString(R.string.default_picture));
+                            profile.put(getString(R.string.profilepicture), getString(R.string.default_picture));
                         }
 
                         setDataBase(profile);

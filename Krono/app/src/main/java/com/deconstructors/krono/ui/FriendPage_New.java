@@ -134,7 +134,7 @@ public class FriendPage_New implements View.OnClickListener
 
         this.DBInstance
                 .collection(this.ActivityInstance.getString(R.string.collection_users))
-                .whereEqualTo("email", email)
+                .whereEqualTo(this.ActivityInstance.getString(R.string.users_email), email)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                 {

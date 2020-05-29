@@ -107,9 +107,9 @@ public class AnonymousLoginPage implements View.OnClickListener
 
         Map<String, Object> user = new HashMap<>();
 
-        user.put("displayName", "Unknown");
-        user.put("email", "Unknown");
-        user.put("bio", "");
+        user.put(this.ActivityInstance.getString(R.string.users_displayname), "Unknown");
+        user.put(this.ActivityInstance.getString(R.string.users_email), "Unknown");
+        user.put(this.ActivityInstance.getString(R.string.users_bio), "");
         user.put("friendList", new ArrayList<>());
 
         ref.set(user)
