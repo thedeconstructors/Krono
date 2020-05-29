@@ -1,4 +1,4 @@
-<!-- Eng Lang -->
+<!-- English / Default -->
 <resources>
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
@@ -43,7 +43,6 @@
     <string name="profile_no_email">Email Not Found</string>
 
     <!-- 6. Plan -->
-    <string name="plan_menu">Activity Menu</string>
     <string name="plan_details">Plan Details</string>
     <string name="plan_new">New Plan</string>
     <string name="plan_title">Title</string>
@@ -124,5 +123,4 @@
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
     </string>
-
 </resources>

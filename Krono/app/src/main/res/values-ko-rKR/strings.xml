@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">시작</string>
+    <string name="auth_email">전자 메일</string>
+    <string name="auth_password">암호</string>
+    <string name="auth_passwordConfirm">암호 재확인</string>
+    <string name="auth_rememberMe">로그인 유지</string>
+    <string name="auth_forgotPassword">비밀번호를 잊으셨나요?</string>
+    <string name="auth_or">또는</string>
+    <string name="auth_signin">로그인</string>
+    <string name="auth_register">가입하기</string>
+    <string name="auth_anonymousSignIn">넘기기</string>
+    <string name="auth_back">뒤로</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">알림</string>
+    <string name="notif_listitem_accept">친구 추가</string>
+    <string name="notif_listitem_reject">삭제</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">모든 활동</string>
+    <string name="menu_friends">친구</string>
+    <string name="menu_collaborators">공유</string>
+    <string name="menu_profile">프로필</string>
+    <string name="menu_plan">새 목록</string>
+    <string name="menu_chat">메세지</string>
+    <string name="menu_searchButton">Search Button</string>
+    <string name="menu_settings">설정</string>
+    <string name="menu_myplans">내 목록</string>
+    <string name="menu_shared">공유된 목록</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">프로필</string>
+    <string name="navigation_displayNameText">이름을 입력하세요</string>
+    <string name="navigation_emailFieldText">전자 메일을 입력하세요</string>
+    <string name="profile_edit_biofield">자기소개</string>
+    <string name="profile_picture_text">내 사진</string>
+    <string name="profile_no_displayName">이름을 입력하세요</string>
+    <string name="profile_no_email">전자 메일을 입력하세요</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">목록 상세정보</string>
+    <string name="plan_new">새 목록</string>
+    <string name="plan_title">제목</string>
+    <string name="plan_description">내용</string>
+    <string name="plan_save">저장</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">새 활동</string>
+    <string name="newactivity_title">제목</string>
+    <string name="newactivity_description">내용</string>
+    <string name="newactivity_timestamp">기한 추가</string>
+    <string name="newactivity_duration">지속 시간 추가</string>
+    <string name="newactivity_location">장소 추가</string>
+    <string name="newactivity_repeat">반복</string>
+    <string name="newactivity_save">저장</string>
+    <string name="activitydetail_header">활동 편집하기</string>
+    <string name="activitydetail_headerViewOnly">활동 보기</string>
+    <string name="activitydetail_selectduration">지속 시간 추가</string>
+    <string name="activitydetail_hours">시간</string>
+    <string name="activitymap_myloc">내 위치</string>
+    <string name="activitymap_addloc">이 장소를 추가</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">전자 메일로 검색하기</string>
+    <string name="friendnew_done">검색</string>
+    <string name="friend_bio">자기소개</string>
+    <string name="friend_public">공공 목록</string>
+    <string name="friend_Shared">공유된 목록</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_activity">Activity Menu</string>
+    <string name="menu_friend">Friend Menu</string>
+    <string name="menu_FriendDetail">Friend Detail Menu</string>
+    <string name="menu_sortBy">정렬</string>
+    <string name="activity_menu_editPlan">목록 편집</string>
+    <string name="activity_menu_sortBy">정렬</string>
+    <string name="activity_menu_deletePlan">목록 삭제</string>
+    <string name="menu_activitydetail_editActivity">활동 편집</string>
+    <string name="menu_activitydetail_sortBy">정렬</string>
+    <string name="menu_activitydetail_deletePlan">활동 삭제</string>
+    <string name="Menu_FriendDetail_RemoveFriend">친구 삭제</string>
+    <string name="total_plans">모든 목록</string>
+    <string name="bio_hint">자기소개</string>
+    <string name="friends">친구</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">제목으로 찾기...</string>
+    <string name="search_namehint">이름으로 찾기...</string>
+
+    <!-- 11. Error Messages -->
+    <string name="error">에러</string>
+    <string name="error_okay">확인</string>
+
+    <string name="error_auth_failed">로그인에 실패하였습니다. 인터넷 연결을 확인하십시오.</string>
+    <string name="error_auth_google">Unable to connect to Google Service.</string>
+    <string name="error_register_allfields">Please fill in all the fields.</string>
+    <string name="error_register_passwordmatch">Please make sure your passwords match.</string>
+    <string name="error_register_addplan">Could Not Add New User. Please check internet connection.</string>
+    <string name="error_register_failed">Registration Failed. Please check internet connection.</string>
+
+    <string name="error_activity_noplan">Plan not found.</string>
+    <string name="error_activity_mapNotSelected">Location Not Selected.</string>
+    <string name="error_activity_editplan">This plan is not editable.</string>
+    <string name="error_activity_deleteplan">You cannot delete this plan.</string>
+
+    <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
+    <string name="error_newactivity_no_input">"Please Enter Title."</string>
+
+    <string name="error_friend_enteremail">Please enter an email</string>
+    <string name="error_friend_notfound">Email Not Found</string>
+    <string name="error_friend_search">Unable to search. Please check internet connection.</string>
+    <string name="error_friend_add">Unable to add a friend: </string>
+    <string name="error_friend_delete">Unable to delete a friend: </string>
+
+    <string name="error_profile_data">There was an error processing the profile data</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        Permission denied to access your current location.
+        Please go to the app info page and allow the location permission to use this feature.
+    </string>
+</resources>
