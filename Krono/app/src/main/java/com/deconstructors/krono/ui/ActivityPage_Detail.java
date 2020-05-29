@@ -125,7 +125,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             if (this.Activity.getDuration() != null)
             {
                 this.Duration = this.Activity.getDuration();
-                String tempDuration = this.Activity.getDuration().toString() + " Hours";
+                String tempDuration = this.Activity.getDuration().toString() + " " + getString(R.string.activitydetail_hours);
                 this.DurationText.setText(tempDuration);
             }
             if (this.Activity.getLocation() != null)

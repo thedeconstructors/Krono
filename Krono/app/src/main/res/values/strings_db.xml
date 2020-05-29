@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources
     xmlns:tools="http://schemas.android.com/tools"
-    >
+    tools:ignore="MissingTranslation">
+
     <!-- 1. Authentication -->
     <string name="facebook_app_id">249681212769545</string>
     <string name="facebook_profile_perm">public_profile</string>
@@ -39,6 +40,11 @@
     <string name="users_displayname">displayName</string>
     <string name="users_bio">bio</string>
     <string name="users_email">email</string>
+
+    <string name="menu_searchButton">Search Button</string>
+    <string name="menu_activity">Activity Menu</string>
+    <string name="menu_friend">Friend Menu</string>
+    <string name="menu_FriendDetail">Friend Detail Menu</string>
 
     <string name="plans_planIDs">planIDs</string>
     <string name="plans_planID">planID</string>
