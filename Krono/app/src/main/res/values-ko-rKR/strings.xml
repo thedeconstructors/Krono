@@ -88,8 +88,8 @@
     <string name="friends_title">친구</string>
 
     <!-- 10. Search Bar -->
-    <string name="search_titlehint">제목으로 찾기...</string>
-    <string name="search_namehint">이름으로 찾기...</string>
+    <string name="search_titlehint">제목으로 찾기</string>
+    <string name="search_namehint">이름으로 찾기</string>
 
     <!-- 11. Error Messages -->
     <string name="error">에러</string>
