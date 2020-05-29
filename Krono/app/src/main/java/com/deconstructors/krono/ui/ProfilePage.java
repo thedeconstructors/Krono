@@ -97,7 +97,7 @@ public class ProfilePage extends AppCompatActivity {
                 });
 
         DBInstance.collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", authInstance.getUid())
+                .whereEqualTo(getString(R.string.activities_ownerID), authInstance.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

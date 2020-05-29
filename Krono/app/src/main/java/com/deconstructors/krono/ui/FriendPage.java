@@ -78,7 +78,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
 
         MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint("Enter name...");
+        Search.setQueryHint(getString(R.string.search_namehint));
         Search.setOnQueryTextListener(this);
 
         return true;

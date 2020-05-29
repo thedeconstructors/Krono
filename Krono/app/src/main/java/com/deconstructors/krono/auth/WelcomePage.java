@@ -155,6 +155,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         this.FacebookLogIn.setOnClickListener(this);
     }
 
+    // For crash reports
     /*private String getCurrentImageTitle()
     {
         int position = mViewPager.getCurrentItem();
@@ -327,7 +328,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         {
             Log.d(TAG, "checkGoogleService: failed");
             Helper.makeSnackbarMessage(this.BackgroundLayout,
-                                       "You can't make map requests");
+                                       getString(R.string.error_auth_google));
         }
         return false;
     }
@@ -353,7 +354,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             {
                 Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,
-                                           "Authentication Failed. Please check your internet connection.");
+                                           getString(R.string.error_auth_failed));
             }
         }
     }

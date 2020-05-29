@@ -253,7 +253,7 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(),
-                        "There was an error processing the profile data",
+                        getString(R.string.error_profile_data),
                         Toast.LENGTH_SHORT).show();
 
                 findViewById(R.id.profiledetail_fab).setEnabled(true);

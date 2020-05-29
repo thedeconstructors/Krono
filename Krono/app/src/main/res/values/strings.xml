@@ -39,6 +39,8 @@
     <string name="navigation_emailFieldText">Email not found</string>
     <string name="profile_edit_biofield">Bio</string>
     <string name="profile_picture_text">Profile Picture</string>
+    <string name="profile_no_displayName">Display Name Not Found</string>
+    <string name="profile_no_email">Email Not Found</string>
 
     <!-- 6. Plan -->
     <string name="plan_menu">Activity Menu</string>
@@ -59,6 +61,8 @@
     <string name="newactivity_save">Save</string>
     <string name="activitydetail_header">Edit Activity</string>
     <string name="activitydetail_headerViewOnly">View Activity</string>
+    <string name="activitydetail_selectduration">Select Activity Duration</string>
+    <string name="activitydetail_hours">Hours</string>
     <string name="activitymap_myloc">My Location</string>
     <string name="activitymap_addloc">Add this Location</string>
 
@@ -86,12 +90,15 @@
     <string name="friends">Friends</string>
 
     <!-- 10. Search Bar -->
-    <string name="search_hint">Enter title...</string>
+    <string name="search_titlehint">Enter title...</string>
+    <string name="search_namehint">Enter name...</string>
 
     <!-- 11. Error Messages -->
     <string name="error">Error</string>
     <string name="error_okay">OK</string>
 
+    <string name="error_auth_failed">Login Failed. Please check internet connection.</string>
+    <string name="error_auth_google">Unable to connect to Google Service.</string>
     <string name="error_register_allfields">Please fill in all the fields.</string>
     <string name="error_register_passwordmatch">Please make sure your passwords match.</string>
     <string name="error_register_addplan">Could Not Add New User. Please check internet connection.</string>
@@ -105,7 +112,13 @@
     <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
     <string name="error_newactivity_no_input">"Please Enter Title."</string>
 
-    <string name="error_friend_delete">Friend Delete Error: </string>
+    <string name="error_friend_enteremail">Please enter an email</string>
+    <string name="error_friend_notfound">Email Not Found</string>
+    <string name="error_friend_search">Unable to search. Please check internet connection.</string>
+    <string name="error_friend_add">Unable to add a friend: </string>
+    <string name="error_friend_delete">Unable to delete a friend: </string>
+
+    <string name="error_profile_data">There was an error processing the profile data</string>
 
     <string name="error_activity_mapPermissionDenied">
         Permission denied to access your current location.

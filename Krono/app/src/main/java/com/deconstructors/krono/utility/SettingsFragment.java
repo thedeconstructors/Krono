@@ -22,7 +22,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void setUpSignOut()
     {
-        Preference signOutPref = findPreference("sign_out_button");
+        Preference signOutPref = findPreference(getString(R.string.settings_signout));
         assert signOutPref != null; //Check
         signOutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {

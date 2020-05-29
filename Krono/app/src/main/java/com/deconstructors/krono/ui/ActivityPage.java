@@ -137,7 +137,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         MenuItem searchItem = menu.findItem(R.id.activity_menu_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint(getString(R.string.search_hint));
+        Search.setQueryHint(getString(R.string.search_titlehint));
         Search.setOnQueryTextListener(this);
 
         return true;

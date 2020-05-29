@@ -4,6 +4,7 @@
     >
     <!-- 1. Authentication -->
     <string name="facebook_app_id">249681212769545</string>
+    <string name="facebook_profile_perm">public_profile</string>
 
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>
@@ -43,6 +44,8 @@
     <string name="plans_planID">planID</string>
     <string name="plans_colab">collaborators</string>
     <string name="plans_public">public</string>
+    <string name="plans_title">title</string>
+    <string name="plans_description">description</string>
 
     <!-- 3. Notification field names -->
     <string name="notification_uid">uid</string>
@@ -63,6 +66,10 @@
 
     <!-- 5. Functions -->
     <string name="functions_push">push</string>
+    <string name="functions_addfriend">addFriend</string>
     <string name="functions_deletefriend">deleteFriend</string>
+
+    <!-- 5. Settings -->
+    <string name="settings_signout">sign_out_button</string>
 
 </resources>

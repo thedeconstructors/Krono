@@ -138,6 +138,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                                  Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
                                  Intent returnIntent = new Intent();
 
+                                 // Return result success
                                  if(task.getResult().getAdditionalUserInfo().isNewUser())
                                  {
                                      setResult(Activity.RESULT_FIRST_USER, returnIntent);
@@ -151,6 +152,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                              }
                              else
                              {
+                                 // Return result failure
                                  Log.w(TAG, "firebaseAuthWithGoogle: ", task.getException());
                                  Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
 
@@ -164,7 +166,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
 
     /************************************************************************
      * Purpose:         Button Click Listener
-     * Precondition:    This is necessary
+     * Precondition:    This is necessary for some reason
      * Postcondition:   .
      ************************************************************************/
     @Override

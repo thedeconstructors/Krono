@@ -281,7 +281,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private void showNumberPicker()
     {
         final Dialog npd = new Dialog(this);
-        npd.setTitle("Select Activity Duration");
+        npd.setTitle(getString(R.string.activitydetail_selectduration));
         npd.setContentView(R.layout.activity_npd);
 
         final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
@@ -296,7 +296,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             public void onClick(View v)
             {
                 Duration = np.getValue();
-                String durationtext = np.getValue() + " Hours";
+                String durationtext = np.getValue() + " " + getString(R.string.activitydetail_hours);
                 DurationText.setText(durationtext);
                 npd.dismiss();
             }

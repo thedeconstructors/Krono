@@ -91,8 +91,8 @@ public class MainPage_Detail extends AppCompatActivity
         {
             Map<String, Object> plan = new HashMap<>();
 
-            plan.put("title", this.Title.getText().toString());
-            plan.put("description", this.Description.getText().toString());
+            plan.put(getString(R.string.plans_title), this.Title.getText().toString());
+            plan.put(getString(R.string.plans_description), this.Description.getText().toString());
 
             FirestoreDB.collection(getString(R.string.collection_plans))
                        .document(this.Plan.getPlanID())

@@ -91,7 +91,7 @@ public class AnonymousLoginPage implements View.OnClickListener
                            {
                                Log.d(TAG, "onAnonymousSignInClick: failed");
                                Helper.makeSnackbarMessage(AnonymousLoginPage.this.BackgroundLayout,
-                                                          "Authentication Failed");
+                                                          AnonymousLoginPage.this.ActivityInstance.getString(R.string.error_auth_failed));
                                Helper.hideProgressBar(AnonymousLoginPage.this.ActivityInstance,
                                                       AnonymousLoginPage.this.ProgressBar);
                            }
@@ -107,10 +107,10 @@ public class AnonymousLoginPage implements View.OnClickListener
 
         Map<String, Object> user = new HashMap<>();
 
-        user.put(this.ActivityInstance.getString(R.string.users_displayname), "Unknown");
-        user.put(this.ActivityInstance.getString(R.string.users_email), "Unknown");
+        user.put(this.ActivityInstance.getString(R.string.users_displayname), this.ActivityInstance.getString(R.string.profile_no_displayName));
+        user.put(this.ActivityInstance.getString(R.string.users_email), this.ActivityInstance.getString(R.string.profile_no_email));
         user.put(this.ActivityInstance.getString(R.string.users_bio), "");
-        user.put("friendList", new ArrayList<>());
+        user.put(this.ActivityInstance.getString(R.string.friends), new HashMap<>());
 
         ref.set(user)
            .addOnFailureListener(new OnFailureListener()
@@ -119,7 +119,7 @@ public class AnonymousLoginPage implements View.OnClickListener
                public void onFailure(@NonNull Exception e)
                {
                    Helper.makeSnackbarMessage(AnonymousLoginPage.this.BackgroundLayout,
-                                              "Error: Could Not Add New User");
+                                              AnonymousLoginPage.this.ActivityInstance.getString(R.string.error_register_failed));
                }
            });
     }
