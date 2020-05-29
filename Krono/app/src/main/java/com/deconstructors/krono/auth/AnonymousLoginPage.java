@@ -15,7 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +110,7 @@ public class AnonymousLoginPage implements View.OnClickListener
         user.put(this.ActivityInstance.getString(R.string.users_displayname), this.ActivityInstance.getString(R.string.profile_no_displayName));
         user.put(this.ActivityInstance.getString(R.string.users_email), this.ActivityInstance.getString(R.string.profile_no_email));
         user.put(this.ActivityInstance.getString(R.string.users_bio), "");
-        user.put(this.ActivityInstance.getString(R.string.friends), new HashMap<>());
+        user.put(this.ActivityInstance.getString(R.string.friends_title), new HashMap<>());
 
         ref.set(user)
            .addOnFailureListener(new OnFailureListener()

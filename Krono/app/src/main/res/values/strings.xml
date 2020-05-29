@@ -84,7 +84,7 @@
     <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
     <string name="total_plans">Total Plans</string>
     <string name="bio_hint">Bio</string>
-    <string name="friends">Friends</string>
+    <string name="friends_title">Friends</string>
 
     <!-- 10. Search Bar -->
     <string name="search_titlehint">Enter title...</string>

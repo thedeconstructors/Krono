@@ -66,6 +66,7 @@
     <string name="intent_location">location</string>
 
     <!-- 5. Friends -->
+    <string name="friends">friends</string>
     <string name="default_total_plans">0</string>
     <string name="friend_default_value">0</string>
     <string name="friend_friendID">friendID</string>

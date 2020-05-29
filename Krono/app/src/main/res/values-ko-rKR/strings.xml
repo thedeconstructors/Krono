@@ -84,7 +84,7 @@
     <string name="Menu_FriendDetail_RemoveFriend">친구 삭제</string>
     <string name="total_plans">모든 목록</string>
     <string name="bio_hint">자기소개</string>
-    <string name="friends">친구</string>
+    <string name="friends_title">친구</string>
 
     <!-- 10. Search Bar -->
     <string name="search_titlehint">제목으로 찾기...</string>
