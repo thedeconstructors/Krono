@@ -61,7 +61,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private LinearLayout RegisterLayout;
     private TextView BackButton;
     private TextView SkipButton;
-    private SignInButton GoogleLogIn;
+    private Button GoogleLogIn;
     private LoginButton FacebookLogIn;
     private ProgressBar ProgressBar;
 

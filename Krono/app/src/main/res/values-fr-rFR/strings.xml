@@ -14,8 +14,9 @@
     <string name="auth_or">Ou encore,</string>
     <string name="auth_signin">Se Connecter</string>
     <string name="auth_register">Registre</string>
-    <string name="auth_anonymousSignIn">Skip</string>
+    <string name="auth_anonymousSignIn">Passer</string>
     <string name="auth_back">En arrière</string>
+    <string name="auth_googlesignin">Signin Google et</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
@@ -35,51 +36,51 @@
 
     <!-- 5. Profile -->
     <string name="navigation_profileText">Profil</string>
-    <string name="navigation_displayNameText">Display Name</string>
-    <string name="navigation_emailFieldText">Email not found</string>
+    <string name="navigation_displayNameText">Nom</string>
+    <string name="navigation_emailFieldText">Courriel introuvable</string>
     <string name="profile_edit_biofield">Bio</string>
-    <string name="profile_picture_text">Profile Picture</string>
-    <string name="profile_no_displayName">Display Name Not Found</string>
-    <string name="profile_no_email">Email Not Found</string>
+    <string name="profile_picture_text">Photo de profil</string>
+    <string name="profile_no_displayName">Nom de l\'affichage introuvable</string>
+    <string name="profile_no_email">Courriel introuvable</string>
 
     <!-- 6. Plan -->
-    <string name="plan_details">Plan Details</string>
-    <string name="plan_new">New Plan</string>
-    <string name="plan_title">Title</string>
+    <string name="plan_details">Plan Détails</string>
+    <string name="plan_new">Nouveau plan</string>
+    <string name="plan_title">Titre</string>
     <string name="plan_description">Description</string>
-    <string name="plan_save">Save</string>
+    <string name="plan_save">Économies</string>
 
     <!-- 7. Activity -->
-    <string name="newactivity_header">New Activity</string>
-    <string name="newactivity_title">Title</string>
+    <string name="newactivity_header">Nouvelle activité</string>
+    <string name="newactivity_title">Titre</string>
     <string name="newactivity_description">Description</string>
-    <string name="newactivity_timestamp">Pick a date</string>
-    <string name="newactivity_duration">Duration</string>
-    <string name="newactivity_location">Add Location</string>
-    <string name="newactivity_repeat">Repeat</string>
-    <string name="newactivity_save">Save</string>
-    <string name="activitydetail_header">Edit Activity</string>
-    <string name="activitydetail_headerViewOnly">View Activity</string>
-    <string name="activitydetail_selectduration">Select Activity Duration</string>
+    <string name="newactivity_timestamp">Choisir une date</string>
+    <string name="newactivity_duration">Durée</string>
+    <string name="newactivity_location">Ajouter l\'emplacement</string>
+    <string name="newactivity_repeat">Répéter</string>
+    <string name="newactivity_save">Économies</string>
+    <string name="activitydetail_header">Détails de l’activité</string>
+    <string name="activitydetail_headerViewOnly">Voir l\'activité</string>
+    <string name="activitydetail_selectduration">Choisir la durée de l\'activité</string>
     <string name="activitydetail_hours">Heures</string>
-    <string name="activitydetail_cancel">Cancel</string>
-    <string name="activitydetail_done">Done</string>
-    <string name="activitymap_myloc">My Location</string>
-    <string name="activitymap_addloc">Add this Location</string>
+    <string name="activitydetail_cancel">Annuler</string>
+    <string name="activitydetail_done">Fait</string>
+    <string name="activitymap_myloc">Mon lieu</string>
+    <string name="activitymap_addloc">Ajouter cet emplacement</string>
 
     <!-- 8. Friend -->
-    <string name="friendnew_hint">Search By Email</string>
-    <string name="friendnew_done">Search</string>
+    <string name="friendnew_hint">Recherche par courriel</string>
+    <string name="friendnew_done">Recherche</string>
     <string name="friend_bio">Bio</string>
     <string name="friend_public">Public</string>
-    <string name="friend_Shared">Shared</string>
+    <string name="friend_Shared">Partage</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">Trier par</string>
-    <string name="activity_menu_editPlan">Edit Plan</string>
-    <string name="activity_menu_sortBy">Sort By</string>
-    <string name="activity_menu_deletePlan">Delete Plan</string>
-    <string name="menu_activitydetail_editActivity">Edit Activity</string>
+    <string name="activity_menu_editPlan">Plan de révision</string>
+    <string name="activity_menu_sortBy">Trier par</string>
+    <string name="activity_menu_deletePlan">Supprimer Plan</string>
+    <string name="menu_activitydetail_editActivity">Activité de révision</string>
     <string name="menu_activitydetail_sortBy">Trier par</string>
     <string name="menu_activitydetail_deletePlan">Supprimer Activité</string>
     <string name="Menu_FriendDetail_RemoveFriend">Retirer de la liste d\'amis</string>
@@ -120,6 +121,6 @@
 
     <string name="error_activity_mapPermissionDenied">
         Permission refusée d\'accéder à votre emplacement actuel.
-        Veuillez vous rendre à la page info de l'application et autoriser l'emplacement à utiliser cette fonctionnalité.
+        Veuillez vous rendre à la page info de l\'application et autoriser l\'emplacement à utiliser cette fonctionnalité.
     </string>
 </resources>

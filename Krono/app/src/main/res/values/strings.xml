@@ -5,7 +5,7 @@
     <string name="app_name">Krono</string>
 
     <!-- 2. Auth -->
-    <string name="auth_welcome">Welcome</string>
+    <string name="auth_welcome">Start</string>
     <string name="auth_email">Email</string>
     <string name="auth_password">Password</string>
     <string name="auth_passwordConfirm">Confirm Password</string>
@@ -16,6 +16,7 @@
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
+    <string name="auth_googlesignin">Signin with Google</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
@@ -58,7 +59,7 @@
     <string name="newactivity_location">Add Location</string>
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>
-    <string name="activitydetail_header">Edit Activity</string>
+    <string name="activitydetail_header">Activity Details</string>
     <string name="activitydetail_headerViewOnly">View Activity</string>
     <string name="activitydetail_selectduration">Select Activity Duration</string>
     <string name="activitydetail_hours">Hours</string>

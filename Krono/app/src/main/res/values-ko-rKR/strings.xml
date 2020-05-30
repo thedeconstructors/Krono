@@ -16,6 +16,7 @@
     <string name="auth_register">가입하기</string>
     <string name="auth_anonymousSignIn">넘기기</string>
     <string name="auth_back">뒤로</string>
+    <string name="auth_googlesignin">구글로 로그인</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">알림</string>
@@ -58,7 +59,7 @@
     <string name="newactivity_location">장소 추가</string>
     <string name="newactivity_repeat">반복</string>
     <string name="newactivity_save">저장</string>
-    <string name="activitydetail_header">활동 편집하기</string>
+    <string name="activitydetail_header">활동 정보</string>
     <string name="activitydetail_headerViewOnly">활동 보기</string>
     <string name="activitydetail_selectduration">지속 시간 추가</string>
     <string name="activitydetail_hours">시간</string>

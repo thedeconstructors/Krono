@@ -37,7 +37,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
     private static final int RC_SIGN_IN = 9001;
 
     // XML Widgets
-    private SignInButton GoogleLogIn;
+    private Button GoogleLogIn;
     private ProgressBar ProgressBar;
 
     // Database

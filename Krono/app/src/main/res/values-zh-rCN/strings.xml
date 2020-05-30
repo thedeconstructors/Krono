@@ -16,6 +16,7 @@
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
+    <string name="auth_googlesignin">Signin with Google</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
