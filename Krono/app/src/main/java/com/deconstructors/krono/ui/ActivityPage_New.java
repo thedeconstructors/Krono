@@ -27,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
 import java.util.Map;
 
 public class ActivityPage_New implements View.OnClickListener
@@ -55,17 +54,11 @@ public class ActivityPage_New implements View.OnClickListener
     private Integer Duration;
     private FirebaseFirestore DBInstance;
 
-    public ActivityPage_New(Activity instance)
-    {
-        this.ActivityInstance = instance;
-        this.Location = new Location("", "", new LatLng(0, 0));
-        setContents();
-    }
-
     public ActivityPage_New(Activity instance, Plan plan)
     {
         this.ActivityInstance = instance;
         this.Plan = plan;
+        this.Duration = 0;
         this.Location = new Location("", "", new LatLng(0, 0));
         setContents();
     }
@@ -173,14 +166,14 @@ public class ActivityPage_New implements View.OnClickListener
                    @Override
                    public void onFailure(@NonNull Exception e)
                    {
-                       ActivityPage_New.this.makeBottomSheetSnackbarMessage(
-                               "Error: Could Not Add Activity");
+                       ActivityPage_New.this.makeBottomSheetMessage(
+                               ActivityPage_New.this.ActivityInstance.getString(R.string.error_newactivity_add));
                    }
                });
         }
         else
         {
-            this.makeBottomSheetSnackbarMessage("Please Enter a Title");
+            this.makeBottomSheetMessage(this.ActivityInstance.getString(R.string.error_newactivity_no_input));
         }
     }
 
@@ -250,7 +243,7 @@ public class ActivityPage_New implements View.OnClickListener
     private void showNumberPicker()
     {
         final Dialog npd = new Dialog(this.ActivityInstance);
-        npd.setTitle("Select Activity Duration");
+        npd.setTitle(this.ActivityInstance.getString(R.string.activitydetail_selectduration));
         npd.setContentView(R.layout.activity_npd);
 
         final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
@@ -265,7 +258,7 @@ public class ActivityPage_New implements View.OnClickListener
             public void onClick(View v)
             {
                 ActivityPage_New.this.Duration = np.getValue();
-                String durationtext = np.getValue() + " Hours";
+                String durationtext = np.getValue() + " " + ActivityPage_New.this.ActivityInstance.getString(R.string.activitydetail_hours);
                 ActivityPage_New.this.DurationButton.setText(durationtext);
                 npd.dismiss();
             }
@@ -303,7 +296,7 @@ public class ActivityPage_New implements View.OnClickListener
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void makeBottomSheetSnackbarMessage(String text)
+    private void makeBottomSheetMessage(String text)
     {
         Snackbar snackbar = Snackbar.make(this.ActivityInstance.findViewById(R.id.ActivityPageNew_BottomSheet),
                                           text,

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- English / Default -->
+<!-- Japanese -->
 <resources>
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
 
     <!-- 2. Auth -->
-    <string name="auth_welcome">Start</string>
+    <string name="auth_welcome">Welcome</string>
     <string name="auth_email">Email</string>
     <string name="auth_password">Password</string>
     <string name="auth_passwordConfirm">Confirm Password</string>
@@ -16,7 +16,7 @@
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
-    <string name="auth_googlesignin">Continue with Google</string>
+    <string name="auth_googlesignin">Signin with Google</string>
     <string name="auth_facebooksignin">Continue with Facebook</string>
 
     <!-- 3. Notifications -->
@@ -30,7 +30,7 @@
     <string name="menu_collaborators">Collaborators</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_plan">New Plan</string>
-    <string name="menu_chat">Messages</string>
+    <string name="menu_chat">Chats</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_myplans">My Plans</string>
     <string name="menu_shared">Shared With Me</string>
@@ -60,7 +60,7 @@
     <string name="newactivity_location">Add Location</string>
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>
-    <string name="activitydetail_header">Activity Details</string>
+    <string name="activitydetail_header">Edit Activity</string>
     <string name="activitydetail_headerViewOnly">View Activity</string>
     <string name="activitydetail_selectduration">Select Activity Duration</string>
     <string name="activitydetail_hours">Hours</string>
@@ -90,8 +90,8 @@
     <string name="friends_title">Friends</string>
 
     <!-- 10. Search Bar -->
-    <string name="search_titlehint">Search by title</string>
-    <string name="search_namehint">Search by name</string>
+    <string name="search_titlehint">Enter title...</string>
+    <string name="search_namehint">Enter name...</string>
 
     <!-- 11. Error Messages -->
     <string name="error">Error</string>

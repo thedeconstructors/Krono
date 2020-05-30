@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German -->
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">Start</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Passwort</string>
+    <string name="auth_passwordConfirm">Passwort bestätigen</string>
+    <string name="auth_rememberMe">Erinnerst du dich an mich</string>
+    <string name="auth_forgotPassword">Passwort vergessen</string>
+    <string name="auth_or">Oder</string>
+    <string name="auth_signin">Anmelden</string>
+    <string name="auth_register">Registrieren</string>
+    <string name="auth_anonymousSignIn">Überspringen</string>
+    <string name="auth_back">Zurück</string>
+    <string name="auth_googlesignin">Fahren Sie mit Google fort</string>
+    <string name="auth_facebooksignin">Fahren Sie mit Facebook fort</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">Benachrichtigung</string>
+    <string name="notif_listitem_accept">Akzeptieren</string>
+    <string name="notif_listitem_reject">Ablehnen</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">Alle Aktivitäten</string>
+    <string name="menu_friends">Freunde</string> <!-- this one is gender-specific, but more commonly used -->
+    <string name="menu_collaborators">Mitarbeiter</string> <!-- this one is gender-specific, but more commonly used -->
+    <string name="menu_profile">Profil</string>
+    <string name="menu_plan">Neuer Plan</string>
+    <string name="menu_chat">Nachricht</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_myplans">Meine Pläne</string>
+    <string name="menu_shared">Mit mir geteilt</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">Profil</string>
+    <string name="navigation_displayNameText">Name</string>
+    <string name="navigation_emailFieldText">Email wurde nicht gefunden</string>
+    <string name="profile_edit_biofield">Bio</string>
+    <string name="profile_picture_text">Profilbild</string>
+    <string name="profile_no_displayName">Name nicht gefunden</string>
+    <string name="profile_no_email">Email wurde nicht gefunden</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">Planen Sie Details</string>
+    <string name="plan_new">Neuer Plan</string>
+    <string name="plan_title">Titel</string>
+    <string name="plan_description">Beschreibung</string>
+    <string name="plan_save">Speichern</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">Neue Aktivität</string>
+    <string name="newactivity_title">Titel</string>
+    <string name="newactivity_description">Beschreibung</string>
+    <string name="newactivity_timestamp">Datum Auswählen</string>
+    <string name="newactivity_duration">Dauer</string>
+    <string name="newactivity_location">Ort hinzufügen</string>
+    <string name="newactivity_repeat">Wiederholen</string>
+    <string name="newactivity_save">Speichern</string>
+    <string name="activitydetail_header">Aktivitätsdetails</string>
+    <string name="activitydetail_headerViewOnly">Aktivität Anzeigen</string>
+    <string name="activitydetail_selectduration">Aktivitätsdauer Auswählen</string>
+    <string name="activitydetail_hours">Stunden</string>
+    <string name="activitydetail_cancel">Absagen</string>
+    <string name="activitydetail_done">Erledigt</string>
+    <string name="activitymap_myloc">Mein Standort</string>
+    <string name="activitymap_addloc">Diese Position hinzufügen</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">Suche per Email</string>
+    <string name="friendnew_done">Suche</string>
+    <string name="friend_bio">Bio</string>
+    <string name="friend_public">Öffentlichkeit</string>
+    <string name="friend_Shared">Geteilt</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_sortBy">Sortiere nach</string>
+    <string name="activity_menu_editPlan">Plan Bearbeiten</string>
+    <string name="activity_menu_sortBy">Sortiere Nach</string>
+    <string name="activity_menu_deletePlan">Plan Löschen</string>
+    <string name="menu_activitydetail_editActivity">Aktivität bearbeiten</string>
+    <string name="menu_activitydetail_sortBy">Sortiere Nach</string>
+    <string name="menu_activitydetail_deletePlan">Aktivität Löschen</string>
+    <string name="Menu_FriendDetail_RemoveFriend">Freund Löschen</string>
+    <string name="total_plans">Gesamtpläne</string>
+    <string name="bio_hint">Bio</string>
+    <string name="friends_title">Freunde</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">Suche nach Titel</string>
+    <string name="search_namehint">Suche mit Name</string>
+
+    <!-- 11. Error Messages -->
+    <string name="error">Error</string>
+    <string name="error_okay">OK</string>
+
+    <string name="error_auth_failed">Login fehlgeschlagen. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_auth_google">Es kann keine Verbindung zum Google Play Service hergestellt werden.</string>
+    <string name="error_register_allfields">Bitte füllen Sie alle Felder aus.</string>
+    <string name="error_register_passwordmatch">Bitte stellen Sie sicher, dass Ihre Kennwörter übereinstimmen.</string>
+    <string name="error_register_addplan">Neuer Benutzer konnte nicht hinzugefügt werden. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_register_failed">Registrierung fehlgeschlagen. Bitte überprüfen Sie die Internetverbindung.</string>
+
+    <string name="error_activity_noplan">Plan nicht gefunden.</string>
+    <string name="error_activity_mapNotSelected">Standort nicht ausgewählt.</string>
+    <string name="error_activity_editplan">Dieser Plan kann nicht bearbeitet werden.</string>
+    <string name="error_activity_deleteplan">Sie können diesen Plan nicht löschen.</string>
+
+    <string name="error_newactivity_add">Neue Aktivität konnte nicht hinzugefügt werden. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_newactivity_no_input">Bitte geben Sie den Titel ein.</string>
+
+    <string name="error_friend_enteremail">Bitte geben Sie eine email ein</string>
+    <string name="error_friend_notfound">Email wurde nicht gefunden</string>
+    <string name="error_friend_search">Suche nicht möglich. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_friend_add">Freund kann nicht hinzugefügt werden: </string>
+    <string name="error_friend_delete">Ein Freund kann nicht gelöscht werden: </string>
+
+    <string name="error_profile_data">Beim Verarbeiten der Profildaten ist ein Fehler aufgetreten</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        Die Berechtigung zum Zugriff auf Ihren aktuellen Standort wurde verweigert.
+        Bitte gehen Sie zur App-Infoseite und erlauben Sie der Standortberechtigung, diese Funktion zu verwenden.
+    </string>
+</resources>

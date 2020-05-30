@@ -11,18 +11,12 @@ import android.widget.ProgressBar;
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.module.Location;
 import com.deconstructors.krono.module.Plan;
-import com.deconstructors.krono.module.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /************************************************************************
@@ -75,11 +69,11 @@ public class Helper
         activity.put(instance.getString(R.string.activities_ownerID), FirebaseAuth.getInstance().getUid());
         if (plan != null)
         {
-            activity.put(instance.getString(R.string.collection_planIDs), Collections.singletonList(plan.getPlanID()));
+            activity.put(instance.getString(R.string.plans_planIDs), Collections.singletonList(plan.getPlanID()));
         }
         else
         {
-            activity.put(instance.getString(R.string.collection_planIDs), Collections.emptyList());
+            activity.put(instance.getString(R.string.plans_planIDs), Collections.emptyList());
         }
         activity.put(instance.getString(R.string.activities_title), title);
 

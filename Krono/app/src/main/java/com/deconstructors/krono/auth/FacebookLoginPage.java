@@ -37,7 +37,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     private static final String TAG = "FacebookLoginPage";
 
     // XML Widgets
-    private LoginButton FacebookLogIn;
+    private Button FacebookLogIn;
     private ProgressBar ProgressBar;
 
     // Database
@@ -48,27 +48,12 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(this);
-        setContentView(R.layout.auth_welcome);
-
-        this.setContents();
+        // These functions are in the right order
+        // I hate facebook
         this.FacebookLogIn();
-    }
-
-    /************************************************************************
-     * Purpose:         Contents
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void setContents()
-    {
-        // Database
-        this.AuthInstance = FirebaseAuth.getInstance();
-
-        // Base Widgets
-        this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
-        this.FacebookLogIn.setOnClickListener(this);
-        this.ProgressBar = findViewById(R.id.auth_progressBar);
+        setContentView(R.layout.auth_welcome);
+        this.setContents();
+        this.LogIn();
     }
 
     /************************************************************************
@@ -79,12 +64,12 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     public void FacebookLogIn()
     {
         // Initialize Facebook Login button
-        Helper.showProgressBar(this, this.ProgressBar);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         this.FBCBManager = CallbackManager.Factory.create();
 
-        this.FacebookLogIn.setPermissions(Arrays.asList("email", "public_profile"));
-        this.FacebookLogIn.registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
+        //this.FacebookLogIn.setPermissions(Arrays.asList(getString(R.string.users_email), getString(R.string.facebook_profile_perm)));
+        LoginManager.getInstance().registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
         {
             @Override
             public void onSuccess(LoginResult loginResult)
@@ -108,6 +93,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
             public void onError(FacebookException error)
             {
                 Log.d(TAG, "facebook: onError: ", error);
+                LoginManager.getInstance().logOut();
                 Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
 
                 Intent returnIntent = new Intent();
@@ -115,6 +101,23 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                 finish();
             }
         });
+    }
+
+    /************************************************************************
+     * Purpose:         Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Database
+        this.AuthInstance = FirebaseAuth.getInstance();
+
+        // Base Widgets
+        this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
+        this.FacebookLogIn.setOnClickListener(this);
+        this.ProgressBar = findViewById(R.id.auth_progressBar);
+        Helper.showProgressBar(this, this.ProgressBar);
     }
 
     @Override
@@ -141,7 +144,6 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                      Log.d(TAG, "signInWithCredential: success");
 
                                      // Sign in success, update UI with the signed-in user's information
-                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
                                      Intent returnIntent = new Intent();
 
                                      if(task.getResult().getAdditionalUserInfo().isNewUser())
@@ -153,6 +155,8 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                          setResult(Activity.RESULT_OK, returnIntent);
                                      }
 
+                                     Helper.hideProgressBar(FacebookLoginPage.this,
+                                                            FacebookLoginPage.this.ProgressBar);
                                      finish();
                                  }
                                  else
@@ -167,6 +171,17 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                  }
                              }
                          });
+    }
+
+    /************************************************************************
+     * Purpose:         Initiate Google Log In Intent
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void LogIn()
+    {
+        LoginManager.getInstance().logInWithReadPermissions(FacebookLoginPage.this,
+                                                            Arrays.asList("public_profile", "email"));
     }
 
     @Override
