@@ -65,10 +65,8 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     {
         // Initialize Facebook Login button
         FacebookSdk.sdkInitialize(this.getApplicationContext());
-
         this.FBCBManager = CallbackManager.Factory.create();
 
-        //this.FacebookLogIn.setPermissions(Arrays.asList(getString(R.string.users_email), getString(R.string.facebook_profile_perm)));
         LoginManager.getInstance().registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
         {
             @Override
@@ -82,23 +80,29 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
             public void onCancel()
             {
                 Log.d(TAG, "facebook: onCancel");
-                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
+
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
             }
 
             @Override
             public void onError(FacebookException error)
             {
                 Log.d(TAG, "facebook: onError: ", error);
-                LoginManager.getInstance().logOut();
-                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+
+                if (AccessToken.getCurrentAccessToken() != null)
+                {
+                    LoginManager.getInstance().logOut();
+                }
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
+
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
             }
         });
     }
@@ -155,19 +159,20 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                          setResult(Activity.RESULT_OK, returnIntent);
                                      }
 
+                                     finish();
+
                                      Helper.hideProgressBar(FacebookLoginPage.this,
                                                             FacebookLoginPage.this.ProgressBar);
-                                     finish();
                                  }
                                  else
                                  {
                                      // If sign in fails, display a message to the user.
                                      Log.w(TAG, "signInWithFacebookCredential: ", task.getException());
-                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
-
                                      Intent returnIntent = new Intent();
                                      setResult(Activity.RESULT_CANCELED, returnIntent);
                                      finish();
+
+                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
                                  }
                              }
                          });
