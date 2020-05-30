@@ -109,7 +109,6 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
             vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-
                     imageButtonElement.setImageBitmap(
                             Bitmap.createScaledBitmap(data_bitmap,
                                     imageButtonElement.getWidth(),
