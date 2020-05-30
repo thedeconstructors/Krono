@@ -62,7 +62,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
     private TextView BackButton;
     private TextView SkipButton;
     private Button GoogleLogIn;
-    private LoginButton FacebookLogIn;
+    private Button FacebookLogIn;
     private ProgressBar ProgressBar;
 
     @Override

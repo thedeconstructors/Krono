@@ -135,7 +135,6 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                          {
                              if (task.isSuccessful())
                              {
-                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
                                  Intent returnIntent = new Intent();
 
                                  // Return result success
@@ -148,6 +147,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                                      setResult(Activity.RESULT_OK, returnIntent);
                                  }
 
+                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
                                  finish();
                              }
                              else

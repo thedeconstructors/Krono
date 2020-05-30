@@ -144,7 +144,8 @@ public class RegisterPage implements View.OnClickListener
         Map<String, Object> user = new HashMap<>();
 
         user.put(this.ActivityInstance.getString(R.string.users_displayname), name);
-        user.put(this.ActivityInstance.getString(R.string.users_email), email);
+        if (email != null) { user.put(this.ActivityInstance.getString(R.string.users_email), email); }
+        else { user.put(this.ActivityInstance.getString(R.string.users_email), "");}
         user.put(this.ActivityInstance.getString(R.string.users_bio), "");
         user.put(this.ActivityInstance.getString(R.string.friends), new HashMap<>());
 

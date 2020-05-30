@@ -84,4 +84,10 @@
     <style name="NumberPickerText">
         <item name="android:textSize">22sp</item>
     </style>
+
+    <!-- Facebook Login Button -->
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/auth_buttonborder</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
 </resources>

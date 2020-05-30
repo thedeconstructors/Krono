@@ -17,6 +17,7 @@
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
     <string name="auth_googlesignin">Signin with Google</string>
+    <string name="auth_facebooksignin">Continue with Facebook</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
