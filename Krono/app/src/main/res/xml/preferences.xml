@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <!-- Start of Not used / Example
     <PreferenceCategory
         android:title="Most Used">
 
@@ -22,6 +23,7 @@
             android:summary="People other than friends can see you on the map."
             android:icon="@drawable/ui_friend_emptyprofile"/>
     </PreferenceCategory>
+    End Example / Not used-->
 
     <PreferenceCategory
         android:title="Sign Out">

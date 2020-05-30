@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -79,11 +80,14 @@ public class ProfilePage extends AppCompatActivity {
                             EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
                             BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
 
-                            Map<String, Boolean> friendMap = 
-                                    (Map<String, Boolean>)documentSnapshot.get("friends");
-
-                            if (friendMap != null) {
-                                NumberOfFriends.setText(String.valueOf(friendMap.size()));
+                            try {
+                                Map<String, Boolean> friendMap =
+                                        (Map<String, Boolean>) documentSnapshot.get("friends");
+                                if (friendMap != null) {
+                                    NumberOfFriends.setText(String.valueOf(friendMap.size()));
+                                }
+                            } catch (Exception innner) {
+                                NumberOfFriends.setText(String.valueOf(0));
                             }
 
                             Object pic_url;
