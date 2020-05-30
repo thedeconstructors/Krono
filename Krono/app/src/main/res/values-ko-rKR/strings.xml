@@ -16,8 +16,8 @@
     <string name="auth_register">가입하기</string>
     <string name="auth_anonymousSignIn">넘기기</string>
     <string name="auth_back">뒤로</string>
-    <string name="auth_googlesignin">구글로 계속</string>
-    <string name="auth_facebooksignin">페이스북으로 계속</string>
+    <string name="auth_googlesignin">구글로 계속하기</string>
+    <string name="auth_facebooksignin">페이스북으로 계속하기</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">알림</string>
