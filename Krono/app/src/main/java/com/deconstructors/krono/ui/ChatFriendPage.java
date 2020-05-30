@@ -62,7 +62,7 @@ public class ChatFriendPage extends AppCompatActivity implements FriendAdapter.F
     private void setToolbar()
     {
         this.Toolbar = findViewById(R.id.chatfriend_toolbar);
-        this.Toolbar.setTitle(getString(R.string.menu_friends));
+        this.Toolbar.setTitle(getString(R.string.menu_chat));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);

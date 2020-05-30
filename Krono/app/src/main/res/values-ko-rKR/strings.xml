@@ -37,7 +37,7 @@
 
     <!-- 5. Profile -->
     <string name="navigation_profileText">프로필</string>
-    <string name="navigation_displayNameText">이름을 입력하세요</string>
+    <string name="navigation_displayNameText">이름</string>
     <string name="navigation_emailFieldText">전자 메일을 입력하세요</string>
     <string name="profile_edit_biofield">자기소개 없음</string>
     <string name="profile_picture_text">내 사진</string>
