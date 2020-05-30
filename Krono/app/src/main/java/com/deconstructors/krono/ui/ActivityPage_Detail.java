@@ -364,7 +364,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
      ************************************************************************/
     public void setMarkerPosition()
     {
-        if (this.Location != null)
+        if (this.Location != null && !this.Location.getName().equals(""))
         {
             MarkerOptions options = new MarkerOptions().position(this.Location.getLatLng())
                                                        .title(this.Location.getName());

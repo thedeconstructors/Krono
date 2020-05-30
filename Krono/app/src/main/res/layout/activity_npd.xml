@@ -37,23 +37,25 @@
 
         <Button
             android:id="@+id/NPD_Cancel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/auth_buttonborder"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/activitydetail_cancel"
             android:textSize="20sp"
+            android:padding="10dp"
             android:layout_weight="1.2"/>
 
         <Button
             android:id="@+id/NPD_Done"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/auth_buttonborder"
             android:foreground="?android:attr/selectableItemBackground"
             android:layout_marginStart="20dp"
             android:text="@string/activitydetail_done"
             android:textSize="20sp"
+            android:padding="10dp"
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

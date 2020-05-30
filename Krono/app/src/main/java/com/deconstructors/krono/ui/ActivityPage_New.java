@@ -58,6 +58,7 @@ public class ActivityPage_New implements View.OnClickListener
     {
         this.ActivityInstance = instance;
         this.Plan = plan;
+        this.Duration = 0;
         this.Location = new Location("", "", new LatLng(0, 0));
         setContents();
     }

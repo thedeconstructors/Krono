@@ -97,31 +97,31 @@
     <string name="error">Error</string>
     <string name="error_okay">OK</string>
 
-    <string name="error_auth_failed">Login Failed. Please check internet connection.</string>
-    <string name="error_auth_google">Unable to connect to Google Play Service.</string>
-    <string name="error_register_allfields">Please fill in all the fields.</string>
-    <string name="error_register_passwordmatch">Please make sure your passwords match.</string>
-    <string name="error_register_addplan">Could Not Add New User. Please check internet connection.</string>
-    <string name="error_register_failed">Registration Failed. Please check internet connection.</string>
+    <string name="error_auth_failed">Login fehlgeschlagen. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_auth_google">Es kann keine Verbindung zum Google Play Service hergestellt werden.</string>
+    <string name="error_register_allfields">Bitte füllen Sie alle Felder aus.</string>
+    <string name="error_register_passwordmatch">Bitte stellen Sie sicher, dass Ihre Kennwörter übereinstimmen.</string>
+    <string name="error_register_addplan">Neuer Benutzer konnte nicht hinzugefügt werden. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_register_failed">Registrierung fehlgeschlagen. Bitte überprüfen Sie die Internetverbindung.</string>
 
-    <string name="error_activity_noplan">Plan not found.</string>
-    <string name="error_activity_mapNotSelected">Location Not Selected.</string>
-    <string name="error_activity_editplan">This plan is not editable.</string>
-    <string name="error_activity_deleteplan">You cannot delete this plan.</string>
+    <string name="error_activity_noplan">Plan nicht gefunden.</string>
+    <string name="error_activity_mapNotSelected">Standort nicht ausgewählt.</string>
+    <string name="error_activity_editplan">Dieser Plan kann nicht bearbeitet werden.</string>
+    <string name="error_activity_deleteplan">Sie können diesen Plan nicht löschen.</string>
 
-    <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
-    <string name="error_newactivity_no_input">Please Enter Title.</string>
+    <string name="error_newactivity_add">Neue Aktivität konnte nicht hinzugefügt werden. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_newactivity_no_input">Bitte geben Sie den Titel ein.</string>
 
-    <string name="error_friend_enteremail">Please enter an email</string>
-    <string name="error_friend_notfound">Email Not Found</string>
-    <string name="error_friend_search">Unable to search. Please check internet connection.</string>
-    <string name="error_friend_add">Unable to add a friend: </string>
-    <string name="error_friend_delete">Unable to delete a friend: </string>
+    <string name="error_friend_enteremail">Bitte geben Sie eine email ein</string>
+    <string name="error_friend_notfound">Email wurde nicht gefunden</string>
+    <string name="error_friend_search">Suche nicht möglich. Bitte überprüfen Sie die Internetverbindung.</string>
+    <string name="error_friend_add">Freund kann nicht hinzugefügt werden: </string>
+    <string name="error_friend_delete">Ein Freund kann nicht gelöscht werden: </string>
 
-    <string name="error_profile_data">There was an error processing the profile data</string>
+    <string name="error_profile_data">Beim Verarbeiten der Profildaten ist ein Fehler aufgetreten</string>
 
     <string name="error_activity_mapPermissionDenied">
-        Permission denied to access your current location.
-        Please go to the app info page and allow the location permission to use this feature.
+        Die Berechtigung zum Zugriff auf Ihren aktuellen Standort wurde verweigert.
+        Bitte gehen Sie zur App-Infoseite und erlauben Sie der Standortberechtigung, diese Funktion zu verwenden.
     </string>
 </resources>

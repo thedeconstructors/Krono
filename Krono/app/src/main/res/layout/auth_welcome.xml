@@ -109,7 +109,6 @@
             <Button
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
                 android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
                 android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
 
