@@ -64,13 +64,13 @@
             android:textColor="@color/lightGrey"
             android:buttonTint="@color/lightGrey"/>
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center|end"
             android:text="@string/auth_forgotPassword"
             android:textColor="@color/lightGrey"
-            android:id="@+id/auth_login_forgotPassword"/>
+            android:id="@+id/auth_login_forgotPassword"/>-->
     </GridLayout>
 
     <Button

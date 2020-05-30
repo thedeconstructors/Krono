@@ -2,8 +2,6 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewDebug;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,9 +74,9 @@ public class ProfilePage extends AppCompatActivity {
                     {
                         if (documentSnapshot != null)
                         {
-                            NameTextView.setText(Objects.requireNonNull(documentSnapshot.get("displayName")).toString());
-                            EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get("email")).toString());
-                            BioTextView.setText(Objects.requireNonNull(documentSnapshot.get("bio")).toString());
+                            NameTextView.setText(Objects.requireNonNull(documentSnapshot.get(getString(R.string.users_displayname))).toString());
+                            EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get(getString(R.string.users_email))).toString());
+                            BioTextView.setText(Objects.requireNonNull(documentSnapshot.get(getString(R.string.users_bio))).toString());
 
                             try {
                                 Map<String, Boolean> friendMap =
@@ -91,7 +89,7 @@ public class ProfilePage extends AppCompatActivity {
                             }
 
                             Object pic_url;
-                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                            if ((pic_url = documentSnapshot.get(getString(R.string.profilepicture))) == null) {
                                 pic_url = getString(R.string.default_picture);
                             }
 
@@ -103,7 +101,7 @@ public class ProfilePage extends AppCompatActivity {
                 });
 
         DBInstance.collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", authInstance.getUid())
+                .whereEqualTo(getString(R.string.activities_ownerID), authInstance.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

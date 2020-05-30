@@ -209,7 +209,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
                 else
                 {
                     Toast.makeText(ActivityPage_Map.this,
-                                   getString(R.string.permission_denied),
+                                   getString(R.string.error_activity_mapPermissionDenied),
                                    Toast.LENGTH_LONG)
                          .show();
                 }
@@ -288,7 +288,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
         else
         {
             Toast.makeText(ActivityPage_Map.this,
-                           getString(R.string.activitymap_notSelected),
+                           getString(R.string.error_activity_mapNotSelected),
                            Toast.LENGTH_LONG)
                  .show();
         }

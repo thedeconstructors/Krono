@@ -1,87 +1,57 @@
-<!-- Eng Lang -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- English / Default -->
+<resources>
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
-    <string name="facebook_app_id">249681212769545</string>
 
-    <!-- 2. Cloud Firestore Collection Names -->
-    <string name="collection_users">users</string>
-    <string name="collection_plans">plans</string>
-    <string name="collection_planIDs">planIDs</string>
-    <string name="collection_friends">friends</string>
-    <string name="collection_activities">activities</string>
-
-    <!-- Cloud FireStorage Paths -->
-    <string name="fs_profile_picture_path">profilepictures/</string>
-    <string name="png_extension">.png</string>
-
-    <!-- 2. Cloud Firestore Document Field Names -->
-    <string name="activities_activityID">activityID</string>
-    <string name="activities_description">description</string>
-    <string name="activities_duration">duration</string>
-    <string name="activities_geoAddr">geoAddr</string>
-    <string name="activities_geoName">geoName</string>
-    <string name="activities_geoPoint">geoPoint</string>
-    <string name="activities_ownerID">ownerID</string>
-    <string name="activities_planIDs">planIDs</string>
-    <string name="activities_timestamp">timestamp</string>
-    <string name="activities_title">title</string>
-
-    <!-- 3. Auth -->
+    <!-- 2. Auth -->
     <string name="auth_welcome">Welcome</string>
     <string name="auth_email">Email</string>
     <string name="auth_password">Password</string>
     <string name="auth_passwordConfirm">Confirm Password</string>
     <string name="auth_rememberMe">Remember Me</string>
     <string name="auth_forgotPassword">Forgot Password</string>
-    <string name="auth_or">Or Log In With</string>
+    <string name="auth_or">OR</string>
     <string name="auth_signin">Log In</string>
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
-    <string name="default_picture" tools:ignore="TypographyDashes">https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&amp;token=b9b5addc-e666-4aa5-ad3a-1682759b8e42</string>
+    <string name="auth_googlesignin">Continue with Google</string>
+    <string name="auth_facebooksignin">Continue with Facebook</string>
 
-    <!-- 4. User Interface -->
-    <string name="intent_plans">intent_plans</string>
-    <string name="intent_editable">intent_editable</string>
-    <string name="intent_activity">intent_activity</string>
-    <string name="intent_friend">intent_friend</string>
-    <string name="intent_friendList">intent_friendList</string>
-    <string name="intent_location">location</string>
-
-    <!-- Notifications -->
+    <!-- 3. Notifications -->
+    <string name="notif_title">Notifications</string>
     <string name="notif_listitem_accept">ACCEPT</string>
     <string name="notif_listitem_reject">REJECT</string>
 
-    <!-- 4.1 - Main Menu -->
+    <!-- 4. Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
     <string name="menu_collaborators">Collaborators</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_plan">New Plan</string>
-    <string name="menu_chat">Chats</string>
-    <string name="menu_searchButton">Search Button</string>
+    <string name="menu_chat">Messages</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_myplans">My Plans</string>
     <string name="menu_shared">Shared With Me</string>
 
-    <!-- 4.2 - Profile -->
+    <!-- 5. Profile -->
     <string name="navigation_profileText">Profile</string>
     <string name="navigation_displayNameText">Display Name</string>
-    <string name="navigation_emailFieldText">email@field.com</string>
+    <string name="navigation_emailFieldText">Email not found</string>
     <string name="profile_edit_biofield">Bio</string>
     <string name="profile_picture_text">Profile Picture</string>
-    <string name="profile_picture_url"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc–e666-4aa5-ad3a-1682759b8e42]]></string>
+    <string name="profile_no_displayName">Display Name Not Found</string>
+    <string name="profile_no_email">Email Not Found</string>
 
-    <!-- 4.3 - Plan -->
-    <string name="plan_menu">Activity Menu</string>
+    <!-- 6. Plan -->
     <string name="plan_details">Plan Details</string>
     <string name="plan_new">New Plan</string>
     <string name="plan_title">Title</string>
     <string name="plan_description">Description</string>
     <string name="plan_save">Save</string>
 
-    <!-- 4.4 - Activity -->
+    <!-- 7. Activity -->
     <string name="newactivity_header">New Activity</string>
     <string name="newactivity_title">Title</string>
     <string name="newactivity_description">Description</string>
@@ -90,27 +60,23 @@
     <string name="newactivity_location">Add Location</string>
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>
-    <string name="activitydetail_header">Edit Activity</string>
+    <string name="activitydetail_header">Activity Details</string>
     <string name="activitydetail_headerViewOnly">View Activity</string>
-    <string name="permission_denied">
-        Permission denied to access your current location.
-        Please go to the app info page and allow the location permission to use this feature.
-    </string>
-    <string name="activitymap_notSelected">Location Not Selected</string>
+    <string name="activitydetail_selectduration">Select Activity Duration</string>
+    <string name="activitydetail_hours">Hours</string>
+    <string name="activitydetail_cancel">Cancel</string>
+    <string name="activitydetail_done">Done</string>
     <string name="activitymap_myloc">My Location</string>
     <string name="activitymap_addloc">Add this Location</string>
 
-    <!-- 4.5 Friend -->
+    <!-- 8. Friend -->
     <string name="friendnew_hint">Search By Email</string>
     <string name="friendnew_done">Search</string>
     <string name="friend_bio">Bio</string>
     <string name="friend_public">Public</string>
     <string name="friend_Shared">Shared</string>
 
-    <!-- 4.6 - Menu -->
-    <string name="menu_activity">Activity Menu</string>
-    <string name="menu_friend">Friend Menu</string>
-    <string name="menu_FriendDetail">Friend Detail Menu</string>
+    <!-- 9. Menu -->
     <string name="menu_sortBy">Sort By</string>
     <string name="activity_menu_editPlan">Edit Plan</string>
     <string name="activity_menu_sortBy">Sort By</string>
@@ -120,9 +86,42 @@
     <string name="menu_activitydetail_deletePlan">Delete Activity</string>
     <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
     <string name="total_plans">Total Plans</string>
-    <string name="default_total_plans">0</string>
     <string name="bio_hint">Bio</string>
-    <string name="friend_default_value">0</string>
-    <string name="friends">Friends</string>
+    <string name="friends_title">Friends</string>
 
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">Search by title</string>
+    <string name="search_namehint">Search by name</string>
+
+    <!-- 11. Error Messages -->
+    <string name="error">Error</string>
+    <string name="error_okay">OK</string>
+
+    <string name="error_auth_failed">Login Failed. Please check internet connection.</string>
+    <string name="error_auth_google">Unable to connect to Google Play Service.</string>
+    <string name="error_register_allfields">Please fill in all the fields.</string>
+    <string name="error_register_passwordmatch">Please make sure your passwords match.</string>
+    <string name="error_register_addplan">Could Not Add New User. Please check internet connection.</string>
+    <string name="error_register_failed">Registration Failed. Please check internet connection.</string>
+
+    <string name="error_activity_noplan">Plan not found.</string>
+    <string name="error_activity_mapNotSelected">Location Not Selected.</string>
+    <string name="error_activity_editplan">This plan is not editable.</string>
+    <string name="error_activity_deleteplan">You cannot delete this plan.</string>
+
+    <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
+    <string name="error_newactivity_no_input">Please Enter Title.</string>
+
+    <string name="error_friend_enteremail">Please enter an email</string>
+    <string name="error_friend_notfound">Email Not Found</string>
+    <string name="error_friend_search">Unable to search. Please check internet connection.</string>
+    <string name="error_friend_add">Unable to add a friend: </string>
+    <string name="error_friend_delete">Unable to delete a friend: </string>
+
+    <string name="error_profile_data">There was an error processing the profile data</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        Permission denied to access your current location.
+        Please go to the app info page and allow the location permission to use this feature.
+    </string>
 </resources>

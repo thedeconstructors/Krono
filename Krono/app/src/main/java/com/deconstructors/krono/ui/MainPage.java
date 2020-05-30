@@ -138,7 +138,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
 
         MenuItem searchItem = menu.findItem(R.id.activity_toolbar_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint("Enter title...");
+        Search.setQueryHint(getString(R.string.search_titlehint));
         Search.setIconified(true);
         Search.setOnQueryTextListener(this);
 
@@ -166,7 +166,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.DBInstance = FirebaseFirestore.getInstance();
         Query planQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", Objects.requireNonNull(
+                .whereEqualTo(getString(R.string.activities_ownerID), Objects.requireNonNull(
                         this.AuthInstance.getCurrentUser()
                 ).getUid());
 
@@ -178,7 +178,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         //My plans
         Query myPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", this.AuthInstance.getCurrentUser().getUid());
+                .whereEqualTo(getString(R.string.activities_ownerID), this.AuthInstance.getCurrentUser().getUid());
         FirestoreRecyclerOptions<Plan> myPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(myPlanQuery, Plan.class)
                 .build();
@@ -211,12 +211,12 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                         if (documentSnapshot != null)
                         {
                             NameTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("displayName")).toString());
+                                    documentSnapshot.get(getString(R.string.users_displayname))).toString());
                             EmailTextView.setText(Objects.requireNonNull(
-                                    documentSnapshot.get("email")).toString());
+                                    documentSnapshot.get(getString(R.string.users_email))).toString());
 
                             Object pic_url;
-                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                            if ((pic_url = documentSnapshot.get(getString(R.string.profilepicture))) == null) {
                                 pic_url = getString(R.string.profile_picture_url);
                             }
 

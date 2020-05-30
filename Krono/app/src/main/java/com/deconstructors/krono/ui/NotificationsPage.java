@@ -4,20 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.NotificationAdapter;
-import com.deconstructors.krono.module.Friend;
-import com.deconstructors.krono.module.Notification;
-import com.deconstructors.krono.module.User;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,17 +21,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class NotificationsPage extends AppCompatActivity implements View.OnClickListener{
     //Notification Types (can add more later)
@@ -80,15 +68,15 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
         setToolbar();
 
         this.DBInstance
-                .collection("users")
-                .whereEqualTo("uid", this.AuthInstance.getCurrentUser().getUid())
+                .collection(getString(R.string.collection_users))
+                .whereEqualTo(getString(R.string.notification_uid), this.AuthInstance.getCurrentUser().getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()) {
                             for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>) doc.get("friends");
+                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>) doc.get(getString(R.string.friends));
 
                                 for (Map.Entry<Object, Boolean> entry : friendMap.entrySet()) {
                                     Object key = entry.getKey();
@@ -108,7 +96,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                         if (task.isSuccessful()) {
                             return FirebaseFirestore.getInstance()
                                     .collection(getString(R.string.collection_users))
-                                    .whereIn("uid", FriendRequestIds)
+                                    .whereIn(getString(R.string.notification_uid), FriendRequestIds)
                                     .get();
                         }
                         return null;
@@ -137,7 +125,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                         if (task.isSuccessful()) {
                             List<DocumentSnapshot> friendTasks = task.getResult();
                             for (DocumentSnapshot doc : friendTasks) {
-                                FriendRequestNames.add((String) doc.get("displayName"));
+                                FriendRequestNames.add((String) doc.get(getString(R.string.notification_displayname)));
                             }
 
                             RecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -151,7 +139,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
 
     private void setToolbar() {
         this.Toolbar = findViewById(R.id.notif_toolbar);
-        this.Toolbar.setTitle("Notifications");
+        this.Toolbar.setTitle(getString(R.string.notif_title));
         this.setSupportActionBar(this.Toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -174,8 +162,8 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                     if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
                     {
                         final String[] FriendId = new String[1];
-                        DBInstance.collection("users")
-                                .whereEqualTo("displayName", FriendRequestNames.get(i))
+                        DBInstance.collection(getString(R.string.collection_users))
+                                .whereEqualTo(getString(R.string.notification_displayname), FriendRequestNames.get(i))
                                 .get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                                 {
@@ -190,9 +178,9 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                                             }
                                             System.out.println(FriendId[0]);
 
-                                            String updateString = "friends." + FriendId[0];
+                                            String updateString = getString(R.string.collection_friends) + "." + FriendId[0];
 
-                                            DBInstance.collection("users")
+                                            DBInstance.collection(getString(R.string.collection_users))
                                                     .document(AuthInstance.getCurrentUser().getUid())
                                                     .update(updateString, true);
                                         }
@@ -214,8 +202,8 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                     if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
                     {
                         final String[] FriendId = new String[1];
-                        DBInstance.collection("users")
-                                .whereEqualTo("displayName", FriendRequestNames.get(i))
+                        DBInstance.collection(getString(R.string.collection_users))
+                                .whereEqualTo(getString(R.string.notification_displayname), FriendRequestNames.get(i))
                                 .get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                                 {
@@ -230,9 +218,10 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                                             }
                                             System.out.println(FriendId[0]);
 
-                                            String removeString = "friends." + FriendId[0];
+                                            String removeString = getString(R.string.collection_friends) + "." + FriendId[0];
 
-                                            DocumentReference docRef = DBInstance.collection("users").document(AuthInstance.getCurrentUser().getUid());
+                                            DocumentReference docRef = DBInstance.collection(getString(R.string.collection_users))
+                                                                                 .document(AuthInstance.getCurrentUser().getUid());
                                             Map<String,Object> updates = new HashMap<>();
                                             updates.put(removeString, FieldValue.delete());
 
