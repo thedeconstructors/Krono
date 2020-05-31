@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 
 import com.deconstructors.krono.R;
-import com.deconstructors.krono.auth.RegisterPage;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,15 +21,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
-
-import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,13 +124,13 @@ public class FriendPage_New implements View.OnClickListener
 
         if (email.equals(""))
         {
-            this.makeBottomSheetSnackbarMessage("Please enter an email");
+            this.makeBottomSheetMessage(this.ActivityInstance.getString(R.string.error_friend_enteremail));
             return;
         }
 
         this.DBInstance
                 .collection(this.ActivityInstance.getString(R.string.collection_users))
-                .whereEqualTo("email", email)
+                .whereEqualTo(this.ActivityInstance.getString(R.string.users_email), email)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                 {
@@ -143,7 +139,7 @@ public class FriendPage_New implements View.OnClickListener
                     {
                         if (queryDocumentSnapshots.isEmpty())
                         {
-                            FriendPage_New.this.makeBottomSheetSnackbarMessage("Friend Not Found");
+                            FriendPage_New.this.makeBottomSheetMessage(FriendPage_New.this.ActivityInstance.getString(R.string.error_friend_notfound));
                         }
                         else
                         {
@@ -160,7 +156,7 @@ public class FriendPage_New implements View.OnClickListener
                     @Override
                     public void onFailure(@NonNull Exception e)
                     {
-                        FriendPage_New.this.makeBottomSheetSnackbarMessage("Error Occurred!");
+                        FriendPage_New.this.makeBottomSheetMessage(FriendPage_New.this.ActivityInstance.getString(R.string.error_friend_search));
                     }
                 });
     }
@@ -191,7 +187,7 @@ public class FriendPage_New implements View.OnClickListener
                 @Override
                 public void onFailure(@NonNull Exception e)
                 {
-                    makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());
+                    makeBottomSheetMessage(FriendPage_New.this.ActivityInstance.getString(R.string.error_friend_add) + e.getMessage());
                 }
             });
 
@@ -213,7 +209,7 @@ public class FriendPage_New implements View.OnClickListener
                 {
                     Helper.hideProgressBar(ActivityInstance, ProgressBar);
                     Log.d(TAG, "getAddFriendFunctions: " + e.getMessage());
-                    /*makeBottomSheetSnackbarMessage("Add Friend Error: " + e.getMessage());*/
+                    /*makeBottomSheetMessage("Add Friend Error: " + e.getMessage());*/
                 }
             });
     }
@@ -222,11 +218,11 @@ public class FriendPage_New implements View.OnClickListener
     {
         // Create the arguments to the callable function.
         Map<String, Object> snap = new HashMap<>();
-        snap.put("friendID", friendID);
-        snap.put("push", true);
+        snap.put(this.ActivityInstance.getString(R.string.friend_friendID), friendID);
+        snap.put(this.ActivityInstance.getString(R.string.functions_push), true);
 
         return this.DBFunctions
-                .getHttpsCallable("addFriend")
+                .getHttpsCallable(this.ActivityInstance.getString(R.string.functions_addfriend))
                 .call(snap)
                 .continueWith(new Continuation<HttpsCallableResult, String>()
                 {
@@ -283,7 +279,7 @@ public class FriendPage_New implements View.OnClickListener
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    private void makeBottomSheetSnackbarMessage(String text)
+    private void makeBottomSheetMessage(String text)
     {
         Snackbar snackbar = Snackbar.make(this.ActivityInstance.findViewById(R.id.FriendPage_Background),
                                           text,

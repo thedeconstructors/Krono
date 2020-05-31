@@ -37,7 +37,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     private static final String TAG = "FacebookLoginPage";
 
     // XML Widgets
-    private LoginButton FacebookLogIn;
+    private Button FacebookLogIn;
     private ProgressBar ProgressBar;
 
     // Database
@@ -48,11 +48,63 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(this);
-        setContentView(R.layout.auth_welcome);
-
-        this.setContents();
+        // These functions are in the right order
+        // I hate facebook
         this.FacebookLogIn();
+        setContentView(R.layout.auth_welcome);
+        this.setContents();
+        this.LogIn();
+    }
+
+    /************************************************************************
+     * Purpose:         Initiate Google Log In Intent
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void FacebookLogIn()
+    {
+        // Initialize Facebook Login button
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        this.FBCBManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
+        {
+            @Override
+            public void onSuccess(LoginResult loginResult)
+            {
+                Log.d(TAG, "facebook: onSuccess: " + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel()
+            {
+                Log.d(TAG, "facebook: onCancel");
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
+
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+            }
+
+            @Override
+            public void onError(FacebookException error)
+            {
+                Log.d(TAG, "facebook: onError: ", error);
+
+                if (AccessToken.getCurrentAccessToken() != null)
+                {
+                    LoginManager.getInstance().logOut();
+                }
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
+
+                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+            }
+        });
     }
 
     /************************************************************************
@@ -69,52 +121,7 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
         this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
         this.FacebookLogIn.setOnClickListener(this);
         this.ProgressBar = findViewById(R.id.auth_progressBar);
-    }
-
-    /************************************************************************
-     * Purpose:         Initiate Google Log In Intent
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    public void FacebookLogIn()
-    {
-        // Initialize Facebook Login button
         Helper.showProgressBar(this, this.ProgressBar);
-
-        this.FBCBManager = CallbackManager.Factory.create();
-
-        this.FacebookLogIn.setPermissions(Arrays.asList("email", "public_profile"));
-        this.FacebookLogIn.registerCallback(this.FBCBManager, new FacebookCallback<LoginResult>()
-        {
-            @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                Log.d(TAG, "facebook: onSuccess: " + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel()
-            {
-                Log.d(TAG, "facebook: onCancel");
-                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
-
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED, returnIntent);
-                finish();
-            }
-
-            @Override
-            public void onError(FacebookException error)
-            {
-                Log.d(TAG, "facebook: onError: ", error);
-                Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
-
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED, returnIntent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -141,7 +148,6 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                      Log.d(TAG, "signInWithCredential: success");
 
                                      // Sign in success, update UI with the signed-in user's information
-                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
                                      Intent returnIntent = new Intent();
 
                                      if(task.getResult().getAdditionalUserInfo().isNewUser())
@@ -154,19 +160,33 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                      }
 
                                      finish();
+
+                                     Helper.hideProgressBar(FacebookLoginPage.this,
+                                                            FacebookLoginPage.this.ProgressBar);
                                  }
                                  else
                                  {
                                      // If sign in fails, display a message to the user.
                                      Log.w(TAG, "signInWithFacebookCredential: ", task.getException());
-                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
-
                                      Intent returnIntent = new Intent();
                                      setResult(Activity.RESULT_CANCELED, returnIntent);
                                      finish();
+
+                                     Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
                                  }
                              }
                          });
+    }
+
+    /************************************************************************
+     * Purpose:         Initiate Google Log In Intent
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    public void LogIn()
+    {
+        LoginManager.getInstance().logInWithReadPermissions(FacebookLoginPage.this,
+                                                            Arrays.asList("public_profile", "email"));
     }
 
     @Override

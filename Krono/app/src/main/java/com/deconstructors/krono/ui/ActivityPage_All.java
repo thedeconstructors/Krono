@@ -84,7 +84,7 @@ public class ActivityPage_All extends AppCompatActivity
         this.AuthInstance = FirebaseAuth.getInstance();
         this.ActivityQuery = this.DBInstance
                 .collection(getString(R.string.collection_activities))
-                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereEqualTo(getString(R.string.activities_ownerID), FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(this.ActivityQuery, Activity.class)
                 .build();

@@ -37,7 +37,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
     private static final int RC_SIGN_IN = 9001;
 
     // XML Widgets
-    private SignInButton GoogleLogIn;
+    private Button GoogleLogIn;
     private ProgressBar ProgressBar;
 
     // Database
@@ -135,9 +135,9 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                          {
                              if (task.isSuccessful())
                              {
-                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
                                  Intent returnIntent = new Intent();
 
+                                 // Return result success
                                  if(task.getResult().getAdditionalUserInfo().isNewUser())
                                  {
                                      setResult(Activity.RESULT_FIRST_USER, returnIntent);
@@ -147,10 +147,12 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
                                      setResult(Activity.RESULT_OK, returnIntent);
                                  }
 
+                                 Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
                                  finish();
                              }
                              else
                              {
+                                 // Return result failure
                                  Log.w(TAG, "firebaseAuthWithGoogle: ", task.getException());
                                  Helper.hideProgressBar(GoogleLoginPage.this, ProgressBar);
 
@@ -164,7 +166,7 @@ public class GoogleLoginPage extends AppCompatActivity implements View.OnClickLi
 
     /************************************************************************
      * Purpose:         Button Click Listener
-     * Precondition:    This is necessary
+     * Precondition:    This is necessary for some reason
      * Postcondition:   .
      ************************************************************************/
     @Override

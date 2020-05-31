@@ -142,7 +142,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             if (this.Activity.getDuration() != null)
             {
                 this.Duration = this.Activity.getDuration();
-                String tempDuration = this.Activity.getDuration().toString() + " Hours";
+                String tempDuration = this.Activity.getDuration().toString() + " " + getString(R.string.activitydetail_hours);
                 this.DurationText.setText(tempDuration);
             }
 
@@ -230,7 +230,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                               null,
                                                               this.TitleText.getText().toString());
 
-            activity.remove(getString(R.string.collection_planIDs));
+            activity.remove(getString(R.string.plans_planIDs));
 
             if (this.Timestamp != null) {
                 activity.put(getString(R.string.activities_timestamp), this.Timestamp);
@@ -327,7 +327,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private void showNumberPicker()
     {
         final Dialog npd = new Dialog(this);
-        npd.setTitle("Select Activity Duration");
+        npd.setTitle(getString(R.string.activitydetail_selectduration));
         npd.setContentView(R.layout.activity_npd);
 
         final NumberPicker np = npd.findViewById(R.id.NPD_NumberPicker);
@@ -342,7 +342,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
             public void onClick(View v)
             {
                 Duration = np.getValue();
-                String durationtext = np.getValue() + " Hours";
+                String durationtext = np.getValue() + " " + getString(R.string.activitydetail_hours);
                 DurationText.setText(durationtext);
                 npd.dismiss();
             }
@@ -438,7 +438,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
      ************************************************************************/
     public void setMarkerPosition()
     {
-        if (this.Location != null)
+        if (this.Location != null && !this.Location.getName().equals(""))
         {
             MarkerOptions options = new MarkerOptions().position(this.Location.getLatLng())
                                                        .title(this.Location.getName());
