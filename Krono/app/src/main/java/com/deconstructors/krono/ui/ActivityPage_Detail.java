@@ -1,5 +1,6 @@
 package com.deconstructors.krono.ui;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -38,11 +40,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.widget.Toolbar;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class ActivityPage_Detail extends AppCompatActivity implements View.OnClickListener,
-                                                                      OnMapReadyCallback, GoogleMap.OnMapClickListener
+                                                                      OnMapReadyCallback, GoogleMap.OnMapClickListener,
+                                                                        DatePickerDialog.OnDateSetListener
 {
     // Error Log
     private static final String TAG = "NewActivityPage";
@@ -56,16 +64,19 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private EditText TitleText;
     private EditText DescriptionText;
     private EditText DurationText;
+    private Button DateButton;
     private FloatingActionButton FAB_Save;
     private FloatingActionButton FAB_Delete;
 
     // Vars
+    private String Timestamp;
     private Integer Duration;
     private Location Location;
     private GoogleMap Map;
     private Activity Activity;
     private ActivityPage.EditMode Editable;
     private SupportMapFragment MapFragment;
+    private Calendar CalendarInstance;
 
     // Database
     private FirebaseFirestore FirestoreDB;
@@ -94,6 +105,9 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         this.TitleText = findViewById(R.id.activitydetail_titleEditText);
         this.DescriptionText = findViewById(R.id.activitydetail_descriptionText);
         //TODO Create Duration Number Picker Dialog
+        this.DateButton = findViewById(R.id.activitydetail_dateButton);
+        this.DateButton.setOnClickListener(this);
+        this.CalendarInstance = Calendar.getInstance();
         this.DurationText = findViewById(R.id.activitydetail_durationEditText);
         this.DurationText.setOnClickListener(this);
         this.Location = new Location("", "", new LatLng(0, 0));
@@ -123,12 +137,34 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
 
             this.TitleText.setText(this.Activity.getTitle());
             this.DescriptionText.setText(this.Activity.getDescription());
+
+            this.Duration = null;
             if (this.Activity.getDuration() != null)
             {
                 this.Duration = this.Activity.getDuration();
                 String tempDuration = this.Activity.getDuration().toString() + " Hours";
                 this.DurationText.setText(tempDuration);
             }
+
+            this.Timestamp = null;
+            if (this.Activity.getTimestamp() != null)
+            {
+                this.Timestamp = this.Activity.getTimestamp();
+                SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
+                Date savedDate = sdf.parse(this.Timestamp, new ParsePosition(0));
+                if (savedDate != null) {
+                    this.CalendarInstance.setTime(savedDate);
+                    String dateString = sdf.format(this.CalendarInstance.getTime());
+                    this.DateButton.setText(dateString);
+                }
+                else
+                {
+                    this.Timestamp = null;
+                    this.DateButton.setText(R.string.newactivity_timestamp);
+                }
+            }
+
+            this.Location = null;
             if (this.Activity.getLocation() != null)
             {
                 this.Location = this.Activity.getLocation();
@@ -195,6 +231,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                               this.TitleText.getText().toString());
 
             activity.remove(getString(R.string.collection_planIDs));
+
+            if (this.Timestamp != null) {
+                activity.put(getString(R.string.activities_timestamp), this.Timestamp);
+            }
 
             this.FirestoreDB
                     .collection(getString(R.string.collection_activities))
@@ -271,6 +311,11 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                 this.showNumberPicker();
                 break;
             }
+            case R.id.activitydetail_dateButton:
+            {
+                this.showDatePicker();
+                break;
+            }
         }
     }
 
@@ -313,6 +358,34 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
         });
 
         npd.show();
+    }
+
+    /************************************************************************
+     * Purpose:         Date Picker
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void showDatePicker()
+    {
+        DatePickerDialog dpd = new DatePickerDialog(
+                this,
+                this,
+                this.CalendarInstance.get(Calendar.YEAR),
+                this.CalendarInstance.get(Calendar.MONTH),
+                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
+        );
+
+        dpd.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
+        this.CalendarInstance.set(year, month, dayOfMonth);
+        String dateString = sdf.format(this.CalendarInstance.getTime());
+        this.Timestamp = dateString;
+        this.DateButton.setText(dateString);
     }
 
 

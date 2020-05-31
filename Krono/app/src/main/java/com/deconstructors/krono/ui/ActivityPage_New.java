@@ -1,10 +1,12 @@
 package com.deconstructors.krono.ui;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,10 +29,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 
-public class ActivityPage_New implements View.OnClickListener
+public class ActivityPage_New implements View.OnClickListener,
+                                        DatePickerDialog.OnDateSetListener
 {
     // Error Log
     private static final String TAG = "ActivityPage_New";
@@ -47,7 +52,11 @@ public class ActivityPage_New implements View.OnClickListener
     private EditText TitleText;
     private EditText DescText;
     private Button DurationButton;
+    private Button DateButton;
     private Button LocationButton;
+
+    //vars
+    private Calendar CalendarInstance;
 
     // Database
     private Plan Plan;
@@ -86,10 +95,13 @@ public class ActivityPage_New implements View.OnClickListener
         this.FAB.setOnClickListener(this);
         this.TitleText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_TitleText);
         this.DescText = this.ActivityInstance.findViewById(R.id.ActivityPageNew_Description);
+        this.DateButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DateButton);
+        this.DateButton.setOnClickListener(this);
         this.DurationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DurationButton);
         this.DurationButton.setOnClickListener(this);
         this.LocationButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_LocationButton);
         this.LocationButton.setOnClickListener(this);
+        this.CalendarInstance = Calendar.getInstance();
         ImageView completeButton = this.ActivityInstance.findViewById(R.id.ActivityPageNew_DoneButton);
         completeButton.setOnClickListener(this);
 
@@ -153,6 +165,11 @@ public class ActivityPage_New implements View.OnClickListener
                                                               this.Plan,
                                                               this.TitleText.getText().toString());
 
+            if (!this.DateButton.getText().toString().equals(this.ActivityInstance.getString(R.string.newactivity_timestamp)))
+            {
+                activity.put(this.ActivityInstance.getString(R.string.activities_timestamp), this.DateButton.getText().toString());
+            }
+
             ref.set(activity)
                .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
@@ -163,6 +180,7 @@ public class ActivityPage_New implements View.OnClickListener
                         ActivityPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                         ActivityPage_New.this.TitleText.setText("");
                         ActivityPage_New.this.DescText.setText("");
+                        ActivityPage_New.this.DateButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_timestamp));
                         ActivityPage_New.this.Duration = 0;
                         ActivityPage_New.this.DurationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_duration));
                         ActivityPage_New.this.LocationButton.setText(ActivityPage_New.this.ActivityInstance.getString(R.string.newactivity_location));
@@ -204,6 +222,11 @@ public class ActivityPage_New implements View.OnClickListener
             case R.id.ActivityPageNew_DoneButton:
             {
                 this.createNewActivity();
+                break;
+            }
+            case R.id.ActivityPageNew_DateButton:
+            {
+                this.showDatePicker();
                 break;
             }
             case R.id.ActivityPageNew_DurationButton:
@@ -281,6 +304,33 @@ public class ActivityPage_New implements View.OnClickListener
         });
 
         npd.show();
+    }
+
+    /************************************************************************
+     * Purpose:         Date Picker
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void showDatePicker()
+    {
+        DatePickerDialog dpd = new DatePickerDialog(
+                this.ActivityInstance,
+                this,
+                this.CalendarInstance.get(Calendar.YEAR),
+                this.CalendarInstance.get(Calendar.MONTH),
+                this.CalendarInstance.get(Calendar.DAY_OF_MONTH)
+        );
+
+        dpd.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat(Helper.displayDateFormat, Locale.getDefault());
+        this.CalendarInstance.set(year, month, dayOfMonth);
+        String dateString = sdf.format(this.CalendarInstance.getTime());
+        this.DateButton.setText(dateString);
     }
 
     /************************************************************************
