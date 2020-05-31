@@ -13,7 +13,7 @@
     <string name="auth_forgotPassword">忘记密码</string>
     <string name="auth_or">或</string>
     <string name="auth_signin">登录</string>
-    <string name="auth_register">寄存器</string>
+    <string name="auth_register">登记册</string>
     <string name="auth_anonymousSignIn">跳跃</string>
     <string name="auth_back">背部</string>
     <string name="auth_googlesignin">使用Google登录</string>

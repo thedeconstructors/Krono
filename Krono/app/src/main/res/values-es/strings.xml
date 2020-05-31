@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Español -->
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">Test</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_passwordConfirm">Confirm Password</string>
+    <string name="auth_rememberMe">Remember Me</string>
+    <string name="auth_forgotPassword">Forgot Password</string>
+    <string name="auth_or">OR</string>
+    <string name="auth_signin">Log In</string>
+    <string name="auth_register">Register</string>
+    <string name="auth_anonymousSignIn">Skip</string>
+    <string name="auth_back">Back</string>
+    <string name="auth_googlesignin">Continue with Google</string>
+    <string name="auth_facebooksignin">Continue with Facebook</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">Notifications</string>
+    <string name="notif_listitem_accept">ACCEPT</string>
+    <string name="notif_listitem_reject">REJECT</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">All Activities</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_collaborators">Collaborators</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_plan">New Plan</string>
+    <string name="menu_chat">Messages</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_myplans">My Plans</string>
+    <string name="menu_shared">Shared With Me</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">Profile</string>
+    <string name="navigation_displayNameText">Display Name</string>
+    <string name="navigation_emailFieldText">Email not found</string>
+    <string name="profile_edit_biofield">Bio</string>
+    <string name="profile_picture_text">Profile Picture</string>
+    <string name="profile_no_displayName">Display Name Not Found</string>
+    <string name="profile_no_email">Email Not Found</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">Plan Details</string>
+    <string name="plan_new">New Plan</string>
+    <string name="plan_title">Title</string>
+    <string name="plan_description">Description</string>
+    <string name="plan_save">Save</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">New Activity</string>
+    <string name="newactivity_title">Title</string>
+    <string name="newactivity_description">Description</string>
+    <string name="newactivity_timestamp">Pick a date</string>
+    <string name="newactivity_duration">Duration</string>
+    <string name="newactivity_location">Add Location</string>
+    <string name="newactivity_repeat">Repeat</string>
+    <string name="newactivity_save">Save</string>
+    <string name="activitydetail_header">Activity Details</string>
+    <string name="activitydetail_headerViewOnly">View Activity</string>
+    <string name="activitydetail_selectduration">Select Activity Duration</string>
+    <string name="activitydetail_hours">Hours</string>
+    <string name="activitydetail_cancel">Cancel</string>
+    <string name="activitydetail_done">Done</string>
+    <string name="activitymap_myloc">My Location</string>
+    <string name="activitymap_addloc">Add this Location</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">Search By Email</string>
+    <string name="friendnew_done">Search</string>
+    <string name="friend_public">Public</string>
+    <string name="friend_Shared">Shared</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_sortBy">Sort By</string>
+    <string name="activity_menu_editPlan">Edit Plan</string>
+    <string name="activity_menu_deletePlan">Delete Plan</string>
+    <string name="menu_activitydetail_editActivity">Edit Activity</string>
+    <string name="menu_activitydetail_deletePlan">Delete Activity</string>
+    <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
+    <string name="total_plans">Total Plans</string>
+    <string name="friends_title">Friends</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">Search by title</string>
+    <string name="search_namehint">Search by name</string>
+
+    <!-- 11. Error Messages -->
+    <string name="error">Error</string>
+    <string name="error_okay">OK</string>
+
+    <string name="error_auth_failed">Login Failed. Please check internet connection.</string>
+    <string name="error_auth_google">Unable to connect to Google Play Service.</string>
+    <string name="error_register_allfields">Please fill in all the fields.</string>
+    <string name="error_register_passwordmatch">Please make sure your passwords match.</string>
+    <string name="error_register_addplan">Could Not Add New User. Please check internet connection.</string>
+    <string name="error_register_failed">Registration Failed. Please check internet connection.</string>
+
+    <string name="error_activity_noplan">Plan not found.</string>
+    <string name="error_activity_mapNotSelected">Location Not Selected.</string>
+    <string name="error_activity_editplan">This plan is not editable.</string>
+    <string name="error_activity_deleteplan">You cannot delete this plan.</string>
+
+    <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
+    <string name="error_newactivity_no_input">Please Enter Title.</string>
+
+    <string name="error_friend_enteremail">Please enter an email</string>
+    <string name="error_friend_notfound">Email Not Found</string>
+    <string name="error_friend_search">Unable to search. Please check internet connection.</string>
+    <string name="error_friend_add">Unable to add a friend: </string>
+    <string name="error_friend_delete">Unable to delete a friend: </string>
+
+    <string name="error_profile_data">There was an error processing the profile data.</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        Permission denied to access your current location.
+        Please go to the app info page and allow the location permission to use this feature.
+    </string>
+</resources>
