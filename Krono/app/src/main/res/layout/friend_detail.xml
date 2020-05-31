@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
-            android:hint="@string/friend_bio"
+            android:hint="@string/profile_edit_biofield"
             android:importantForAutofill="no"
             android:textSize="20sp" />
 

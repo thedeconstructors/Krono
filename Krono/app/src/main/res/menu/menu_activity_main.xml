@@ -15,7 +15,7 @@
         android:icon="@drawable/menu_menu">
         <menu>
             <item android:id="@+id/activity_menu_sortBy"
-                android:title="@string/activity_menu_sortBy"
+                android:title="@string/menu_sortBy"
                 app:showAsAction="never"
                 android:icon="@drawable/menu_sort"/>
 

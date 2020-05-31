@@ -83,7 +83,7 @@
                 android:id="@+id/profile_Bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bio_hint"
+                android:hint="@string/profile_edit_biofield"
                 android:importantForAutofill="no"
                 android:textStyle="italic"
                 android:textAlignment="center"

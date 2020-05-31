@@ -78,13 +78,17 @@ public class ProfilePage extends AppCompatActivity {
                             EmailTextView.setText(Objects.requireNonNull(documentSnapshot.get(getString(R.string.users_email))).toString());
                             BioTextView.setText(Objects.requireNonNull(documentSnapshot.get(getString(R.string.users_bio))).toString());
 
-                            try {
-                                Map<String, Boolean> friendMap =
-                                        (Map<String, Boolean>) documentSnapshot.get("friends");
-                                if (friendMap != null) {
+                            try
+                            {
+                                Map<String, Boolean> friendMap = (Map<String, Boolean>) documentSnapshot.get(getString(R.string.collection_friends));
+
+                                if (friendMap != null)
+                                {
                                     NumberOfFriends.setText(String.valueOf(friendMap.size()));
                                 }
-                            } catch (Exception innner) {
+                            }
+                            catch (Exception innner)
+                            {
                                 NumberOfFriends.setText(String.valueOf(0));
                             }
 

@@ -72,21 +72,17 @@
     <!-- 8. Friend -->
     <string name="friendnew_hint">Recherche par courriel</string>
     <string name="friendnew_done">Recherche</string>
-    <string name="friend_bio">Bio</string>
     <string name="friend_public">Public</string>
     <string name="friend_Shared">Partage</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">Trier par</string>
     <string name="activity_menu_editPlan">Plan de révision</string>
-    <string name="activity_menu_sortBy">Trier par</string>
     <string name="activity_menu_deletePlan">Supprimer Plan</string>
     <string name="menu_activitydetail_editActivity">Activité de révision</string>
-    <string name="menu_activitydetail_sortBy">Trier par</string>
     <string name="menu_activitydetail_deletePlan">Supprimer Activité</string>
     <string name="Menu_FriendDetail_RemoveFriend">Retirer de la liste d\'amis</string>
     <string name="total_plans">Tous les plans</string>
-    <string name="bio_hint">Bio</string>
     <string name="friends_title">Amis</string>
 
     <!-- 10. Search Bar -->
@@ -118,7 +114,7 @@
     <string name="error_friend_add">Impossible d\'ajouter un ami: </string>
     <string name="error_friend_delete">Impossible de supprimer un ami: </string>
 
-    <string name="error_profile_data">Il y a eu une erreur de traitement des données du profil</string>
+    <string name="error_profile_data">Il y a eu une erreur de traitement des données du profil.</string>
 
     <string name="error_activity_mapPermissionDenied">
         Permission refusée d\'accéder à votre emplacement actuel.
