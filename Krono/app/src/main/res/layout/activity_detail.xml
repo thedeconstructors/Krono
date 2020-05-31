@@ -70,6 +70,18 @@
                     android:maxLines="5"
                     android:importantForAutofill="no" />
 
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                    android:drawableStart="@drawable/activity_calendar"
+                    android:drawablePadding="10dp"
+                    android:text="@string/newactivity_timestamp"
+                    android:id="@+id/activitydetail_dateButton"/>
+
                 <EditText
                     android:id="@+id/activitydetail_durationEditText"
                     android:layout_width="match_parent"
