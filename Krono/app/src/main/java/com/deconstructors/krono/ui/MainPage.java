@@ -145,8 +145,10 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.activity_toolbar_settingsButton) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == R.id.activity_toolbar_settingsButton)
+        {
             Intent intent = new Intent(MainPage.this, SettingsPage_Main.class);
             startActivity(intent);
             return true;

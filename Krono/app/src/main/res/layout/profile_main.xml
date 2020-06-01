@@ -35,14 +35,13 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <!--<ImageView
                 android:id="@+id/profile_edit_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:src="@drawable/toolbar_edit"
-                android:onClick="profileEdit"
-                app:civ_border_width="0dp"/>
+                android:onClick="profileEdit"/>-->
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

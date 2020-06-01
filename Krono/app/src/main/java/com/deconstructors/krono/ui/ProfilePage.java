@@ -2,6 +2,10 @@ package com.deconstructors.krono.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -131,7 +135,22 @@ public class ProfilePage extends AppCompatActivity {
         this.NumberOfPlans = findViewById(R.id.plan_number);
     }
 
-    public void profileEdit(android.view.View view) {
-        startActivity(new Intent(ProfilePage.this, ProfilePage_Edit.class));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_profile_main, menu);
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == R.id.profile_edit_icon)
+        {
+            startActivity(new Intent(ProfilePage.this, ProfilePage_Edit.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
