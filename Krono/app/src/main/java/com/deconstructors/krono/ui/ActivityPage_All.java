@@ -145,7 +145,7 @@ public class ActivityPage_All extends AppCompatActivity
     @Override
     public void onActivitySelected(int position)
     {
-        ActivityPage.EditMode canEdit = ActivityPage.EditMode.PUBLIC;
+        ActivityPage.EditMode canEdit = ActivityPage.EditMode.OWNER;
 
         Intent intent = new Intent(ActivityPage_All.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));
