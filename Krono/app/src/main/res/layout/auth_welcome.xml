@@ -31,11 +31,13 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="20dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/launcher_logo"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
                 android:text="@string/auth_welcome"
                 android:gravity="center_horizontal"
                 android:textColor="@color/lightGrey"
@@ -61,7 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
-            android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
             android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
             android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
             android:text="@string/auth_register"
@@ -89,40 +90,73 @@
         </RelativeLayout>
 
         <!-- Google Sig... Log In -->
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal">-->
 
-            <com.google.android.gms.common.SignInButton
+            <!--<com.google.android.gms.common.SignInButton
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
-                android:layout_marginEnd="@dimen/auth_buttonBetweenPadding"
-                android:onClick="onClick"
-                android:id="@+id/auth_googleLogIn"/>
-
-            <com.facebook.login.widget.LoginButton
-                android:layout_height="match_parent"
-                android:layout_width="100dp"
-                android:layout_weight="1"
-                android:paddingTop="18dp"
-                android:paddingBottom="18dp"
-                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
-                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
-                android:layout_marginStart="@dimen/auth_buttonBetweenPadding"
                 android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
-                android:gravity="center"
+                android:onClick="onClick"
+                android:layout_gravity="center"
+                android:id="@+id/auth_googleLogIn"/>-->
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+                android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+
+                android:textColor="@color/lightGrey"
                 android:background="@drawable/auth_buttonborder"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="onClick"
-                android:enabled="false"
+                android:drawableStart="@drawable/google_icon"
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp"
+                android:text="@string/auth_googlesignin"
+                android:id="@+id/auth_googleLogIn"/>
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+                android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+
+                android:textColor="@color/lightGrey"
+                android:background="@drawable/auth_buttonborder"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onClick"
+                android:drawableStart="@drawable/facebook_icon"
+                android:paddingStart="5dp"
+                android:paddingEnd="20dp"
+                android:text="@string/auth_facebooksignin"
                 android:id="@+id/auth_facebookLogIn"/>
+
+            <!--<com.facebook.login.widget.LoginButton
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+                android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+
+                android:gravity="center"
+                style="@style/FacebookLoginButton"
+                android:onClick="onClick"
+                android:id="@+id/auth_facebookLogIn"/>-->
         </LinearLayout>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <!-- Sign In Page (Hidden) -->
     <include

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
     private RecyclerView RecyclerView;
     private FriendPage_New FriendPage_New;
     private SearchView Search;
+    private ProgressBar ProgressBar;
 
     // Database
     private FirebaseAuth AuthInstance;
@@ -76,7 +78,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
 
         MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint("Enter name...");
+        Search.setQueryHint(getString(R.string.search_namehint));
         Search.setOnQueryTextListener(this);
 
         return true;
@@ -136,6 +138,9 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
         // Bottom Sheet
         this.FriendPage_New = new FriendPage_New(this);
         this.FriendPage_New.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
+
+        // Other XML
+        this.ProgressBar = findViewById(R.id.friend_progressBar);
     }
 
     @Override

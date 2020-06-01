@@ -108,7 +108,7 @@ public class EmailLoginPage implements View.OnClickListener
                         {
                             Log.d(TAG, "onEmailSignInClick: failed");
                             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
-                                                       "Authentication Failed");
+                                                       EmailLoginPage.this.ActivityInstance.getString(R.string.error_auth_failed));
                             Helper.hideProgressBar(EmailLoginPage.this.ActivityInstance,
                                                    EmailLoginPage.this.ProgressBar);
                         }
@@ -117,7 +117,7 @@ public class EmailLoginPage implements View.OnClickListener
         else
         {
             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
-                                       "Please fill in all the fields");
+                                       EmailLoginPage.this.ActivityInstance.getString(R.string.error_register_allfields));
         }
     }
 

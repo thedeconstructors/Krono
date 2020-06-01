@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private TextView Email;
     private TextView Bio;
     private TabLayout Tabs;
+    private android.widget.ProgressBar ProgressBar;
 
     private FirebaseFirestore DBInstance;
     private FirebaseAuth AuthInstance;
@@ -129,19 +131,21 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         this.DBFunctions = FirebaseFunctions.getInstance();
         this.AuthInstance = FirebaseAuth.getInstance();
 
+        // Public
         this.PublicPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID", this.Friend.getUid())
-                .whereEqualTo("public",true);
+                .whereEqualTo(getString(R.string.activities_ownerID), this.Friend.getUid())
+                .whereEqualTo(getString(R.string.plans_public),true);
         this.PublicPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.PublicPlanQuery, Plan.class)
                 .build();
         this.PublicPlansAdapter = new PlanAdapter(this.PublicPlanOptions, this);
 
+        // Shared
         this.SharedPlanQuery = this.DBInstance
                 .collection(getString(R.string.collection_plans))
-                .whereEqualTo("ownerID",this.Friend.getUid())
-                .whereArrayContains("collaborators",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereEqualTo(getString(R.string.activities_ownerID), this.Friend.getUid())
+                .whereArrayContains(getString(R.string.plans_colab),FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.SharedPlanOptions = new FirestoreRecyclerOptions.Builder<Plan>()
                 .setQuery(this.SharedPlanQuery, Plan.class)
                 .build();
@@ -178,7 +182,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
 
                             Object pic_url;
-                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                            if ((pic_url = documentSnapshot.get(getString(R.string.profilepicture))) == null) {
                                 pic_url = getString(R.string.default_picture);
                             }
 
@@ -196,6 +200,9 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
 
         this.Tabs.selectTab(Tabs.getTabAt(0));
         this.Background = findViewById(R.id.ui_friendDetailLayout);
+
+        // Other XML
+        this.ProgressBar = findViewById(R.id.friend_detail_progressBar);
     }
 
     /************************************************************************
@@ -249,6 +256,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         Map<String, Object> users = new HashMap<>();
         users.put(getString(R.string.collection_friends) + "." + this.Friend.getUid(), FieldValue.delete());
         Log.d(TAG, "Detail: " + getString(R.string.collection_friends) + "." + this.Friend.getUid());
+        Helper.showProgressBar(this, ProgressBar);
 
         // Delete the friend relationship from the Owner's Document
         this.DBInstance
@@ -260,7 +268,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     @Override
                     public void onSuccess(Void aVoid)
                     {
-                        finish();
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -269,7 +277,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     public void onFailure(@NonNull Exception e)
                     {
                         Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
-                                                   "Friend Delete Error: " + e.getMessage());
+                                                   getString(R.string.error_friend_delete) + e.getMessage());
                     }
                 });
 
@@ -282,6 +290,8 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                 {
                     /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
                                                "Friend Delete Success");*/
+                    Helper.hideProgressBar(FriendPage_Detail.this, ProgressBar);
+                    finish();
                 }
             })
             .addOnFailureListener(new OnFailureListener()
@@ -292,6 +302,8 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
                     Log.d(TAG, "getDeleteFriendFunctions: " + e.getMessage());
                     /*Helper.makeSnackbarMessage(FriendPage_Detail.this.Background,
                                                "Friend Delete Error: " + e.getMessage());*/
+                    Helper.hideProgressBar(FriendPage_Detail.this, ProgressBar);
+                    finish();
                 }
             });
     }
@@ -300,11 +312,11 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     {
         // Create the arguments to the callable function.
         Map<String, Object> snap = new HashMap<>();
-        snap.put("friendID", friendID);
-        snap.put("push", true);
+        snap.put(getString(R.string.friend_friendID), friendID);
+        snap.put(getString(R.string.functions_push), true);
 
         return this.DBFunctions
-                .getHttpsCallable("deleteFriend")
+                .getHttpsCallable(getString(R.string.functions_deletefriend))
                 .call(snap)
                 .continueWith(new Continuation<HttpsCallableResult, String>()
                 {
@@ -330,6 +342,11 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         this.Profile.setAlpha(percentage);
     }
 
+    /************************************************************************
+     * Purpose:         Tab Layout For Shared Plans
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         switch(tab.getPosition())

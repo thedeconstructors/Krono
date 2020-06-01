@@ -36,6 +36,7 @@
                 android:layout_marginStart="50dp"
                 app:layout_collapseMode="parallax"
                 android:layout_gravity="bottom"
+                android:hint="@string/plan_description"
                 android:minLines="1"
                 android:maxLines="2"
                 android:text=""

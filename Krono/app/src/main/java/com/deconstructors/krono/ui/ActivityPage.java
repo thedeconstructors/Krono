@@ -21,20 +21,14 @@ import com.deconstructors.krono.adapter.ActivityAdapter;
 import com.deconstructors.krono.module.Activity;
 import com.deconstructors.krono.module.Plan;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.FirebaseFunctionsException;
-import com.google.firebase.functions.HttpsCallableResult;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,9 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class ActivityPage extends AppCompatActivity implements ActivityAdapter.ActivityClickListener,
                                                                View.OnClickListener,
@@ -102,7 +94,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         Map<String,Object> planData = new HashMap<>();
 
-        planData.put("collaborators", Collaborators);
+        planData.put(getString(R.string.plans_colab), Collaborators);
 
         planDoc.update(planData)
                 .addOnSuccessListener(new OnSuccessListener<Void>()
@@ -145,7 +137,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         MenuItem searchItem = menu.findItem(R.id.activity_menu_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint("Enter title...");
+        Search.setQueryHint(getString(R.string.search_titlehint));
         Search.setOnQueryTextListener(this);
 
         return true;
@@ -168,9 +160,9 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         else
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Error");
-            builder.setMessage("Plan not found");
-            builder.setPositiveButton("OK", null);
+            builder.setTitle(getString(R.string.error));
+            builder.setMessage(getString(R.string.error_activity_noplan));
+            builder.setPositiveButton(getString(R.string.error_okay), null);
             AlertDialog dialog = builder.create();
             dialog.show();
 
@@ -190,7 +182,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
 
         this.ActivityQuery = this.DBInstance
                 .collection(getString(R.string.collection_activities))
-                .whereArrayContains(getString(R.string.collection_planIDs), this.Plan.getPlanID());
+                .whereArrayContains(getString(R.string.plans_planIDs), this.Plan.getPlanID());
         this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(this.ActivityQuery, Activity.class)
                 .build();
@@ -217,12 +209,12 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         if (Editable == EditMode.PUBLIC)
         {
-            Toast.makeText(this, "This plan is not editable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_activity_editplan), Toast.LENGTH_SHORT).show();
             return;
         }
         else if (Editable == EditMode.COLLAB)
         {
-            Toast.makeText(this, "You cannot delete this plan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_activity_deleteplan), Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -322,7 +314,7 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         if (Editable == EditMode.PUBLIC)
         {
-            Toast.makeText(this,"This plan is not editable", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_activity_editplan), Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(ActivityPage.this, MainPage_Detail.class);

@@ -84,7 +84,7 @@ public class ActivityPage_All extends AppCompatActivity
         this.AuthInstance = FirebaseAuth.getInstance();
         this.ActivityQuery = this.DBInstance
                 .collection(getString(R.string.collection_activities))
-                .whereEqualTo("ownerID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereEqualTo(getString(R.string.activities_ownerID), FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.ActivityOptions = new FirestoreRecyclerOptions.Builder<Activity>()
                 .setQuery(this.ActivityQuery, Activity.class)
                 .build();
@@ -145,7 +145,7 @@ public class ActivityPage_All extends AppCompatActivity
     @Override
     public void onActivitySelected(int position)
     {
-        ActivityPage.EditMode canEdit = ActivityPage.EditMode.PUBLIC;
+        ActivityPage.EditMode canEdit = ActivityPage.EditMode.OWNER;
 
         Intent intent = new Intent(ActivityPage_All.this, ActivityPage_Detail.class);
         intent.putExtra(getString(R.string.intent_activity), this.ActivityAdapter.getItem(position));

@@ -45,7 +45,7 @@
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
             android:padding="10dp"
-            android:background="@color/GrayTrans"
+            android:background="@color/grayTransparent"
             android:contentDescription="@string/activitymap_myloc"
             android:src="@drawable/activity_mylocation"/>
 

@@ -8,8 +8,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
@@ -21,10 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class RegisterPage implements View.OnClickListener
 {
@@ -95,11 +91,11 @@ public class RegisterPage implements View.OnClickListener
         if (Helper.isEmpty(name) || Helper.isEmpty(email)
                 || Helper.isEmpty(password) || Helper.isEmpty(confirm))
         {
-            Helper.makeSnackbarMessage(this.BackgroundLayout, "Please fill in all the fields");
+            Helper.makeSnackbarMessage(this.BackgroundLayout, this.ActivityInstance.getString(R.string.error_register_allfields));
         }
         else if (!(password.equals(confirm)))
         {
-            Helper.makeSnackbarMessage(this.BackgroundLayout,"Please make sure your passwords match");
+            Helper.makeSnackbarMessage(this.BackgroundLayout, this.ActivityInstance.getString(R.string.error_register_passwordmatch));
         }
         else
         {
@@ -128,7 +124,7 @@ public class RegisterPage implements View.OnClickListener
                                  {
                                      Log.d(TAG, "onRegisterClick: failed; " + e.toString());
                                      Helper.makeSnackbarMessage(RegisterPage.this.BackgroundLayout,
-                                                                "Error: Register Failed");
+                                                                RegisterPage.this.ActivityInstance.getString(R.string.error_register_failed));
                                      Helper.hideProgressBar(RegisterPage.this.ActivityInstance,
                                                             RegisterPage.this.ProgressBar);
                                  }
@@ -147,13 +143,14 @@ public class RegisterPage implements View.OnClickListener
 
         Map<String, Object> user = new HashMap<>();
 
-        user.put("displayName", name);
-        user.put("email", email);
-        user.put("bio", "");
-        user.put("friends", new ArrayList<>());
+        user.put(this.ActivityInstance.getString(R.string.users_displayname), name);
+        if (email != null) { user.put(this.ActivityInstance.getString(R.string.users_email), email); }
+        else { user.put(this.ActivityInstance.getString(R.string.users_email), "");}
+        user.put(this.ActivityInstance.getString(R.string.users_bio), "");
+        user.put(this.ActivityInstance.getString(R.string.friends), new HashMap<>());
 
-        user.put("uid", uid);
-        user.put("picture", this.ActivityInstance.getString(R.string.default_picture));
+        user.put(this.ActivityInstance.getString(R.string.notification_uid), uid);
+        user.put(this.ActivityInstance.getString(R.string.profilepicture), this.ActivityInstance.getString(R.string.default_picture));
 
         ref.set(user).addOnFailureListener(new OnFailureListener()
         {
@@ -161,7 +158,7 @@ public class RegisterPage implements View.OnClickListener
             public void onFailure(@NonNull Exception e)
             {
                 Helper.makeSnackbarMessage(RegisterPage.this.BackgroundLayout,
-                                          "Error: Could Not Add New User");
+                                          RegisterPage.this.ActivityInstance.getString(R.string.error_register_addplan));
             }
         });
     }

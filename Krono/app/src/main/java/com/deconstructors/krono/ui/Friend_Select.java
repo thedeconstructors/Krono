@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -89,7 +90,7 @@ public class Friend_Select extends AppCompatActivity
 
         MenuItem searchItem = menu.findItem(R.id.friend_menu_searchbutton);
         Search = (SearchView) searchItem.getActionView();
-        Search.setQueryHint("Enter name...");
+        Search.setQueryHint(getString(R.string.search_namehint));
         Search.setOnQueryTextListener(this);
 
         return true;
