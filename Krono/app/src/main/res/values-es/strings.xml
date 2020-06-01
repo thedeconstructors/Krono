@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Español -->
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">Bienvenidos</string>
+    <string name="auth_email">Correo Electrónico</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_passwordConfirm">Confirmar Contraseña</string>
+    <string name="auth_rememberMe">Recuérdame</string>
+    <string name="auth_forgotPassword">Se Te Olvidó Tu Contraseña</string>
+    <string name="auth_or">O</string>
+    <string name="auth_signin">Iniciar Sesión</string>
+    <string name="auth_register">Registrarse</string>
+    <string name="auth_anonymousSignIn">Omitir</string>
+    <string name="auth_back">Anterior</string>
+    <string name="auth_googlesignin">Continuar con Google</string>
+    <string name="auth_facebooksignin">Continuar con Facebook</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">Notificaciones</string>
+    <string name="notif_listitem_accept">ACEPTAR</string>
+    <string name="notif_listitem_reject">RECHAZAR</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">Todas Las Actividades</string>
+    <string name="menu_friends">Amigos</string>
+    <string name="menu_collaborators">Colaboradores</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_plan">Nuevo Plan</string>
+    <string name="menu_chat">Mensajes</string>
+    <string name="menu_settings">Configuraciones</string>
+    <string name="menu_myplans">Mis Planes</string>
+    <string name="menu_shared">Comparte Conmigo</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">Perfil</string>
+    <string name="navigation_displayNameText">Nombre Para Mostrar</string>
+    <string name="navigation_emailFieldText">El Crreo Electrónico No Encontrado</string>
+    <string name="profile_edit_biofield">Bio</string>
+    <string name="profile_picture_text">Foto De Perfil</string>
+    <string name="profile_no_displayName">Nombre No Encontrado</string>
+    <string name="profile_no_email">El Correo Electrónico No Encontrado</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">Detalles Del Plan</string>
+    <string name="plan_new">Nuevo plan</string>
+    <string name="plan_title">Título</string>
+    <string name="plan_description">Descripción</string>
+    <string name="plan_save">Salvar</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">Nueva Actividad</string>
+    <string name="newactivity_title">Título</string>
+    <string name="newactivity_description">Descripción</string>
+    <string name="newactivity_timestamp">Selecciona Una Fecha</string>
+    <string name="newactivity_duration">Duración</string>
+    <string name="newactivity_location">Añade Una Ubicación</string>
+    <string name="newactivity_repeat">Repetir</string>
+    <string name="newactivity_save">Salvar</string>
+    <string name="activitydetail_header">Detalles De Actividad</string>
+    <string name="activitydetail_headerViewOnly">Ver Actividad</string>
+    <string name="activitydetail_selectduration">Seleccionar Duración De La Actividad</string>
+    <string name="activitydetail_hours">Horas</string>
+    <string name="activitydetail_cancel">Cancelar</string>
+    <string name="activitydetail_done">Hecho</string>
+    <string name="activitymap_myloc">Mi Ubicación</string>
+    <string name="activitymap_addloc">Agregar Esta Ubicación</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">Buscar Por Correo Electrónico</string>
+    <string name="friendnew_done">Buscar</string>
+    <string name="friend_public">Público</string>
+    <string name="friend_Shared">Compartido</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_sortBy">Ordenar Por</string>
+    <string name="activity_menu_editPlan">Editar Plan</string>
+    <string name="activity_menu_deletePlan">Eliminar Plan</string>
+    <string name="menu_activitydetail_editActivity">Editar Actividad</string>
+    <string name="menu_activitydetail_deletePlan">Eliminar Actividad</string>
+    <string name="Menu_FriendDetail_RemoveFriend">Eliminar Amigo</string>
+    <string name="total_plans">Planes Totales</string>
+    <string name="friends_title">Amigos</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">Buscar por título</string>
+    <string name="search_namehint">Buscar por nombre</string>
+
+    <!-- 11. Settings -->
+    <string name="settings_general">General</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_account">Administración De Cuentas</string>
+    <string name="settings_signout">Cerrar Sesión</string>
+    <string name="settings_about">Acerca De</string>
+    <string name="settings_aboutsum">
+        Krono es desarrollado por The Deconstructors, un pequeño equipo de proyectos junior del Oregon Institute of Technology.
+        Estamos encantados de ayudar de todos modos!
+    </string>
+    <string name="settings_version">Versión</string>
+    <string name="settings_feedback">Enviar Comentarios</string>
+    <string name="settings_feedbacksum">¿Tienes alguna consulta? Estamos encantados de ayudarle!</string>
+    <string name="settings_privacy">Política De Privacidad</string>
+    <string name="settings_terms">Términos Y Condiciones</string>
+
+    <!-- 12. Error Messages -->
+    <string name="error">Error</string>
+    <string name="error_okay">OK</string>
+
+    <string name="error_auth_failed">Error de inicio de sesion. Por favor, compruebe la conexión a internet.</string>
+    <string name="error_auth_google">No se puede conectar con el Google Play Service.</string>
+    <string name="error_register_allfields">Porfavor llene todos los campos.</string>
+    <string name="error_register_passwordmatch">Por favor, asegúrese de que sus contraseñas coinciden.</string>
+    <string name="error_register_addplan">No se pudo agregar un nuevo usuario. Por favor, compruebe la conexión a internet.</string>
+    <string name="error_register_failed">Registro fallido. Por favor, compruebe la conexión a internet.</string>
+
+    <string name="error_activity_noplan">Plan no encontrado.</string>
+    <string name="error_activity_mapNotSelected">Ubicación no seleccionada.</string>
+    <string name="error_activity_editplan">Este plan no es editable.</string>
+    <string name="error_activity_deleteplan">No puedes eliminar este plan.</string>
+
+    <string name="error_newactivity_add">No se pudo agregar nueva actividad. Por favor, compruebe la conexión a internet.</string>
+    <string name="error_newactivity_no_input">Por favor, introduzca el título.</string>
+
+    <string name="error_friend_enteremail">Por favor ingrese un correo electrónico</string>
+    <string name="error_friend_notfound">El correo electrónico no encontrado</string>
+    <string name="error_friend_search">Incapaz de buscar. Por favor, compruebe la conexión a internet.</string>
+    <string name="error_friend_add">No se puede agregar un amigo: </string>
+    <string name="error_friend_delete">No se puede eliminar a un amigo: </string>
+
+    <string name="error_profile_data">Se produjo un error al procesar los datos del perfil.</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        Permiso denegado para acceder a su ubicación actual.
+        Vaya a la página de información de la aplicación y permita el permiso de ubicación para usar esta función.
+    </string>
+</resources>

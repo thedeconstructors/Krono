@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Japanese -->
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">ようこそ</string>
+    <string name="auth_email">Eメール</string>
+    <string name="auth_password">パスワード</string>
+    <string name="auth_passwordConfirm">パスワードを認証する</string>
+    <string name="auth_rememberMe">私を覚えてますか</string>
+    <string name="auth_forgotPassword">パスワードをお忘れですか</string>
+    <string name="auth_or">または</string>
+    <string name="auth_signin">ログインする</string>
+    <string name="auth_register">登録</string>
+    <string name="auth_anonymousSignIn">スキップ</string>
+    <string name="auth_back">バック</string>
+    <string name="auth_googlesignin">Googleでサインイン</string>
+    <string name="auth_facebooksignin">Facebookでサインイン</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">お知らせ</string>
+    <string name="notif_listitem_accept">受け入れる</string>
+    <string name="notif_listitem_reject">拒否</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">すべての活動</string>
+    <string name="menu_friends">フレンズ</string>
+    <string name="menu_collaborators">協力者</string>
+    <string name="menu_profile">プロフィール</string>
+    <string name="menu_plan">新しい計画</string>
+    <string name="menu_chat">メッセージ</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_myplans">私の計画</string>
+    <string name="menu_shared">共有プラン</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">プロフィール</string>
+    <string name="navigation_displayNameText">表示名</string>
+    <string name="navigation_emailFieldText">メールが見つかりません</string>
+    <string name="profile_edit_biofield">バイオ</string>
+    <string name="profile_picture_text">プロフィールの写真</string>
+    <string name="profile_no_displayName">表示名が見つかりません</string>
+    <string name="profile_no_email">メールが見つかりません</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">プラン詳細</string>
+    <string name="plan_new">新しい計画</string>
+    <string name="plan_title">題名</string>
+    <string name="plan_description">説明文</string>
+    <string name="plan_save">セーブ</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">新しい活動</string>
+    <string name="newactivity_title">題名</string>
+    <string name="newactivity_description">説明文</string>
+    <string name="newactivity_timestamp">日付を選択します</string>
+    <string name="newactivity_duration">期間</string>
+    <string name="newactivity_location">場所を追加</string>
+    <string name="newactivity_repeat">繰り返す</string>
+    <string name="newactivity_save">セーブ</string>
+    <string name="activitydetail_header">アクティビティを編集</string>
+    <string name="activitydetail_headerViewOnly">アクティビティを表示</string>
+    <string name="activitydetail_selectduration">アクティビティ期間を選択</string>
+    <string name="activitydetail_hours">時間</string>
+    <string name="activitydetail_cancel">キャンセル</string>
+    <string name="activitydetail_done">できた</string>
+    <string name="activitymap_myloc">私の場所</string>
+    <string name="activitymap_addloc">この場所を追加</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">メールで検索</string>
+    <string name="friendnew_done">探す</string>
+    <string name="friend_public">パブリック</string>
+    <string name="friend_Shared">共有</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_sortBy">ソート基準</string>
+    <string name="activity_menu_editPlan">プランの編集</string>
+    <string name="activity_menu_deletePlan">計画の削除</string>
+    <string name="menu_activitydetail_editActivity">アクティビティの編集</string>
+    <string name="menu_activitydetail_deletePlan">アクティビティの削除</string>
+    <string name="Menu_FriendDetail_RemoveFriend">友達の削除</string>
+    <string name="total_plans">トータルプラン</string>
+    <string name="friends_title">フレンズ</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">タイトルで検索</string>
+    <string name="search_namehint">名前で検索</string>
+
+    <!-- 11. Settings -->
+    <string name="settings_general">一般的な</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_account">アカウント管理</string>
+    <string name="settings_signout">ログアウト</string>
+    <string name="settings_about">約</string>
+    <string name="settings_aboutsum">
+        Kronoは、Oregon Institute of Technologyの小さなジュニアプロジェクトチーム、The Deconstructorsによって開発されました。
+        とにかくお手伝いさせていただきます！
+    </string>
+    <string name="settings_version">バージョン</string>
+    <string name="settings_feedback">フィードバックを送信する</string>
+    <string name="settings_feedbacksum">クエリをお持ちですか？ 喜んでお手伝いいたします！</string>
+    <string name="settings_privacy">個人情報保護方針</string>
+    <string name="settings_terms">規約と条件</string>
+
+    <!-- 12. Error Messages -->
+    <string name="error">エラー</string>
+    <string name="error_okay">オーケー</string>
+
+    <string name="error_auth_failed">ログインに失敗しました。 インターネット接続を確認してください。</string>
+    <string name="error_auth_google">Google Play Serviceに接続できません。</string>
+    <string name="error_register_allfields">全ての欄に記入してください。</string>
+    <string name="error_register_passwordmatch">パスワードが一致していることを確認してください。</string>
+    <string name="error_register_addplan">新しいユーザーを追加できませんでした。 インターネット接続を確認してください。</string>
+    <string name="error_register_failed">登録に失敗しました。 インターネット接続を確認してください。</string>
+
+    <string name="error_activity_noplan">プランが見つかりません。</string>
+    <string name="error_activity_mapNotSelected">場所が選択されていません。</string>
+    <string name="error_activity_editplan">このプランは編集できません。</string>
+    <string name="error_activity_deleteplan">このプランは削除できません。</string>
+
+    <string name="error_newactivity_add">新しいアクティビティを追加できませんでした。 インターネット接続を確認してください。</string>
+    <string name="error_newactivity_no_input">タイトルを入力してください。</string>
+
+    <string name="error_friend_enteremail">メールアドレスを入力してください</string>
+    <string name="error_friend_notfound">メールが見つかりません</string>
+    <string name="error_friend_search">検索できません。 インターネット接続を確認してください。</string>
+    <string name="error_friend_add">友達を追加できません： </string>
+    <string name="error_friend_delete">友達を削除できません： </string>
+
+    <string name="error_profile_data">プロファイルデータの処理中にエラーが発生しました。</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        現在地へのアクセスが拒否されました。
+        アプリの情報ページに移動し、この機能を使用するための位置情報の許可を許可してください。
+    </string>
+</resources>

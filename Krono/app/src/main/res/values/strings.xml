@@ -72,28 +72,40 @@
     <!-- 8. Friend -->
     <string name="friendnew_hint">Search By Email</string>
     <string name="friendnew_done">Search</string>
-    <string name="friend_bio">Bio</string>
     <string name="friend_public">Public</string>
     <string name="friend_Shared">Shared</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">Sort By</string>
     <string name="activity_menu_editPlan">Edit Plan</string>
-    <string name="activity_menu_sortBy">Sort By</string>
     <string name="activity_menu_deletePlan">Delete Plan</string>
     <string name="menu_activitydetail_editActivity">Edit Activity</string>
-    <string name="menu_activitydetail_sortBy">Sort By</string>
     <string name="menu_activitydetail_deletePlan">Delete Activity</string>
     <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
     <string name="total_plans">Total Plans</string>
-    <string name="bio_hint">Bio</string>
     <string name="friends_title">Friends</string>
 
     <!-- 10. Search Bar -->
     <string name="search_titlehint">Search by title</string>
     <string name="search_namehint">Search by name</string>
 
-    <!-- 11. Error Messages -->
+    <!-- 11. Settings -->
+    <string name="settings_general">General</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_account">Account Management</string>
+    <string name="settings_signout">Log Out</string>
+    <string name="settings_about">About</string>
+    <string name="settings_aboutsum">
+        Krono is developed by The Deconstructors, a small junior project team from Oregon Institute of Technology.
+        We are glad to help in anyway!
+    </string>
+    <string name="settings_version">Version</string>
+    <string name="settings_feedback">Send Feedback</string>
+    <string name="settings_feedbacksum">Got any queries? We are happy to help!</string>
+    <string name="settings_privacy">Privacy Policy</string>
+    <string name="settings_terms">Terms &amp; Conditions</string>
+
+    <!-- 12. Error Messages -->
     <string name="error">Error</string>
     <string name="error_okay">OK</string>
 
@@ -118,7 +130,7 @@
     <string name="error_friend_add">Unable to add a friend: </string>
     <string name="error_friend_delete">Unable to delete a friend: </string>
 
-    <string name="error_profile_data">There was an error processing the profile data</string>
+    <string name="error_profile_data">There was an error processing the profile data.</string>
 
     <string name="error_activity_mapPermissionDenied">
         Permission denied to access your current location.

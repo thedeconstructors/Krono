@@ -72,28 +72,40 @@
     <!-- 8. Friend -->
     <string name="friendnew_hint">Suche per Email</string>
     <string name="friendnew_done">Suche</string>
-    <string name="friend_bio">Bio</string>
     <string name="friend_public">Öffentlichkeit</string>
     <string name="friend_Shared">Geteilt</string>
 
     <!-- 9. Menu -->
-    <string name="menu_sortBy">Sortiere nach</string>
+    <string name="menu_sortBy">Sortiere Nach</string>
     <string name="activity_menu_editPlan">Plan Bearbeiten</string>
-    <string name="activity_menu_sortBy">Sortiere Nach</string>
     <string name="activity_menu_deletePlan">Plan Löschen</string>
-    <string name="menu_activitydetail_editActivity">Aktivität bearbeiten</string>
-    <string name="menu_activitydetail_sortBy">Sortiere Nach</string>
+    <string name="menu_activitydetail_editActivity">Aktivität Bearbeiten</string>
     <string name="menu_activitydetail_deletePlan">Aktivität Löschen</string>
     <string name="Menu_FriendDetail_RemoveFriend">Freund Löschen</string>
     <string name="total_plans">Gesamtpläne</string>
-    <string name="bio_hint">Bio</string>
     <string name="friends_title">Freunde</string>
 
     <!-- 10. Search Bar -->
     <string name="search_titlehint">Suche nach Titel</string>
     <string name="search_namehint">Suche mit Name</string>
 
-    <!-- 11. Error Messages -->
+    <!-- 11. Settings -->
+    <string name="settings_general">Allgemeines</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_account">Kontoverwaltung</string>
+    <string name="settings_signout">Ausloggen</string>
+    <string name="settings_about">Über</string>
+    <string name="settings_aboutsum">
+        Krono wird von The Deconstructors entwickelt, einem kleinen Junior-Projektteam des Oregon Institute of Technology.
+        Wir helfen Ihnen trotzdem gerne weiter!
+    </string>
+    <string name="settings_version">Ausführung</string>
+    <string name="settings_feedback">Feedback Shicken</string>
+    <string name="settings_feedbacksum">Haben Sie Fragen? Wir helfen Ihnen gerne weiter!</string>
+    <string name="settings_privacy">Datenschutz-Bestimmungen</string>
+    <string name="settings_terms">Geschäftsbedingungen</string>
+
+    <!-- 12. Error Messages -->
     <string name="error">Error</string>
     <string name="error_okay">OK</string>
 
@@ -118,7 +130,7 @@
     <string name="error_friend_add">Freund kann nicht hinzugefügt werden: </string>
     <string name="error_friend_delete">Ein Freund kann nicht gelöscht werden: </string>
 
-    <string name="error_profile_data">Beim Verarbeiten der Profildaten ist ein Fehler aufgetreten</string>
+    <string name="error_profile_data">Beim Verarbeiten der Profildaten ist ein Fehler aufgetreten.</string>
 
     <string name="error_activity_mapPermissionDenied">
         Die Berechtigung zum Zugriff auf Ihren aktuellen Standort wurde verweigert.

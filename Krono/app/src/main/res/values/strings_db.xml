@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <!-- 1. Game Version -->
+    <string name="app_version">v0.1</string>
+
     <!-- 1. Authentication -->
     <string name="facebook_app_id">249681212769545</string>
     <string name="facebook_profile_perm">public_profile</string>
@@ -77,6 +80,27 @@
     <string name="functions_deletefriend">deleteFriend</string>
 
     <!-- 5. Settings -->
-    <string name="settings_signout">sign_out_button</string>
-
+    <string name="pref_language_key">pref_language</string>
+    <string name="pref_signout_key">pref_signout</string>
+    <string name="pref_feedback_key">pref_feedback</string>
+    <string name="pref_privacy_key">pref_privacy</string>
+    <string name="pref_terms_key">pref_terms</string>
+    <string-array name="pref_language_array">
+        <item>English</item>
+        <item>Deutsch</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>中文</item>
+        <item>日本語</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="pref_language_alias">
+        <item>en</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>zh</item>
+        <item>ja</item>
+        <item>ko</item>
+    </string-array>
 </resources>

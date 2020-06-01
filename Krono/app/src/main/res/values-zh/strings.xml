@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese / Simplified -->
+<resources>
+    <!-- 1. Base -->
+    <string name="app_name">Krono</string>
+
+    <!-- 2. Auth -->
+    <string name="auth_welcome">欢迎</string>
+    <string name="auth_email">电子邮件</string>
+    <string name="auth_password">密码</string>
+    <string name="auth_passwordConfirm">确认密码</string>
+    <string name="auth_rememberMe">记住账号</string>
+    <string name="auth_forgotPassword">忘记密码</string>
+    <string name="auth_or">或</string>
+    <string name="auth_signin">登录</string>
+    <string name="auth_register">登记册</string>
+    <string name="auth_anonymousSignIn">跳跃</string>
+    <string name="auth_back">背部</string>
+    <string name="auth_googlesignin">使用Google登录</string>
+    <string name="auth_facebooksignin">使用Facebook登录</string>
+
+    <!-- 3. Notifications -->
+    <string name="notif_title">通知事项</string>
+    <string name="notif_listitem_accept">接受</string>
+    <string name="notif_listitem_reject">拒绝</string>
+
+    <!-- 4. Main Menu -->
+    <string name="menu_allactivities">所有活动</string>
+    <string name="menu_friends">友人</string>
+    <string name="menu_collaborators">合作者</string>
+    <string name="menu_profile">轮廓</string>
+    <string name="menu_plan">新计划</string>
+    <string name="menu_chat">留言内容</string>
+    <string name="menu_settings">设定值</string>
+    <string name="menu_myplans">我的计划</string>
+    <string name="menu_shared">共享计划</string>
+
+    <!-- 5. Profile -->
+    <string name="navigation_profileText">轮廓</string>
+    <string name="navigation_displayNameText">显示名称</string>
+    <string name="navigation_emailFieldText">电子邮件找不到</string>
+    <string name="profile_edit_biofield">生化</string>
+    <string name="profile_picture_text">个人资料图片</string>
+    <string name="profile_no_displayName">找不到显示名称</string>
+    <string name="profile_no_email">电子邮件找不到</string>
+
+    <!-- 6. Plan -->
+    <string name="plan_details">计划详情</string>
+    <string name="plan_new">新计划</string>
+    <string name="plan_title">标题</string>
+    <string name="plan_description">描述</string>
+    <string name="plan_save">救</string>
+
+    <!-- 7. Activity -->
+    <string name="newactivity_header">新活动</string>
+    <string name="newactivity_title">标题</string>
+    <string name="newactivity_description">描述</string>
+    <string name="newactivity_timestamp">选择一个日期</string>
+    <string name="newactivity_duration">持续时间</string>
+    <string name="newactivity_location">添加位置</string>
+    <string name="newactivity_repeat">重复</string>
+    <string name="newactivity_save">救</string>
+    <string name="activitydetail_header">编辑活动</string>
+    <string name="activitydetail_headerViewOnly">查看活动</string>
+    <string name="activitydetail_selectduration">选择活动时间</string>
+    <string name="activitydetail_hours">个小时</string>
+    <string name="activitydetail_cancel">取消</string>
+    <string name="activitydetail_done">完成了</string>
+    <string name="activitymap_myloc">我的位置</string>
+    <string name="activitymap_addloc">添加此位置</string>
+
+    <!-- 8. Friend -->
+    <string name="friendnew_hint">通过电子邮件搜索</string>
+    <string name="friendnew_done">搜索</string>
+    <string name="friend_public">公开</string>
+    <string name="friend_Shared">共享</string>
+
+    <!-- 9. Menu -->
+    <string name="menu_sortBy">排序方式</string>
+    <string name="activity_menu_editPlan">编辑计划</string>
+    <string name="activity_menu_deletePlan">删除计划</string>
+    <string name="menu_activitydetail_editActivity">编辑活动</string>
+    <string name="menu_activitydetail_deletePlan">删除活动</string>
+    <string name="Menu_FriendDetail_RemoveFriend">删除朋友</string>
+    <string name="total_plans">总体计划</string>
+    <string name="friends_title">友人</string>
+
+    <!-- 10. Search Bar -->
+    <string name="search_titlehint">按标题搜索</string>
+    <string name="search_namehint">依名称搜寻</string>
+
+    <!-- 11. Settings -->
+    <string name="settings_general">一般</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_account">帐户管理</string>
+    <string name="settings_signout">登出</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_aboutsum">
+        Krono是由Oregon Institute of Technology的小型初级项目团队The Deconstructors开发的。
+        无论如何，我们很乐意为您提供帮助！
+    </string>
+    <string name="settings_version">版</string>
+    <string name="settings_feedback">发送反馈</string>
+    <string name="settings_feedbacksum">有任何疑问吗？ 我们很乐意帮助！</string>
+    <string name="settings_privacy">隐私政策</string>
+    <string name="settings_terms">条款和条件</string>
+
+    <!-- 12. Error Messages -->
+    <string name="error">错误</string>
+    <string name="error_okay">好</string>
+
+    <string name="error_auth_failed">登录失败。 请检查互联网连接。</string>
+    <string name="error_auth_google">无法连接到Google Play Service。</string>
+    <string name="error_register_allfields">请把空白处全部填写。</string>
+    <string name="error_register_passwordmatch">请确保您的密码匹配。</string>
+    <string name="error_register_addplan">无法添加新用户。 请检查互联网连接。</string>
+    <string name="error_register_failed">注册失败。 请检查互联网连接。</string>
+
+    <string name="error_activity_noplan">找不到计划。</string>
+    <string name="error_activity_mapNotSelected">未选择位置。</string>
+    <string name="error_activity_editplan">该计划不可编辑。</string>
+    <string name="error_activity_deleteplan">您无法删除该计划。</string>
+
+    <string name="error_newactivity_add">无法添加新活动。 请检查互联网连接。</string>
+    <string name="error_newactivity_no_input">请输入标题。</string>
+
+    <string name="error_friend_enteremail">请输入电子邮件</string>
+    <string name="error_friend_notfound">电子邮件找不到</string>
+    <string name="error_friend_search">无法搜索。 请检查互联网连接。</string>
+    <string name="error_friend_add">无法添加朋友： </string>
+    <string name="error_friend_delete">无法删除朋友：</string>
+
+    <string name="error_profile_data">处理个人资料数据时出错。</string>
+
+    <string name="error_activity_mapPermissionDenied">
+        拒绝访问您当前位置的权限。
+        请转到应用信息页面，并允许位置权限使用此功能。
+    </string>
+</resources>

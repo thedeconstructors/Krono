@@ -1,37 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <!-- Start of Not used / Example
     <PreferenceCategory
-        android:title="Most Used">
+        app:iconSpaceReserved="false"
+        android:title="@string/settings_general">
 
-        <SeekBarPreference
-            android:key="volume"
-            android:title="Volume"
-            android:summary="Increase or Decrease the volume of the application."/>
+        <ListPreference
+            android:key="@string/pref_language_key"
+            android:title="@string/settings_language"
+            android:summary="%s"
+            android:icon="@drawable/settings_lang"
+            android:entries="@array/pref_language_array"
+            android:entryValues="@array/pref_language_alias"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Map Settings">
-
-        <CheckBoxPreference
-            android:key="checkbox"
-            android:title="Privacy"
-            android:summary="People other than friends can see you on the map."
-            android:icon="@drawable/ui_friend_emptyprofile"/>
-    </PreferenceCategory>
-    End Example / Not used-->
-
-    <PreferenceCategory
-        android:title="Sign Out">
+        app:iconSpaceReserved="false"
+        android:title="@string/settings_account">
 
         <Preference
-            android:key="sign_out_button"
-            android:title="Sign Out"
-            android:summary="Sign out of the application."
-            android:icon="@android:drawable/ic_lock_power_off"/>
+            android:key="@string/pref_signout_key"
+            android:title="@string/settings_signout"
+            android:icon="@drawable/settings_logout"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/settings_about">
+
+        <Preference
+            android:selectable="false"
+            app:iconSpaceReserved="false"
+            android:summary="@string/settings_aboutsum"/>
+
+        <Preference
+            app:iconSpaceReserved="false"
+            android:title="@string/settings_version"
+            android:summary="@string/app_version"/>
+
+        <Preference
+            app:iconSpaceReserved="false"
+            android:key="@string/pref_feedback_key"
+            android:title="@string/settings_feedback"
+            android:summary="@string/settings_feedbacksum" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            android:key="@string/pref_privacy_key"
+            android:title="@string/settings_privacy"/>
+
+        <Preference
+            app:iconSpaceReserved="false"
+            android:key="@string/pref_terms_key"
+            android:title="@string/settings_terms">
+            <!--<intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_terms" />-->
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

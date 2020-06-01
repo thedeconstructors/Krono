@@ -18,7 +18,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
         <!--<meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
             android:value="false"/>
@@ -26,7 +27,8 @@
             android:value="false"/>-->
 
         <!-- Auth -->
-        <activity android:name=".auth.WelcomePage">
+        <activity android:name=".auth.WelcomePage"
+            android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,39 +36,55 @@
         </activity>
         <activity
             android:name=".auth.GoogleLoginPage"
-            android:theme="@style/NoAnimTheme"/>
+            android:theme="@style/NoAnimTheme"
+            android:configChanges="locale"/>
         <activity
             android:name=".auth.FacebookLoginPage"
             android:theme="@style/NoAnimTheme"
             android:label="@string/app_name"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"/>
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation|locale"/>
 
         <!-- Main Menu -->
-        <activity android:name=".ui.MainPage"/>
+        <activity android:name=".ui.MainPage"
+            android:configChanges="locale"/>
         <!--<activity
             android:name=".ui.MainPage_New"
             android:theme="@style/NoAnimTheme"/>-->
         <!-- Plan (Menu) Page -->
-        <activity android:name=".ui.MainPage_Detail"/>
+        <activity android:name=".ui.MainPage_Detail"
+            android:configChanges="locale"/>
         <!-- All Activities Page -->
-        <activity android:name=".ui.ActivityPage_All"/>
+        <activity android:name=".ui.ActivityPage_All"
+            android:configChanges="locale"/>
         <!-- Friends Page -->
-        <activity android:name=".ui.FriendPage"/>
-        <activity android:name=".ui.FriendPage_Detail"/>
-        <activity android:name=".ui.Friend_Select"/>
+        <activity android:name=".ui.FriendPage"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.FriendPage_Detail"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.Friend_Select"
+            android:configChanges="locale"/>
         <!-- Profile Page -->
-        <activity android:name=".ui.ProfilePage"/>
-        <activity android:name=".ui.ProfilePage_Edit"/>
+        <activity android:name=".ui.ProfilePage"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.ProfilePage_Edit"
+            android:configChanges="locale"/>
         <!-- Settings Page -->
-        <activity android:name=".ui.SettingsPage_Main"/>
+        <activity android:name=".ui.SettingsPage_Main"
+            android:configChanges="locale"/>
         <!-- Activity Page -->
-        <activity android:name=".ui.ActivityPage"/>
-        <activity android:name=".ui.ActivityPage_Detail"/>
-        <activity android:name=".ui.ActivityPage_Map"/>
+        <activity android:name=".ui.ActivityPage"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.ActivityPage_Detail"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.ActivityPage_Map"
+            android:configChanges="locale"/>
         <!-- Notifications Page -->
-        <activity android:name=".ui.NotificationsPage"/>
+        <activity android:name=".ui.NotificationsPage"
+            android:configChanges="locale"/>
         <!-- Chat Page -->
-        <activity android:name=".ui.ChatFriendPage"/>
-        <activity android:name=".ui.ChatPage"/>
+        <activity android:name=".ui.ChatFriendPage"
+            android:configChanges="locale"/>
+        <activity android:name=".ui.ChatPage"
+            android:configChanges="locale"/>
     </application>
 </manifest>
