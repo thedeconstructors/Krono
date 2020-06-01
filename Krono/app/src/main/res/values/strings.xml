@@ -1,7 +1,8 @@
 <!-- Eng Lang -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- 1. Base -->
     <string name="app_name">Krono</string>
+    <string name="facebook_app_id">249681212769545</string>
 
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>
@@ -33,12 +34,12 @@
     <string name="auth_passwordConfirm">Confirm Password</string>
     <string name="auth_rememberMe">Remember Me</string>
     <string name="auth_forgotPassword">Forgot Password</string>
-    <string name="auth_or">OR</string>
+    <string name="auth_or">Or Log In With</string>
     <string name="auth_signin">Log In</string>
     <string name="auth_register">Register</string>
     <string name="auth_anonymousSignIn">Skip</string>
     <string name="auth_back">Back</string>
-    <string name="default_picture"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc-e666-4aa5-ad3a-1682759b8e42]]></string>
+    <string name="default_picture" tools:ignore="TypographyDashes">https://firebasestorage.googleapis.com/v0/b/kronoui-39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&amp;token=b9b5addc-e666-4aa5-ad3a-1682759b8e42</string>
 
     <!-- 4. User Interface -->
     <string name="intent_plans">intent_plans</string>
@@ -48,9 +49,14 @@
     <string name="intent_friendList">intent_friendList</string>
     <string name="intent_location">location</string>
 
+    <!-- Notifications -->
+    <string name="notif_listitem_accept">ACCEPT</string>
+    <string name="notif_listitem_reject">REJECT</string>
+
     <!-- 4.1 - Main Menu -->
     <string name="menu_allactivities">All Activities</string>
     <string name="menu_friends">Friends</string>
+    <string name="menu_collaborators">Collaborators</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_plan">New Plan</string>
     <string name="menu_chat">Chats</string>
@@ -65,6 +71,7 @@
     <string name="navigation_emailFieldText">email@field.com</string>
     <string name="profile_edit_biofield">Bio</string>
     <string name="profile_picture_text">Profile Picture</string>
+    <string name="profile_picture_url"><![CDATA[https://firebasestorage.googleapis.com/v0/b/kronoui–39c5f.appspot.com/o/profilepictures%2Fprofile.jpg?alt=media&token=b9b5addc–e666-4aa5-ad3a-1682759b8e42]]></string>
 
     <!-- 4.3 - Plan -->
     <string name="plan_menu">Activity Menu</string>
@@ -79,6 +86,7 @@
     <string name="newactivity_title">Title</string>
     <string name="newactivity_description">Description</string>
     <string name="newactivity_timestamp">Pick a date</string>
+    <string name="newactivity_duration">Duration</string>
     <string name="newactivity_location">Add Location</string>
     <string name="newactivity_repeat">Repeat</string>
     <string name="newactivity_save">Save</string>
@@ -111,5 +119,10 @@
     <string name="menu_activitydetail_sortBy">Sort By</string>
     <string name="menu_activitydetail_deletePlan">Delete Activity</string>
     <string name="Menu_FriendDetail_RemoveFriend">Remove Friend</string>
+    <string name="total_plans">Total Plans</string>
+    <string name="default_total_plans">0</string>
+    <string name="bio_hint">Bio</string>
+    <string name="friend_default_value">0</string>
+    <string name="friends">Friends</string>
 
 </resources>

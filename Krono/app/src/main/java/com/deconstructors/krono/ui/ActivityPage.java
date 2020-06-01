@@ -105,15 +105,19 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         planData.put("collaborators", Collaborators);
 
         planDoc.update(planData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
                     @Override
-                    public void onSuccess(Void aVoid) {
+                    public void onSuccess(Void aVoid)
+                    {
 
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
+                .addOnFailureListener(new OnFailureListener()
+                {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure(@NonNull Exception e)
+                    {
 
                     }
                 });
@@ -254,7 +258,6 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
         this.FAB = findViewById(R.id.ActivityPage_FAB);
         this.FAB_Collaborators = findViewById(R.id.ActivityPage_FAB_Collaborators);
         this.FAB_Collaborators.setOnClickListener(this);
-
 
         //Bottom Sheet and Collaborators
         if (Editable == EditMode.OWNER)
@@ -401,7 +404,10 @@ public class ActivityPage extends AppCompatActivity implements ActivityAdapter.A
     {
         super.onActivityResult(requestCode, resultCode, data);
         if (Editable != EditMode.PUBLIC)
+        {
             this.ActivityPage_New.ActivityResult(requestCode, resultCode, data);
+        }
+
         switch (resultCode)
         {
             case AR_COLLAB:

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:fb="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -41,6 +42,7 @@
                 android:textSize="@dimen/auth_headerText"/>
         </LinearLayout>
 
+        <!-- Log In -->
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -54,11 +56,12 @@
             android:onClick="onClick"
             android:id="@+id/auth_welcome_signIn"/>
 
+        <!-- Register -->
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
-            android:layout_marginBottom="@dimen/auth_buttonStartEndPadding"
+            android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
             android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
             android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
             android:text="@string/auth_register"
@@ -68,11 +71,12 @@
             android:onClick="onClick"
             android:id="@+id/auth_welcome_register"/>
 
+        <!-- OR -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/relLayout1"
-            android:visibility="gone">
+            android:visibility="visible">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,6 +87,41 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/lightGrey"/>
         </RelativeLayout>
+
+        <!-- Google Sig... Log In -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.gms.common.SignInButton
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+                android:layout_marginEnd="@dimen/auth_buttonBetweenPadding"
+                android:onClick="onClick"
+                android:id="@+id/auth_googleLogIn"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_weight="1"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginStart="@dimen/auth_buttonBetweenPadding"
+                android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+                android:gravity="center"
+                android:background="@drawable/auth_buttonborder"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="onClick"
+                android:enabled="false"
+                android:id="@+id/auth_facebookLogIn"/>
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Sign In Page (Hidden) -->
@@ -136,7 +175,7 @@
         android:visibility="invisible"
         />
 
-    <!-- Hidden Progress Bar -->
+    <!-- Hidden Progress Bar (Hidden) -->
     <ProgressBar
         style="@style/ProgressBar"
         android:id="@+id/auth_progressBar"/>

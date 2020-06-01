@@ -26,9 +26,13 @@ Krono provides a simple, visual way to organize localized activities. Create new
 - [Copyright](#copyright)
 
 ## Features
-| **Main Menu** | **Bank of Activities** |
-| :---: | :---: |
-| ![Main menu](https://github.com/thedeconstructors/Krono/blob/master/Images/login_page-v3.png) | ![Mike](https://github.com/thedeconstructors/Krono/blob/master/Images/main_screen-v3.png) |
+| **Welcome Page** | **Main Menu** | **Bank of Activities** |
+| :---: | :---: | :---: |
+| ![Welcome Page](https://github.com/thedeconstructors/Krono/blob/master/Images/login_page-v3.png) | ![Main Menu](https://github.com/thedeconstructors/Krono/blob/master/Images/main_screen-v3.png) | ![Plan Page](https://github.com/thedeconstructors/Krono/blob/master/Images/plan_page_v3.png) |
+
+| **Activity Details** | **Friends** | **Friend Detail** |
+| :---: | :---: | :---: |
+| ![Activity Page](https://github.com/thedeconstructors/Krono/blob/master/Images/activity_detail_v3.png) | ![Friend](https://github.com/thedeconstructors/Krono/blob/master/Images/friends-v3.png) | ![Friend Detail](https://github.com/thedeconstructors/Krono/blob/master/Images/friend_detail_v3.png) |
 
 - Geo-local activities
 - Plans saved to the cloud

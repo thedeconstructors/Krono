@@ -34,15 +34,21 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,
                                                                     TabLayout.OnTabSelectedListener,
@@ -163,6 +169,24 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
         this.Email.setText(this.Friend.getEmail());
         this.Bio.setText(this.Friend.getBio());
 
+        //Profile Picture
+        this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .document(Friend.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                            Object pic_url;
+                            if ((pic_url = documentSnapshot.get("picture")) == null) {
+                                pic_url = getString(R.string.default_picture);
+                            }
+
+                            Picasso.get().load(pic_url.toString()).into(Profile);
+
+                        }
+                });
+
         this.Tabs = findViewById(R.id.friend_detail_tablayout);
         Tabs.addOnTabSelectedListener(this);
 
@@ -275,7 +299,7 @@ public class FriendPage_Detail extends AppCompatActivity implements AppBarLayout
     private Task<String> getDeleteFriendFunctions(String friendID)
     {
         // Create the arguments to the callable function.
-        HashMap<String, Object> snap = new HashMap<>();
+        Map<String, Object> snap = new HashMap<>();
         snap.put("friendID", friendID);
         snap.put("push", true);
 

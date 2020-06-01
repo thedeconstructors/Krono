@@ -174,7 +174,8 @@ public class ChatPage extends AppCompatActivity
             message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
             message.put("people", people);
             DBInstance.collection("chats")
-                    .add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                      .add(message)
+                      .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     documentReference.update("messageID", documentReference.getId());
