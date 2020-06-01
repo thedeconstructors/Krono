@@ -1,6 +1,5 @@
 package com.deconstructors.krono.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.deconstructors.krono.R;
 import androidx.appcompat.widget.Toolbar;
@@ -12,32 +11,18 @@ import com.deconstructors.krono.module.Message;
 import com.deconstructors.krono.module.User;
 import com.deconstructors.krono.utility.Helper;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Size;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,6 +55,7 @@ public class ChatPage extends AppCompatActivity
     private User friend;
     private List<Message> messages;
     private List<String> ids;
+    private String people;
 
     private DocumentReference documentReference;
 
@@ -83,6 +69,7 @@ public class ChatPage extends AppCompatActivity
         this.setToolbar();
         this.setDatabase();
         this.setContents();
+        this.CreatePeople();
     }
 
     /************************************************************************
@@ -134,7 +121,8 @@ public class ChatPage extends AppCompatActivity
         this.ChatQuery = this.DBInstance
                 .collection("chats")
                 .whereIn("sender", ids)
-                .whereArrayContains("people", this.AuthInstance.getUid())
+                .whereEqualTo("people", people)
+                //.whereArrayContains("people", this.AuthInstance.getUid())
                 .orderBy("time");
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(ChatQuery, Message.class)
@@ -184,7 +172,7 @@ public class ChatPage extends AppCompatActivity
             message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
             message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
-            message.put("people", ids);
+            message.put("people", people);
             DBInstance.collection("chats")
                     .add(message).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
@@ -212,6 +200,14 @@ public class ChatPage extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public void CreatePeople()
+    {
+        if (AuthInstance.getUid().compareTo(friend.getUid()) < 0)
+            people = AuthInstance.getUid() + ' ' + friend.getUid();
+        else
+            people = friend.getBio() + ' ' + AuthInstance.getUid();
     }
 
     /*private void DeleteMessage()
