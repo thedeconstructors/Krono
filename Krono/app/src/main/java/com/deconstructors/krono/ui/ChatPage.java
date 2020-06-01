@@ -71,6 +71,7 @@ public class ChatPage extends AppCompatActivity
     private User friend;
     private List<Message> messages;
     private List<String> ids;
+    private String people;
 
     private DocumentReference documentReference;
 
@@ -81,6 +82,7 @@ public class ChatPage extends AppCompatActivity
         setContentView(R.layout.chat_main);
 
         this.getFriendIntent();
+        this.CreatePeople();
         this.setToolbar();
         this.setDatabase();
         this.setContents();
@@ -93,7 +95,6 @@ public class ChatPage extends AppCompatActivity
      ************************************************************************/
     private void setToolbar()
     {
-        this.AuthInstance = FirebaseAuth.getInstance();
         this.Toolbar = findViewById(R.id.chat_toolbar);
         if (this.friend.getUid().contains(this.AuthInstance.getUid()))
             this.Toolbar.setTitle("Me");
@@ -134,9 +135,10 @@ public class ChatPage extends AppCompatActivity
         this.DBInstance = FirebaseFirestore.getInstance();
         this.ChatQuery = this.DBInstance
                 .collection("chats")
-                .whereIn("sender", ids)
-                .whereArrayContains("people", this.AuthInstance.getUid())
-                .orderBy("time");
+                //.whereIn("sender", ids)
+                .whereEqualTo("people", people)
+                //.whereArrayContains("people", this.AuthInstance.getUid())
+                .orderBy("time", Query.Direction.ASCENDING);
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(ChatQuery, Message.class)
                 .build();
@@ -186,7 +188,7 @@ public class ChatPage extends AppCompatActivity
             message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
             message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
-            message.put("people", ids);
+            message.put("people", people);
             DBInstance.collection("chats")
                       .add(message)
                       .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -215,6 +217,36 @@ public class ChatPage extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void CreatePeople()
+    {
+        this.AuthInstance = FirebaseAuth.getInstance();
+        //if (AuthInstance.getUid().compareTo(friend.getBio()) > 0)
+        if (CompareStrings(AuthInstance.getUid(), friend.getUid()) < 0)
+            people = AuthInstance.getUid() + ' ' + friend.getUid();
+        else
+            people = friend.getUid() + ' ' + AuthInstance.getUid();
+    }
+
+    private int CompareStrings(String str1, String str2)
+    {
+        int length1 = str1.length();
+        int length2 = str2.length();
+        int min = Math.min(length1, length2);
+        int sum1 = 0;
+        int sum2 = 0;
+
+        for (int i = 0; i < min; ++i)
+        {
+            int str1_ch = (int) str1.charAt(i);
+            int str2_ch = (int) str2.charAt(i);
+
+            sum1 += str1_ch;
+            sum2 += str2_ch;
+        }
+
+        return sum1 - sum2;
     }
 
     /*private void DeleteMessage()
