@@ -91,7 +91,7 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String langPref = getString(R.string.settings_language);
         SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        String language = prefs.getString(langPref, "");
+        String language = prefs.getString(langPref, Locale.getDefault().getLanguage().trim());
 
         this.changeLocale(language);
     }
