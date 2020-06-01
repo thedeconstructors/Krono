@@ -1,14 +1,19 @@
 package com.deconstructors.krono.auth;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.preference.PreferenceManager;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.ui.MainPage;
@@ -37,6 +43,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 public class WelcomePage extends AppCompatActivity implements View.OnClickListener
 {
@@ -72,10 +79,33 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.auth_welcome);
 
+        this.loadLocale();
         this.setContents();
         this.startBGAnimation();
         this.setFirebaseAuth();
         //this.Logout();
+    }
+
+    private void loadLocale()
+    {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String langPref = getString(R.string.settings_language);
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+
+        this.changeLocale(language);
+    }
+
+    private void changeLocale(String language)
+    {
+        Locale locale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics metrics = res.getDisplayMetrics();
+        Configuration config = res.getConfiguration();
+
+        Locale.setDefault(locale);
+        config.locale = locale;
+        res.updateConfiguration(config, metrics);
     }
 
     /************************************************************************

@@ -12,10 +12,12 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-public class SettingsPage_Main extends AppCompatActivity {
+public class SettingsPage_Main extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
         getSupportFragmentManager()
@@ -26,7 +28,8 @@ public class SettingsPage_Main extends AppCompatActivity {
         setToolbar();
     }
 
-    private void setToolbar() {
+    private void setToolbar()
+    {
         // XML Widgets
         androidx.appcompat.widget.Toolbar _toolbar = findViewById(R.id.settingsToolbar);
         this.setSupportActionBar(_toolbar);
@@ -41,7 +44,8 @@ public class SettingsPage_Main extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         onBackPressed();
         return true;
     }
