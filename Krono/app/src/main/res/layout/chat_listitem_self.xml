@@ -38,6 +38,7 @@
                 android:id="@+id/chatlist_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:typeface="monospace"
                 android:fontFamily="sans-serif"
                 android:maxLines="1"
                 android:text="Time"

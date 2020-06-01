@@ -35,7 +35,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     {
         super(options);
         this.friend = friend;
-        this.messages = new ArrayList<>(getSnapshots());
+        this.Auth = FirebaseAuth.getInstance();
     }
 
     /************************************************************************
@@ -61,7 +61,6 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     private int getViewHolder(int index)
     {
         int type = 0;
-        this.Auth = FirebaseAuth.getInstance();
         if (this.getItem(index).getSender().contains(this.Auth.getUid()))
         {
             type = 1;
