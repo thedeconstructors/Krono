@@ -89,7 +89,23 @@
     <string name="search_titlehint">タイトルで検索</string>
     <string name="search_namehint">名前で検索</string>
 
-    <!-- 11. Error Messages -->
+    <!-- 11. Settings -->
+    <string name="settings_general">一般的な</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_account">アカウント管理</string>
+    <string name="settings_signout">ログアウト</string>
+    <string name="settings_about">約</string>
+    <string name="settings_aboutsum">
+        Kronoは、Oregon Institute of Technologyの小さなジュニアプロジェクトチーム、The Deconstructorsによって開発されました。
+        とにかくお手伝いさせていただきます！
+    </string>
+    <string name="settings_version">バージョン</string>
+    <string name="settings_feedback">フィードバックを送信する</string>
+    <string name="settings_feedbacksum">クエリをお持ちですか？ 喜んでお手伝いいたします！</string>
+    <string name="settings_privacy">個人情報保護方針</string>
+    <string name="settings_terms">規約と条件</string>
+
+    <!-- 12. Error Messages -->
     <string name="error">エラー</string>
     <string name="error_okay">オーケー</string>
 

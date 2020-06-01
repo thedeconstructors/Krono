@@ -89,7 +89,23 @@
     <string name="search_titlehint">Recherche par titre</string>
     <string name="search_namehint">Recherche par nom</string>
 
-    <!-- 11. Error Messages -->
+    <!-- 11. Settings -->
+    <string name="settings_general">Généraux</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_account">Gestion De Compte</string>
+    <string name="settings_signout">Se Déconnecter</string>
+    <string name="settings_about">À Propos De</string>
+    <string name="settings_aboutsum">
+        Krono est développé par The Deconstructors, une petite équipe de projet junior de l\'Oregon Institute of Technology.
+        Nous sommes heureux de vous aider de toute façon!
+    </string>
+    <string name="settings_version">Version</string>
+    <string name="settings_feedback">Envoyer Des Commentaires</string>
+    <string name="settings_feedbacksum">Vous avez des questions? Nous sommes heureux de vous aider!</string>
+    <string name="settings_privacy">Politique De Confidentialité</string>
+    <string name="settings_terms">Termes Et Conditions</string>
+
+    <!-- 12. Error Messages -->
     <string name="error">Erreur</string>
     <string name="error_okay">OK</string>
 

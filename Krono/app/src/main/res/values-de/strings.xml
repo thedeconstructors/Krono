@@ -76,10 +76,10 @@
     <string name="friend_Shared">Geteilt</string>
 
     <!-- 9. Menu -->
-    <string name="menu_sortBy">Sortiere nach</string>
+    <string name="menu_sortBy">Sortiere Nach</string>
     <string name="activity_menu_editPlan">Plan Bearbeiten</string>
     <string name="activity_menu_deletePlan">Plan Löschen</string>
-    <string name="menu_activitydetail_editActivity">Aktivität bearbeiten</string>
+    <string name="menu_activitydetail_editActivity">Aktivität Bearbeiten</string>
     <string name="menu_activitydetail_deletePlan">Aktivität Löschen</string>
     <string name="Menu_FriendDetail_RemoveFriend">Freund Löschen</string>
     <string name="total_plans">Gesamtpläne</string>
@@ -89,7 +89,23 @@
     <string name="search_titlehint">Suche nach Titel</string>
     <string name="search_namehint">Suche mit Name</string>
 
-    <!-- 11. Error Messages -->
+    <!-- 11. Settings -->
+    <string name="settings_general">Allgemeines</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_account">Kontoverwaltung</string>
+    <string name="settings_signout">Ausloggen</string>
+    <string name="settings_about">Über</string>
+    <string name="settings_aboutsum">
+        Krono wird von The Deconstructors entwickelt, einem kleinen Junior-Projektteam des Oregon Institute of Technology.
+        Wir helfen Ihnen trotzdem gerne weiter!
+    </string>
+    <string name="settings_version">Ausführung</string>
+    <string name="settings_feedback">Feedback Shicken</string>
+    <string name="settings_feedbacksum">Haben Sie Fragen? Wir helfen Ihnen gerne weiter!</string>
+    <string name="settings_privacy">Datenschutz-Bestimmungen</string>
+    <string name="settings_terms">Geschäftsbedingungen</string>
+
+    <!-- 12. Error Messages -->
     <string name="error">Error</string>
     <string name="error_okay">OK</string>
 

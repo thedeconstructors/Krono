@@ -89,7 +89,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void saveLocale(String language)
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String langPref = getString(R.string.settings_language);
+        String langPref = getString(R.string.pref_language_key);
         SharedPreferences prefs = getActivity().getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(langPref, language);
