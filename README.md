@@ -76,6 +76,7 @@ The libraries and tools used include:
 ## Permissions
 
 - Internet
+- Location
 - Bind Quick Setting Tiles
 
 ## Team
@@ -89,6 +90,8 @@ Krono is developed by <a href="https://github.com/thedeconstructors" target="_bl
 | [![Cody](https://avatars3.githubusercontent.com/u/24807225?s=400&v=4)](https://github.com/CodeyWinslow) | [![Mike](https://avatars1.githubusercontent.com/u/19197456?s=400&v=4)](https://github.com/Mikesteam1234) | [![Jered](https://avatars3.githubusercontent.com/u/56705972?s=400&v=4)](https://github.com/JaredGlasser) | [![Kacey](https://avatars0.githubusercontent.com/u/51183783?s=400&v=4)](https://github.com/Balabin-Kacey) | [![Hyun](https://avatars3.githubusercontent.com/u/51769097?s=400&v=4)](https://github.com/jihyukchung)  |
 
 ## Support
+
+<a href="https://github.com/thedeconstructors/Krono/blob/master/Documents/PrivacyPolicy-June-2020.txt">Privacy policy </a>
 
 Reach out to us at one of the following places!
 
