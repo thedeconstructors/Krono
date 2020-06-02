@@ -136,4 +136,6 @@
         拒绝访问您当前位置的权限。
         请转到应用信息页面，并允许位置权限使用此功能。
     </string>
+
+    <string name="error_feedback">没有安装电子邮件客户端。</string>
 </resources>

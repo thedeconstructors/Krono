@@ -136,4 +136,6 @@
         Permission denied to access your current location.
         Please go to the app info page and allow the location permission to use this feature.
     </string>
+
+    <string name="error_feedback">There are no email clients installed.</string>
 </resources>

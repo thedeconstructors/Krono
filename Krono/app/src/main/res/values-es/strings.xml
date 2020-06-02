@@ -136,4 +136,6 @@
         Permiso denegado para acceder a su ubicación actual.
         Vaya a la página de información de la aplicación y permita el permiso de ubicación para usar esta función.
     </string>
+
+    <string name="error_feedback">No hay clientes de correo electrónico instalados.</string>
 </resources>

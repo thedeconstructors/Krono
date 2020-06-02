@@ -103,4 +103,5 @@
         <item>ja</item>
         <item>ko</item>
     </string-array>
+    <string name="pref_supemail">suptdeconstructors@gmail.com</string>
 </resources>

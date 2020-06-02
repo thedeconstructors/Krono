@@ -1,6 +1,7 @@
 package com.deconstructors.krono.utility;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         setLanguage();
         setSignOut();
+        setFeedback();
     }
 
     private void setLanguage()
@@ -128,6 +131,37 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 requireActivity().finish();
+                return true;
+            }
+        });
+    }
+
+    private void setFeedback()
+    {
+        Preference signOutPref = findPreference(getString(R.string.pref_feedback_key));
+        assert signOutPref != null; //Check
+        signOutPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.pref_supemail)});
+
+                try
+                {
+                    startActivity(intent);
+                }
+                catch (ActivityNotFoundException ex)
+                {
+                    Toast.makeText(getActivity(),
+                                   getString(R.string.error_feedback),
+                                   Toast.LENGTH_SHORT)
+                         .show();
+                }
+
                 return true;
             }
         });

@@ -136,4 +136,6 @@
         Die Berechtigung zum Zugriff auf Ihren aktuellen Standort wurde verweigert.
         Bitte gehen Sie zur App-Infoseite und erlauben Sie der Standortberechtigung, diese Funktion zu verwenden.
     </string>
+
+    <string name="error_feedback">Es sind keine E-Mail-Clients installiert.</string>
 </resources>

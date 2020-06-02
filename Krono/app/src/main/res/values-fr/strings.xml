@@ -136,4 +136,6 @@
         Permission refusée d\'accéder à votre emplacement actuel.
         Veuillez vous rendre à la page info de l\'application et autoriser l\'emplacement à utiliser cette fonctionnalité.
     </string>
+
+    <string name="error_feedback">Aucun client de messagerie n\'est installé.</string>
 </resources>
