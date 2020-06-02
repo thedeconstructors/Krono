@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +39,8 @@ public class EmailLoginPage implements View.OnClickListener
     private EditText SignInEmail;
     private EditText SignInPassword;
     private TextView ForgotPassword;
+
+    private CheckBox RememberMe;
 
     // Database
     private FirebaseAuth DBInstance;
@@ -90,6 +93,8 @@ public class EmailLoginPage implements View.OnClickListener
         this.SignInButton.setOnClickListener(this); // Manually Added for Readability
         this.ForgotPassword = this.ActivityInstance.findViewById(R.id.auth_login_forgotPassword);
         this.ForgotPassword.setOnClickListener(this);
+
+        this.RememberMe = this.ActivityInstance.findViewById(R.id.auth_login_rememberme);
     }
 
     /************************************************************************
@@ -99,7 +104,7 @@ public class EmailLoginPage implements View.OnClickListener
      ************************************************************************/
     private void onSignInClick()
     {
-        final String email = this.SignInEmail.getText().toString();
+        final String email = this.SignInEmail.getText().toString().trim().toLowerCase();
         final String password = this.SignInPassword.getText().toString();
 
         if(!Helper.isEmpty(email) && !Helper.isEmpty(password))
@@ -116,7 +121,10 @@ public class EmailLoginPage implements View.OnClickListener
                         public void onSuccess(AuthResult authResult)
                         {
                             Log.d(TAG, "onEmailSignInClick: success");
-                            EmailLoginPage.this.saveEmail(email);
+                            if (RememberMe.isChecked())
+                                EmailLoginPage.this.saveEmail(email);
+                            else
+                                saveEmail("");
                             Helper.hideProgressBar(EmailLoginPage.this.ActivityInstance,
                                                    EmailLoginPage.this.ProgressBar);
                         }
