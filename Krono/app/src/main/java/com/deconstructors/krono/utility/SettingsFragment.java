@@ -1,6 +1,7 @@
 package com.deconstructors.krono.utility;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,6 +31,11 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.common.util.SharedPreferencesUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 public class SettingsFragment extends PreferenceFragmentCompat
@@ -40,6 +47,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setLanguage();
         setSignOut();
         setFeedback();
+        setTermsAndConditions();
+        setPrivacyPolicy();
     }
 
     private void setLanguage()
@@ -166,5 +175,95 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 return true;
             }
         });
+    }
+
+    private void setTermsAndConditions()
+    {
+        Preference termsPref = findPreference(getString(R.string.pref_terms_key));
+        assert termsPref != null; //Check
+        termsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                String terms = getTermsString();
+
+                Dialog termsDialog = new Dialog(getContext());
+                termsDialog.setContentView(R.layout.dialog_text);
+
+                TextView titleText = termsDialog.findViewById(R.id.dialog_title);
+                TextView bodyText = termsDialog.findViewById(R.id.dialog_body);
+
+                titleText.setText(getContext().getString(R.string.terms_title));
+                bodyText.setText(terms);
+                
+                termsDialog.show();
+
+                return true;
+            }
+        });
+    }
+
+    private void setPrivacyPolicy()
+    {
+        Preference privacyPref = findPreference(getString(R.string.pref_privacy_key));
+        assert privacyPref != null; //Check
+        privacyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                String privacy = getPrivacyString();
+
+                Dialog privacyDialog = new Dialog(getContext());
+                privacyDialog.setContentView(R.layout.dialog_text);
+
+                TextView titleText = privacyDialog.findViewById(R.id.dialog_title);
+                TextView bodyText = privacyDialog.findViewById(R.id.dialog_body);
+
+                titleText.setText(getContext().getString(R.string.privacy_title));
+                bodyText.setText(privacy);
+
+                privacyDialog.show();
+
+                return true;
+            }
+        });
+    }
+
+    private String getTermsString() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            InputStream ins = getContext().getAssets().open("terms.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(ins, StandardCharsets.UTF_8 ));
+            String str;
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+                sb.append("\n");
+            }
+            br.close();
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getPrivacyString() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            InputStream ins = getContext().getAssets().open("privacy.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(ins, StandardCharsets.UTF_8 ));
+            String str;
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+                sb.append("\n");
+            }
+            br.close();
+            return sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

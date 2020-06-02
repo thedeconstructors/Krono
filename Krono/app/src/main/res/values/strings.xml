@@ -141,4 +141,9 @@
     </string>
 
     <string name="error_feedback">There are no email clients installed.</string>
+
+    <string name="terms_title" translatable="false">Terms and Conditions</string>
+
+    <string name="privacy_title" translatable="false">Privacy Policy</string>
+
 </resources>
