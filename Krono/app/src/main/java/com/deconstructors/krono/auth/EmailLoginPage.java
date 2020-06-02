@@ -156,55 +156,55 @@ public class EmailLoginPage implements View.OnClickListener
     {
         final String email = this.SignInEmail.getText().toString();
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                if (which == DialogInterface.BUTTON_POSITIVE)
-                {
-                    sendResetEmail(email);
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.ActivityInstance);
-        builder.setMessage(this.ActivityInstance.getString(R.string.auth_reset_alert) + email)
-               .setPositiveButton(this.ActivityInstance.getString(R.string.error_okay), dialogClickListener)
-               .setNegativeButton(this.ActivityInstance.getString(R.string.activitydetail_cancel), dialogClickListener)
-               .show();
-    }
-
-    private void sendResetEmail(String email)
-    {
         if(!Helper.isEmpty(email))
         {
-            this.DBInstance
-                    .sendPasswordResetEmail(email)
-                    .addOnSuccessListener(new OnSuccessListener<Void>()
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    if (which == DialogInterface.BUTTON_POSITIVE)
                     {
-                        @Override
-                        public void onSuccess(Void aVoid)
-                        {
-                            Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
-                                                       EmailLoginPage.this.ActivityInstance.getString(R.string.auth_reset_email));
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener()
-                    {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
-                                                       EmailLoginPage.this.ActivityInstance.getString(R.string.error_friend_notfound));
-                        }
-                    });
+                        sendResetEmail(email);
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.ActivityInstance);
+            builder.setMessage(this.ActivityInstance.getString(R.string.auth_reset_alert) + email)
+                   .setPositiveButton(this.ActivityInstance.getString(R.string.error_okay), dialogClickListener)
+                   .setNegativeButton(this.ActivityInstance.getString(R.string.activitydetail_cancel), dialogClickListener)
+                   .show();
         }
         else
         {
             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
                                        EmailLoginPage.this.ActivityInstance.getString(R.string.error_friend_enteremail));
         }
+    }
+
+    private void sendResetEmail(String email)
+    {
+        this.DBInstance
+                .sendPasswordResetEmail(email)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
+                                                   EmailLoginPage.this.ActivityInstance.getString(R.string.auth_reset_email));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
+                                                   EmailLoginPage.this.ActivityInstance.getString(R.string.error_friend_notfound));
+                    }
+                });
     }
 
     /************************************************************************
