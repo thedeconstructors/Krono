@@ -86,6 +86,11 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
         //this.Logout();
     }
 
+    /************************************************************************
+     * Purpose:         Load Locale (Language) Preference from CACHE
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
     private void loadLocale()
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);

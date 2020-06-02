@@ -19,6 +19,9 @@
     <string name="auth_googlesignin">Continuez avec Google</string>
     <string name="auth_facebooksignin">Continuez avec Facebook</string>
 
+    <string name="auth_reset_email">E-mail de réinitialisation du mot de passe envoyé!</string>
+    <string name="auth_reset_alert">L\'e-mail de réinitialisation du mot de passe sera envoyé à: </string>
+
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
     <string name="notif_listitem_accept">ACCEPT</string>

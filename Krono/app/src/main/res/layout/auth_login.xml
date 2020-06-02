@@ -62,7 +62,8 @@
             android:textStyle="normal"
             android:layout_gravity="center|start"
             android:textColor="@color/lightGrey"
-            android:buttonTint="@color/lightGrey"/>
+            android:buttonTint="@color/lightGrey"
+            android:id="@+id/auth_login_rememberme"/>
 
         <!--<TextView
             android:layout_width="wrap_content"
@@ -85,4 +86,32 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:onClick="onClick"
         android:id="@+id/auth_loginButton"/>
+
+    <!-- OR -->
+    <!--<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relLayout1"
+        android:visibility="visible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+            android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
+            android:text="@string/auth_or"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/lightGrey"/>
+    </RelativeLayout>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/auth_buttonBetweenPadding"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="@dimen/auth_buttonStartEndPadding"
+        android:layout_marginEnd="@dimen/auth_buttonStartEndPadding"
+        android:text="@string/auth_forgotPassword"
+        android:textColor="@color/lightGrey"
+        android:id="@+id/auth_login_forgotPassword"
+        android:background="?android:attr/selectableItemBackground"/>
 </LinearLayout>

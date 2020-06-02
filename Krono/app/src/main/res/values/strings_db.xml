@@ -9,6 +9,7 @@
     <!-- 1. Authentication -->
     <string name="facebook_app_id">249681212769545</string>
     <string name="facebook_profile_perm">public_profile</string>
+    <string name="pref_rememberme_key">remember_me</string>
 
     <!-- 2. Cloud Firestore Collection Names -->
     <string name="collection_users">users</string>

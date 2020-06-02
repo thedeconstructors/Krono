@@ -19,6 +19,9 @@
     <string name="auth_googlesignin">Googleでサインイン</string>
     <string name="auth_facebooksignin">Facebookでサインイン</string>
 
+    <string name="auth_reset_email">パスワードリセットメールを送信しました！</string>
+    <string name="auth_reset_alert">パスワードの再設定メールが次の宛先に送信されます。 </string>
+
     <!-- 3. Notifications -->
     <string name="notif_title">お知らせ</string>
     <string name="notif_listitem_accept">受け入れる</string>

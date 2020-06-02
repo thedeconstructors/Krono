@@ -10,7 +10,7 @@
     <string name="auth_password">Password</string>
     <string name="auth_passwordConfirm">Confirm Password</string>
     <string name="auth_rememberMe">Remember Me</string>
-    <string name="auth_forgotPassword">Forgot Password</string>
+    <string name="auth_forgotPassword">Forgot your password?</string>
     <string name="auth_or">OR</string>
     <string name="auth_signin">Log In</string>
     <string name="auth_register">Register</string>
@@ -18,6 +18,9 @@
     <string name="auth_back">Back</string>
     <string name="auth_googlesignin">Continue with Google</string>
     <string name="auth_facebooksignin">Continue with Facebook</string>
+
+    <string name="auth_reset_email">Password reset email sent!</string>
+    <string name="auth_reset_alert">The reset password email will be sent to: </string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>
@@ -107,7 +110,7 @@
 
     <!-- 12. Error Messages -->
     <string name="error">Error</string>
-    <string name="error_okay">OK</string>
+    <string name="error_okay">Okay</string>
 
     <string name="error_auth_failed">Login Failed. Please check internet connection.</string>
     <string name="error_auth_google">Unable to connect to Google Play Service.</string>
@@ -124,8 +127,8 @@
     <string name="error_newactivity_add">Could Not Add New Activity. Please check internet connection.</string>
     <string name="error_newactivity_no_input">Please Enter Title.</string>
 
-    <string name="error_friend_enteremail">Please enter an email</string>
-    <string name="error_friend_notfound">Email Not Found</string>
+    <string name="error_friend_enteremail">Please enter an email.</string>
+    <string name="error_friend_notfound">Email Not Found.</string>
     <string name="error_friend_search">Unable to search. Please check internet connection.</string>
     <string name="error_friend_add">Unable to add a friend: </string>
     <string name="error_friend_delete">Unable to delete a friend: </string>

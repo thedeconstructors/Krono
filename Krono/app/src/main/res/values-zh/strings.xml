@@ -19,6 +19,9 @@
     <string name="auth_googlesignin">使用Google登录</string>
     <string name="auth_facebooksignin">使用Facebook登录</string>
 
+    <string name="auth_reset_email">密码重置电子邮件已发送！</string>
+    <string name="auth_reset_alert">重置密码电子邮件将发送至： </string>
+
     <!-- 3. Notifications -->
     <string name="notif_title">通知事项</string>
     <string name="notif_listitem_accept">接受</string>

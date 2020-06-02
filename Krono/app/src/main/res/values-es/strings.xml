@@ -19,6 +19,9 @@
     <string name="auth_googlesignin">Continuar con Google</string>
     <string name="auth_facebooksignin">Continuar con Facebook</string>
 
+    <string name="auth_reset_email">Correo electrónico de restablecimiento de contraseña enviado!</string>
+    <string name="auth_reset_alert">El correo electrónico de restablecimiento de contraseña se enviará a: </string>
+
     <!-- 3. Notifications -->
     <string name="notif_title">Notificaciones</string>
     <string name="notif_listitem_accept">ACEPTAR</string>
