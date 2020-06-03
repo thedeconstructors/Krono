@@ -380,8 +380,10 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     @Override
     public void onMapClick(LatLng latLng)
     {
-        Intent intent = new Intent(this, ActivityPage_Map.class);
-        startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
+        if (Editable != ActivityPage.EditMode.PUBLIC) {
+            Intent intent = new Intent(this, ActivityPage_Map.class);
+            startActivityForResult(intent, MAPACTIVITY_REQUESTCODE);
+        }
     }
 
 
