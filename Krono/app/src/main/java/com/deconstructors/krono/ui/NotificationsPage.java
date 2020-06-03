@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -137,7 +138,8 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
         this.RecyclerView.setAdapter(this.NotifAdapter);
     }
 
-    private void setToolbar() {
+    private void setToolbar()
+    {
         this.Toolbar = findViewById(R.id.notif_toolbar);
         this.Toolbar.setTitle(getString(R.string.notif_title));
         this.setSupportActionBar(this.Toolbar);
@@ -233,5 +235,19 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+            {
+                finish();
+                break;
+            }
+        }
+        return true;
     }
 }
