@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
 import com.deconstructors.krono.adapter.PlanAdapter;
@@ -37,11 +39,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener,
-                                                            TabLayout.OnTabSelectedListener,
-                                                            SearchView.OnQueryTextListener
+                                                           TabLayout.OnTabSelectedListener,
+                                                           SearchView.OnQueryTextListener
 {
     //Xml Widgets
-    androidx.recyclerview.widget.RecyclerView recyclerView;
+    RecyclerView recyclerView;
 
     // Error Log
     private static final String TAG = "MainActivity";
@@ -277,7 +279,9 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.notificationsFAB.setOnClickListener(this);
 
         this.ProfilePicture = findViewById(R.id.ui_main_profilepicture);
-        this.ProfilePicture.setOnClickListener(this);
+        LinearLayout profile_layout = findViewById(R.id.main_profile_layout);
+        profile_layout.setOnClickListener(this);
+
         this.Tabs = findViewById(R.id.main_tabLayout);
         this.Tabs.addOnTabSelectedListener(this);
 
@@ -363,7 +367,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                 startActivity(intent);
                 break;
             }
-            case R.id.ui_main_profilepicture:
+            case R.id.main_profile_layout:
             {
                 Intent intent = new Intent(MainPage.this, ProfilePage.class);
                 startActivity(intent);

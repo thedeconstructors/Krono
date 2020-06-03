@@ -26,36 +26,42 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:id="@+id/ui_toolbar">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ui_main_profilepicture"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="@color/Black"
-                    android:src="@drawable/profile"/>
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/menu_layoutPadding"
-                    android:paddingEnd="@dimen/menu_layoutPadding"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/menu_textSize"
-                        android:textStyle="bold"
-                        android:text="@string/navigation_displayNameText"
-                        android:maxLines="1"
-                        android:id="@+id/ui_main_displayName"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/navigation_emailFieldText"
-                        android:maxLines="1"
-                        android:id="@+id/ui_main_email"/>
-                </LinearLayout>
+                    android:id="@+id/main_profile_layout">
 
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ui_main_profilepicture"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:civ_border_width="1dp"
+                        app:civ_border_color="@color/Black"
+                        android:src="@drawable/profile"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/menu_layoutPadding"
+                        android:paddingEnd="@dimen/menu_layoutPadding"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/menu_textSize"
+                            android:textStyle="bold"
+                            android:text="@string/navigation_displayNameText"
+                            android:maxLines="1"
+                            android:id="@+id/ui_main_displayName"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/navigation_emailFieldText"
+                            android:maxLines="1"
+                            android:id="@+id/ui_main_email"/>
+                    </LinearLayout>
+
+                </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
             <include layout="@layout/main_separator"/>

@@ -39,11 +39,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Info -->
-    <!--<androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -101,8 +96,6 @@
 
     </LinearLayout>
 
-    <!--</androidx.core.widget.NestedScrollView>-->
-
     <!-- Profile Image -->
 
     <ProgressBar
@@ -118,14 +111,5 @@
         app:civ_border_color="@color/White"
         app:civ_border_width="1dp"
         android:id="@+id/FriendPageDetail_Profile"/>
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_anchor="@id/friendetail_appbar"
-        app:layout_anchorGravity="bottom|center"
-        app:backgroundTint="@android:color/transparent"
-        android:src="@drawable/profile"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

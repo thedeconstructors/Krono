@@ -1,6 +1,7 @@
 package com.deconstructors.krono.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
@@ -12,10 +13,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.deconstructors.krono.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,7 +33,8 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-public class ProfilePage extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener
+{
 
     private TextView NameTextView;
     private TextView EmailTextView;
@@ -37,8 +42,14 @@ public class ProfilePage extends AppCompatActivity {
     private TextView NumberOfPlans;
     private TextView NumberOfFriends;
 
+    private CollapsingToolbarLayout ToolbarLayout;
+    private AppBarLayout AppBarLayout;
+    private ImageView Profile;
+    private Toolbar Toolbar;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_main);
 
@@ -47,13 +58,36 @@ public class ProfilePage extends AppCompatActivity {
         this.setContents();
     }
 
-    private void setToolbar() {
+    private void setToolbar()
+    {
         // XML Widgets
-        androidx.appcompat.widget.Toolbar _toolbar = findViewById(R.id.profile_Toolbar);
-        this.setSupportActionBar(_toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        this.Toolbar = findViewById(R.id.profile_Toolbar);
+        this.Toolbar.setTitle(getString(R.string.menu_profile));
+        this.setSupportActionBar(this.Toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        this.NameTextView = findViewById(R.id.profile_DisplayName);
+        this.EmailTextView = findViewById(R.id.profile_Email);
+        this.BioTextView = findViewById(R.id.profile_Bio);
+        this.NumberOfFriends = findViewById(R.id.friends_num);
+        this.NumberOfPlans = findViewById(R.id.plan_number);
+
+        this.AppBarLayout = findViewById(R.id.profilePage_Appbar);
+        this.AppBarLayout.addOnOffsetChangedListener(this);
+        this.Profile = findViewById(R.id.profile_picture);
+
+        this.ToolbarLayout = findViewById(R.id.profile_coltoolbar);
+        //this.ToolbarLayout.setExpandedTitleColor(getColor(R.color.transparent));
     }
 
     @Override
@@ -102,7 +136,7 @@ public class ProfilePage extends AppCompatActivity {
                             }
 
                             Picasso.get().load(pic_url.toString()).into(
-                                    (ImageView)findViewById(R.id.profile_picture)
+                                    Profile
                             );
                         }
                     }
@@ -119,20 +153,6 @@ public class ProfilePage extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /************************************************************************
-     * Purpose:         XML Contents
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void setContents()
-    {
-        this.NameTextView = findViewById(R.id.profile_DisplayName);
-        this.EmailTextView = findViewById(R.id.profile_Email);
-        this.BioTextView = findViewById(R.id.profile_Bio);
-        this.NumberOfFriends = findViewById(R.id.friends_num);
-        this.NumberOfPlans = findViewById(R.id.plan_number);
     }
 
     @Override
@@ -152,5 +172,18 @@ public class ProfilePage extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /************************************************************************
+     * Purpose:         Custom Profile Image Behavior
+     * Precondition:    .
+     * Postcondition:   Fades profile image as scroll up
+     ************************************************************************/
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset)
+    {
+        float percentage = (appBarLayout.getTotalScrollRange() - (float)Math.abs(verticalOffset))
+                /appBarLayout.getTotalScrollRange();
+        this.Profile.setAlpha(percentage);
     }
 }
