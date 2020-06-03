@@ -2,6 +2,7 @@ package com.deconstructors.krono.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private NotificationAdapter NotifAdapter;
+    private FirebaseFunctions DBFunctions;
 
     //Data Members
     Context context;
@@ -59,6 +63,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.notif_main);
         this.DBInstance = FirebaseFirestore.getInstance();
         this.AuthInstance = FirebaseAuth.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
         this.RecyclerView = findViewById(R.id.notif_recyclerview);
         context = this;
 
@@ -218,6 +223,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                                             {
                                                 FriendId[0] = doc.getId();
                                             }
+
                                             System.out.println(FriendId[0]);
 
                                             String removeString = getString(R.string.collection_friends) + "." + FriendId[0];
@@ -228,6 +234,8 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                                             updates.put(removeString, FieldValue.delete());
 
                                             docRef.update(updates);
+
+                                            onReject(FriendId[0]);
                                         }
                                     }
                                 });
@@ -235,6 +243,40 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+    }
+
+    private void onReject(String friendID)
+    {
+        this.getDeleteFriendFunctions(friendID)
+            .addOnCompleteListener(new OnCompleteListener<String>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<String> task)
+                {
+                    Log.d(TAG, "getDeleteFriendFunctions: success");
+                }
+            });
+    }
+
+    private Task<String> getDeleteFriendFunctions(String friendID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> snap = new HashMap<>();
+        snap.put(getString(R.string.friend_friendID), friendID);
+        snap.put(getString(R.string.functions_push), true);
+
+        return this.DBFunctions
+                .getHttpsCallable(getString(R.string.functions_deletefriend))
+                .call(snap)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
+                {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+                    {
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 
     @Override
