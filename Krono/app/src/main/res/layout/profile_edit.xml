@@ -62,7 +62,10 @@
                 android:layout_marginBottom="@dimen/auth_buttonBetweenPadding"
                 android:hint="@string/auth_email"
                 android:importantForAutofill="no"
-                android:inputType="textWebEmailAddress"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:maxLines="5" />
 
             <EditText
