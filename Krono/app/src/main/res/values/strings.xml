@@ -24,7 +24,7 @@
     <string name="auth_verification">This email is not verified.</string>
     <string name="auth_sendagain">Send Again</string>
     <string name="auth_verificationsent">Verification Email Sent!</string>
-    <string name="auth_facebook_invalid">Facebook Account with An Invalid Email</string>
+    <string name="auth_facebook_invalid">This Facebook account has an invalid email.</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>

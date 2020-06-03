@@ -21,6 +21,10 @@
 
     <string name="auth_reset_email">密码重置电子邮件已发送！</string>
     <string name="auth_reset_alert">重置密码电子邮件将发送至： </string>
+    <string name="auth_verification">该电子邮件未验证。</string>
+    <string name="auth_sendagain">重新发送</string>
+    <string name="auth_verificationsent">验证电子邮件已发送！</string>
+    <string name="auth_facebook_invalid">这个Facebook帐户没有电子邮件。</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">通知事项</string>

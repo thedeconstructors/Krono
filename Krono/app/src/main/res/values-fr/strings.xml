@@ -21,6 +21,10 @@
 
     <string name="auth_reset_email">E-mail de réinitialisation du mot de passe envoyé!</string>
     <string name="auth_reset_alert">L\'e-mail de réinitialisation du mot de passe sera envoyé à: </string>
+    <string name="auth_verification">Cet e-mail n\'est pas vérifié.</string>
+    <string name="auth_sendagain">Envoyer à Nouveau</string>
+    <string name="auth_verificationsent">L\'email de vérification a été envoyé!</string>
+    <string name="auth_facebook_invalid">Ce compte Facebook contient un e-mail non valide.</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notifications</string>

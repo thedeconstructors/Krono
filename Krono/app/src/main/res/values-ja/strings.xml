@@ -21,6 +21,10 @@
 
     <string name="auth_reset_email">パスワードリセットメールを送信しました！</string>
     <string name="auth_reset_alert">パスワードの再設定メールが次の宛先に送信されます。 </string>
+    <string name="auth_verification">このメールは確認されていません。</string>
+    <string name="auth_sendagain">もう一度送信</string>
+    <string name="auth_verificationsent">確認メールを送信しました！</string>
+    <string name="auth_facebook_invalid">このFacebookアカウントには無効なメールがあります。</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">お知らせ</string>

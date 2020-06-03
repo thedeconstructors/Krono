@@ -21,6 +21,10 @@
 
     <string name="auth_reset_email">비밀번호 재설정 이메일을 보냈습니다!</string>
     <string name="auth_reset_alert">비밀번호 재설정 이메일이 다음 주소로 전송됩니다. </string>
+    <string name="auth_verification">인증되지 않은 이메일입니다.</string>
+    <string name="auth_sendagain">다시 보내기</string>
+    <string name="auth_verificationsent">가입인증 메일이 발송되었습니다!</string>
+    <string name="auth_facebook_invalid">이 Facebook 계정에는 이메일이 없습니다.</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">알림</string>

@@ -21,6 +21,10 @@
 
     <string name="auth_reset_email">Correo electrónico de restablecimiento de contraseña enviado!</string>
     <string name="auth_reset_alert">El correo electrónico de restablecimiento de contraseña se enviará a: </string>
+    <string name="auth_verification">Este correo electrónico no está verificado.</string>
+    <string name="auth_sendagain">Enviar De Nuevo</string>
+    <string name="auth_verificationsent">¡El mensaje de verificación ha sido enviado!</string>
+    <string name="auth_facebook_invalid">Esta cuenta de Facebook tiene un correo electrónico no válido.</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Notificaciones</string>
