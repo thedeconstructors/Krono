@@ -223,7 +223,7 @@ public class ChatPage extends AppCompatActivity
     {
         this.AuthInstance = FirebaseAuth.getInstance();
         //if (AuthInstance.getUid().compareTo(friend.getBio()) > 0)
-        if (CompareStrings(AuthInstance.getUid(), friend.getUid()) < 0)
+        if (AuthInstance.getUid().compareTo(friend.getUid()) < 0)
             people = AuthInstance.getUid() + ' ' + friend.getUid();
         else
             people = friend.getUid() + ' ' + AuthInstance.getUid();

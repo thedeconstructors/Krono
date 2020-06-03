@@ -10,12 +10,14 @@ public class Message
     private String text;
     private String time;
     private String messageID;
+    private String people;
 
-    public Message(String sender, String recipient, String text)
+    public Message(String sender, String recipient, String text, String people)
     {
         this.sender = sender;
         this.recipient = recipient;
         this.text = text;
+        this.people = people;
         //time = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date());
     }
 
@@ -71,4 +73,8 @@ public class Message
     {
         this.messageID = messageID;
     }
+
+    public void setPeople (String people) { this.people = people; }
+
+    public String getPeople () { return this.people; }
 }
