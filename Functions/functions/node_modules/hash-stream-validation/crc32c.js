@@ -72,7 +72,7 @@ var kCRCTable = new Int32Array([
 
 module.exports = {
   calculate: function (buf, initial) {
-    if (!Buffer.isBuffer(buf)) buf = new Buffer(buf)
+    if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf)
 
     var crc = (initial | 0) ^ -1
     for (var i = 0; i < buf.length; i++)

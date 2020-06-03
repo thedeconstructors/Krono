@@ -21,6 +21,9 @@
 
     <string name="auth_reset_email">Passwort zurücksetzen E-Mail gesendet!</string>
     <string name="auth_reset_alert">Die E-Mail zum Zurücksetzen des Passworts wird gesendet an: </string>
+    <string name="auth_verification">This email is not verified.</string>
+    <string name="auth_sendagain">Send Again</string>
+    <string name="auth_verificationsent">Verification Email Sent!</string>
 
     <!-- 3. Notifications -->
     <string name="notif_title">Benachrichtigung</string>

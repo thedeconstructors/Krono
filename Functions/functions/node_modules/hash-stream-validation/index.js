@@ -27,7 +27,7 @@ module.exports = function (cfg) {
   }
 
   var onFlush = function (done) {
-    if (crc32c) hashes.crc32c = new Buffer([hashes.crc32c]).toString('base64')
+    if (crc32c) hashes.crc32c = Buffer.from([hashes.crc32c]).toString('base64')
     if (md5) hashes.md5 = hashes.md5.digest('base64')
 
     done()

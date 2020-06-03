@@ -56,7 +56,6 @@ exports.deleteActivityOnDeletePlan = functions.firestore
 exports.addFriend = functions.https.onCall((data, context) => 
 {
     const friendID = data.friendID;
-    //const friendID = "p5VzvIBM0jYdOlCxrSS728wkKZh2";
     const uid = context.auth.uid.toString();
 
     return database
@@ -66,8 +65,7 @@ exports.addFriend = functions.https.onCall((data, context) =>
         {
             friends: 
             {
-                [uid]: true
-                //"p5VzvIBM0jYdOlCxrSS728wkKZh2" : true
+                [uid]: false
             }
         },
         {
@@ -109,6 +107,31 @@ exports.deleteFriend = functions.https.onCall((data, context) =>
         .catch(error => 
         {
             console.log(error);
+            return false; 
+        });
+});
+
+/************************************************************************
+ * Purpose:         Delete Friend Relationship on Plan Deletion
+ * Type:            Trigger function
+ * Precondition:    When a client deletes a plan document
+ * Postcondition:   Delete activity documents in small batches
+ ************************************************************************/
+exports.verifyEmail = functions.https.onCall((data, context) => 
+{
+    const uid = context.auth.uid.toString();
+
+    return admin
+        .auth()
+        .updateUser(uid, { emailVerified : true })
+        .then(function(userRecord) 
+        {
+            console.log('Successfully updated user', userRecord.toJSON());
+            return true;
+        })
+        .catch(function(error) 
+        {
+            console.log('Error updating user:', error);
             return false; 
         });
 });

@@ -158,7 +158,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("message/rfc822");
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.pref_supemail)});
-                intent.putExtra(Intent.EXTRA_SUBJECT, "[Krono] " + getString(R.string.plan_title));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "[" + getString(R.string.app_name) + "] " + getString(R.string.plan_title));
 
                 try
                 {

@@ -10,8 +10,10 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.ui.FriendPage_Detail;
 import com.deconstructors.krono.utility.Helper;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -21,15 +23,23 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FacebookLoginPage extends AppCompatActivity implements View.OnClickListener
 {
@@ -37,11 +47,13 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     private static final String TAG = "FacebookLoginPage";
 
     // XML Widgets
+    private CoordinatorLayout BackgroundLayout;
     private Button FacebookLogIn;
     private ProgressBar ProgressBar;
 
     // Database
     private FirebaseAuth AuthInstance;
+    private FirebaseFunctions DBFunctions;
     private CallbackManager FBCBManager;
 
     @Override
@@ -116,12 +128,15 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
     {
         // Database
         this.AuthInstance = FirebaseAuth.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
 
         // Base Widgets
         this.FacebookLogIn = findViewById(R.id.auth_facebookLogIn);
         this.FacebookLogIn.setOnClickListener(this);
         this.ProgressBar = findViewById(R.id.auth_progressBar);
         Helper.showProgressBar(this, this.ProgressBar);
+
+        this.BackgroundLayout = findViewById(R.id.auth_welcomeBackground);
     }
 
     @Override
@@ -149,9 +164,15 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
 
                                      // Sign in success, update UI with the signed-in user's information
                                      Intent returnIntent = new Intent();
+                                     FirebaseUser user = task.getResult().getUser();
 
-                                     if(task.getResult().getAdditionalUserInfo().isNewUser())
+                                     if (user.getEmail() == null || user.getEmail().isEmpty())
                                      {
+                                         setResult(21, returnIntent);
+                                     }
+                                     else if(task.getResult().getAdditionalUserInfo().isNewUser())
+                                     {
+                                         onFirstTime(user.getUid());
                                          setResult(Activity.RESULT_FIRST_USER, returnIntent);
                                      }
                                      else
@@ -159,10 +180,9 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                          setResult(Activity.RESULT_OK, returnIntent);
                                      }
 
-                                     finish();
-
                                      Helper.hideProgressBar(FacebookLoginPage.this,
                                                             FacebookLoginPage.this.ProgressBar);
+                                     finish();
                                  }
                                  else
                                  {
@@ -170,12 +190,46 @@ public class FacebookLoginPage extends AppCompatActivity implements View.OnClick
                                      Log.w(TAG, "signInWithFacebookCredential: ", task.getException());
                                      Intent returnIntent = new Intent();
                                      setResult(Activity.RESULT_CANCELED, returnIntent);
-                                     finish();
 
                                      Helper.hideProgressBar(FacebookLoginPage.this, FacebookLoginPage.this.ProgressBar);
+                                     finish();
                                  }
                              }
                          });
+    }
+
+    private void onFirstTime(String uid)
+    {
+        this.autoVerification(uid)
+            .addOnCompleteListener(new OnCompleteListener<String>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<String> task)
+                {
+                    Log.d(TAG, "onFirstTime: success");
+                    AuthInstance.signOut();
+                }
+            });
+    }
+
+    private Task<String> autoVerification(String userID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> snap = new HashMap<>();
+        snap.put(getString(R.string.functions_push), true);
+
+        return this.DBFunctions
+                .getHttpsCallable("verifyEmail")
+                .call(snap)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
+                {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+                    {
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 
     /************************************************************************

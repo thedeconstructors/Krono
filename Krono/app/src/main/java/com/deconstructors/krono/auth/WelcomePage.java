@@ -36,6 +36,9 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener;
@@ -245,14 +248,18 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
             {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                if (user != null)
+                if (user != null && user.isEmailVerified())
                 {
                     Intent intent = new Intent(WelcomePage.this, MainPage.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
+                }
+                else if (user != null && !user.isEmailVerified())
+                {
+                    Log.d(TAG, "onAuthStateChanged: email not verified");
                 }
                 else
                 {
@@ -384,12 +391,21 @@ public class WelcomePage extends AppCompatActivity implements View.OnClickListen
             {
                 FirebaseUser user = this.AuthInstance.getCurrentUser();
                 this.RegisterPage.onRegister(user.getUid(), user.getDisplayName(), user.getEmail());
+                Helper.hideProgressBar(this, this.ProgressBar);
+                Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                           "Facebook Register Complete. Please Login Again.");
             }
             else if (resultCode == RESULT_CANCELED)
             {
                 Helper.hideProgressBar(this, this.ProgressBar);
                 Helper.makeSnackbarMessage(this.BackgroundLayout,
                                            getString(R.string.error_auth_failed));
+            }
+            else if (resultCode == 21)
+            {
+                Helper.hideProgressBar(this, this.ProgressBar);
+                Helper.makeSnackbarMessage(this.BackgroundLayout,
+                                           getString(R.string.auth_facebook_invalid));
             }
         }
     }

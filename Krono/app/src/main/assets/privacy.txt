@@ -9,7 +9,7 @@ When you use the mobile application, we automatically collect certain informatio
 We collect Device Information using the following technologies:
 
     
-    - “Log files” track actions occurring on the application, and collect data including your IP address, device type, Internet service provider, and date/time stamps.
+“Log files” track actions occurring on the application, and collect data including your IP address, device type, Internet service provider, and date/time stamps.
 
 When you register an account, your personal information is securely stored on Google data servers. Your password is hashed and is not recognizable. Additionally, any information entered as part of normal use of the application is stored in plain text on Google data servers.
 
@@ -34,4 +34,4 @@ We may update this privacy policy from time to time in order to reflect, for exa
 CONTACT US
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at suptdeconstructors@gmail.com or by mail using the details provided below:
 
-  3201 Campus Dr, Klamath Falls, OR, 97601, United States
+3201 Campus Dr, Klamath Falls, OR, 97601, United States

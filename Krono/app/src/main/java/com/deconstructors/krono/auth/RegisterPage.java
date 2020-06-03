@@ -1,6 +1,7 @@
 package com.deconstructors.krono.auth;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,10 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -112,6 +115,8 @@ public class RegisterPage implements View.OnClickListener
                                      RegisterPage.this.onRegister(authResult.getUser().getUid(),
                                                                   name,
                                                                   email);
+
+                                     RegisterPage.this.sendEmailLink(authResult.getUser());
                                      Log.d(TAG, "onRegisterClick: success");
                                      Helper.hideProgressBar(RegisterPage.this.ActivityInstance,
                                                             RegisterPage.this.ProgressBar);
@@ -132,6 +137,32 @@ public class RegisterPage implements View.OnClickListener
         }
     }
 
+    private void sendEmailLink(FirebaseUser user)
+    {
+        user.sendEmailVerification()
+            .addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    Helper.makeSnackbarMessage(RegisterPage.this.BackgroundLayout,
+                                               RegisterPage.this.ActivityInstance.getString(R.string.auth_verificationsent));
+
+                    RegisterPage.this.ActivityInstance.findViewById(R.id.auth_back).performClick();
+                    DBInstance.signOut();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    Helper.makeSnackbarMessage(RegisterPage.this.BackgroundLayout,
+                                               RegisterPage.this.ActivityInstance.getString(R.string.error_register_failed));
+                }
+            });
+    }
+
     public void onRegister(String uid, String name, String email)
     {
         Log.d(TAG, "onRegister: creating a new user document");
@@ -145,7 +176,7 @@ public class RegisterPage implements View.OnClickListener
 
         user.put(this.ActivityInstance.getString(R.string.users_displayname), name);
         if (email != null) { user.put(this.ActivityInstance.getString(R.string.users_email), email); }
-        else { user.put(this.ActivityInstance.getString(R.string.users_email), "");}
+        else { user.put(this.ActivityInstance.getString(R.string.users_email), "");} // For Facebook Non-Email Based Accounts
         user.put(this.ActivityInstance.getString(R.string.users_bio), "");
         user.put(this.ActivityInstance.getString(R.string.friends), new HashMap<>());
 
@@ -161,6 +192,11 @@ public class RegisterPage implements View.OnClickListener
                                           RegisterPage.this.ActivityInstance.getString(R.string.error_register_addplan));
             }
         });
+
+        /*if (!this.DBInstance.getCurrentUser().isEmailVerified())
+        {
+            this.DBInstance.signOut();
+        }*/
     }
 
     /************************************************************************

@@ -20,8 +20,10 @@ import com.deconstructors.krono.R;
 import com.deconstructors.krono.utility.Helper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
 
@@ -121,10 +123,34 @@ public class EmailLoginPage implements View.OnClickListener
                         public void onSuccess(AuthResult authResult)
                         {
                             Log.d(TAG, "onEmailSignInClick: success");
+                            final FirebaseUser user = authResult.getUser();
+
+                            if (user != null && !user.isEmailVerified())
+                            {
+                                Snackbar.make(EmailLoginPage.this.BackgroundLayout,
+                                              EmailLoginPage.this.ActivityInstance.getString(R.string.auth_verification), Snackbar.LENGTH_LONG)
+                                        .setAction(EmailLoginPage.this.ActivityInstance.getString(R.string.auth_sendagain), new View.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(View v)
+                                            {
+                                                sendEmailLink(user);
+                                            }
+                                        })
+                                        .show();
+
+                                DBInstance.signOut();
+                            }
+
                             if (RememberMe.isChecked())
+                            {
                                 EmailLoginPage.this.saveEmail(email);
+                            }
                             else
+                            {
                                 saveEmail("");
+                            }
+
                             Helper.hideProgressBar(EmailLoginPage.this.ActivityInstance,
                                                    EmailLoginPage.this.ProgressBar);
                         }
@@ -134,7 +160,7 @@ public class EmailLoginPage implements View.OnClickListener
                         @Override
                         public void onFailure(@NonNull Exception e)
                         {
-                            Log.d(TAG, "onEmailSignInClick: failed");
+                            Log.d(TAG, "onEmailSignInClick: failed", e);
                             EmailLoginPage.this.saveEmail("");
                             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
                                                        EmailLoginPage.this.ActivityInstance.getString(R.string.error_auth_failed));
@@ -148,6 +174,32 @@ public class EmailLoginPage implements View.OnClickListener
             Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
                                        EmailLoginPage.this.ActivityInstance.getString(R.string.error_register_allfields));
         }
+    }
+
+    private void sendEmailLink(FirebaseUser user)
+    {
+        user.sendEmailVerification()
+            .addOnSuccessListener(new OnSuccessListener<Void>()
+            {
+                @Override
+                public void onSuccess(Void aVoid)
+                {
+                    Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
+                                               EmailLoginPage.this.ActivityInstance.getString(R.string.auth_verificationsent));
+
+                    EmailLoginPage.this.ActivityInstance.findViewById(R.id.auth_back).performClick();
+                    DBInstance.signOut();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener()
+            {
+                @Override
+                public void onFailure(@NonNull Exception e)
+                {
+                    Helper.makeSnackbarMessage(EmailLoginPage.this.BackgroundLayout,
+                                               EmailLoginPage.this.ActivityInstance.getString(R.string.error_auth_failed));
+                }
+            });
     }
 
     private void saveEmail(String email)
