@@ -120,7 +120,7 @@ public class FriendPage_New implements View.OnClickListener
      ************************************************************************/
     private void searchFriend()
     {
-        final String email = this.SearchText.getText().toString();
+        final String email = this.SearchText.getText().toString().trim().toLowerCase();
 
         if (email.equals(""))
         {
