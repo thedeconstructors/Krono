@@ -87,7 +87,7 @@ public class RegisterPage implements View.OnClickListener
     private void onRegisterClick()
     {
         final String name = this.RegisterName.getText().toString();
-        final String email = this.RegisterEmail.getText().toString();
+        final String email = this.RegisterEmail.getText().toString().trim().toLowerCase();
         final String password = this.RegisterPassword.getText().toString();
         final String confirm = this.RegisterConfirm.getText().toString();
 
