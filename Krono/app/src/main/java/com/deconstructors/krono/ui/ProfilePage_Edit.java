@@ -177,9 +177,12 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.storage_progress).setVisibility(View.VISIBLE);
 
         //Creating an uploadable byte array for upload to Google's Firebase FireStorage service
-        ByteArrayOutputStream boas = new ByteArrayOutputStream();
-        data_bitmap.compress(Bitmap.CompressFormat.PNG, 100, boas);
-        byte[] data = boas.toByteArray();
+        byte[] data = null;
+        if (this.data_bitmap != null) {
+            ByteArrayOutputStream boas = new ByteArrayOutputStream();
+            data_bitmap.compress(Bitmap.CompressFormat.PNG, 100, boas);
+            data = boas.toByteArray();
+        }
 
         //Path for a unique profile picture
         String path = getString(R.string.fs_profile_picture_path) +
@@ -189,50 +192,63 @@ public class ProfilePage_Edit extends AppCompatActivity implements View.OnClickL
         final StorageReference fireRef = storage.getReference(path);
 
         //Upload the file to FireStorage
-        UploadTask uploadTask = fireRef.putBytes(data);
-        uploadTask.addOnCompleteListener(ProfilePage_Edit.this,
-                new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        //TODO Possible lock refactor
-                    }
-                });
+        if (data != null) {
+            UploadTask uploadTask = fireRef.putBytes(data);
+            uploadTask.addOnCompleteListener(ProfilePage_Edit.this,
+                    new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            //TODO Possible lock refactor
+                        }
+                    });
 
-        Task<Uri> getDownloadUriTask = uploadTask.continueWithTask(
-                new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task)
-                            throws Exception {
-                                if (!task.isSuccessful()) {
-                                    throw Objects.requireNonNull(task.getException());
-                                }
-                                return fireRef.getDownloadUrl();
+            Task<Uri> getDownloadUriTask = uploadTask.continueWithTask(
+                    new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task)
+                                throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw Objects.requireNonNull(task.getException());
                             }
+                            return fireRef.getDownloadUrl();
                         }
-                    );
-
-        getDownloadUriTask.addOnCompleteListener(ProfilePage_Edit.this,
-                new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        //Profile Data
-                        Map<String, Object> profile = new HashMap<>();
-
-                        profile.put(getString(R.string.users_displayname), NameTextView.getText().toString());
-                        profile.put(getString(R.string.users_email), EmailTextView.getText().toString());
-                        profile.put(getString(R.string.users_bio), BioTextView.getText().toString());
-
-                        if (task.isSuccessful()) {
-                            profile.put(getString(R.string.profilepicture),
-                                    Objects.requireNonNull(task.getResult()).toString());
-
-                        } else {
-                            profile.put(getString(R.string.profilepicture), getString(R.string.default_picture));
-                        }
-
-                        setDataBase(profile);
                     }
-                });
+            );
+
+            getDownloadUriTask.addOnCompleteListener(ProfilePage_Edit.this,
+                    new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            //Profile Data
+                            Map<String, Object> profile = new HashMap<>();
+
+                            profile.put(getString(R.string.users_displayname), NameTextView.getText().toString());
+                            profile.put(getString(R.string.users_email), EmailTextView.getText().toString());
+                            profile.put(getString(R.string.users_bio), BioTextView.getText().toString());
+
+                            if (task.isSuccessful()) {
+                                profile.put(getString(R.string.profilepicture),
+                                        Objects.requireNonNull(task.getResult()).toString());
+
+                            } else {
+                                profile.put(getString(R.string.profilepicture), getString(R.string.default_picture));
+                            }
+
+                            setDataBase(profile);
+                        }
+                    });
+        }
+        else
+        {
+            //Profile Data
+            Map<String, Object> profile = new HashMap<>();
+
+            profile.put(getString(R.string.users_displayname), NameTextView.getText().toString());
+            profile.put(getString(R.string.users_email), EmailTextView.getText().toString());
+            profile.put(getString(R.string.users_bio), BioTextView.getText().toString());
+
+            setDataBase(profile);
+        }
     }
 
     private void setDataBase(Map<String, Object> profile) {
