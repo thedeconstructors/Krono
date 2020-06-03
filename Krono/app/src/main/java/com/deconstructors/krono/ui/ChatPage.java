@@ -20,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -133,6 +134,7 @@ public class ChatPage extends AppCompatActivity
         ids.add(this.AuthInstance.getUid());
         ids.add(this.friend.getUid());
         this.DBInstance = FirebaseFirestore.getInstance();
+        this.DBInstance.getFirestoreSettings();
         this.ChatQuery = this.DBInstance
                 .collection("chats")
                 //.whereIn("sender", ids)
@@ -169,7 +171,7 @@ public class ChatPage extends AppCompatActivity
     {
         // Recycler View
         this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
-        this.RecyclerView.setHasFixedSize(true);
+        //this.RecyclerView.setHasFixedSize(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         this.RecyclerView.setLayoutManager(layoutManager);
