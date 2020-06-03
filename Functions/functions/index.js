@@ -112,10 +112,10 @@ exports.deleteFriend = functions.https.onCall((data, context) =>
 });
 
 /************************************************************************
- * Purpose:         Delete Friend Relationship on Plan Deletion
+ * Purpose:         Verify Email For Facebook Accounts
  * Type:            Trigger function
- * Precondition:    When a client deletes a plan document
- * Postcondition:   Delete activity documents in small batches
+ * Precondition:    .
+ * Postcondition:   .
  ************************************************************************/
 exports.verifyEmail = functions.https.onCall((data, context) => 
 {
@@ -132,6 +132,37 @@ exports.verifyEmail = functions.https.onCall((data, context) =>
         .catch(function(error) 
         {
             console.log('Error updating user:', error);
+            return false; 
+        });
+});
+
+/************************************************************************
+ * Purpose:         Accept Friend Request
+ * Type:            Trigger function
+ * Precondition:    .
+ * Postcondition:   .
+ ************************************************************************/
+exports.acceptFriendRequest = functions.https.onCall((data, context) => 
+{
+    const uid = context.auth.uid.toString();
+    const friendID = data.friendID;
+
+    return database
+        .collection(users)
+        .doc(friendID)
+        .set(
+        {
+            friends : 
+            {
+                [uid] : true
+            }
+        },
+        {
+            merge : true
+        })
+        .catch(error => 
+        {
+            console.log(error);
             return false; 
         });
 });

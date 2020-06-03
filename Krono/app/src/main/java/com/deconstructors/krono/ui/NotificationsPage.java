@@ -190,6 +190,8 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                                             DBInstance.collection(getString(R.string.collection_users))
                                                     .document(AuthInstance.getCurrentUser().getUid())
                                                     .update(updateString, true);
+
+                                            onAccept(FriendId[0]);
                                         }
                                     }
                                 });
@@ -243,6 +245,40 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+    }
+
+    private void onAccept(String friendID)
+    {
+        this.getacceptFriendRequest(friendID)
+            .addOnCompleteListener(new OnCompleteListener<String>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<String> task)
+                {
+                    Log.d(TAG, "getacceptFriendRequest: success");
+                }
+            });
+    }
+
+    private Task<String> getacceptFriendRequest(String friendID)
+    {
+        // Create the arguments to the callable function.
+        Map<String, Object> snap = new HashMap<>();
+        snap.put(getString(R.string.friend_friendID), friendID);
+        snap.put(getString(R.string.functions_push), true);
+
+        return this.DBFunctions
+                .getHttpsCallable(getString(R.string.functions_acceptfriend))
+                .call(snap)
+                .continueWith(new Continuation<HttpsCallableResult, String>()
+                {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception
+                    {
+                        String result = (String) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 
     private void onReject(String friendID)

@@ -79,6 +79,7 @@
     <string name="functions_push">push</string>
     <string name="functions_addfriend">addFriend</string>
     <string name="functions_deletefriend">deleteFriend</string>
+    <string name="functions_acceptfriend">acceptFriendRequest</string>
 
     <!-- 5. Settings -->
     <string name="pref_language_key">pref_language</string>
