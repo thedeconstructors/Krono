@@ -81,6 +81,7 @@
     <string name="friendnew_done">探す</string>
     <string name="friend_public">パブリック</string>
     <string name="friend_Shared">共有</string>
+    <string name="friend_sent">友達申請送信済み！</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">ソート基準</string>

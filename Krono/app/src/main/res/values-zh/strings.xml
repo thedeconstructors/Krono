@@ -81,6 +81,7 @@
     <string name="friendnew_done">搜索</string>
     <string name="friend_public">公开</string>
     <string name="friend_Shared">共享</string>
+    <string name="friend_sent">发送朋友请求！</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">排序方式</string>

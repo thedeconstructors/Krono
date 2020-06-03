@@ -180,6 +180,8 @@ public class FriendPage_New implements View.OnClickListener
                 {
                     FriendPage_New.this.setSheetState(BottomSheetBehavior.STATE_HIDDEN);
                     FriendPage_New.this.SearchText.setText("");
+                    Helper.makeSnackbarMessage(ActivityInstance.findViewById(R.id.FriendPage_Background),
+                                               FriendPage_New.this.ActivityInstance.getString(R.string.friend_sent));
                 }
             })
             .addOnFailureListener(new OnFailureListener()

@@ -81,6 +81,7 @@
     <string name="friendnew_done">검색</string>
     <string name="friend_public">공공 목록</string>
     <string name="friend_Shared">공유된 목록</string>
+    <string name="friend_sent">친구 요청이 전송되었습니다!</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">정렬</string>

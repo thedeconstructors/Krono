@@ -81,6 +81,7 @@
     <string name="friendnew_done">Search</string>
     <string name="friend_public">Public</string>
     <string name="friend_Shared">Shared</string>
+    <string name="friend_sent">Friend Request Sent!</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">Sort By</string>

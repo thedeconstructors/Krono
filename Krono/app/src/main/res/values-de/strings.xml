@@ -81,6 +81,7 @@
     <string name="friendnew_done">Suche</string>
     <string name="friend_public">Öffentlichkeit</string>
     <string name="friend_Shared">Geteilt</string>
+    <string name="friend_sent">Freundschaftsanfrage gesendet!</string>
 
     <!-- 9. Menu -->
     <string name="menu_sortBy">Sortiere Nach</string>
