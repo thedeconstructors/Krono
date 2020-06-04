@@ -66,7 +66,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private EditText TitleText;
     private EditText DescriptionText;
     private EditText DurationText;
-    private Button DateButton;
+    private EditText DateButton;
     private FloatingActionButton FAB_Save;
     private FloatingActionButton FAB_Delete;
 
