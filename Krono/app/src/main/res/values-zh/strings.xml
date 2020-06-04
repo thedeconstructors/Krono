@@ -96,6 +96,7 @@
     <!-- 10. Search Bar -->
     <string name="search_titlehint">按标题搜索</string>
     <string name="search_namehint">依名称搜寻</string>
+    <string name="chat_message">输入讯息</string>
 
     <!-- 11. Settings -->
     <string name="settings_general">一般</string>

@@ -96,6 +96,7 @@
     <!-- 10. Search Bar -->
     <string name="search_titlehint">제목으로 찾기</string>
     <string name="search_namehint">이름으로 찾기</string>
+    <string name="chat_message">메세지를 입력하세요</string>
 
     <!-- 11. Settings -->
     <string name="settings_general">일반</string>
