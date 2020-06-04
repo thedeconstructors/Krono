@@ -421,7 +421,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                                     MAP_DEFAULT_ZOOM);
 
             this.Map.clear();
-            this.Map.addMarker(options);
+            this.Map.addMarker(options).showInfoWindow();
             this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
         }
     }
