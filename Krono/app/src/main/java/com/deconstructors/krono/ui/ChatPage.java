@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
@@ -64,12 +65,10 @@ public class ChatPage extends AppCompatActivity
     private FirebaseFirestore DBInstance;
     private Query ChatQuery;
     private FirestoreRecyclerOptions<Message> ChatOptions;
-
     private MessageAdapter messageAdapter;
 
     private EditText messageText;
     private User friend;
-    private List<String> ids;
     private String people;
 
     @Override
@@ -128,9 +127,6 @@ public class ChatPage extends AppCompatActivity
      ************************************************************************/
     private void setDatabase()
     {
-        ids = new ArrayList<>();
-        ids.add(this.AuthInstance.getUid());
-        ids.add(this.friend.getUid());
         this.DBInstance = FirebaseFirestore.getInstance();
         this.DBInstance.getFirestoreSettings();
         this.ChatQuery = this.DBInstance

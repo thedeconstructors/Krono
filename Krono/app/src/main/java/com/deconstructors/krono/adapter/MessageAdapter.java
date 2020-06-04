@@ -1,5 +1,6 @@
 package com.deconstructors.krono.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,9 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
 {
     private FirebaseAuth Auth;
     private User friend;
+
+    // Error Log
+    private static final String TAG = "MessageAdapter";
 
     /************************************************************************
      * Purpose:         2 Arg Constructor
@@ -115,24 +119,24 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
 
         public void setModel(Message model)
         {
-            Calendar calendar = Calendar.getInstance();
-            Calendar todayCal = Calendar.getInstance();
+            //Log.e(TAG, "Message: " + model.getText());
+            //Log.e(TAG, "Time: " + model.getTime());
             SimpleDateFormat full = new SimpleDateFormat("MM/dd/yyyy h:mm a");
             SimpleDateFormat trim = new SimpleDateFormat("h:mm a");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(model.getTime());
 
-            try { calendar.setTime(full.parse(model.getTime().toString())); }
-            catch (ParseException e) { }
             String formattedDate = "";
 
             userMessage = model;
 
-            if (todayCal.get(Calendar.DATE) == calendar.get(Calendar.DATE))
+            if (Calendar.getInstance().get(Calendar.DATE) == calendar.get(Calendar.DATE))
             {
                 formattedDate = trim.format(calendar.getTime());
             }
             else
             {
-                formattedDate = calendar.getTime().toString();
+                formattedDate = full.format(calendar.getTime());
             }
 
             if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
