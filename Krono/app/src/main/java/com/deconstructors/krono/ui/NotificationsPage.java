@@ -183,6 +183,11 @@ public class NotificationsPage extends AppCompatActivity implements Notification
                     public void onSuccess(Void aVoid)
                     {
                         Helper.hideProgressBar(NotificationsPage.this, NotificationsPage.this.ProgressBar);
+
+                        if (NotifAdapter.getItemCount() == 0)
+                        {
+                            finish();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -238,6 +243,11 @@ public class NotificationsPage extends AppCompatActivity implements Notification
                     public void onSuccess(Void aVoid)
                     {
                         onRejectFunctions(NotifAdapter.getItem(position).getUid());
+
+                        if (NotifAdapter.getItemCount() == 0)
+                        {
+                            finish();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
