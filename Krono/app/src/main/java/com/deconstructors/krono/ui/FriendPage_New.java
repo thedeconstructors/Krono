@@ -165,7 +165,7 @@ public class FriendPage_New implements View.OnClickListener
     {
         Map<String, Object> friends = new HashMap<>();
         Map<String, Object> users = new HashMap<>();
-        friends.put(friendID, false);
+        friends.put(friendID, 0);
         users.put(this.ActivityInstance.getString(R.string.collection_friends) , friends);
 
         // Add Friend to the Owner's Document

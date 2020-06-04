@@ -65,7 +65,7 @@ exports.addFriend = functions.https.onCall((data, context) =>
         {
             friends: 
             {
-                [uid]: false
+                [uid]: -1
             }
         },
         {
@@ -154,7 +154,7 @@ exports.acceptFriendRequest = functions.https.onCall((data, context) =>
         {
             friends : 
             {
-                [uid] : true
+                [uid] : 1
             }
         },
         {

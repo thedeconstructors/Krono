@@ -22,7 +22,8 @@ import java.util.List;
  * Class:           PlansListAdapter
  * Purpose:         To customize list view layout
  ************************************************************************/
-public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder> implements Filterable
+public class PlanAdapter extends FirestoreRecyclerAdapter<Plan, PlanAdapter.PlanHolder>
+        implements Filterable
 {
     private PlanClickListener ClickListener;
     private List<Plan> FilteredList;
