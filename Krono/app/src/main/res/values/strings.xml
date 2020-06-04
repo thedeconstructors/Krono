@@ -96,6 +96,7 @@
     <!-- 10. Search Bar -->
     <string name="search_titlehint">Search by title</string>
     <string name="search_namehint">Search by name</string>
+    <string name="chat_message">Type a message</string>
 
     <!-- 11. Settings -->
     <string name="settings_general">General</string>

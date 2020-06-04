@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Title"
+                android:text="@string/plan_title"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Description"
+                android:text="@string/plan_description"
                 android:maxLines="3"
                 android:textColor="@android:color/secondary_text_dark"
                 android:textSize="16sp" />

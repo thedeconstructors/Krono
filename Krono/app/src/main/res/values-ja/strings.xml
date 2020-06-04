@@ -96,6 +96,7 @@
     <!-- 10. Search Bar -->
     <string name="search_titlehint">タイトルで検索</string>
     <string name="search_namehint">名前で検索</string>
+    <string name="chat_message">メッセージを入力してください</string>
 
     <!-- 11. Settings -->
     <string name="settings_general">一般的な</string>

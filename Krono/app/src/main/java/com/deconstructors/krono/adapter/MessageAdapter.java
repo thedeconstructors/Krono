@@ -3,6 +3,7 @@ package com.deconstructors.krono.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
@@ -83,6 +88,11 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     public class MessageHolder extends RecyclerView.ViewHolder
     {
         Message userMessage;
+        LinearLayout self_container;
+        TextView self_message;
+        TextView self_time;
+
+        LinearLayout container;
         TextView message;
         TextView time;
         View view;
@@ -92,33 +102,49 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             super(itemView);
 
             this.view = itemView;
-            message = view.findViewById(R.id.chatlist_self_messageText);
-            time = view.findViewById(R.id.chatlist_self_time);
 
-            message.setText("XXXXXXXXXXXXX");
-            time.setText("XX/XX/XX");
+            container = view.findViewById(R.id.chatlist_container);
+            message = view.findViewById(R.id.chatlist_messageText);
+            time = view.findViewById(R.id.chatlist_time);
+
+            self_container = view.findViewById(R.id.chatlist_self_container);
+            self_message = view.findViewById(R.id.chatlist_self_messageText);
+            self_time = view.findViewById(R.id.chatlist_self_time);
         }
 
         public void setModel(Message model)
         {
-            userMessage = model;
-            if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
-            {
-                view.findViewById(R.id.chatlist_container).setVisibility(View.GONE);
-                message = view.findViewById(R.id.chatlist_self_messageText);
-                time = view.findViewById(R.id.chatlist_self_time);
+            Calendar calendar = Calendar.getInstance();
+            Calendar todayCal = Calendar.getInstance();
+            SimpleDateFormat full = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+            SimpleDateFormat trim = new SimpleDateFormat("h:mm a");
 
-                message.setText(model.getText());
-                time.setText(model.getTime());
+            try { calendar.setTime(full.parse(model.getTime().toString())); }
+            catch (ParseException e) { }
+            String formattedDate = "";
+
+            userMessage = model;
+
+            if (todayCal.get(Calendar.DATE) == calendar.get(Calendar.DATE))
+            {
+                formattedDate = trim.format(calendar.getTime());
             }
             else
             {
-                view.findViewById(R.id.chatlist_self_container).setVisibility(View.GONE);
-                message = view.findViewById(R.id.chatlist_messageText);
-                time = view.findViewById(R.id.chatlist_time);
+                formattedDate = calendar.getTime().toString();
+            }
 
+            if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
+            {
+                self_container.setVisibility(View.VISIBLE);
+                self_message.setText(model.getText());
+                self_time.setText(formattedDate);
+            }
+            else
+            {
+                container.setVisibility(View.VISIBLE);
                 message.setText(model.getText());
-                time.setText(model.getTime());
+                time.setText(formattedDate);
             }
         }
     }

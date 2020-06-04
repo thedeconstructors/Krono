@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ChatPage"
-    android:id="@+id/ChatPage_Background">
+    android:id="@+id/ChatPage_Background"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,36 +49,42 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#fff"
-                android:padding="5sp"
+                android:padding="5dp"
                 android:layout_gravity="bottom">
                 <!--android:layout_alignParentBottom="true"> -->
 
                 <EditText
                     android:id="@+id/ChatPage_Message"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Type a message" />
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:layout_gravity="center_vertical"
+                    android:hint="@string/chat_message"
+                    android:inputType="textShortMessage"
+                    android:importantForAutofill="no" />
                 <!---android:layout_toStartOf="@+id/ChatPage_SendButton" -->
                 <!--android:layout_centerVertical="true"
                 /> -->
 
-                <ImageButton
-                    android:id="@+id/ChatPage_SendButton"
-                    android:layout_width="40sp"
-                    android:layout_height="40sp"
-                    android:background="@drawable/ic_action_send"
-                    android:onClick="SendMessageClick"/>
-                <!--android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:gravity="center"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/activitydetail_done"
+                    android:src="@drawable/ui_activity_done"
+                    android:onClick="SendMessageClick"
+                    android:id="@+id/ChatPage_SendButton" />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-
-
 
     <!-- Hidden Progress Bar -->
     <ProgressBar
