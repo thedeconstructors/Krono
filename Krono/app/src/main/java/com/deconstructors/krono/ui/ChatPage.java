@@ -15,6 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -182,7 +183,7 @@ public class ChatPage extends AppCompatActivity
             message.put("sender", this.AuthInstance.getUid());
             message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
-            message.put("time", new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()));
+            message.put("time", new Timestamp(new Date()));
             message.put("people", people);
             DBInstance.collection("chats")
                       .add(message)
@@ -213,11 +214,15 @@ public class ChatPage extends AppCompatActivity
     private void CreatePeople()
     {
         this.AuthInstance = FirebaseAuth.getInstance();
-        //if (AuthInstance.getUid().compareTo(friend.getBio()) > 0)
+
         if (AuthInstance.getUid().compareTo(friend.getUid()) < 0)
+        {
             people = AuthInstance.getUid() + ' ' + friend.getUid();
+        }
         else
+        {
             people = friend.getUid() + ' ' + AuthInstance.getUid();
+        }
     }
 
     /************************************************************************

@@ -1,5 +1,6 @@
 package com.deconstructors.krono.module;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ public class Message
     private String sender;
     private String recipient;
     private String text;
-    private String time;
+    private Date time;
     private String messageID;
     private String people;
 
@@ -54,12 +55,12 @@ public class Message
         this.text = text;
     }
 
-    public String getTime()
+    public Date getTime()
     {
         return time;
     }
 
-    public void setTime(String time)
+    public void setTime(Date time)
     {
         this.time = time;
     }

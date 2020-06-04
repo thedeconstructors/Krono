@@ -90,9 +90,10 @@
                     android:hint="@string/newactivity_duration"
                     android:clickable="false"
                     android:focusable="false"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:inputType="none"/>
 
-                <fragment
+                <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
