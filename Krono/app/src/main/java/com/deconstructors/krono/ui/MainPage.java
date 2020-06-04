@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -31,11 +33,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.opencensus.resource.Resource;
 
 public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClickListener,
                                                            View.OnClickListener,
@@ -62,6 +66,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
     private FirebaseFirestore DBInstance;
     private PlanAdapter PlanAdapter;
     private ListenerRegistration UserRegistration;
+    private ListenerRegistration NotifRegistration;
 
     //Plan stuff
     PlanAdapter CurrentFilterAdapter = null;
@@ -79,7 +84,7 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
         this.setPlanDB();
         this.setUserDB();
         this.setContents();
-
+        this.setNotificationDB();
         // this.linkProviders();
     }
 
@@ -225,6 +230,34 @@ public class MainPage extends AppCompatActivity implements PlanAdapter.PlanClick
                             }
 
                             Picasso.get().load(pic_url.toString()).into(ProfilePicture);
+                        }
+                    }
+                });
+    }
+
+    private void setNotificationDB()
+    {
+        this.NotifRegistration = this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .whereEqualTo(getString(R.string.collection_friends) + "." + this.AuthInstance.getCurrentUser().getUid(),
+                              0)
+                .limit(1)
+                .addSnapshotListener(new EventListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException e)
+                    {
+                        if (queryDocumentSnapshots != null && queryDocumentSnapshots.getDocuments().isEmpty())
+                        {
+                            notificationsFAB.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            notificationsFAB.setVisibility(View.VISIBLE);
+                            Animation anim = AnimationUtils.loadAnimation(notificationsFAB.getContext(), R.anim.shake_view);
+                            anim.setDuration(300L);
+                            notificationsFAB.startAnimation(anim);
                         }
                     }
                 });

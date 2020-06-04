@@ -220,7 +220,7 @@ public class FriendPage_New implements View.OnClickListener
     {
         // Create the arguments to the callable function.
         Map<String, Object> snap = new HashMap<>();
-        snap.put(this.ActivityInstance.getString(R.string.friend_friendID), friendID);
+        snap.put( this.ActivityInstance.getString(R.string.friend_friendID), friendID);
         snap.put(this.ActivityInstance.getString(R.string.functions_push), true);
 
         return this.DBFunctions

@@ -29,6 +29,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
 {
     private FirebaseAuth Auth;
     private User friend;
+
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
@@ -137,11 +138,13 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
             {
                 self_container.setVisibility(View.VISIBLE);
+                container.setVisibility(View.GONE);
                 self_message.setText(model.getText());
                 self_time.setText(formattedDate);
             }
             else
             {
+                self_container.setVisibility(View.GONE);
                 container.setVisibility(View.VISIBLE);
                 message.setText(model.getText());
                 time.setText(formattedDate);

@@ -309,7 +309,7 @@ public class ActivityPage_Map extends AppCompatActivity implements OnMapReadyCal
                                                                     MAP_DEFAULT_ZOOM);
 
             this.Map.clear();
-            this.Map.addMarker(options);
+            this.Map.addMarker(options).showInfoWindow();
             this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
         }
     }

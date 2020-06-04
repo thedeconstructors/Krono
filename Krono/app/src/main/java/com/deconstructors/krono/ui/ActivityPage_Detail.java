@@ -66,7 +66,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
     private EditText TitleText;
     private EditText DescriptionText;
     private EditText DurationText;
-    private Button DateButton;
+    private EditText DateButton;
     private FloatingActionButton FAB_Save;
     private FloatingActionButton FAB_Delete;
 
@@ -421,7 +421,7 @@ public class ActivityPage_Detail extends AppCompatActivity implements View.OnCli
                                                                     MAP_DEFAULT_ZOOM);
 
             this.Map.clear();
-            this.Map.addMarker(options);
+            this.Map.addMarker(options).showInfoWindow();
             this.Map.animateCamera(update, CAMERA_DEFAULT_SPEED, null);
         }
     }
