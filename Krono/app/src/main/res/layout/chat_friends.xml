@@ -42,10 +42,10 @@
         android:id="@+id/friend_progressBar"/>
 
     <!-- Floating Action Button (Add Friend) -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/WhiteFAB"
         android:src="@drawable/ic_menu_addbutton"
-        android:id="@+id/FriendPage_FAB"/>
+        android:id="@+id/FriendPage_FAB"/>-->
 
     <!-- Bottom Sheet New Friend-->
     <androidx.viewpager.widget.ViewPager
