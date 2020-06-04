@@ -119,6 +119,8 @@ public class ChatPage extends AppCompatActivity
         }
     }
 
+
+
     /************************************************************************
      * Purpose:         Database
      * Precondition:    .
@@ -183,7 +185,7 @@ public class ChatPage extends AppCompatActivity
             message.put("sender", this.AuthInstance.getUid());
             message.put("recipient", this.friend.getUid());
             message.put("text", this.messageText.getText().toString());
-            message.put("time", new Timestamp(new Date()));
+            message.put("time", Timestamp.now());
             message.put("people", people);
             DBInstance.collection("chats")
                       .add(message)

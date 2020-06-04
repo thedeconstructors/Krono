@@ -1,5 +1,7 @@
 package com.deconstructors.krono.module;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +11,7 @@ public class Message
     private String sender;
     private String recipient;
     private String text;
-    private Date time;
+    private @ServerTimestamp Date time;
     private String messageID;
     private String people;
 
