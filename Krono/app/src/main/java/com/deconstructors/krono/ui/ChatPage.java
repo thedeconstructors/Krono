@@ -56,25 +56,20 @@ public class ChatPage extends AppCompatActivity
     // XML Widgets
     private Toolbar Toolbar;
     private RecyclerView RecyclerView;
-    private FriendPage_New FriendPage_New;
+    LinearLayoutManager layoutManager;
 
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private Query ChatQuery;
     private FirestoreRecyclerOptions<Message> ChatOptions;
-    //private FriendAdapter FriendAdapter;
-    private FirestoreRecyclerAdapter adapter;
 
     private MessageAdapter messageAdapter;
 
     private EditText messageText;
     private User friend;
-    private List<Message> messages;
     private List<String> ids;
     private String people;
-
-    private DocumentReference documentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -137,9 +132,7 @@ public class ChatPage extends AppCompatActivity
         this.DBInstance.getFirestoreSettings();
         this.ChatQuery = this.DBInstance
                 .collection("chats")
-                //.whereIn("sender", ids)
                 .whereEqualTo("people", people)
-                //.whereArrayContains("people", this.AuthInstance.getUid())
                 .orderBy("time", Query.Direction.ASCENDING);
         this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(ChatQuery, Message.class)
@@ -171,8 +164,8 @@ public class ChatPage extends AppCompatActivity
     {
         // Recycler View
         this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
-        //this.RecyclerView.setHasFixedSize(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        this.RecyclerView.setHasFixedSize(false);
+        layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         this.RecyclerView.setLayoutManager(layoutManager);
         this.RecyclerView.setAdapter(this.messageAdapter);
@@ -197,17 +190,13 @@ public class ChatPage extends AppCompatActivity
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     documentReference.update("messageID", documentReference.getId());
+                    layoutManager.scrollToPosition(messageAdapter.getSnapshots().size()-1);
                 }
             });
 
 
             this.messageText.setText("");
             CloseKeyboard();
-            this.messageAdapter.updateOptions(ChatOptions);
-
-        }
-        else
-        {
         }
     }
 
@@ -230,49 +219,6 @@ public class ChatPage extends AppCompatActivity
         else
             people = friend.getUid() + ' ' + AuthInstance.getUid();
     }
-
-    private int CompareStrings(String str1, String str2)
-    {
-        int length1 = str1.length();
-        int length2 = str2.length();
-        int min = Math.min(length1, length2);
-        int sum1 = 0;
-        int sum2 = 0;
-
-        for (int i = 0; i < min; ++i)
-        {
-            int str1_ch = (int) str1.charAt(i);
-            int str2_ch = (int) str2.charAt(i);
-
-            sum1 += str1_ch;
-            sum2 += str2_ch;
-        }
-
-        return sum1 - sum2;
-    }
-
-    /*private void DeleteMessage()
-    {
-        if (this.messageAdapter.getCount() > 5)
-        {
-            while (this.messageAdapter.getCount() > 5)
-            {
-                DocumentReference doc = DBInstance.collection("chats")
-                        .document(this.messageAdapter.getItem(0).getMessageID());
-                doc.delete();
-                messageAdapter.notifyItemRemoved(0);
-            }
-            messageAdapter.updateOptions(ChatOptions);
-        }
-    }
-    private void ResetAdapter()
-    {
-        while (messageAdapter.getItem(0).getMessageID() == null)
-        {
-            messageAdapter.notifyItemRemoved(0);
-            this.RecyclerView.removeViewAt(0);
-        }
-    }*/
 
     /************************************************************************
      * Purpose:         Toolbar Back Button Animation Overrides

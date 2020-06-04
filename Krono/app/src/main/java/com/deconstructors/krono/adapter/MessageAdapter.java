@@ -22,11 +22,8 @@ import java.util.List;
 
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
 {
-    private int count = 0;
     private FirebaseAuth Auth;
     private User friend;
-    private List<Message> messages;
-    private String fid;
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
@@ -51,24 +48,8 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     @Override
     public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-//        int res = 0;
-//        if (getViewHolder(parent.getChildCount()) == 0)
-//            res = R.layout.chat_listitem;
-//        else
-//            res = R.layout.chat_listitem_self;
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_listitem, parent, false);
         return new MessageHolder(view);
-    }
-
-    private int getViewHolder(int index)
-    {
-        int type = 0;
-        if (this.getItem(index).getSender().contains(this.Auth.getUid()))
-        {
-            type = 1;
-        }
-
-        return type;
     }
 
     /************************************************************************
@@ -82,8 +63,16 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
                                     @NonNull Message model)
     {
         holder.setModel(model);
-//        holder.messageText.setText(model.getText());
-//        holder.timeText.setText(model.getTime());
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     /************************************************************************
@@ -94,6 +83,8 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     public class MessageHolder extends RecyclerView.ViewHolder
     {
         Message userMessage;
+        TextView message;
+        TextView time;
         View view;
 
         public MessageHolder(@NonNull View itemView)
@@ -101,6 +92,11 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             super(itemView);
 
             this.view = itemView;
+            message = view.findViewById(R.id.chatlist_self_messageText);
+            time = view.findViewById(R.id.chatlist_self_time);
+
+            message.setText("XXXXXXXXXXXXX");
+            time.setText("XX/XX/XX");
         }
 
         public void setModel(Message model)
@@ -109,8 +105,8 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
             {
                 view.findViewById(R.id.chatlist_container).setVisibility(View.GONE);
-                TextView message = view.findViewById(R.id.chatlist_self_messageText);
-                TextView time = view.findViewById(R.id.chatlist_self_time);
+                message = view.findViewById(R.id.chatlist_self_messageText);
+                time = view.findViewById(R.id.chatlist_self_time);
 
                 message.setText(model.getText());
                 time.setText(model.getTime());
@@ -118,8 +114,8 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
             else
             {
                 view.findViewById(R.id.chatlist_self_container).setVisibility(View.GONE);
-                TextView message = view.findViewById(R.id.chatlist_messageText);
-                TextView time = view.findViewById(R.id.chatlist_time);
+                message = view.findViewById(R.id.chatlist_messageText);
+                time = view.findViewById(R.id.chatlist_time);
 
                 message.setText(model.getText());
                 time.setText(model.getTime());
