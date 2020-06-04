@@ -12,6 +12,7 @@
     app:cardUseCompatPadding="false">
 
     <LinearLayout
+        android:id="@+id/chatlist_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -57,5 +58,42 @@
                 android:textSize="10sp" />
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chatlist_self_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:layout_marginLeft="45dp"
+        android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/chatlist_self_messageText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/background_right"
+            android:fontFamily="sans-serif"
+            android:inputType="textMultiLine"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:text="Message text"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/chatlist_self_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:typeface="monospace"
+            android:fontFamily="sans-serif"
+            android:maxLines="1"
+            android:text="Time"
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            android:textAlignment="textEnd"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
