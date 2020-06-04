@@ -26,7 +26,7 @@ import com.google.firebase.firestore.Query;
 import androidx.appcompat.widget.Toolbar;
 
 public class FriendPage extends AppCompatActivity implements FriendAdapter.FriendClickListener,
-                                                    SearchView.OnQueryTextListener
+                                                             SearchView.OnQueryTextListener
 {
     // Error Log
     private static final String TAG = "FriendPage";
@@ -99,7 +99,7 @@ public class FriendPage extends AppCompatActivity implements FriendAdapter.Frien
                 .whereEqualTo(getString(R.string.collection_friends)
                                       + "."
                                       + this.AuthInstance.getCurrentUser().getUid(),
-                              true);
+                              1);
         this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
                 .setQuery(this.FriendQuery, User.class)
                 .build();

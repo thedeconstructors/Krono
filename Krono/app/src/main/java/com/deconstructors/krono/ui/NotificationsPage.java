@@ -1,20 +1,31 @@
 package com.deconstructors.krono.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.deconstructors.krono.R;
+import com.deconstructors.krono.adapter.FriendAdapter;
 import com.deconstructors.krono.adapter.NotificationAdapter;
+import com.deconstructors.krono.module.Notification;
+import com.deconstructors.krono.module.User;
+import com.deconstructors.krono.utility.Helper;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -23,6 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -32,7 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationsPage extends AppCompatActivity implements View.OnClickListener{
+public class NotificationsPage extends AppCompatActivity implements NotificationAdapter.NotificationClickListener
+{
     //Notification Types (can add more later)
     private final int FRIEND_REQUEST = 0;
 
@@ -40,107 +53,34 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
     private static final String TAG = "NotificationsPage";
 
     // XML Widgets
-    private androidx.appcompat.widget.Toolbar Toolbar;
-    private androidx.recyclerview.widget.RecyclerView RecyclerView;
+    private Toolbar Toolbar;
+    private RecyclerView RecyclerView;
     private LinearLayoutManager Manager;
     private NotificationAdapter Adapter;
+    private CoordinatorLayout Background;
+    private ProgressBar ProgressBar;
 
     // Database
     private FirebaseAuth AuthInstance;
     private FirebaseFirestore DBInstance;
     private NotificationAdapter NotifAdapter;
     private FirebaseFunctions DBFunctions;
+    private Query FriendQuery;
+    private FirestoreRecyclerOptions<User> FriendOptions;
 
     //Data Members
-    Context context;
     ArrayList<String> FriendRequestIds;
     ArrayList<String> FriendRequestNames;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.notif_main);
-        this.DBInstance = FirebaseFirestore.getInstance();
-        this.AuthInstance = FirebaseAuth.getInstance();
-        this.DBFunctions = FirebaseFunctions.getInstance();
-        this.RecyclerView = findViewById(R.id.notif_recyclerview);
-        context = this;
-
-        FriendRequestIds = new ArrayList<>();
-        FriendRequestNames = new ArrayList<>();
-        Map<String, String> FriendIdToNameMap = new HashMap<>();
 
         setToolbar();
-
-        this.DBInstance
-                .collection(getString(R.string.collection_users))
-                .whereEqualTo(getString(R.string.notification_uid), this.AuthInstance.getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                                Map<Object, Boolean> friendMap = (Map<Object, Boolean>) doc.get(getString(R.string.friends));
-
-                                for (Map.Entry<Object, Boolean> entry : friendMap.entrySet()) {
-                                    Object key = entry.getKey();
-                                    Boolean value = entry.getValue();
-
-                                    if (value == false) {
-                                        FriendRequestIds.add(key.toString());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                .continueWithTask(new Continuation<QuerySnapshot, Task<QuerySnapshot>>() {
-                    @Override
-                    public Task<QuerySnapshot> then(@NonNull Task<QuerySnapshot> task) throws Exception {
-                        if (task.isSuccessful()) {
-                            return FirebaseFirestore.getInstance()
-                                    .collection(getString(R.string.collection_users))
-                                    .whereIn(getString(R.string.notification_uid), FriendRequestIds)
-                                    .get();
-                        }
-                        return null;
-                    }
-                })
-                .continueWithTask(new Continuation<QuerySnapshot, Task<List<DocumentSnapshot>>>() {
-                    @Override
-                    public Task<List<DocumentSnapshot>> then(@NonNull Task<QuerySnapshot> task) throws Exception {
-                        if (task.isSuccessful()) {
-                            List<Task<DocumentSnapshot>> getNames = new ArrayList<>();
-
-                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                getNames.add(FirebaseFirestore.getInstance()
-                                        .collection(getString(R.string.collection_users))
-                                        .document(doc.getId()).get());
-                            }
-
-                            return Tasks.whenAllSuccess(getNames);
-                        }
-                        return null;
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<List<DocumentSnapshot>>() {
-                    @Override
-                    public void onComplete(@NonNull Task<List<DocumentSnapshot>> task) {
-                        if (task.isSuccessful()) {
-                            List<DocumentSnapshot> friendTasks = task.getResult();
-                            for (DocumentSnapshot doc : friendTasks) {
-                                FriendRequestNames.add((String) doc.get(getString(R.string.notification_displayname)));
-                            }
-
-                            RecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                        }
-                    }
-                });
-
-        this.NotifAdapter = new NotificationAdapter(FriendRequestNames);
-        this.RecyclerView.setAdapter(this.NotifAdapter);
+        setDatabase();
+        setContents();
     }
 
     private void setToolbar()
@@ -152,112 +92,109 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
         this.getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    @Override
-    public void onClick(View view)
+    /************************************************************************
+     * Purpose:         Database
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setDatabase()
     {
-        switch(view.getId())
-        {
-            case R.id.notif_listitem_accept:
-            {
-                System.out.println("in OnClick. Case: R.id.notif_listitem_accept");
+        // DB
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.AuthInstance = FirebaseAuth.getInstance();
+        this.DBFunctions = FirebaseFunctions.getInstance();
 
-                CharSequence charSeqDesc = ((TextView) findViewById(R.id.notif_Description)).getText();
-                String desc = (String) charSeqDesc;
-
-                for (int i = 0; i < FriendRequestNames.size(); i++)
-                {
-                    if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
-                    {
-                        final String[] FriendId = new String[1];
-                        DBInstance.collection(getString(R.string.collection_users))
-                                .whereEqualTo(getString(R.string.notification_displayname), FriendRequestNames.get(i))
-                                .get()
-                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-                                {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots)
-                                    {
-                                        if (!queryDocumentSnapshots.isEmpty())
-                                        {
-                                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                                            {
-                                                FriendId[0] = doc.getId();
-                                            }
-                                            System.out.println(FriendId[0]);
-
-                                            String updateString = getString(R.string.collection_friends) + "." + FriendId[0];
-
-                                            DBInstance.collection(getString(R.string.collection_users))
-                                                    .document(AuthInstance.getCurrentUser().getUid())
-                                                    .update(updateString, true);
-
-                                            onAccept(FriendId[0]);
-                                        }
-                                    }
-                                });
-                    }
-                }
-                break;
-            }
-            case R.id.notif_listitem_reject:
-            {
-                System.out.println("in OnClick. Case: R.id.notif_listitem_reject");
-
-                CharSequence charSeqDesc = ((TextView) findViewById(R.id.notif_Description)).getText();
-                String desc = (String) charSeqDesc;
-
-                for (int i = 0; i < FriendRequestNames.size(); i++)
-                {
-                    if (("You have a new friend request from " + FriendRequestNames.get(i)).equals(desc))
-                    {
-                        final String[] FriendId = new String[1];
-                        DBInstance.collection(getString(R.string.collection_users))
-                                .whereEqualTo(getString(R.string.notification_displayname), FriendRequestNames.get(i))
-                                .get()
-                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-                                {
-                                    @Override
-                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots)
-                                    {
-                                        if (!queryDocumentSnapshots.isEmpty())
-                                        {
-                                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments())
-                                            {
-                                                FriendId[0] = doc.getId();
-                                            }
-
-                                            System.out.println(FriendId[0]);
-
-                                            String removeString = getString(R.string.collection_friends) + "." + FriendId[0];
-
-                                            DocumentReference docRef = DBInstance.collection(getString(R.string.collection_users))
-                                                                                 .document(AuthInstance.getCurrentUser().getUid());
-                                            Map<String,Object> updates = new HashMap<>();
-                                            updates.put(removeString, FieldValue.delete());
-
-                                            docRef.update(updates);
-
-                                            onReject(FriendId[0]);
-                                        }
-                                    }
-                                });
-                    }
-                }
-            }
-        }
+        // Friend Request Info
+        this.AuthInstance = FirebaseAuth.getInstance();
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.FriendQuery = this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .whereEqualTo(getString(R.string.collection_friends) + "." + this.AuthInstance.getCurrentUser().getUid(),
+                              0);
+        // -1 = request received
+        // 0 = request sent
+        // 1 = request accepted
+        this.FriendOptions = new FirestoreRecyclerOptions.Builder<User>()
+                .setQuery(this.FriendQuery, User.class)
+                .build();
+        this.NotifAdapter = new NotificationAdapter(this.FriendOptions, this);
     }
 
-    private void onAccept(String friendID)
+    @Override
+    protected void onStart()
     {
-        this.getacceptFriendRequest(friendID)
+        super.onStart();
+        if (this.NotifAdapter != null) { this.NotifAdapter.startListening(); }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.NotifAdapter != null) { this.NotifAdapter.stopListening(); }
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Recycler View
+        this.RecyclerView = findViewById(R.id.notif_recyclerview);
+        this.RecyclerView.setHasFixedSize(true);
+        this.RecyclerView.setAdapter(this.NotifAdapter);
+        this.RecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // xml
+        this.Background = findViewById(R.id.notif_background);
+        this.ProgressBar = findViewById(R.id.notif_progressBar);
+    }
+
+    @Override
+    public void onRequestAccepted(final int position)
+    {
+        this.getacceptFriendRequest(NotifAdapter.getItem(position).getUid())
             .addOnCompleteListener(new OnCompleteListener<String>()
             {
                 @Override
                 public void onComplete(@NonNull Task<String> task)
                 {
                     Log.d(TAG, "getacceptFriendRequest: success");
+                    getAcceptFunctions(position);
                 }
             });
+    }
+
+    private void getAcceptFunctions(int position)
+    {
+        Map<String, Object> user = new HashMap<>();
+        user.put(getString(R.string.collection_friends) + "." + NotifAdapter.getItem(position).getUid(), 1);
+        Helper.showProgressBar(this, ProgressBar);
+
+        this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .document(AuthInstance.getCurrentUser().getUid())
+                .update(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        Helper.hideProgressBar(NotificationsPage.this, NotificationsPage.this.ProgressBar);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Helper.makeSnackbarMessage(NotificationsPage.this.Background,
+                                                   "Unable to accept a friend request: " + e.getMessage());
+                        Helper.hideProgressBar(NotificationsPage.this, NotificationsPage.this.ProgressBar);
+                    }
+                });
     }
 
     private Task<String> getacceptFriendRequest(String friendID)
@@ -281,7 +218,41 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                 });
     }
 
-    private void onReject(String friendID)
+    ///////////////
+
+    @Override
+    public void onRequestRefused(final int position)
+    {
+        Map<String, Object> users = new HashMap<>();
+        users.put(getString(R.string.collection_friends) + "." + this.NotifAdapter.getItem(position).getUid(), FieldValue.delete());
+        Helper.showProgressBar(this, ProgressBar);
+
+        // Delete the friend relationship from the Owner's Document
+        this.DBInstance
+                .collection(getString(R.string.collection_users))
+                .document(this.AuthInstance.getCurrentUser().getUid())
+                .update(users)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        onRejectFunctions(NotifAdapter.getItem(position).getUid());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+                        Helper.makeSnackbarMessage(NotificationsPage.this.Background,
+                                                   "Unable to refuse a friend request: " + e.getMessage());
+                        Helper.hideProgressBar(NotificationsPage.this, NotificationsPage.this.ProgressBar);
+                    }
+                });
+    }
+
+    private void onRejectFunctions(String friendID)
     {
         this.getDeleteFriendFunctions(friendID)
             .addOnCompleteListener(new OnCompleteListener<String>()
@@ -290,6 +261,7 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
                 public void onComplete(@NonNull Task<String> task)
                 {
                     Log.d(TAG, "getDeleteFriendFunctions: success");
+                    Helper.hideProgressBar(NotificationsPage.this, NotificationsPage.this.ProgressBar);
                 }
             });
     }
@@ -327,5 +299,13 @@ public class NotificationsPage extends AppCompatActivity implements View.OnClick
             }
         }
         return true;
+    }
+
+    @Override
+    public void onFriendSelected(int position)
+    {
+        Intent intent = new Intent(NotificationsPage.this, FriendPage_Detail.class);
+        intent.putExtra(getString(R.string.intent_friend), this.NotifAdapter.getItem(position));
+        startActivity(intent);
     }
 }

@@ -65,7 +65,7 @@ exports.addFriend = functions.https.onCall((data, context) =>
         {
             friends: 
             {
-                [uid]: false
+                [uid]: -1
             }
         },
         {
@@ -124,12 +124,12 @@ exports.verifyEmail = functions.https.onCall((data, context) =>
     return admin
         .auth()
         .updateUser(uid, { emailVerified : true })
-        .then(function(userRecord) 
+        .then(userRecord =>
         {
             console.log('Successfully updated user', userRecord.toJSON());
             return true;
         })
-        .catch(function(error) 
+        .catch(error => 
         {
             console.log('Error updating user:', error);
             return false; 
@@ -154,7 +154,7 @@ exports.acceptFriendRequest = functions.https.onCall((data, context) =>
         {
             friends : 
             {
-                [uid] : true
+                [uid] : 1
             }
         },
         {
