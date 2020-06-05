@@ -11,6 +11,7 @@
     app:cardMaxElevation="0dp"
     app:cardUseCompatPadding="false">
 
+    <!-- Entire Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
             app:civ_border_color="@color/Black"
             android:src="@drawable/ui_friend_emptyprofile"/>-->
 
+        <!-- Left Message -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -39,9 +41,7 @@
                 android:layout_height="wrap_content"
                 android:typeface="monospace"
                 android:singleLine="false"
-                android:inputType="textMultiLine"
                 android:fontFamily="sans-serif"
-                android:text="test"
                 android:background="@drawable/background_left"
                 android:padding="5dp"
                 android:textColor="@android:color/white"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:typeface="monospace"
                 android:fontFamily="sans-serif"
-                android:text=""
+                android:layout_gravity="start"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="12sp" />
@@ -61,6 +61,7 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Right Message -->
     <LinearLayout
         android:id="@+id/chatlist_self_container"
         android:layout_width="wrap_content"
@@ -80,7 +81,6 @@
             android:fontFamily="sans-serif"
             android:padding="5dp"
             android:singleLine="false"
-            android:text="test"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:typeface="monospace" />
@@ -92,7 +92,7 @@
             android:typeface="monospace"
             android:fontFamily="sans-serif"
             android:maxLines="1"
-            android:text=""
+            android:layout_gravity="end"
             android:textColor="@android:color/black"
             android:textSize="12sp"
             android:textAlignment="textEnd"/>

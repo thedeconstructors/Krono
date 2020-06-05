@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
 {
@@ -39,7 +40,6 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    //public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, List<Message> messages, User friend)
     public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, User friend)
     {
         super(options);
@@ -119,24 +119,25 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
 
         public void setModel(Message model)
         {
-            //Log.e(TAG, "Message: " + model.getText());
-            //Log.e(TAG, "Time: " + model.getTime());
             SimpleDateFormat full = new SimpleDateFormat("MM/dd/yyyy h:mm a");
             SimpleDateFormat trim = new SimpleDateFormat("h:mm a");
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(model.getTime());
+            Calendar msg_calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getDefault());
+            msg_calendar.setTimeZone(TimeZone.getDefault());
+            msg_calendar.setTime(model.getTime());
 
             String formattedDate = "";
 
             userMessage = model;
 
-            if (Calendar.getInstance().get(Calendar.DATE) == calendar.get(Calendar.DATE))
+            if (calendar.get(Calendar.DATE) == msg_calendar.get(Calendar.DATE))
             {
-                formattedDate = trim.format(calendar.getTime());
+                formattedDate = trim.format(msg_calendar.getTime());
             }
             else
             {
-                formattedDate = full.format(calendar.getTime());
+                formattedDate = full.format(msg_calendar.getTime());
             }
 
             if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
