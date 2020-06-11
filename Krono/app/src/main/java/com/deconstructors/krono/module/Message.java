@@ -1,8 +1,10 @@
 package com.deconstructors.krono.module;
 
+import android.util.Log;
+
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,17 +13,17 @@ public class Message
     private String sender;
     private String recipient;
     private String text;
-    private @ServerTimestamp Date time;
+    private @ServerTimestamp Date Time;
     private String messageID;
     private String people;
 
-    public Message(String sender, String recipient, String text, String people)
+    public Message(String sender, String recipient, String text, String people, Date time)
     {
         this.sender = sender;
         this.recipient = recipient;
         this.text = text;
         this.people = people;
-        //time = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date());
+        this.Time = time;
     }
 
     public Message()
@@ -59,12 +61,13 @@ public class Message
 
     public Date getTime()
     {
-        return time;
+        return Time;
     }
 
     public void setTime(Date time)
     {
-        this.time = time;
+        this.Time = time;
+        //Log.e("MessageAdapter", "Inside Model: " + Time.toString());
     }
 
     public String getMessageID()

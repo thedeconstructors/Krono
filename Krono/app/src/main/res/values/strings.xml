@@ -149,7 +149,8 @@
     <string name="error_feedback">There are no email clients installed.</string>
 
     <string name="terms_title" translatable="false">Terms and Conditions</string>
-
     <string name="privacy_title" translatable="false">Privacy Policy</string>
+
+    <string name="message_error" >Failed to send the message. Please check your internet connection.</string>
 
 </resources>

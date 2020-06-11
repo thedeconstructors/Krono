@@ -11,42 +11,21 @@ import com.deconstructors.krono.adapter.MessageAdapter;
 import com.deconstructors.krono.module.Message;
 import com.deconstructors.krono.module.User;
 import com.deconstructors.krono.utility.Helper;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Size;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Document;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ChatPage extends AppCompatActivity
@@ -64,12 +43,10 @@ public class ChatPage extends AppCompatActivity
     private FirebaseFirestore DBInstance;
     private Query ChatQuery;
     private FirestoreRecyclerOptions<Message> ChatOptions;
-
-    private MessageAdapter messageAdapter;
+    private MessageAdapter MessageAdapter;
 
     private EditText messageText;
     private User friend;
-    private List<String> ids;
     private String people;
 
     @Override
@@ -83,23 +60,6 @@ public class ChatPage extends AppCompatActivity
         this.setToolbar();
         this.setDatabase();
         this.setContents();
-    }
-
-    /************************************************************************
-     * Purpose:         Set Toolbar & Inflate Toolbar Menu
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void setToolbar()
-    {
-        this.Toolbar = findViewById(R.id.chat_toolbar);
-        if (this.friend.getUid().contains(this.AuthInstance.getUid()))
-            this.Toolbar.setTitle("Me");
-        else
-            this.Toolbar.setTitle(this.friend.getDisplayName());
-        this.setSupportActionBar(this.Toolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     /************************************************************************
@@ -119,100 +79,6 @@ public class ChatPage extends AppCompatActivity
         }
     }
 
-
-
-    /************************************************************************
-     * Purpose:         Database
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void setDatabase()
-    {
-        ids = new ArrayList<>();
-        ids.add(this.AuthInstance.getUid());
-        ids.add(this.friend.getUid());
-        this.DBInstance = FirebaseFirestore.getInstance();
-        this.DBInstance.getFirestoreSettings();
-        this.ChatQuery = this.DBInstance
-                .collection("chats")
-                .whereEqualTo("people", people)
-                .orderBy("time", Query.Direction.ASCENDING);
-        this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(ChatQuery, Message.class)
-                .build();
-        this.messageAdapter = new MessageAdapter(this.ChatOptions, this.friend);
-        messageAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        if (this.messageAdapter != null) { this.messageAdapter.startListening(); }
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        if (this.messageAdapter != null) { this.messageAdapter.stopListening(); }
-    }
-
-    /************************************************************************
-     * Purpose:         XML Contents
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    private void setContents()
-    {
-        // Recycler View
-        this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
-        this.RecyclerView.setHasFixedSize(false);
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
-        this.RecyclerView.setLayoutManager(layoutManager);
-        this.RecyclerView.setAdapter(this.messageAdapter);
-
-        this.messageText = findViewById(R.id.ChatPage_Message);
-
-    }
-
-    public void SendMessageClick(View view) {
-        if (!Helper.isEmpty(this.messageText))
-        {
-            Map<String, Object> message = new HashMap<>();
-
-            message.put("sender", this.AuthInstance.getUid());
-            message.put("recipient", this.friend.getUid());
-            message.put("text", this.messageText.getText().toString());
-            message.put("time", Timestamp.now());
-            message.put("people", people);
-            DBInstance.collection("chats")
-                      .add(message)
-                      .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    documentReference.update("messageID", documentReference.getId());
-                    layoutManager.scrollToPosition(messageAdapter.getSnapshots().size()-1);
-                }
-            });
-
-
-            this.messageText.setText("");
-            CloseKeyboard();
-        }
-    }
-
-    private void CloseKeyboard()
-    {
-        View view = this.getCurrentFocus();
-        if (view != null)
-        {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     private void CreatePeople()
     {
         this.AuthInstance = FirebaseAuth.getInstance();
@@ -225,6 +91,121 @@ public class ChatPage extends AppCompatActivity
         {
             people = friend.getUid() + ' ' + AuthInstance.getUid();
         }
+    }
+
+    /************************************************************************
+     * Purpose:         Set Toolbar & Inflate Toolbar Menu
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setToolbar()
+    {
+        this.Toolbar = findViewById(R.id.chat_toolbar);
+        this.Toolbar.setTitle(this.friend.getDisplayName());
+        this.setSupportActionBar(this.Toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    /************************************************************************
+     * Purpose:         Database
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setDatabase()
+    {
+        this.DBInstance = FirebaseFirestore.getInstance();
+        this.DBInstance.getFirestoreSettings();
+        this.ChatQuery = this.DBInstance
+                .collection("chats")
+                .whereEqualTo("people", people)
+                .orderBy("time", Query.Direction.ASCENDING);
+        this.ChatOptions = new FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(ChatQuery, Message.class)
+                .build();
+        this.MessageAdapter = new MessageAdapter(this.ChatOptions, this.friend);
+        this.MessageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+        {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount)
+            {
+                super.onItemRangeInserted(positionStart, itemCount);
+                RecyclerView.smoothScrollToPosition(MessageAdapter.getItemCount());
+            }
+        });
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (this.MessageAdapter != null) { this.MessageAdapter.startListening(); }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (this.MessageAdapter != null) { this.MessageAdapter.stopListening(); }
+    }
+
+    public void SendMessageClick(View view)
+    {
+        String message = this.messageText.getText().toString();
+
+        if (!Helper.isEmpty(message))
+        {
+            message = message.replaceAll("\\r\\n|\\r|\\n", " ");
+
+            Map<String, Object> document = new HashMap<>();
+            document.put("sender", this.AuthInstance.getUid());
+            document.put("recipient", this.friend.getUid());
+            document.put("text", this.messageText.getText().toString());
+            document.put("time", Timestamp.now());
+            document.put("people", people);
+
+            DBInstance.collection("chats")
+                      .add(document)
+                      .addOnFailureListener(new OnFailureListener()
+                      {
+                          @Override
+                          public void onFailure(@NonNull Exception e)
+                          {
+                              makeBottomSheetMessage(getString(R.string.message_error));
+                          }
+                      });
+
+            this.messageText.setText("");
+            Helper.hideKeyboard(this);
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         XML Contents
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    private void setContents()
+    {
+        // Recycler View
+        this.RecyclerView = findViewById(R.id.ChatPage_recyclerview);
+        this.RecyclerView.setHasFixedSize(false);
+        this.layoutManager = new LinearLayoutManager(this);
+        this.layoutManager.setStackFromEnd(true);
+        this.RecyclerView.setLayoutManager(layoutManager);
+        this.RecyclerView.setAdapter(this.MessageAdapter);
+
+        this.messageText = findViewById(R.id.ChatPage_Message);
+
+    }
+
+    private void makeBottomSheetMessage(String text)
+    {
+        Snackbar snackbar = Snackbar.make(this.RecyclerView,
+                                          text,
+                                          Snackbar.LENGTH_SHORT);
+        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE);
+        snackbar.show();
     }
 
     /************************************************************************

@@ -1,5 +1,6 @@
 package com.deconstructors.krono.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +25,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
 {
     private FirebaseAuth Auth;
     private User friend;
 
+    // Error Log
+    private static final String TAG = "MessageAdapter";
+
     /************************************************************************
      * Purpose:         2 Arg Constructor
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    //public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, List<Message> messages, User friend)
     public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, User friend)
     {
         super(options);
@@ -115,24 +119,25 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
 
         public void setModel(Message model)
         {
-            Calendar calendar = Calendar.getInstance();
-            Calendar todayCal = Calendar.getInstance();
             SimpleDateFormat full = new SimpleDateFormat("MM/dd/yyyy h:mm a");
             SimpleDateFormat trim = new SimpleDateFormat("h:mm a");
+            Calendar calendar = Calendar.getInstance();
+            Calendar msg_calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getDefault());
+            msg_calendar.setTimeZone(TimeZone.getDefault());
+            msg_calendar.setTime(model.getTime());
 
-            try { calendar.setTime(full.parse(model.getTime().toString())); }
-            catch (ParseException e) { }
             String formattedDate = "";
 
             userMessage = model;
 
-            if (todayCal.get(Calendar.DATE) == calendar.get(Calendar.DATE))
+            if (calendar.get(Calendar.DATE) == msg_calendar.get(Calendar.DATE))
             {
-                formattedDate = trim.format(calendar.getTime());
+                formattedDate = trim.format(msg_calendar.getTime());
             }
             else
             {
-                formattedDate = calendar.getTime().toString();
+                formattedDate = full.format(msg_calendar.getTime());
             }
 
             if (model.getSender().compareTo(Auth.getCurrentUser().getUid()) == 0)
