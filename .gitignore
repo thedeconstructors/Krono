@@ -65,6 +65,8 @@ proguard/
 /*/out
 /*/*/build
 /*/*/production
+Krono/app/debug/
+Krono/app/release/
 captures/
 .navigation/
 *.ipr
